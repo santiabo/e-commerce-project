@@ -6,4 +6,5 @@ export const ButtonWrapper = styled.button`
   height: 50px;
   width:  200px;
   border: none;
+  -webkit-user-select: none;
 `
