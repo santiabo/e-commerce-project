@@ -18,6 +18,7 @@ import {
   Price,
   ButtonsWrapper
 } from "./styles";
+import UnitsAmount from "../UnitsAmount";
 
 
 const image = "https://cdn.shopify.com/s/files/1/0268/1454/6031/products/boosted-rev-3-4-turn_2000x.png?v=1587691170"
@@ -49,7 +50,7 @@ const Product = () => {
           $ 400.00
         </Price>
         <ButtonsWrapper>
-          {/* <UnitsAmount /> */}
+          <UnitsAmount />
           <Button>Add to Cart</Button>
         </ButtonsWrapper>
       </RightSide>
