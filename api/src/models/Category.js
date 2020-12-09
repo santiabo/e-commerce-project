@@ -4,12 +4,13 @@ module.exports = (sequelize) => {
  
   sequelize.define('category', {
     id: {
-        type: DataTypes.NUMBER,
-        allowNull: false,
+        type: DataTypes.INTEGER,
+        primaryKey: true,
     },
     name: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
     },
     description:{
       type: DataTypes.TEXT,

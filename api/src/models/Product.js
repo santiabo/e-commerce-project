@@ -6,7 +6,7 @@ module.exports = (sequelize) => {
   sequelize.define('product', {
     id: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      primaryKey: true,
     },
     name: {
       type: DataTypes.STRING,
@@ -16,15 +16,12 @@ module.exports = (sequelize) => {
       type: DataTypes.TEXT,
     },
     price:{
-      type: DataTypes.NUMBER,
+      type: DataTypes.FLOAT,
       allowNull: false,
     },
     stock:{
-      type: DataTypes.NUMBER,
+      type: DataTypes.INTEGER,
       allowNull: false,
-    },
-    categories:{
-      type: DataTypes.ARRAY(DataTypes.STRING), // Usé un Array de Strings para las diferentes Categorias.
     },
     images:{
       type: DataTypes.ARRAY(DataTypes.STRING) // Array de URLS para las imágenes de CLOUDINARY.
