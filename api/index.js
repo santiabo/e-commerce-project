@@ -45,11 +45,38 @@
 // ------ooooooooooo--   ----------------------------------               oooooooooo-----             ---oo--o------
 const server = require('./src/app.js');
 const { conn } = require('./src/db.js');
+const { Product, Category } = require('./src/db');
+
 
 // Syncing all the models at once.
 const PORT = 5000;
 conn.sync({ force: true }).then(() => {
   server.listen(PORT, () => {
     console.log('🚀 Server is listening on port ' + PORT); // eslint-disable-line no-console
+
+    //Productos harcodeados cuando se levanta el servidor(descomentar para probar back)
+    Product.bulkCreate([{
+      name: 'prueba1',
+      description: 'adsdfaskjfhalsfalsfhaoshf',
+      price: 5.99,
+      stock: 6,
+      img: 'https//imagen.com'
+    },
+    {
+      name: 'prueba2',
+      description: 'jaldfhalsnclie',
+      price: 8.99,
+      stock: 1,
+      img: 'https//imagen2.com'
+    }
+    ])
+    Category.bulkCreate([{
+      name: 'coolers',
+      description:'asfuohaslfhalsdfhaoiehf'
+    },{
+      name: 'mother',
+      description:'asifbasfcaieuhfaebciabefae'
+    }])
+
   });
 });
