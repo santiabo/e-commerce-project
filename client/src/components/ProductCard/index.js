@@ -15,15 +15,13 @@ import {
   CategoryTag
 } from './styles';
 
-const image = "https://images-na.ssl-images-amazon.com/images/I/71uF-tSNIqL._AC_SL1500_.jpg";
-
 const ProductCard = ({ product, category, reviews }) => {
 
   return (
     <ProductCardWrapper>
 
       <ImageContainer>
-        <img src={product.images[0]} />
+        <img src={product.images[0] + 'asddf3'} alt={product.title} />
       </ImageContainer>
 
       <RowWrapper>

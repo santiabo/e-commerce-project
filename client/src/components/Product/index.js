@@ -20,17 +20,14 @@ import {
 } from "./styles";
 import UnitsAmount from "../UnitsAmount";
 
-
-const image = "https://cdn.shopify.com/s/files/1/0268/1454/6031/products/boosted-rev-3-4-turn_2000x.png?v=1587691170"
-
 const Product = ({ product, category, reviews }) => {
 
   return (
     <ProductWrapper>
       <LeftSide>
-        <ImagesColumn images={product.images} />
+        <ImagesColumn product={product} images={product.images} />
         <ImageContainer>
-          <img src={product.images[0]} />
+          <img src={product.images[0]} alt={product.title} />
         </ImageContainer>
       </LeftSide>
       <RightSide>
@@ -52,7 +49,7 @@ const Product = ({ product, category, reviews }) => {
         </ButtonsWrapper>
       </RightSide>
     </ProductWrapper>
-  )
-}
+  );
+};
 
 export default Product;
