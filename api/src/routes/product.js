@@ -66,14 +66,63 @@ server.delete('/products/:id', (req, res, next) => {
 		.catch(next);
 })
 
+//POST /products/:idProducto/category/:idCategoria Uni la categoria al producto.
+
+server.post('/:idProducto/category/:idCategoria', (req, res) => {
+	const idProducto = req.params.idProducto;
+	const idCategoria = req.params.idCategoria;
+
+	var product;
+	Product.findByPk(idProducto)
+		.then((data) => {
+			product = data;
+			return Category.findByPk(idCategoria)
+		})
+		.then((category) => {
+			product.addCategories(category)
+			res.status(200).send('Category added to Product');
+		})
+		.catch(err => {
+			res.send(err)
+		})
+})
+
+
+
+//DELETE /products/:idProducto/category/:idCategoria(prueba)
+server.delete('/:idProducto/category/:idCategoria', (req, res) => {
+	const idProducto = req.params.idProducto;
+	const idCategoria = req.params.idCategoria;
+
+	var product;
+	Product.findByPk(idProducto)
+		.then((data) => {
+			product = data;
+			return Category.findByPk(idCategoria)
+		})
+		.then((category) => {
+			product.removeCategories(category)
+			res.status(200).send('Category deleted of the Product');
+		})
+		.catch(err => {
+			res.send(err)
+		})
+})
+
+
 //DELETE
 server.delete('/category/:id', (req, res) => {
 	const { id } = req.params;
 	Category.destroy({
 		where: { id }
 	})
-		.then(() => {
-			res.send('Category Deleted')
+		.then((data) => {
+			console.log(data)
+			if (!data) {
+				res.send('Invalid Category sent')
+			} else {
+				res.send('Category Deleted')
+			}
 		})
 		.catch(err => {
 			res.send('Error:', err)
@@ -90,8 +139,14 @@ server.put('/category/:id', (req, res) => {
 	}, {
 		where: { id }
 	})
-		.then(() => {
-			return res.status(200).send('Updated')
+		.then((data) => {
+			console.log(data)
+			if (!data[0]) {
+				res.send('Invalid Category')
+			} else {
+				return res.status(200).send('Updated')
+
+			}
 		})
 		.catch(err => {
 			res.send('Error:', err)
