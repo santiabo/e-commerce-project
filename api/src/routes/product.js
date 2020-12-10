@@ -12,11 +12,14 @@ server.get('/', (req, res, next) => {
 // ------- Update Route -------
 server.put('/products/:id', (req, res, next) => {
 	const { id } = req.params;
-	const { name, description } = req.body;
+	const { name, description, price, stock, images } = req.body;
 
 	Product.update({
 		name,
-		description
+		description,
+		price,
+		stock,
+		images
 	}, {
 		where: { id }
 	})
@@ -37,7 +40,7 @@ server.delete('/products/:id', (req, res, next) => {
 		where: { id }
 	})
 		.then(() => {
-			return res.status(200).send('Product Delete');
+			return res.status(200).send('Product Deleted');
 		})
 		.catch(next);
 })
