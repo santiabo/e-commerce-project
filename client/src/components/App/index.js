@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import Product from '../Product';
 import SearchBar from '../SearchBar';
+import ProductCard from '../ProductCard';
 
 const product = {
   title: "Geforce RTX 3080",
@@ -34,6 +35,8 @@ function App() {
           e.preventDefault();
           console.log("Enviado");
         }} />
+        <ProductCard product={product} category={category} reviews={reviews}/>
+
       </div>
     </div>
   );

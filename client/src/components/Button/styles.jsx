@@ -1,13 +1,17 @@
 import styled from "styled-components";
 
 export const ButtonWrapper = styled.button`
+  width: 100%;
+  height: 50px;
   background: #232323;
   color: white;
-  height: 50px;
   padding: 0 1rem;
   border: none;
-  font-size: 18px;
-  font-weight: 200;
-  -webkit-user-select: none;
   cursor: pointer;
-`
+  -webkit-user-select: none;
+  
+  span {
+    font-size: 20px;
+    font-weight: 500;
+  }
+`;

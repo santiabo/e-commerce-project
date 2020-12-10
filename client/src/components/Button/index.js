@@ -4,9 +4,9 @@ import { ButtonWrapper } from './styles';
 const Button = ({ children }) => {
   return (
     <ButtonWrapper>
-      {children}
+      <span>{children}</span>
     </ButtonWrapper>
-  )
+  );
 };
 
 
