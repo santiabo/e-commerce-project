@@ -1,13 +1,34 @@
 const server = require('express').Router();
 const { Product, Category } = require('../db.js');
+const {
+	getAll,
+	createOne,
+	getOne,
+	editOne,
+	deleteOne
+} = require('../controllers/products');
 
-server.get('/', (req, res, next) => {
-	Product.findAll()
-		.then(products => {
-			res.send(products);
-		})
-		.catch(next);
-});
+server
+	.route('/')
+	.get((req, res) => {
+
+		getAll()
+			.then(products => res.status(201).json(products))
+			.catch(err => res.status(400).json(err));
+	})
+	.post((req, res) => {
+		const {
+			name,
+			description,
+			price,
+			stock,
+			images
+		} = req.body;
+
+		createOne(name, description, price, stock, images)
+			.then(product => res.status(201).json(product))
+			.catch(err => res.status(400).json(err));
+	})
 
 // ------- Update Route -------
 server.put('/products/:id', (req, res, next) => {
