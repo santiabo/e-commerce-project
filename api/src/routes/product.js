@@ -1,5 +1,6 @@
 const server = require('express').Router();
 const { Product, Category } = require('../db.js');
+
 const {
 	getAll,
 	createOne,
@@ -8,15 +9,12 @@ const {
 	deleteOne
 } = require('../controllers/products');
 
-server
-	.route('/')
-	.get((req, res) => {
-
+// ------- Product Route -------
+server.route('/').get((req, res) => {
 		getAll()
 			.then(products => res.status(201).json(products))
 			.catch(err => res.status(400).json(err));
-	})
-	.post((req, res) => {
+	}).post((req, res) => {
 		const {
 			name,
 			description,
@@ -24,14 +22,13 @@ server
 			stock,
 			images
 		} = req.body;
-
 		createOne(name, description, price, stock, images)
 			.then(product => res.status(201).json(product))
 			.catch(err => res.status(400).json(err));
 	})
 
-// ------- Update Route -------
-server.put('/products/:id', (req, res, next) => {
+// ------- Update Product Route -------
+server.put('/:id', (req, res, next) => {
 	const { id } = req.params;
 	const { name, description, price, stock, images } = req.body;
 
@@ -53,8 +50,8 @@ server.put('/products/:id', (req, res, next) => {
 		.catch(next);
 })
 
-// ------- Delete Route -------
-server.delete('/products/:id', (req, res, next) => {
+// ------- Delete Product Route -------
+server.delete('/:id', (req, res, next) => {
 	const { id } = req.params;
 
 	Product.destroy({
@@ -65,8 +62,8 @@ server.delete('/products/:id', (req, res, next) => {
 		})
 		.catch(next);
 })
-
-//POST /products/:idProducto/category/:idCategoria Uni la categoria al producto.
+ 
+// ------- Add Product to Category Route -------
 
 server.post('/:idProducto/category/:idCategoria', (req, res) => {
 	const idProducto = req.params.idProducto;
@@ -87,9 +84,8 @@ server.post('/:idProducto/category/:idCategoria', (req, res) => {
 		})
 })
 
+// ------- Delete Category from Product Route -------
 
-
-//DELETE /products/:idProducto/category/:idCategoria(prueba)
 server.delete('/:idProducto/category/:idCategoria', (req, res) => {
 	const idProducto = req.params.idProducto;
 	const idCategoria = req.params.idCategoria;
@@ -109,8 +105,21 @@ server.delete('/:idProducto/category/:idCategoria', (req, res) => {
 		})
 })
 
+// ------- Add Category Route -------
+server.post('/category/', (req, res, next) => {
+	const { name,description } = req.body;
 
-//DELETE
+	Category.create({
+      name: name,
+      description:description    
+	})
+	.then(()=>{
+		res.send('Category created')
+	})
+	.catch(next)
+})
+
+// ------- Delete Category Route -------
 server.delete('/category/:id', (req, res) => {
 	const { id } = req.params;
 	Category.destroy({
@@ -129,7 +138,7 @@ server.delete('/category/:id', (req, res) => {
 		})
 });
 
-//PUT
+// ------- Update Category Route -------
 server.put('/category/:id', (req, res) => {
 	const { id } = req.params;
 	const { name, description } = req.body;
