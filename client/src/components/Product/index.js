@@ -23,31 +23,28 @@ import UnitsAmount from "../UnitsAmount";
 
 const image = "https://cdn.shopify.com/s/files/1/0268/1454/6031/products/boosted-rev-3-4-turn_2000x.png?v=1587691170"
 
-const Product = () => {
+const Product = ({ product, category, reviews }) => {
 
   return (
     <ProductWrapper>
       <LeftSide>
-        <ImagesColumn />
+        <ImagesColumn images={product.images} />
         <ImageContainer>
-          <img src={image} />
+          <img src={product.images[0]} />
         </ImageContainer>
       </LeftSide>
       <RightSide>
-        <CategoryTag>Monopatin</CategoryTag>
-        <Title>Monopatin Dell</Title>
+        <CategoryTag>{category.name}</CategoryTag>
+        <Title>{product.title}</Title>
         <RatingWrapper>
-          <Rating stars={4} />
-          <span>4 (1 review)</span>
+          <Rating stars={Math.round(reviews.average)} />
+          <span>{reviews.average} ({reviews.total} reviews)</span>
         </RatingWrapper>
         <Description>
-          Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-          Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-          when an unknown printer took a galley of type and scrambled it to make a type
-          specimen book.
+          {product.description}
         </Description>
         <Price>
-          $ 400.00
+          $ {product.price}
         </Price>
         <ButtonsWrapper>
           <UnitsAmount />

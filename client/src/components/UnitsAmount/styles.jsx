@@ -14,11 +14,13 @@ export const UnitsAmountWrapper = styled.div`
   span {
      font-size: 18px;
      margin-right: 15px;
+     -webkit-user-select: none;
   }
 `
 export const ButtonsWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  -webkit-user-select: none;
 
   svg {
     width: 18px;
