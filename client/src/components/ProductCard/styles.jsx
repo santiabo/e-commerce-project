@@ -5,6 +5,7 @@ export const ProductCardWrapper = styled.div`
   flex-direction: column;
   width: 350px;
   padding: 1rem;
+  margin: 1rem;
   background-color: #fafafa;
   border: 0.5px solid #e2e2e2;
 `;

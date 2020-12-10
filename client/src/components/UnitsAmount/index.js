@@ -3,8 +3,7 @@ import { ReactComponent as ArrowUpIcon } from "../../assets/icons/arrowup.svg";
 import { ReactComponent as ArrowDownIcon } from "../../assets/icons/arrowdown.svg";
 
 // StyledComponents
-import { UnitsAmountWrapper, ButtonStyled, ButtonsWrapper } from "./styles"
-import Button from "../Button";
+import { UnitsAmountWrapper, ButtonsWrapper } from "./styles"
 
 const UnitsAmount = () => {
 
