@@ -6,9 +6,9 @@ import Button from "../Button";
 // Styled Components
 import { SearchBarForm, SearchInput, InputWrapper, SearchIconStyled } from "./styles"
 
-const SearchBar = () => {
+const SearchBar = ({ handleSubmit }) => {
   return (
-    <SearchBarForm>
+    <SearchBarForm onSubmit={handleSubmit}>
       <InputWrapper>
         <SearchIconStyled />
         <SearchInput placeholder={"Search..."} />
