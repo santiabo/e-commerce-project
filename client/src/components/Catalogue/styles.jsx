@@ -13,6 +13,7 @@ export const CategoriesColumn = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
+  width: 40%;
   background-color: #fafafa;
   margin: 1rem;
   padding: 1rem 1.5rem;
