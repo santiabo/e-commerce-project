@@ -32,7 +32,7 @@ server.post('/:idProducto/category/:idCategoria', (req, res) => {
 
 
 
-//DELETE /products/:idProducto/category/:idCategoria
+//DELETE /products/:idProducto/category/:idCategoria(prueba)
 server.delete('/:idProducto/category/:idCategoria', (req, res) => {
 	const idProducto = req.params.idProducto;
 	const idCategoria = req.params.idCategoria;
