@@ -1,6 +1,6 @@
 import {
-  GET_PRODUCT,
-  GET_PRODUCTS,
+  GET_DETAIL_PRODUCT,
+  GET_ALL_PRODUCTS,
   CREATE_PRODUCT,
   UPDATE_PRODUCT,
   DELETE_PRODUCT
@@ -13,10 +13,15 @@ const initialState = {
 
 const productReducer = (state = initialState, action) => {
   switch (action.type) {
-    case GET_PRODUCT:
+    case GET_DETAIL_PRODUCT:
       return {
         ...state,
-        productDetail: action.id
+        productDetail: action.product
+      };
+    case GET_ALL_PRODUCTS:
+      return {
+        ...state,
+        products: action.products
       };
     default:
       return state;
