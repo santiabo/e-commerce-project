@@ -1,4 +1,4 @@
-const { Product } = require('../db');
+const { Product, Category } = require('../db');
 
 // Este método se encargará de obtener todos los productos
 const getAll = () => {
@@ -51,7 +51,7 @@ const getOne = (id) => {
   return new Promise((resolve, reject) => {
     Product.findOne({
       where: { id },
-      include: [Category, Image, Review]
+      include: [Category]
     })
       .then(product => {
         if (!product) {
