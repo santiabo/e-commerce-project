@@ -43,26 +43,26 @@ export const deleteProduct = (id) => {
   };
 };
 
-export const getProduct = async (id) => {
-  return (dispatch) => {
+export const getProduct = (id) => {
+  return async (dispatch) => {
     try {
 
-      const product = await axios.get(`http://localhost:5000/products/${id}`);
+      const res = await axios.get(`http://localhost:5000/products/${id}`);
 
-      dispatch(getDetailProduct(product));
+      dispatch(getDetailProduct(res.data));
     } catch (err) {
       console.log(err);
     }
   };
 };
 
-export const getProducts = async (search) => {
-  return (dispatch) => {
+export const getProducts = (search) => {
+  return async (dispatch) => {
     try {
 
-      const products = await axios.get(`http://localhost:5000/products/${search ? "?search=" + search : ""}`);
+      const res = await axios.get(`http://localhost:5000/products/${search ? "?search=" + search : ""}`);
 
-      dispatch(getAllProducts(products));
+      dispatch(getAllProducts(res.data));
     } catch (err) {
       console.log(err);
     }
