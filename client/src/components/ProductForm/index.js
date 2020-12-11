@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function NewProduct() {
+export default function ProductForm() {
   const productos = [{
     name: 'prueba1',
     description: 'adsdfaskjfhalsfalsfhaoshf',
@@ -36,7 +36,7 @@ export default function NewProduct() {
     stock: 1,
     img: 'https//imagen2.com'
   }
-  ]
+  ];
 
   return (
     <>
@@ -102,6 +102,6 @@ export default function NewProduct() {
         </tbody>
       </table>
     </>
-  )
+  );
 }
 
