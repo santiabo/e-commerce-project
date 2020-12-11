@@ -60,7 +60,7 @@ conn.sync({ force: true }).then(() => {
       description: 'adsdfaskjfhalsfalsfhaoshf',
       price: 5.99,
       stock: 6,
-      img: 'https//imagen.com'
+      images: ['https//imagen.com'],
     },
     {
       name: 'hola2',
@@ -77,5 +77,7 @@ conn.sync({ force: true }).then(() => {
       name: 'mother',
       description: 'asifbasfcaieuhfaebciabefae'
     }]);
+
+
   });
 });
