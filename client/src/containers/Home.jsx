@@ -2,13 +2,13 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 // Components
-import Product from '../Product';
-import SearchBar from '../SearchBar';
-import NewProduct from '../NewProduct';
-import Catalogue from '../Catalogue';
+import Product from '../components/Product';
+import SearchBar from '../components/SearchBar';
+import NewProduct from '../components/NewProduct';
+import Catalogue from '../components/Catalogue';
 
 // Styles
-import './App.css';
+import '../routes/App.css';
 
 const products = [{
   title: "Geforce RTX 3080",
@@ -129,8 +129,8 @@ const reviews = {
   total: 40,
 };
 
-function App() {
 
+const Home = () => {
   return (
     <div className="App">
       <div style={{ margin: "0 10vw" }}>
@@ -150,6 +150,6 @@ function App() {
       <NewProduct>Nuevo Producto</NewProduct>
     </div>
   );
-}
+};
 
-export default App;
+export default Home;
