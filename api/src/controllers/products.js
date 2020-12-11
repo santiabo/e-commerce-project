@@ -71,39 +71,39 @@ const getOne = (id) => {
                 }
                 resolve(product);
             })
-            .catch(err => reject({error: err}));
+            .catch(err => reject({ error: err }));
     });
 };
 
 // Dado el Id de un producto, lo encuentra y lo modifica
 const editOne = (id, name, description, price, stock, imageUrl) => {
     return new Promise((resolve, reject) => {
-      getOne(id)
-        .then((product) => {
-          
-          if (name) product.name = name.toLowerCase();
-          if (description) product.description = description;
-          if (price) product.price = price;
-          if (stock) product.stock = stock;
+        getOne(id)
+            .then((product) => {
 
-          return product.save();
-        })
-        .then((product) => resolve(product))
-        .catch((err) => reject({ error: err }));
+                if (name) product.name = name.toLowerCase();
+                if (description) product.description = description;
+                if (price) product.price = price;
+                if (stock) product.stock = stock;
+
+                return product.save();
+            })
+            .then((product) => resolve(product))
+            .catch((err) => reject({ error: err }));
     });
-  };
+};
 
-  const deleteOne = (id) => {
-      return new Promise((resolve, reject) => {
-          getOne(id)
+const deleteOne = (id) => {
+    return new Promise((resolve, reject) => {
+        getOne(id)
             .then(product => {
                 product.destroy();
 
                 resolve({ description: 'successfully remove object' })
             })
-            .catch(err => reject (err));
-      });
-  }
+            .catch(err => reject(err));
+    });
+}
 
 module.exports = {
     getAll,

@@ -2,6 +2,8 @@ import React from 'react';
 import './App.css';
 import Product from '../Product';
 import SearchBar from '../SearchBar';
+import NewProduct from '../NewProduct';
+
 
 const product = {
   title: "Geforce RTX 3080",
@@ -16,7 +18,8 @@ const product = {
 }
 
 const category = {
-  name: "Graphics Card"
+  name: "Graphics Card",
+  description:'afjanskfbafbasklnaljsndlasndlaks'
 }
 
 const reviews = {
@@ -28,13 +31,13 @@ function App() {
   return (
     <div className="App">
       <div style={{ margin: "0 10vw" }}>
-
         <Product product={product} category={category} reviews={reviews} />
         <SearchBar handleSubmit={(e) => {
           e.preventDefault();
           console.log("Enviado");
         }} />
-      </div>
+      </div> 
+      <NewProduct>Nuevo Producto</NewProduct>
     </div>
   );
 }
