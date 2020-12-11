@@ -1,4 +1,5 @@
 import React from 'react';
+import { Switch, Route } from 'react-router-dom';
 
 // Components
 import Product from '../Product';
@@ -132,14 +133,18 @@ function App() {
   return (
     <div className="App">
       <div style={{ margin: "0 10vw" }}>
-
-        <Product product={products[0]} category={category[5]} reviews={reviews} />
         <SearchBar handleSubmit={(e) => {
           e.preventDefault();
           console.log("Enviado");
         }} />
-        <Catalogue products={products} category={category} reviews={reviews} />
-
+        <Switch>
+          <Route path="/products">
+            <Catalogue products={products} category={category} reviews={reviews} />
+          </Route>
+          <Route path="/product/:id">
+            <Product product={products[0]} category={category[5]} reviews={reviews} />
+          </Route>
+        </Switch>
       </div>
     </div>
   );
