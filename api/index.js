@@ -55,7 +55,7 @@ conn.sync({ force: true }).then(() => {
     console.log('🚀 Server is listening on port ' + PORT); // eslint-disable-line no-console
 
     //Productos harcodeados cuando se levanta el servidor(descomentar para probar back)
-    /* Product.bulkCreate([{
+    Product.bulkCreate([{
       name: 'prueba1',
       description: 'adsdfaskjfhalsfalsfhaoshf',
       price: 5.99,
@@ -69,14 +69,13 @@ conn.sync({ force: true }).then(() => {
       stock: 1,
       img: 'https//imagen2.com'
     }
-    ])
+    ]);
     Category.bulkCreate([{
       name: 'coolers',
-      description:'asfuohaslfhalsdfhaoiehf'
-    },{
+      description: 'asfuohaslfhalsdfhaoiehf'
+    }, {
       name: 'mother',
-      description:'asifbasfcaieuhfaebciabefae'
-    }]) */
-
+      description: 'asifbasfcaieuhfaebciabefae'
+    }]);
   });
 });
