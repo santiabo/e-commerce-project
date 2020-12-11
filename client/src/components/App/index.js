@@ -3,6 +3,7 @@ import React from 'react';
 // Components
 import Product from '../Product';
 import SearchBar from '../SearchBar';
+import NewProduct from '../NewProduct';
 import Catalogue from '../Catalogue';
 
 // Styles
@@ -132,16 +133,15 @@ function App() {
   return (
     <div className="App">
       <div style={{ margin: "0 10vw" }}>
-
         <Product product={products[0]} category={category[5]} reviews={reviews} />
         <SearchBar handleSubmit={(e) => {
           e.preventDefault();
           console.log("Enviado");
         }} />
+      </div> 
+      <NewProduct>Nuevo Producto</NewProduct>
         <Catalogue products={products} category={category} reviews={reviews} />
-
       </div>
-    </div>
   );
 }
 
