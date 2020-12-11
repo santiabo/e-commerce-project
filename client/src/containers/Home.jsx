@@ -1,13 +1,12 @@
-import React from 'react';
-
+import React, { useState, useEffect } from 'react';
 // Components
-import Product from '../Product';
-import SearchBar from '../SearchBar';
-import NewProduct from '../NewProduct';
-import Catalogue from '../Catalogue';
+import Product from '../components/Product';
+import SearchBar from '../components/SearchBar';
+import NewProduct from '../components/NewProduct';
+import Catalogue from '../components/Catalogue';
 
 // Styles
-import './App.css';
+import '../routes/App.css';
 
 const products = [{
   title: "Geforce RTX 3080",
@@ -128,21 +127,25 @@ const reviews = {
   total: 40,
 };
 
-function App() {
 
+const Home = () => {
   return (
-    <div className="App">
-      <div style={{ margin: "0 10vw" }}>
-        <Product product={products[0]} category={category[5]} reviews={reviews} />
-        <SearchBar handleSubmit={(e) => {
-          e.preventDefault();
-          console.log("Enviado");
-        }} />
-      </div> 
-      <NewProduct>Nuevo Producto</NewProduct>
+    <>
+      <div className="App">
+        <div style={{ margin: "0 10vw" }}>
+          <Product product={products[0]} category={category[5]} reviews={reviews} />
+          <SearchBar handleSubmit={(e) => {
+            e.preventDefault();
+            console.log("Enviado");
+          }} />
+        </div>
+        <NewProduct>Nuevo Producto</NewProduct>
         <Catalogue products={products} category={category} reviews={reviews} />
       </div>
+
+
+    </>
   );
 }
 
-export default App;
+export default Home;
