@@ -11,6 +11,7 @@ const {
 
 // ------- Product Route -------
 server.route('/').get((req, res) => {
+
   const { search } = req.query;
 
   getAll(search)
@@ -164,5 +165,23 @@ server.put('/category/:id', (req, res) => {
     });
 });
 
+// ------- Products X Category Route -------
+server.get("/category/:categoryName", (req, res, next) => {
+  const { categoryName } = req.params;
+
+  Product.findAll({
+    include: {
+      model: Category,
+      where: {
+        name: categoryName
+      }
+    },
+  })
+    .then((data) => {
+      // console.log(data[0].dataValues.categories[0].dataValues);
+      res.json(data);
+    })
+    .catch(next);
+});
 
 module.exports = server;

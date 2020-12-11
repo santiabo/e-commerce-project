@@ -77,6 +77,5 @@ conn.sync({ force: true }).then(() => {
       name: 'mother',
       description: 'asifbasfcaieuhfaebciabefae'
     }]);
-
   });
 });
