@@ -4,7 +4,7 @@ import { Switch, Route } from 'react-router-dom';
 // Components
 import Product from '../components/Product';
 import SearchBar from '../components/SearchBar';
-import NewProduct from '../components/NewProduct';
+import ProductForm from '../components/ProductForm';
 import Catalogue from '../components/Catalogue';
 
 // Styles
@@ -147,7 +147,7 @@ const Home = () => {
           </Route>
         </Switch>
       </div>
-      <NewProduct>Nuevo Producto</NewProduct>
+      <ProductForm>Nuevo Producto</ProductForm>
     </div>
   );
 };
