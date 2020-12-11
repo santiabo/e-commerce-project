@@ -4,6 +4,7 @@ import { Switch, Route } from 'react-router-dom';
 // Components
 import Product from '../Product';
 import SearchBar from '../SearchBar';
+import NewProduct from '../NewProduct';
 import Catalogue from '../Catalogue';
 
 // Styles
@@ -146,6 +147,7 @@ function App() {
           </Route>
         </Switch>
       </div>
+      <NewProduct>Nuevo Producto</NewProduct>
     </div>
   );
 }

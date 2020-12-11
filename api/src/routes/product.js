@@ -11,8 +11,11 @@ const {
 
 // ------- Product Route -------
 server.route('/').get((req, res) => {
-  getAll()
-    .then(products => res.status(201).json(products))
+
+  const { search } = req.query;
+
+  getAll(search)
+    .then(products => res.json(products))
     .catch(err => res.status(400).json(err));
 }).post((req, res) => {
   const {
@@ -25,6 +28,14 @@ server.route('/').get((req, res) => {
   createOne(name, description, price, stock, images)
     .then(product => res.status(201).json(product))
     .catch(err => res.status(400).json(err));
+});
+
+server.route('/:id').get((req, res, next) => {
+  const { id } = req.params;
+
+  getOne(id)
+    .then(product => res.json(product))
+    .catch(next);
 });
 
 // ------- Update Product Route -------

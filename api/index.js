@@ -63,8 +63,8 @@ conn.sync({ force: true }).then(() => {
       img: 'https//imagen.com'
     },
     {
-      name: 'prueba2',
-      description: 'jaldfhalsnclie',
+      name: 'hola2',
+      description: 'jaldpruebafhalsnclie',
       price: 8.99,
       stock: 1,
       img: 'https//imagen2.com'
