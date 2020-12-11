@@ -11,8 +11,11 @@ const {
 
 // ------- Product Route -------
 server.route('/').get((req, res) => {
-  getAll()
-    .then(products => res.status(201).json(products))
+
+  const { search } = req.query;
+
+  getAll(search)
+    .then(products => res.json(products))
     .catch(err => res.status(400).json(err));
 }).post((req, res) => {
   const {
