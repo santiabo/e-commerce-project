@@ -1,10 +1,31 @@
 const { Product } = require('../db');
+const { Sequelize } = require('sequelize');
+
 
 // Este método se encargará de obtener todos los productos
-const getAll = () => {
+const getAll = (search) => {
   return new Promise((resolve, reject) => {
 
-    Product.findAll({})
+    let condition = {};
+    if (search) {
+      condition = {
+        [Sequelize.Op.or]: [{
+          name: {
+            [Sequelize.Op.iLike]: "%" + search + "%"
+          },
+
+        }, {
+          description: {
+            [Sequelize.Op.iLike]: "%" + search + "%"
+          }
+        }
+        ]
+      };
+    }
+
+    Product.findAll({
+      where: condition
+    })
       .then((products) => {
         if (products.length === 0) {
           return reject({
