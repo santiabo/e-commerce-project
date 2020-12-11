@@ -30,6 +30,14 @@ server.route('/').get((req, res) => {
     .catch(err => res.status(400).json(err));
 });
 
+server.route('/:id').get((req, res, next) => {
+  const { id } = req.params;
+
+  getOne(id)
+    .then(product => res.json(product))
+    .catch(next);
+});
+
 // ------- Update Product Route -------
 server.put('/:id', (req, res, next) => {
   const { id } = req.params;
