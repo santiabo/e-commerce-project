@@ -7,9 +7,10 @@ export const SearchIconStyled = styled(SearchIcon)`
 
 export const SearchBarForm = styled.form`
   display: flex;
+  width: 450px;
 `
 
-export const InputWrapper = styled.div`
+export const InputWrapper = styled.label`
   border: 1px solid #232323;
   display: flex;
   align-items: center;
