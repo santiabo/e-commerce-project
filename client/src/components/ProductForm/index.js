@@ -44,25 +44,28 @@ export default function ProductForm() {
       <table className="table table-dark table-striped mt-3">
         <thead>
           <tr>
-            <td>Title</td>
-            <td>Description</td>
-            <td>Price</td>
-            <td>Stock</td>
-            <td>Image URL</td>
-            <td>DELETE-EDIT</td>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Stock</th>
+            <th>Image URL</th>
+            <th>DELETE-EDIT</th>
           </tr>
         </thead>
+
         <tbody>
-          {productos && productos.map((e) =>
-            <tr>
+          {productos && productos.map((e, i) =>
+            <tr key={i}>
               <td>{e.name}</td>
               <td>{e.description}</td>
               <td>{e.price}</td>
               <td>{e.stock}</td>
               <td>{e.img}</td>
-              <button className="btn btn-danger">DELETE</button>
+              <td type="button" className="btn btn-lg btn btn-danger" role="button">Delete</td>
+              <td type="button" className="btn btn-lg btn-secondary" role="button">Edit</td>
+              {/* <button className="btn btn-danger">DELETE</button>
               <button type="button" className="btn btn-secondary" data-toggle="modal" data-target="#exampleModal">EDIT</button>
-              <div className="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div className="modal" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div className="modal-dialog" role="document">
                   <div className="modal-content">
                     <div className="modal-header">
@@ -74,34 +77,33 @@ export default function ProductForm() {
                     <div className="modal-body">
                       <form>
                         <div className="mb-3">
-                          <label for="name" className="form-label">Name</label>
+                          <label htmlFor="name" className="form-label">Name</label>
                           <input type="text" className="form-control" id="name" aria-describedby="nameHelp" />
                           <div id="emailHelp" className="form-text">Enter a valid product name</div>
                         </div>
                         <div className="mb-3">
-                          <label for="exampleInputPassword1" className="form-label">Password</label>
+                          <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
                           <input type="password" className="form-control" id="exampleInputPassword1" />
                         </div>
                         <div className="mb-3 form-check">
                           <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-                          <label className="form-check-label" for="exampleCheck1">Check me out</label>
+                          <label className="form-check-label" htmlFor="exampleCheck1">Check me out</label>
                         </div>
                         <button type="submit" className="btn btn-primary">Submit</button>
                       </form>
                     </div>
-                    <div classNameName="modal-footer">
+                    <div className="modal-footer">
                       <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
                       <button type="button" className="btn btn-primary">Save changes</button>
                     </div>
                   </div>
                 </div>
-              </div>
-
+              </div> */}
             </tr>
           )}
         </tbody>
+
       </table>
     </>
   );
 }
-
