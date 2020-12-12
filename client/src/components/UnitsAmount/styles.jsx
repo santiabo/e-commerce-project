@@ -16,7 +16,8 @@ export const UnitsAmountWrapper = styled.div`
      margin-right: 15px;
      -webkit-user-select: none;
   }
-`
+`;
+
 export const ButtonsWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -28,4 +29,4 @@ export const ButtonsWrapper = styled.div`
     margin: 2px 0;
     cursor: pointer;
   }
-`
+`;
