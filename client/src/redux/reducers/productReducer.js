@@ -4,11 +4,14 @@ import {
   CREATE_PRODUCT,
   UPDATE_PRODUCT,
   DELETE_PRODUCT,
-  SET_CATEGORY_TO_PRODUCT
+  SET_CATEGORY_TO_PRODUCT,
+  UNSET_CATEGORY_TO_PRODUCT,
+  GET_PRODUCTS_FILTERED_BY_CATEGORY
 } from "../actions/product";
 
 const initialState = {
   products: [],
+  filteredProducts: [],
   productDetail: {}
 };
 
@@ -52,9 +55,23 @@ const productReducer = (state = initialState, action) => {
           return p;
         })
       };
+    case UNSET_CATEGORY_TO_PRODUCT:
+      return {
+        ...state,
+        products: state.products.map(p => {
+          if (p.id === action.product.id)
+            return action.product;
+          return p;
+        })
+      };
+    case GET_PRODUCTS_FILTERED_BY_CATEGORY:
+      return {
+        ...state,
+        filteredProducts: action.products
+      };
     default:
       return state;
-  }
+  };
 };
 
 export default productReducer;

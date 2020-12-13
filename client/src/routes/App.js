@@ -21,7 +21,7 @@ function App() {
   useEffect(() => {
     // dispatch(getProduct(2));
     dispatch(getProducts());
-    // dispatch(addProduct(newProductTest));
+    dispatch(addProduct(newProductTest));
     dispatch(editProduct(2, { ...newProductTest, name: "Edited from Redux" }));
     // dispatch(removeProduct(1));
     dispatch(addCategoryToProduct(1, 1));

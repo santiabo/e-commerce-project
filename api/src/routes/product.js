@@ -75,7 +75,7 @@ server.delete('/:id', (req, res, next) => {
     where: { id }
   })
     .then((data) => {
-      if (data) return res.status(200).send({ productDeleted: Number(id) });
+      if (data) return res.send({ productDeleted: Number(id) });
       return res.status(404).send({ error: "Product not Found." });
     })
     .catch(next);
@@ -98,7 +98,7 @@ server.post('/:idProducto/category/:idCategoria', (req, res) => {
 
       // TODO: Ta feo cambiar!
       Product.findByPk(idProducto, { include: [Category] }).then(data => {
-        res.status(200).send({ ...data.dataValues });
+        res.send({ ...data.dataValues });
       });
     })
     .catch(err => {
@@ -118,9 +118,12 @@ server.delete('/:idProducto/category/:idCategoria', (req, res) => {
       product = data;
       return Category.findByPk(idCategoria);
     })
-    .then((category) => {
-      product.removeCategories(category);
-      res.status(200).send('Category deleted of the Product');
+    .then(async (category) => {
+      await product.removeCategories(category);
+
+      Product.findByPk(idProducto, { include: [Category] }).then(data => {
+        res.send({ ...data.dataValues });
+      });
     })
     .catch(err => {
       res.send(err);
@@ -128,7 +131,7 @@ server.delete('/:idProducto/category/:idCategoria', (req, res) => {
 });
 
 // ------- Add Category Route -------
-server.post('/category/', (req, res, next) => {
+server.post('/category', (req, res, next) => {
   const { name, description } = req.body;
 
   Category.create({
@@ -173,7 +176,7 @@ server.put('/category/:id', (req, res) => {
       if (!data[0]) {
         res.send('Invalid Category');
       } else {
-        return res.status(200).send('Updated');
+        return res.send('Updated');
 
       }
     })

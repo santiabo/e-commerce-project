@@ -7,6 +7,8 @@ export const CREATE_PRODUCT = "CREATE_PRODUCT";
 export const UPDATE_PRODUCT = "UPDATE_PRODUCT";
 export const DELETE_PRODUCT = "DELETE_PRODUCT";
 export const SET_CATEGORY_TO_PRODUCT = "SET_CATEGORY_TO_PRODUCT";
+export const UNSET_CATEGORY_TO_PRODUCT = "UNSET_CATEGORY_TO_PRODUCT";
+export const GET_PRODUCTS_FILTERED_BY_CATEGORY = "GET_PRODUCTS_FILTERED_BY_CATEGORY";
 
 export const getDetailProduct = (product) => {
   return {
@@ -47,6 +49,20 @@ export const setCategoryToProduct = (product) => {
   return {
     type: SET_CATEGORY_TO_PRODUCT,
     product
+  };
+};
+
+export const unsetCategoryToProduct = (product) => {
+  return {
+    type: UNSET_CATEGORY_TO_PRODUCT,
+    product
+  };
+};
+
+export const getProductsFilteredByCategory = (products) => {
+  return {
+    type: GET_PRODUCTS_FILTERED_BY_CATEGORY,
+    products
   };
 };
 
@@ -122,6 +138,32 @@ export const addCategoryToProduct = (productId, categoryId) => {
       const res = axios.post(`http://localhost:5000/products/${productId}/category/${categoryId}`);
 
       dispatch(setCategoryToProduct(res.data));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const removeCategoryToProduct = (productId, categoryId) => {
+  return async (dispatch) => {
+    try {
+
+      const res = await axios.delete(`http://localhost:5000/products/${productId}/category/${categoryId}`);
+
+      dispatch(unsetCategoryToProduct(res.data));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const filterProductsByCategory = (categoryName) => {
+  return async (dispatch) => {
+    try {
+
+      const res = await axios.post(`http://localhost:5000/product/category/${categoryName}`);
+
+      dispatch(getProductsFilteredByCategory(res.data));
     } catch (err) {
       console.log(err);
     }
