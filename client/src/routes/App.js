@@ -1,5 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+
+// Components
 import Layout from '../containers/Layout';
 import Home from '../containers/Home';
 import NotFound from '../containers/NotFound';
@@ -133,13 +135,19 @@ function App() {
     <BrowserRouter>
       <Layout>
         <Switch>
+
           <Route exact to path='/' component={Home} />
-          <Route path="/admin" component={ProductTable} />
+
+          <Route path='/admin' component={ProductTable} />
+
           <Route path='/products' >
             <Catalogue product={products} category={category} reviews={reviews} />
           </Route>
-          <Route path='/products/:id' render={({ match }) => <Product match={match} product={products[0]} category={category[5]} reviews={reviews} />} />
+
+          <Route path='/product/:id' render={({ match }) => <Product match={match} product={products[0]} category={category[5]} reviews={reviews} />} />
+
           <Route component={NotFound} />
+
         </Switch>
       </Layout>
     </BrowserRouter>
