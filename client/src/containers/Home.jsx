@@ -134,13 +134,6 @@ const Home = () => {
   return (
     <div className="App">
       <div style={{ margin: "0 10vw" }}>
-        <SearchBar handleSubmit={(e) => {
-          e.preventDefault();
-          console.log("Enviado");
-        }} />
-        <Link to="/admin">
-          <button>Admin</button>
-        </Link>
         <Switch>
           <Route path="/products">
             <Catalogue product={products} category={category} reviews={reviews} />

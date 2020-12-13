@@ -23,6 +23,17 @@ export const NavWrapper2 = styled.div`
   
 
 `;
+export const NavWrapper3 = styled.div`
+  display: flex;
+  width: 100%;
+  height: 36px;
+  background-color: #121323;
+  justify-content: space-around;
+  margin-left:auto;
+  align-items: bottom;
+  
+
+`;
 
 export const DivWrapper = styled.div`
   display: flex;
