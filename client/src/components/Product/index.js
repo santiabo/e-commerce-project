@@ -19,6 +19,7 @@ import {
   ButtonsWrapper
 } from "./styles";
 import UnitsAmount from "../UnitsAmount";
+import { Link } from "react-router-dom";
 
 const Product = ({ product, category, reviews }) => {
 

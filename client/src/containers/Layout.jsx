@@ -3,7 +3,7 @@ import Header from '../components/Header/index';
 import Footer from '../components/Footer/Footer';
 
 const Layout = ({ children }) => (
-  <div>
+  <div className='container'>
     <Header />
     {children}
     <Footer />
