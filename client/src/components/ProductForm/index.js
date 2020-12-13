@@ -3,86 +3,119 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, ModalBody, ModalHeader, ModalFooter } from 'reactstrap';
 
 function ProductForm() {
-
-  /* const dataPaises = [
-    { id: 1, nombre: "Filipinas", minutos: 241 },
-    { id: 2, nombre: "Brasil", minutos: 225 },
-    { id: 3, nombre: "Colombia", minutos: 216 },
-    { id: 4, nombre: "Nigeria", minutos: 216 },
-    { id: 5, nombre: "Argentina", minutos: 207 },
-    { id: 6, nombre: "Indonesia", minutos: 195 },
-    { id: 7, nombre: "Emiratos Árabes Unidos", minutos: 191 },
-    { id: 8, nombre: "México", minutos: 190 },
-    { id: 9, nombre: "Sudáfrica", minutos: 190 },
-    { id: 10, nombre: "Egipto", minutos: 186 },
-  ]; */
   const productos = [{
-    id:1,
+    id: 1,
     name: 'prueba1',
     description: 'adsdfaskjfhalsfalsfhaoshf',
     price: 5.99,
     stock: 6,
     img: 'https//imagen.com',
-    category: 'Coolers'
+    category: 'Cooler'
   },
   {
-    id:2,
+    id: 2,
     name: 'prueba2',
     description: 'jaldfhalsnclie',
     price: 8.99,
     stock: 1,
     img: 'https//imagen2.com',
-    category: 'Coolers'
+    category: 'Mother'
   },
   {
-    id:3,
+    id: 3,
     name: 'prueba2',
     description: 'jaldfhalsnclie',
     price: 8.99,
     stock: 1,
     img: 'https//imagen2.com',
-    category: 'Coolers'
+    category: 'PC'
   },
   {
-    id:4,
+    id: 4,
     name: 'prueba2',
     description: 'jaldfhalsnclie',
     price: 8.99,
     stock: 1,
     img: 'https//imagen2.com',
-    category: 'Coolers'
+    category: 'Keyboards'
   },
   {
-    id:5,
+    id: 5,
     name: 'prueba2',
     description: 'jaldfhalsnclie',
     price: 8.99,
     stock: 1,
     img: 'https//imagen2.com',
-    category: 'Coolers'
+    category: 'CPU'
   }
   ];
 
+  const categories = [
+    {
+      id: 1,
+      name: 'Coolers',
+      description: 'loajfandflajbfjlasf'
+    },
+    {
+      id: 2,
+      name: 'PC',
+      description: 'sadajnsfljaslfjna'
+    },
+    {
+      id: 3,
+      name: 'Mother',
+      description: 'asljfbasvalncpasnc'
+    },
+    {
+      id: 4,
+      name: 'Keyboards',
+      description: 'askdmaskdm'
+    },
+    {
+      id: 5,
+      name: 'CPU',
+      description: 'asfncndiaejfaeif'
+    }
+  ]
+  //Prductos Hooks
   const [data, setData] = useState(productos);
   const [modalEditar, setModalEditar] = useState(false);
   const [modalEliminar, setModalEliminar] = useState(false);
   const [modalInsertar, setModalInsertar] = useState(false);
 
   const [productoSeleccionado, setProductoSeleccionado] = useState({
-    id:'',
+    id: '',
     name: '',
     description: '',
     price: '',
-    stock:'',
-    img:'',
-    category:''
+    stock: '',
+    img: '',
+    category: ''
   });
+  //Categorias Hooks
+  const [dataCategories, setDataCategories] = useState(categories);
+  const [modalEditarCategoria, setModalEditarCategoria] = useState(false);
+  const [modalEliminarCategoria, setModalEliminarCategoria] = useState(false);
+  const [modalInsertarCategoria, setModalInsertarCategoria] = useState(false);
 
+  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState({
+    id: '',
+    name: '',
+    description: ''
+  })
+
+  //Productos
   const seleccionarProducto = (elemento, caso) => {
     setProductoSeleccionado(elemento);
     (caso === 'Editar') ? setModalEditar(true) : setModalEliminar(true)
   }
+  //Categorias
+  const seleccionarCategoria = (elemento, caso) => {
+    setCategoriaSeleccionada(elemento);
+    (caso === 'Editar') ? setModalEditarCategoria(true) : setModalEliminarCategoria(true)
+  }
 
+  //Productos
   const handleChange = e => {
     const { name, value } = e.target;
     setProductoSeleccionado((prevState) => ({
@@ -90,33 +123,62 @@ function ProductForm() {
       [name]: value
     }));
   }
-
-  const editar = () => {
-    var dataNueva = data;
-    dataNueva.map(producto => {
-      if (producto.id === productoSeleccionado.id) {
-        producto.name = productoSeleccionado.name;
-        producto.description = productoSeleccionado.description;
-        producto.price = productoSeleccionado.price;
-        producto.stock = productoSeleccionado.stock;
-        producto.img = productoSeleccionado.img;
-        producto.category = productoSeleccionado.category;
-      }
-    });
-    setData(dataNueva);
-    setModalEditar(false);
+  //Categorias
+  const handleChangeCategory = e => {
+    const { name, value } = e.target;
+    setCategoriaSeleccionada((prevState) => ({
+      ...prevState,
+      [name]: value
+    }));
   }
 
+  //Productos
+  const editar = () => {
+    setData(data.map(d => {
+      if (d.id === productoSeleccionado.id) {
+        return productoSeleccionado;
+      }
+      return d;
+    }));
+
+    setModalEditar(false);
+  };
+  //Categorias
+  const editarCategoria = () => {
+    var dataNueva = dataCategories;
+    dataNueva.map(categoria => {
+      if (categoria.id === categoriaSeleccionada.id) {
+        categoria.name = categoriaSeleccionada.name;
+        categoria.description = categoriaSeleccionada.description;
+      }
+    });
+    setDataCategories(dataNueva);
+    setModalEditarCategoria(false);
+  }
+
+  //Productos
   const eliminar = () => {
     setData(data.filter(producto => producto.id !== productoSeleccionado.id));
     setModalEliminar(false);
   }
+  //Categorias
+  const eliminarCategoria = () => {
+    setDataCategories(dataCategories.filter(categoria => categoria.id !== categoriaSeleccionada.id));
+    setModalEliminarCategoria(false);
+  }
 
+  //Productos
   const abrirModalInsertar = () => {
     setProductoSeleccionado(null);
     setModalInsertar(true);
   }
+  //Categories
+  const abrirModalInsertarCategoria = () => {
+    setCategoriaSeleccionada(null);
+    setModalInsertarCategoria(true);
+  }
 
+  //Productos
   const insertar = () => {
     var valorInsertar = productoSeleccionado;
     valorInsertar.id = data[data.length - 1].id + 1;
@@ -125,12 +187,22 @@ function ProductForm() {
     setData(dataNueva);
     setModalInsertar(false);
   }
+  //Categorias
+  const insertarCategoria = () => {
+    var valorInsertar = categoriaSeleccionada;
+    valorInsertar.id = dataCategories[data.length - 1].id + 1;
+    var dataNueva = dataCategories;
+    dataNueva.push(valorInsertar);
+    setDataCategories(dataNueva);
+    setModalInsertarCategoria(false);
+  }
 
   return (
     <div className="App">
       <h2>LISTA DE PRODUCTOS CHUSTO-WEBSITE</h2>
       <br />
-      <button className="btn btn-success" onClick={() => abrirModalInsertar()}>Nuevo Producto</button>
+      <button className="btn btn-success" onClick={() => abrirModalInsertar()}>Nuevo Producto</button>{"   "}
+      <button className="btn btn-primary" onClick={() => abrirModalInsertarCategoria()}>Add Category</button>
       <br /><br />
       <table className="table table-bordered">
         <thead>
@@ -142,6 +214,7 @@ function ProductForm() {
             <th>stock</th>
             <th>img</th>
             <th>category</th>
+            <th>EDIT-DELETE</th>
           </tr>
         </thead>
         <tbody>
@@ -152,6 +225,7 @@ function ProductForm() {
               <td>{elemento.description}</td>
               <td>{elemento.price}</td>
               <td>{elemento.stock}</td>
+              <td>{elemento.img}</td>
               <td>{elemento.category}</td>
               <td><button className="btn btn-primary" onClick={() => seleccionarProducto(elemento, 'Editar')}>Editar</button> {"   "}
                 <button className="btn btn-danger" onClick={() => seleccionarProducto(elemento, 'Eliminar')}>Eliminar</button></td>
@@ -230,14 +304,18 @@ function ProductForm() {
             <br />
 
             <label>Categoria</label>
-            <input
-              className="form-control"
-              type="text"
+
+            <select
+              className="custom-select"
               name="category"
-              value={productoSeleccionado && productoSeleccionado.category}
               onChange={handleChange}
-            />
+            >
+              {dataCategories.map((e) =>
+                <option value={e.name} name="category">{e.name}</option>
+              )}
+            </select>
             <br />
+
           </div>
         </ModalBody>
 
@@ -342,17 +420,19 @@ function ProductForm() {
             <br />
           </div>
 
-          <label>Category</label>
-            <input
-              className="form-control"
-              type="text"
+          <label>Categoria</label>
+            <select
+              className="custom-select"
               name="category"
-              value={productoSeleccionado ? productoSeleccionado.category : ''}
               onChange={handleChange}
-            />
+            >
+              {dataCategories.map((e) =>
+                <option value={e.name} name="category">{e.name}</option>
+              )}
+            </select>
             <br />
         </ModalBody>
-        
+
         <ModalFooter>
           <button className="btn btn-primary"
             onClick={() => insertar()}>
@@ -361,6 +441,62 @@ function ProductForm() {
           <button
             className="btn btn-danger"
             onClick={() => setModalInsertar(false)}
+          >
+            Cancelar
+          </button>
+        </ModalFooter>
+      </Modal>
+
+      {/*Insertar Categoria Modal */}
+      <Modal isOpen={modalInsertarCategoria}>
+        <ModalHeader>
+          <div>
+            <h3>Insertar Categoria</h3>
+          </div>
+        </ModalHeader>
+        <ModalBody>
+          <div className="form-group">
+            <label>ID</label>
+            <input
+              className="form-control"
+              readOnly
+              type="text"
+              name="id"
+              value={data[data.length - 1].id + 1}
+            />
+            <br />
+
+            <label>Categoria</label>
+            <input
+              className="form-control"
+              type="text"
+              name="name"
+              value={categoriaSeleccionada ? categoriaSeleccionada.name : ''}
+              onChange={handleChangeCategory}
+            />
+            <br />
+
+            <label>Description</label>
+            <input
+              className="form-control"
+              type="text"
+              name="description"
+              value={categoriaSeleccionada ? categoriaSeleccionada.description : ''}
+              onChange={handleChangeCategory}
+            />
+            <br />
+          </div>
+
+        </ModalBody>
+
+        <ModalFooter>
+          <button className="btn btn-primary"
+            onClick={() => insertarCategoria()}>
+            Insertar
+          </button>
+          <button
+            className="btn btn-danger"
+            onClick={() => setModalInsertarCategoria(false)}
           >
             Cancelar
           </button>

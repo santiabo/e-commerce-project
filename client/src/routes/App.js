@@ -127,8 +127,8 @@ const reviews = {
 };
 
 
-function App() {
 
+function App() {
   return (
     <BrowserRouter>
       <Layout>
@@ -136,6 +136,9 @@ function App() {
           <Route exact to path='/' component={Home} />
           <Route path="/admin" component={ProductForm} />
           <Route path='/products' component={<Catalogue product={products} category={category} reviews={reviews} />} />
+          <Route path='/products' >
+            <Catalogue product={products} category={category} reviews={reviews} />
+          </Route>
           <Route path='/products/:id' render={({ match }) => <Product match={match} product={products[0]} category={category[5]} reviews={reviews} />} />
           <Route component={NotFound} />
         </Switch>
@@ -143,5 +146,4 @@ function App() {
     </BrowserRouter>
   );
 }
-
 export default App;
