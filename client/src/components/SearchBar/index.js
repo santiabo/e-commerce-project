@@ -14,7 +14,7 @@ const SearchBar = ({ handleSubmit }) => {
         
         <SearchInput placeholder={"Search..."} />
       </InputWrapper>
-      <Button><SearchIconStyled /></Button>
+      <SearchIconStyled />
     </SearchBarForm>
   );
 };

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-
+import {Link} from 'react-router-dom';
 
 
 export const NavWrapper = styled.div`
@@ -7,7 +7,7 @@ export const NavWrapper = styled.div`
   
   width: 100%;
   height: 60px;
-  background-color: #001B2E;
+  background-color: #021229;
   justify-content: space-around;
   align-items: center;
   
@@ -16,7 +16,7 @@ export const NavWrapper2 = styled.div`
   display: flex;
   width: 100%;
   height: 60px;
-  background-color: #001B2E;
+  background-color: #021229;
   justify-content: flex-end;
   margin-left:auto;
   align-items:  ;
@@ -30,7 +30,7 @@ export const NavWrapper3 = styled.div`
   background-color: #121323;
   justify-content: space-around;
   margin-left:auto;
-  align-items: bottom;
+  align-items: center;
   
 
 `;
@@ -58,4 +58,11 @@ export const ImageContainer = styled.div`
   text-shadow: 0 0 0 #000;
 
 
+`;
+
+export const StyledLink = styled(Link)`
+  color: white;
+  text-decoration: none;
+  padding: 0 0.5rem;
+  &:hover{color: white;};
 `;

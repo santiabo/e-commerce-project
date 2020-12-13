@@ -22,7 +22,7 @@ export const SearchInput = styled.input`
   display: flex;  
   
   margin-right: 1rem;
-  /* padding: 0 1rem; */
+  padding: 0 1rem; 
   border: none;
   outline: none;
   height: 35px;
