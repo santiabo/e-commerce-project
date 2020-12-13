@@ -3,18 +3,20 @@ import { ReactComponent as SearchIcon } from "../../assets/icons/search.svg";
 
 export const SearchIconStyled = styled(SearchIcon)`
   margin: 0 1rem;
-`
+`;
 
 export const SearchBarForm = styled.form`
   display: flex;
   width: 450px;
-`
+  background: white;
+`;
 
 export const InputWrapper = styled.label`
   border: 1px solid #232323;
   display: flex;
   align-items: center;
-`
+  margin: 0;
+`;
 
 export const SearchInput = styled.input`
   margin-right: 1rem;
@@ -24,4 +26,4 @@ export const SearchInput = styled.input`
   height: 40px;
   font-size: 18px;
 
-`
+`;

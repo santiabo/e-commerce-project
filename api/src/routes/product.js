@@ -32,7 +32,11 @@ server.route('/').get((req, res) => {
 
 server.get('/category/', (req, res, next) => {
 
-  Category.findAll()
+  Category.findAll({
+    order: [
+      ['id', 'ASC']
+    ]
+  })
     .then((categories) => {
 
       return res.send([...categories]);
@@ -141,15 +145,15 @@ server.delete('/:idProducto/category/:idCategoria', (req, res) => {
 });
 
 // ------- Add Category Route -------
-server.post('/categories', (req, res, next) => {
+server.post('/category', (req, res, next) => {
   const { name, description } = req.body;
 
   Category.create({
     name: name,
     description: description
   })
-    .then(() => {
-      res.send('Category created');
+    .then((category) => {
+      res.send({ ...category.dataValues });
     })
     .catch(next);
 });
@@ -162,9 +166,9 @@ server.delete('/category/:id', (req, res) => {
   })
     .then((data) => {
       if (!data) {
-        res.send('Invalid Category sent');
+        res.status(404).send({ error: 'Error: Category Not Found.' });
       } else {
-        res.send('Category Deleted');
+        res.send({ deletedId: id });
       }
     })
     .catch(err => {
@@ -173,7 +177,7 @@ server.delete('/category/:id', (req, res) => {
 });
 
 // ------- Update Category Route -------
-server.put('/category/:id', (req, res) => {
+server.put('/category/:id', (req, res, next) => {
   const { id } = req.params;
   const { name, description } = req.body;
   Category.update({
@@ -182,17 +186,17 @@ server.put('/category/:id', (req, res) => {
   }, {
     where: { id }
   })
-    .then((data) => {
+    .then(async (data) => {
       if (!data[0]) {
-        res.send('Invalid Category');
+        res.status(404).send({ error: "Error: Category Not Found." });
       } else {
-        return res.send('Updated');
 
+        const category = await Category.findByPk(id);
+
+        return res.send({ ...category.dataValues });
       }
     })
-    .catch(err => {
-      res.send('Error:', err);
-    });
+    .catch(next);
 });
 
 // ------- Products X Category Route -------

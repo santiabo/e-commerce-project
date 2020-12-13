@@ -161,7 +161,7 @@ export const filterProductsByCategory = (categoryName) => {
   return async (dispatch) => {
     try {
 
-      const res = await axios.post(`http://localhost:5000/product/category/${categoryName}`);
+      const res = await axios.get(`http://localhost:5000/products/category/${categoryName}`);
 
       dispatch(getProductsFilteredByCategory(res.data));
     } catch (err) {

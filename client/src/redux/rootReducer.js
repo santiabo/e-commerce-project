@@ -1,19 +1,22 @@
 import { combineReducers } from "redux";
 import productReducer from "./reducers/productReducer";
+import categoryReducer from "./reducers/categoryReducer";
 
 // Scaffolding
 // store = {
 //   product: {
+//     products: [],
+//     filteredProducts: [],
 //     productDetail: {},
-//     products: []
 //   },
 //   category: {
-//     ...
+//     categories: []
 //   }
 // }
 
 const rootReducer = combineReducers({
-  product: productReducer
+  product: productReducer,
+  category: categoryReducer
 });
 
 export default rootReducer;
