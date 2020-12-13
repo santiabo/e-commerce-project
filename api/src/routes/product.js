@@ -30,6 +30,16 @@ server.route('/').get((req, res) => {
     .catch(err => res.status(400).json(err));
 });
 
+server.get('/category/', (req, res, next) => {
+
+  Category.findAll()
+    .then((categories) => {
+
+      return res.send([...categories]);
+    })
+    .catch(next);
+});
+
 server.route('/:id').get((req, res, next) => {
   const { id } = req.params;
 
@@ -131,7 +141,7 @@ server.delete('/:idProducto/category/:idCategoria', (req, res) => {
 });
 
 // ------- Add Category Route -------
-server.post('/category', (req, res, next) => {
+server.post('/categories', (req, res, next) => {
   const { name, description } = req.body;
 
   Category.create({
