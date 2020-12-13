@@ -9,9 +9,7 @@ function App() {
   return (
     <BrowserRouter>
       <Layout>
-        <Link to="/">
-          <button>Home</button>
-        </Link>
+       
         <Switch>
           <Route path='/' component={Home} />
           <Route component={NotFound} />
