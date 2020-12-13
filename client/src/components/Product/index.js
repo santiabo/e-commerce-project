@@ -4,6 +4,7 @@ import React from "react";
 import ImagesColumn from "../ImagesColumn";
 import Rating from "../Rating";
 import Button from "../Button";
+import UnitsAmount from "../UnitsAmount";
 
 // StyledComponents
 import {
@@ -18,8 +19,6 @@ import {
   Price,
   ButtonsWrapper
 } from "./styles";
-import UnitsAmount from "../UnitsAmount";
-import { Link } from "react-router-dom";
 
 const Product = ({ product, category, reviews }) => {
 
