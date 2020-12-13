@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Link } from 'react-router-dom';
 
 // Components
 import Product from '../components/Product';
@@ -138,16 +138,21 @@ const Home = () => {
           e.preventDefault();
           console.log("Enviado");
         }} />
+        <Link to="/admin">
+          <button>Admin</button>
+        </Link>
         <Switch>
           <Route path="/products">
-            <Catalogue products={products} category={category} reviews={reviews} />
+            <Catalogue product={products} category={category} reviews={reviews} />
           </Route>
           <Route path="/product/:id">
             <Product product={products[0]} category={category[5]} reviews={reviews} />
           </Route>
+          <Route exact path="/admin">
+            <ProductForm>Nuevo Producto</ProductForm>
+          </Route>
         </Switch>
       </div>
-      <ProductForm>Nuevo Producto</ProductForm>
     </div>
   );
 };

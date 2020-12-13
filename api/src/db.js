@@ -47,9 +47,9 @@ const { Product, Category } = sequelize.models;
 Product.belongsToMany(Category, { through: 'products_categories' });
 Category.belongsToMany(Product, { through: 'products_categories' });
 
-module.exports = { 
+module.exports = {
   conn: sequelize,     // para importart la conexión { conn } = require('./db.js');
-  DataTypes, 
+  DataTypes,
   Product,
   Category
 };

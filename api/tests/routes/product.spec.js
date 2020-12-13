@@ -11,13 +11,13 @@ const product = {
 
 describe('PRODUCT routes', () => {
   before(() => conn.authenticate()
-  .catch((err) => {
-    console.error('Unable to connect to the database:', err);
-  }));
+    .catch((err) => {
+      console.error('Unable to connect to the database:', err);
+    }));
   beforeEach(() => Product.sync({ force: true })
     .then(() => Product.create(product)));
   describe('GET /products', () => {
-    it('should get 200', () => 
+    it('should get 200', () =>
       agent.get('/products/').expect(200)
     );
   });

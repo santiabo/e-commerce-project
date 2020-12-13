@@ -12,7 +12,7 @@ import {
   ProductsColumn
 } from './styles';
 
-const Catalogue = ({ products, category, reviews }) => {
+const Catalogue = ({ product, category, reviews }) => {
 
   return (
     <CatalogueWrapper>
@@ -23,7 +23,7 @@ const Catalogue = ({ products, category, reviews }) => {
       </CategoriesColumn>
 
       <ProductsColumn>
-        {products.map((product, i) => <ProductCard product={product} category={category} reviews={reviews} key={i} />)}
+        {product.map((product, i) => <ProductCard product={product} category={category} reviews={reviews} key={i} />)}
       </ProductsColumn>
 
     </CatalogueWrapper>
