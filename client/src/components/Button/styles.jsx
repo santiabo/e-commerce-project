@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const ButtonWrapper = styled.button`
   width: 100%;
-  height: 50px;
+  height: auto;
   background: #232323;
   color: white;
   padding: 0 1rem;
