@@ -155,7 +155,7 @@ function ProductTable() {
               <td>{elemento.description}</td>
               <td>{elemento.price}</td>
               <td>{elemento.stock}</td>
-              <td id='imgBox'><img src={elemento.img} /></td>
+              <td id='imgBox'><img src={elemento.img} alt={elemento.name} /></td>
               <td>{elemento.category}</td>
               <td><button className="btn btn-primary" onClick={() => seleccionarProducto(elemento, 'Editar')}>Editar</button> {"   "}
                 <button className="btn btn-danger" onClick={() => seleccionarProducto(elemento, 'Eliminar')}>Eliminar</button></td>
