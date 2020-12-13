@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, ModalBody, ModalHeader, ModalFooter } from 'reactstrap';
 
-function ProductForm() {
+// Components
+import ProductEditForm from '../ProductEditForm';
+
+// Style
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+function ProductTable() {
 
   /* const dataPaises = [
     { id: 1, nombre: "Filipinas", minutos: 241 },
@@ -17,7 +22,7 @@ function ProductForm() {
     { id: 10, nombre: "Egipto", minutos: 186 },
   ]; */
   const productos = [{
-    id:1,
+    id: 1,
     name: 'prueba1',
     description: 'adsdfaskjfhalsfalsfhaoshf',
     price: 5.99,
@@ -26,7 +31,7 @@ function ProductForm() {
     category: 'Coolers'
   },
   {
-    id:2,
+    id: 2,
     name: 'prueba2',
     description: 'jaldfhalsnclie',
     price: 8.99,
@@ -35,7 +40,7 @@ function ProductForm() {
     category: 'Coolers'
   },
   {
-    id:3,
+    id: 3,
     name: 'prueba2',
     description: 'jaldfhalsnclie',
     price: 8.99,
@@ -44,7 +49,7 @@ function ProductForm() {
     category: 'Coolers'
   },
   {
-    id:4,
+    id: 4,
     name: 'prueba2',
     description: 'jaldfhalsnclie',
     price: 8.99,
@@ -53,7 +58,7 @@ function ProductForm() {
     category: 'Coolers'
   },
   {
-    id:5,
+    id: 5,
     name: 'prueba2',
     description: 'jaldfhalsnclie',
     price: 8.99,
@@ -69,19 +74,19 @@ function ProductForm() {
   const [modalInsertar, setModalInsertar] = useState(false);
 
   const [productoSeleccionado, setProductoSeleccionado] = useState({
-    id:'',
+    id: '',
     name: '',
     description: '',
     price: '',
-    stock:'',
-    img:'',
-    category:''
+    stock: '',
+    img: '',
+    category: ''
   });
 
   const seleccionarProducto = (elemento, caso) => {
     setProductoSeleccionado(elemento);
-    (caso === 'Editar') ? setModalEditar(true) : setModalEliminar(true)
-  }
+    (caso === 'Editar') ? setModalEditar(true) : setModalEliminar(true);
+  };
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -89,33 +94,30 @@ function ProductForm() {
       ...prevState,
       [name]: value
     }));
-  }
+  };
 
   const editar = () => {
-    var dataNueva = data;
-    dataNueva.map(producto => {
-      if (producto.id === productoSeleccionado.id) {
-        producto.name = productoSeleccionado.name;
-        producto.description = productoSeleccionado.description;
-        producto.price = productoSeleccionado.price;
-        producto.stock = productoSeleccionado.stock;
-        producto.img = productoSeleccionado.img;
-        producto.category = productoSeleccionado.category;
+
+    setData(data.map(d => {
+      if (d.id === productoSeleccionado.id) {
+        return productoSeleccionado;
       }
-    });
-    setData(dataNueva);
+
+      return d;
+    }));
+
     setModalEditar(false);
-  }
+  };
 
   const eliminar = () => {
     setData(data.filter(producto => producto.id !== productoSeleccionado.id));
     setModalEliminar(false);
-  }
+  };
 
   const abrirModalInsertar = () => {
     setProductoSeleccionado(null);
     setModalInsertar(true);
-  }
+  };
 
   const insertar = () => {
     var valorInsertar = productoSeleccionado;
@@ -124,11 +126,11 @@ function ProductForm() {
     dataNueva.push(valorInsertar);
     setData(dataNueva);
     setModalInsertar(false);
-  }
+  };
 
   return (
     <div className="App">
-      <h2>LISTA DE PRODUCTOS CHUSTO-WEBSITE</h2>
+      <h2>Lista de Productos</h2>
       <br />
       <button className="btn btn-success" onClick={() => abrirModalInsertar()}>Nuevo Producto</button>
       <br /><br />
@@ -136,22 +138,24 @@ function ProductForm() {
         <thead>
           <tr>
             <th>ID</th>
-            <th>name</th>
-            <th>description</th>
-            <th>price</th>
-            <th>stock</th>
-            <th>img</th>
-            <th>category</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Stock</th>
+            <th>Images</th>
+            <th>Category</th>
+            <th>Edit-Delete</th>
           </tr>
         </thead>
         <tbody>
-          {data.map(elemento => (
-            <tr>
+          {data.map((elemento, i) => (
+            <tr key={i}>
               <td>{elemento.id}</td>
               <td>{elemento.name}</td>
               <td>{elemento.description}</td>
               <td>{elemento.price}</td>
               <td>{elemento.stock}</td>
+              <td id='imgBox'><img src={elemento.img} /></td>
               <td>{elemento.category}</td>
               <td><button className="btn btn-primary" onClick={() => seleccionarProducto(elemento, 'Editar')}>Editar</button> {"   "}
                 <button className="btn btn-danger" onClick={() => seleccionarProducto(elemento, 'Eliminar')}>Eliminar</button></td>
@@ -161,99 +165,12 @@ function ProductForm() {
         </tbody>
       </table>
 
-      <Modal isOpen={modalEditar}>
-        <ModalHeader>
-          <div>
-            <h3>Editar Producto</h3>
-          </div>
-        </ModalHeader>
-        <ModalBody>
-          <div className="form-group">
-            <label>ID</label>
-            <input
-              className="form-control"
-              readOnly
-              type="text"
-              name="id"
-              value={productoSeleccionado && productoSeleccionado.id}
-            />
-            <br />
-
-            <label>Producto</label>
-            <input
-              className="form-control"
-              type="text"
-              name="name"
-              value={productoSeleccionado && productoSeleccionado.name}
-              onChange={handleChange}
-            />
-            <br />
-
-            <label>Description</label>
-            <input
-              className="form-control"
-              type="text"
-              name="description"
-              value={productoSeleccionado && productoSeleccionado.description}
-              onChange={handleChange}
-            />
-            <br />
-
-            <label>Price</label>
-            <input
-              className="form-control"
-              type="text"
-              name="price"
-              value={productoSeleccionado && productoSeleccionado.price}
-              onChange={handleChange}
-            />
-            <br />
-
-            <label>Stock</label>
-            <input
-              className="form-control"
-              type="text"
-              name="stock"
-              value={productoSeleccionado && productoSeleccionado.stock}
-              onChange={handleChange}
-            />
-            <br />
-
-            <label>Imagen URL</label>
-            <input
-              className="form-control"
-              type="text"
-              name="img"
-              value={productoSeleccionado && productoSeleccionado.img}
-              onChange={handleChange}
-            />
-            <br />
-
-            <label>Categoria</label>
-            <input
-              className="form-control"
-              type="text"
-              name="category"
-              value={productoSeleccionado && productoSeleccionado.category}
-              onChange={handleChange}
-            />
-            <br />
-          </div>
-        </ModalBody>
-
-        <ModalFooter>
-          <button className="btn btn-primary" onClick={() => editar()}>
-            Actualizar
-          </button>
-          <button
-            className="btn btn-danger"
-            onClick={() => setModalEditar(false)}
-          >
-            Cancelar
-          </button>
-        </ModalFooter>
-      </Modal>
-
+      <ProductEditForm
+        modalEditar={modalEditar}
+        setModalEditar={setModalEditar}
+        editar={editar}
+        productoSeleccionado={productoSeleccionado}
+        handleChange={handleChange} />
 
       <Modal isOpen={modalEliminar}>
         <ModalBody>
@@ -343,16 +260,16 @@ function ProductForm() {
           </div>
 
           <label>Category</label>
-            <input
-              className="form-control"
-              type="text"
-              name="category"
-              value={productoSeleccionado ? productoSeleccionado.category : ''}
-              onChange={handleChange}
-            />
-            <br />
+          <input
+            className="form-control"
+            type="text"
+            name="category"
+            value={productoSeleccionado ? productoSeleccionado.category : ''}
+            onChange={handleChange}
+          />
+          <br />
         </ModalBody>
-        
+
         <ModalFooter>
           <button className="btn btn-primary"
             onClick={() => insertar()}>
@@ -370,4 +287,4 @@ function ProductForm() {
   );
 }
 
-export default ProductForm;
+export default ProductTable;

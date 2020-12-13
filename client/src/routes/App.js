@@ -1,10 +1,10 @@
 import React from 'react';
-import { BrowserRouter, Link, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Layout from '../containers/Layout';
 import Home from '../containers/Home';
 import NotFound from '../containers/NotFound';
 import Catalogue from '../components/Catalogue';
-import ProductForm from '../components/ProductForm';
+import ProductTable from '../components/ProductTable';
 import Product from '../components/Product';
 
 const products = [{
@@ -134,7 +134,7 @@ function App() {
       <Layout>
         <Switch>
           <Route exact to path='/' component={Home} />
-          <Route path="/admin" component={ProductForm} />
+          <Route path="/admin" component={ProductTable} />
           <Route path='/products' >
             <Catalogue product={products} category={category} reviews={reviews} />
           </Route>

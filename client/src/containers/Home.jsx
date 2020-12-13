@@ -1,10 +1,8 @@
 import React from 'react';
-import { Switch, Route, Link } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 
 // Components
 import Product from '../components/Product';
-import SearchBar from '../components/SearchBar';
-import ProductForm from '../components/ProductForm';
 import Catalogue from '../components/Catalogue';
 
 // Styles
@@ -129,25 +127,21 @@ const reviews = {
   total: 40,
 };
 
-
-
-
 const Home = () => {
+
   return (
     <div className="App">
-      <div style={{ margin: "0 10vw" }}>
-        <Switch>
-          <Route path="/products">
-            <Catalogue product={products} category={category} reviews={reviews} />
-          </Route>
-          <Route path="/product/:id">
-            <Product product={products[0]} category={category[5]} reviews={reviews} />
-          </Route>
-          <Route exact path="/admin">
-            <ProductForm>Nuevo Producto</ProductForm>
-          </Route>
-        </Switch>
-      </div>
+      <Switch>
+
+        <Route path="/products">
+          <Catalogue product={products} category={category} reviews={reviews} />
+        </Route>
+
+        <Route path="/product/:id">
+          <Product product={products[0]} category={category[5]} reviews={reviews} />
+        </Route>
+
+      </Switch>
     </div>
   );
 };
