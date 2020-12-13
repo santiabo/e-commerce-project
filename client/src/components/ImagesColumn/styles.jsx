@@ -4,7 +4,7 @@ export const ImagesColumnWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 10%;
-`
+`;
 export const ImageBox = styled.img`
   width: 50px;
   height: 50px;
@@ -17,4 +17,4 @@ export const ImageBox = styled.img`
     filter: opacity(1);
     border: 2px solid #232323;
   }
-`
+`;
