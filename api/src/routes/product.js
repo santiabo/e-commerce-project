@@ -58,9 +58,10 @@ server.put('/:id', (req, res, next) => {
       }
 
 
-      return Product.findByPk(id);
+      return Product.findByPk(id, { include: [Category] });
     })
     .then(product => {
+      console.log(product);
       return res.send(product);
     })
     .catch(next);
@@ -74,7 +75,6 @@ server.delete('/:id', (req, res, next) => {
     where: { id }
   })
     .then((data) => {
-      console.log(data);
       if (data) return res.status(200).send({ productDeleted: Number(id) });
       return res.status(404).send({ error: "Product not Found." });
     })
@@ -93,9 +93,13 @@ server.post('/:idProducto/category/:idCategoria', (req, res) => {
       product = data;
       return Category.findByPk(idCategoria);
     })
-    .then((category) => {
-      product.addCategories(category);
-      res.status(200).send('Category added to Product');
+    .then(async (category) => {
+      await product.addCategories(category);
+
+      // TODO: Ta feo cambiar!
+      Product.findByPk(idProducto, { include: [Category] }).then(data => {
+        res.status(200).send({ ...data.dataValues });
+      });
     })
     .catch(err => {
       res.send(err);
@@ -144,7 +148,6 @@ server.delete('/category/:id', (req, res) => {
     where: { id }
   })
     .then((data) => {
-      console.log(data);
       if (!data) {
         res.send('Invalid Category sent');
       } else {
@@ -167,7 +170,6 @@ server.put('/category/:id', (req, res) => {
     where: { id }
   })
     .then((data) => {
-      console.log(data);
       if (!data[0]) {
         res.send('Invalid Category');
       } else {
@@ -193,7 +195,6 @@ server.get("/category/:categoryName", (req, res, next) => {
     },
   })
     .then((data) => {
-      // console.log(data[0].dataValues.categories[0].dataValues);
       res.json(data);
     })
     .catch(next);

@@ -1,4 +1,3 @@
-
 const { Product, Category } = require('../db');
 const { Sequelize } = require('sequelize');
 
@@ -25,6 +24,10 @@ const getAll = (search) => {
 
     Product.findAll({
       where: condition,
+      include: [{
+        model: Category,
+        attributes: ['id', 'name', 'description']
+      }],
       order: [
         ['id', 'ASC']
       ]

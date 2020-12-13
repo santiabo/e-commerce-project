@@ -6,6 +6,7 @@ export const GET_ALL_PRODUCTS = "GET_ALL_PRODUCTS";
 export const CREATE_PRODUCT = "CREATE_PRODUCT";
 export const UPDATE_PRODUCT = "UPDATE_PRODUCT";
 export const DELETE_PRODUCT = "DELETE_PRODUCT";
+export const SET_CATEGORY_TO_PRODUCT = "SET_CATEGORY_TO_PRODUCT";
 
 export const getDetailProduct = (product) => {
   return {
@@ -39,6 +40,13 @@ export const deleteProduct = ({ productDeleted }) => {
   return {
     type: DELETE_PRODUCT,
     productDeleted
+  };
+};
+
+export const setCategoryToProduct = (product) => {
+  return {
+    type: SET_CATEGORY_TO_PRODUCT,
+    product
   };
 };
 
@@ -101,6 +109,19 @@ export const removeProduct = (id) => {
       const res = await axios.delete(`http://localhost:5000/products/${id}`);
 
       dispatch(deleteProduct(res.data));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const addCategoryToProduct = (productId, categoryId) => {
+  return async (dispatch) => {
+    try {
+
+      const res = axios.post(`http://localhost:5000/products/${productId}/category/${categoryId}`);
+
+      dispatch(setCategoryToProduct(res.data));
     } catch (err) {
       console.log(err);
     }

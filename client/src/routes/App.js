@@ -5,7 +5,7 @@ import Home from '../containers/Home';
 import NotFound from '../containers/NotFound';
 
 import { useDispatch } from "react-redux";
-import { getProduct, getProducts, addProduct, editProduct, removeProduct } from "../redux/actions/product";
+import { getProduct, getProducts, addProduct, editProduct, removeProduct, addCategoryToProduct } from "../redux/actions/product";
 
 const newProductTest = {
   "name": "New product from redux",
@@ -19,11 +19,13 @@ const newProductTest = {
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getProduct(2));
+    // dispatch(getProduct(2));
     dispatch(getProducts());
-    dispatch(addProduct(newProductTest));
+    // dispatch(addProduct(newProductTest));
     dispatch(editProduct(2, { ...newProductTest, name: "Edited from Redux" }));
-    dispatch(removeProduct(1));
+    // dispatch(removeProduct(1));
+    dispatch(addCategoryToProduct(1, 1));
+    dispatch(addCategoryToProduct(1, 2));
   }, []);
 
   return (

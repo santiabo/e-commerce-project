@@ -3,7 +3,8 @@ import {
   GET_ALL_PRODUCTS,
   CREATE_PRODUCT,
   UPDATE_PRODUCT,
-  DELETE_PRODUCT
+  DELETE_PRODUCT,
+  SET_CATEGORY_TO_PRODUCT
 } from "../actions/product";
 
 const initialState = {
@@ -41,6 +42,15 @@ const productReducer = (state = initialState, action) => {
       return {
         ...state,
         products: state.products.filter(p => p.id !== action.productDeleted)
+      };
+    case SET_CATEGORY_TO_PRODUCT:
+      return {
+        ...state,
+        products: state.products.map(p => {
+          if (p.id === action.product.id)
+            return action.product;
+          return p;
+        })
       };
     default:
       return state;
