@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, ModalBody, ModalHeader, ModalFooter } from 'reactstrap';
 
-function ProductForm() {
+function ProductTable() {
   const productos = [{
     id: 1,
     name: 'prueba1',
@@ -358,15 +358,15 @@ function ProductForm() {
         </ModalHeader>
         <ModalBody>
           <div className="form-group">
-            <label>ID</label>
+            {/* <label>ID</label>
             <input
               className="form-control"
               readOnly
               type="text"
               name="id"
-              value={data[data.length - 1].id + 1}
+              value={data.length ? (data[data.length - 1].id + 1) : null}
             />
-            <br />
+            <br /> */}
 
             <label>Product</label>
             <input
@@ -455,7 +455,7 @@ function ProductForm() {
         </ModalHeader>
         <ModalBody>
           <div className="form-group">
-            <label>ID</label>
+            {/* <label>ID</label>
             <input
               className="form-control"
               readOnly
@@ -463,7 +463,7 @@ function ProductForm() {
               name="id"
               value={data[data.length - 1].id + 1}
             />
-            <br />
+            <br /> */}
 
             <label>Categoria</label>
             <input
