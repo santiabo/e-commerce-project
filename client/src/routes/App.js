@@ -134,9 +134,9 @@ function App() {
       <Layout>
         <Switch>
           <Route exact to path='/' component={Home} />
-          <Route path="/admin" component={ProductForm}/>
-          <Route path='/products' component={<Catalogue product={products} category={category} reviews={reviews} />}/>
-          <Route path='/products/:id' render={({match}) => <Product match={match} product={products[0]} category={category[5]} reviews={reviews} />}/>
+          <Route path="/admin" component={ProductForm} />
+          <Route path='/products' component={<Catalogue product={products} category={category} reviews={reviews} />} />
+          <Route path='/products/:id' render={({ match }) => <Product match={match} product={products[0]} category={category[5]} reviews={reviews} />} />
           <Route component={NotFound} />
         </Switch>
       </Layout>
