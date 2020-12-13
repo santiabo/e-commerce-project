@@ -129,14 +129,14 @@ const reviews = {
 };
 
 
-function App() {
 
+function App() {
   return (
     <BrowserRouter>
       <Layout>
         <Switch>
 
-          <Route exact to path='/' component={Home} />
+          <Route exact path='/' component={Home} />
 
           <Route path='/admin' component={ProductTable} />
 
@@ -153,5 +153,4 @@ function App() {
     </BrowserRouter>
   );
 }
-
 export default App;
