@@ -24,7 +24,10 @@ const getAll = (search) => {
     }
 
     Product.findAll({
-      where: condition
+      where: condition,
+      order: [
+        ['id', 'ASC']
+      ]
     })
       .then((products) => {
         if (products.length === 0) {

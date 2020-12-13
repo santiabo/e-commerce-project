@@ -56,7 +56,12 @@ server.put('/:id', (req, res, next) => {
       if (!data) {
         return res.status(400).send({ error: 'Product Not Found' });
       }
-      return res.status(200).send(data);
+
+
+      return Product.findByPk(id);
+    })
+    .then(product => {
+      return res.send(product);
     })
     .catch(next);
 });
@@ -68,8 +73,10 @@ server.delete('/:id', (req, res, next) => {
   Product.destroy({
     where: { id }
   })
-    .then(() => {
-      return res.status(200).send('Product Deleted');
+    .then((data) => {
+      console.log(data);
+      if (data) return res.status(200).send({ productDeleted: Number(id) });
+      return res.status(404).send({ error: "Product not Found." });
     })
     .catch(next);
 });

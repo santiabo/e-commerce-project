@@ -28,18 +28,17 @@ export const createProduct = (product) => {
   };
 };
 
-export const updateProduct = (id, updatedProduct) => {
+export const updateProduct = (product) => {
   return {
     type: UPDATE_PRODUCT,
-    id,
-    updatedProduct
+    product
   };
 };
 
-export const deleteProduct = (id) => {
+export const deleteProduct = ({ productDeleted }) => {
   return {
     type: DELETE_PRODUCT,
-    id
+    productDeleted
   };
 };
 
@@ -63,6 +62,45 @@ export const getProducts = (search) => {
       const res = await axios.get(`http://localhost:5000/products/${search ? "?search=" + search : ""}`);
 
       dispatch(getAllProducts(res.data));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const addProduct = (newProduct) => {
+  return async (dispatch) => {
+    try {
+
+      const res = await axios.post(`http://localhost:5000/products`, { ...newProduct });
+
+      dispatch(createProduct(res.data));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const editProduct = (id, updatedProduct) => {
+  return async (dispatch) => {
+    try {
+
+      const res = await axios.put(`http://localhost:5000/products/${id}`, { ...updatedProduct });
+
+      dispatch(updateProduct(res.data));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const removeProduct = (id) => {
+  return async (dispatch) => {
+    try {
+
+      const res = await axios.delete(`http://localhost:5000/products/${id}`);
+
+      dispatch(deleteProduct(res.data));
     } catch (err) {
       console.log(err);
     }
