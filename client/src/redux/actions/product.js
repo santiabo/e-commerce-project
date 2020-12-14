@@ -1,0 +1,171 @@
+import axios from "axios";
+
+// Types
+export const GET_DETAIL_PRODUCT = "GET_DETAIL_PRODUCT";
+export const GET_ALL_PRODUCTS = "GET_ALL_PRODUCTS";
+export const CREATE_PRODUCT = "CREATE_PRODUCT";
+export const UPDATE_PRODUCT = "UPDATE_PRODUCT";
+export const DELETE_PRODUCT = "DELETE_PRODUCT";
+export const SET_CATEGORY_TO_PRODUCT = "SET_CATEGORY_TO_PRODUCT";
+export const UNSET_CATEGORY_TO_PRODUCT = "UNSET_CATEGORY_TO_PRODUCT";
+export const GET_PRODUCTS_FILTERED_BY_CATEGORY = "GET_PRODUCTS_FILTERED_BY_CATEGORY";
+
+export const getDetailProduct = (product) => {
+  return {
+    type: GET_DETAIL_PRODUCT,
+    product
+  };
+};
+
+export const getAllProducts = (products) => {
+  return {
+    type: GET_ALL_PRODUCTS,
+    products
+  };
+};
+
+export const createProduct = (product) => {
+  return {
+    type: CREATE_PRODUCT,
+    product
+  };
+};
+
+export const updateProduct = (product) => {
+  return {
+    type: UPDATE_PRODUCT,
+    product
+  };
+};
+
+export const deleteProduct = ({ productDeleted }) => {
+  return {
+    type: DELETE_PRODUCT,
+    productDeleted
+  };
+};
+
+export const setCategoryToProduct = (product) => {
+  return {
+    type: SET_CATEGORY_TO_PRODUCT,
+    product
+  };
+};
+
+export const unsetCategoryToProduct = (product) => {
+  return {
+    type: UNSET_CATEGORY_TO_PRODUCT,
+    product
+  };
+};
+
+export const getProductsFilteredByCategory = (products) => {
+  return {
+    type: GET_PRODUCTS_FILTERED_BY_CATEGORY,
+    products
+  };
+};
+
+export const getProduct = (id) => {
+  return async (dispatch) => {
+    try {
+
+      const res = await axios.get(`http://localhost:5000/products/${id}`);
+
+      dispatch(getDetailProduct(res.data));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const getProducts = (search) => {
+  return async (dispatch) => {
+    try {
+
+      const res = await axios.get(`http://localhost:5000/products/${search ? "?search=" + search : ""}`);
+
+      dispatch(getAllProducts(res.data));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const addProduct = (newProduct) => {
+  return async (dispatch) => {
+    try {
+
+      const res = await axios.post(`http://localhost:5000/products`, { ...newProduct });
+
+      dispatch(createProduct(res.data));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const editProduct = (id, updatedProduct) => {
+  return async (dispatch) => {
+    try {
+
+      const res = await axios.put(`http://localhost:5000/products/${id}`, { ...updatedProduct });
+
+      dispatch(updateProduct(res.data));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const removeProduct = (id) => {
+  return async (dispatch) => {
+    try {
+
+      const res = await axios.delete(`http://localhost:5000/products/${id}`);
+
+      dispatch(deleteProduct(res.data));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const addCategoryToProduct = (productId, categoryId) => {
+  return async (dispatch) => {
+    try {
+
+      const res = axios.post(`http://localhost:5000/products/${productId}/category/${categoryId}`);
+
+      dispatch(setCategoryToProduct(res.data));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const removeCategoryToProduct = (productId, categoryId) => {
+  return async (dispatch) => {
+    try {
+
+      const res = await axios.delete(`http://localhost:5000/products/${productId}/category/${categoryId}`);
+
+      dispatch(unsetCategoryToProduct(res.data));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const filterProductsByCategory = (categoryName) => {
+  return async (dispatch) => {
+    try {
+
+      const res = await axios.get(`http://localhost:5000/products/category/${categoryName}`);
+
+      dispatch(getProductsFilteredByCategory(res.data));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
