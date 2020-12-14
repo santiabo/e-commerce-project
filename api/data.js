@@ -32,12 +32,12 @@ const products = [
     ]
   },
   {
-    "name": "Intel Core i9-10900K 10-Core 3.7 GHz LGA 1200 125W",
-    "description": "10 cores / 20 threads, Socket LGA 1200, Up to 5.3 GHz unlocked, Compatible with motherboards based on Intel 400 chipset, Supports Intel Optane memory, Intel Turbo Boost Max Technology 3.0 supported, 20MB L3 Cache",
-    "price": 529.99,
-    "stock": 71,
+    "name": "Intel Core i7-10700K Comet Lake 8-Core 3.8 GHz LGA 1200 125W",
+    "description": "MPN: BX8070110700K, 10th Gen, 8 Cores & 16 Threads, 3.8 GHz Clock Speed, 5.1 GHz Maximum Turbo Frequency, Compatible with Intel 400 series chipset based motherboards, LGA 1200 Socket, Intel UHD Graphics 630, Intel Turbo Boost Max Technology 3.0 support, Intel Optane Memory Support, No thermal solution included",
+    "price": 384.99,
+    "stock": 56,
     "images": [
-      "https://images-na.ssl-images-amazon.com/images/I/61aMmen0cFL._AC_SL1099_.jpg",
+      "https://c1.neweggimages.com/ProductImageCompressAll1280/19-118-123-V01.jpg", "https://c1.neweggimages.com/ProductImageCompressAll1280/19-118-123-V09.jpg", "https://c1.neweggimages.com/ProductImageCompressAll1280/19-118-123-V07.jpg"
     ]
   },
   {
@@ -136,15 +136,15 @@ const products = [
     ]
   },
   {
-    "name": "Cooler Master MasterBox Q300L Micro ATX Tower",
-    "description": "I/O panel can be adjusted in 6 different locations and the Case can be positioned: vertical or horizontal, Edge-to-Edge Acrylic Transparent Side Panel offers a full view inside, Body depth height: can support normal size ATX power supply, Front Magnetic Design Dust Filter with open perforated front, top and bottom for high air performance, Extra space behind the motherboard tray for hidden cable management",
-    "price": 49.99,
-    "stock": 179,
+    "name": "ASUS ROG STRIX B365-F GAMING Support 9th/8th Gen Intel Processor",
+    "description": "Intel B365, Intel Socket 1151 for 9th/8th Generation Core, Pentium Gold and Celeron Processors, DDR4 2666/ 2400/ 2133 MHz Non-ECC, Un-buffered Memory",
+    "price": 235.99,
+    "stock": 96,
     "images": [
-      "https://images-na.ssl-images-amazon.com/images/I/A1jf2OC15HL._AC_SL1500_.jpg",
-      "https://images-na.ssl-images-amazon.com/images/I/A1dwMvJ1A8L._AC_SL1500_.jpg",
-      "https://images-na.ssl-images-amazon.com/images/I/A1VTkrMDjTL._AC_SL1500_.jpg",
-      "https://images-na.ssl-images-amazon.com/images/I/910S3F2Sj2L._AC_SL1500_.jpg"
+      "https://c1.neweggimages.com/ProductImageCompressAll1280/13-119-223-V04.jpg",
+      "https://c1.neweggimages.com/ProductImageCompressAll1280/13-119-223-V06.jpg",
+      "https://c1.neweggimages.com/ProductImageCompressAll1280/13-119-223-V02.jpg",
+      "https://c1.neweggimages.com/ProductImageCompressAll1280/13-119-223-V03.jpg"
     ]
   },
   {
