@@ -1,13 +1,5 @@
-const server = require('./src/app.js');
-const { conn } = require('./src/db.js');
-const { Product, Category } = require('./src/db');
-const data = require('./data');
-
-// Syncing all the models at once.
-const PORT = 5000;
-conn.sync({ force: true }).then(() => {
-  server.listen(PORT, () => {
-    console.log(`--------------------------------------  -WWWWWo------------------------------------------------------------------
+const ramon = () => `
+--------------------------------------  -WWWWWo------------------------------------------------------------------
 -----------------------------------   oW#########Wo--------------------------------------------------------------
 ---------------------------------  -oWWWW####WW#####o------------------------------------------------------------
 ----------------------------   --oWWW####WWWW#WWWWWW#Wo----------------------------------------------------------
@@ -52,11 +44,4 @@ conn.sync({ force: true }).then(() => {
 -----oooooo--    --    ----        -----------------------            -----oooo--------            --oo--ooo-----
 ------oooooooooooo-    ------- --------------------------             ---ooo-oo-------             ---o--oo------
 ------ooooooooooo--   ----------------------------------               oooooooooo-----             ---oo--o------
-🚀 Server is listening on http://localhost:${PORT}`
-    );
-
-    //Productos harcodeados cuando se levanta el servidor(descomentar para probar back)
-    Product.bulkCreate(data.products);
-    Category.bulkCreate(data.categories);
-  });
-});
+`;

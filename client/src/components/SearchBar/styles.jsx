@@ -8,7 +8,10 @@ export const SearchIconStyled = styled(SearchIcon)`
 export const SearchBarForm = styled.form`
   display: flex;
   width: 450px;
+<<<<<<< HEAD
+=======
   height: 36px;
+>>>>>>> master
   background: white;
 `;
 
