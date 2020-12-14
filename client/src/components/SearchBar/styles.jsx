@@ -8,6 +8,10 @@ export const SearchIconStyled = styled(SearchIcon)`
 export const SearchBarForm = styled.form`
   display: flex;
   width: 450px;
+<<<<<<< HEAD
+=======
+  height: 36px;
+>>>>>>> master
   background: white;
 `;
 
@@ -20,10 +24,8 @@ export const InputWrapper = styled.label`
 
 export const SearchInput = styled.input`
   margin-right: 1rem;
-  /* padding: 0 1rem; */
   border: none;
   outline: none;
-  height: 40px;
+  height: 34px;
   font-size: 18px;
-
 `;

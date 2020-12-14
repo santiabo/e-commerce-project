@@ -1,61 +1,156 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+
+// Components
 import Layout from '../containers/Layout';
 import Home from '../containers/Home';
 import NotFound from '../containers/NotFound';
+import Catalogue from '../components/Catalogue';
+import ProductTable from '../components/ProductTable';
+import Product from '../components/Product';
 
-// import { useDispatch } from "react-redux";
-// import { getCategories, addCategory, editCategory, removeCategory } from "../redux/actions/category";
-// import {
-//   getProduct,
-//   getProducts,
-//   addProduct,
-//   editProduct,
-//   removeProduct,
-//   addCategoryToProduct,
-//   filterProductsByCategory
-// } from "../redux/actions/product";
+const products = [{
+  title: "Geforce RTX 3080",
+  description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+  price: 799.99,
+  amount: 300,
+  images: [
+    "https://asset.msi.com/resize/image/global/product/product_7_20200917182157_5f6338c5cd72a.png62405b38c58fe0f07fcef2367d8a9ba1/1024.png",
+    "https://www.venex.com.ar/products_images/1601906116_product_10_20200902111548_5f4f0e648ab77.png",
+    "https://imagenes.coolmod.com/msi-geforce-rtx-3080-ventus-3x-oc-10gb-gddr6x-tarjeta-grafica-005.jpg"
+  ]
+},
+{
+  title: "Geforce RTX 3080",
+  description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+  price: 799.99,
+  amount: 300,
+  images: [
+    "https://asset.msi.com/resize/image/global/product/product_7_20200917182157_5f6338c5cd72a.png62405b38c58fe0f07fcef2367d8a9ba1/1024.png",
+    "https://www.venex.com.ar/products_images/1601906116_product_10_20200902111548_5f4f0e648ab77.png",
+    "https://imagenes.coolmod.com/msi-geforce-rtx-3080-ventus-3x-oc-10gb-gddr6x-tarjeta-grafica-005.jpg"
+  ]
+},
+{
+  title: "Geforce RTX 3080",
+  description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+  price: 799.99,
+  amount: 300,
+  images: [
+    "https://asset.msi.com/resize/image/global/product/product_7_20200917182157_5f6338c5cd72a.png62405b38c58fe0f07fcef2367d8a9ba1/1024.png",
+    "https://www.venex.com.ar/products_images/1601906116_product_10_20200902111548_5f4f0e648ab77.png",
+    "https://imagenes.coolmod.com/msi-geforce-rtx-3080-ventus-3x-oc-10gb-gddr6x-tarjeta-grafica-005.jpg"
+  ]
+},
+{
+  title: "Geforce RTX 3080",
+  description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+  price: 799.99,
+  amount: 300,
+  images: [
+    "https://asset.msi.com/resize/image/global/product/product_7_20200917182157_5f6338c5cd72a.png62405b38c58fe0f07fcef2367d8a9ba1/1024.png",
+    "https://www.venex.com.ar/products_images/1601906116_product_10_20200902111548_5f4f0e648ab77.png",
+    "https://imagenes.coolmod.com/msi-geforce-rtx-3080-ventus-3x-oc-10gb-gddr6x-tarjeta-grafica-005.jpg"
+  ]
+},
+{
+  title: "Geforce RTX 3080",
+  description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+  price: 799.99,
+  amount: 300,
+  images: [
+    "https://asset.msi.com/resize/image/global/product/product_7_20200917182157_5f6338c5cd72a.png62405b38c58fe0f07fcef2367d8a9ba1/1024.png",
+    "https://www.venex.com.ar/products_images/1601906116_product_10_20200902111548_5f4f0e648ab77.png",
+    "https://imagenes.coolmod.com/msi-geforce-rtx-3080-ventus-3x-oc-10gb-gddr6x-tarjeta-grafica-005.jpg"
+  ]
+},
+{
+  title: "Geforce RTX 3080",
+  description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+  price: 799.99,
+  amount: 300,
+  images: [
+    "https://asset.msi.com/resize/image/global/product/product_7_20200917182157_5f6338c5cd72a.png62405b38c58fe0f07fcef2367d8a9ba1/1024.png",
+    "https://www.venex.com.ar/products_images/1601906116_product_10_20200902111548_5f4f0e648ab77.png",
+    "https://imagenes.coolmod.com/msi-geforce-rtx-3080-ventus-3x-oc-10gb-gddr6x-tarjeta-grafica-005.jpg"
+  ]
+},
+{
+  title: "Geforce RTX 3080",
+  description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+  price: 799.99,
+  amount: 300,
+  images: [
+    "https://asset.msi.com/resize/image/global/product/product_7_20200917182157_5f6338c5cd72a.png62405b38c58fe0f07fcef2367d8a9ba1/1024.png",
+    "https://www.venex.com.ar/products_images/1601906116_product_10_20200902111548_5f4f0e648ab77.png",
+    "https://imagenes.coolmod.com/msi-geforce-rtx-3080-ventus-3x-oc-10gb-gddr6x-tarjeta-grafica-005.jpg"
+  ]
+},
+{
+  title: "Geforce RTX 3080",
+  description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+  price: 799.99,
+  amount: 300,
+  images: [
+    "https://asset.msi.com/resize/image/global/product/product_7_20200917182157_5f6338c5cd72a.png62405b38c58fe0f07fcef2367d8a9ba1/1024.png",
+    "https://www.venex.com.ar/products_images/1601906116_product_10_20200902111548_5f4f0e648ab77.png",
+    "https://imagenes.coolmod.com/msi-geforce-rtx-3080-ventus-3x-oc-10gb-gddr6x-tarjeta-grafica-005.jpg"
+  ]
+}];
 
-// const newProductTest = {
-//   "name": "New product from redux",
-//   "description": "asdasdadasda",
-//   "price": 56600,
-//   "stock": 350,
-//   "images": ["https://images-ext-2.discordapp.net/external/JIZXF5JUg1DtiYOuxAYgxsMybm1Klgvi9GWkMQGN4Qk/%3Ffit%3Dfill%26bg%3DFFFFFF%26w%3D700%26h%3D500%26auto%3Dformat%2Ccompress%26q%3D90%26trim%3Dcolor%26updated_at%3D1603481985%26w%3D1000/https/stockx.imgix.net/products/collectibles/MSI-GeForce-RTX-3080-DirectX-12-RTX-3080-VENTUS-3X-10G-10GB-320-Bit-GDDR6X-PCI-Express-40-HDCP-Black.jpg", "https://images-ext-2.discordapp.net/external/JIZXF5JUg1DtiYOuxAYgxsMybm1Klgvi9GWkMQGN4Qk/%3Ffit%3Dfill%26bg%3DFFFFFF%26w%3D700%26h%3D500%26auto%3Dformat%2Ccompress%26q%3D90%26trim%3Dcolor%26updated_at%3D1603481985%26w%3D1000/https/stockx.imgix.net/products/collectibles/MSI-GeForce-RTX-3080-DirectX-12-RTX-3080-VENTUS-3X-10G-10GB-320-Bit-GDDR6X-PCI-Express-40-HDCP-Black.jpg", "https://images-ext-2.discordapp.net/external/JIZXF5JUg1DtiYOuxAYgxsMybm1Klgvi9GWkMQGN4Qk/%3Ffit%3Dfill%26bg%3DFFFFFF%26w%3D700%26h%3D500%26auto%3Dformat%2Ccompress%26q%3D90%26trim%3Dcolor%26updated_at%3D1603481985%26w%3D1000/https/stockx.imgix.net/products/collectibles/MSI-GeForce-RTX-3080-DirectX-12-RTX-3080-VENTUS-3X-10G-10GB-320-Bit-GDDR6X-PCI-Express-40-HDCP-Black.jpg", "https://images-ext-2.discordapp.net/external/JIZXF5JUg1DtiYOuxAYgxsMybm1Klgvi9GWkMQGN4Qk/%3Ffit%3Dfill%26bg%3DFFFFFF%26w%3D700%26h%3D500%26auto%3Dformat%2Ccompress%26q%3D90%26trim%3Dcolor%26updated_at%3D1603481985%26w%3D1000/https/stockx.imgix.net/products/collectibles/MSI-GeForce-RTX-3080-DirectX-12-RTX-3080-VENTUS-3X-10G-10GB-320-Bit-GDDR6X-PCI-Express-40-HDCP-Black.jpg", "https://images-ext-2.discordapp.net/external/JIZXF5JUg1DtiYOuxAYgxsMybm1Klgvi9GWkMQGN4Qk/%3Ffit%3Dfill%26bg%3DFFFFFF%26w%3D700%26h%3D500%26auto%3Dformat%2Ccompress%26q%3D90%26trim%3Dcolor%26updated_at%3D1603481985%26w%3D1000/https/stockx.imgix.net/products/collectibles/MSI-GeForce-RTX-3080-DirectX-12-RTX-3080-VENTUS-3X-10G-10GB-320-Bit-GDDR6X-PCI-Express-40-HDCP-Black.jpg", "https://images-ext-2.discordapp.net/external/JIZXF5JUg1DtiYOuxAYgxsMybm1Klgvi9GWkMQGN4Qk/%3Ffit%3Dfill%26bg%3DFFFFFF%26w%3D700%26h%3D500%26auto%3Dformat%2Ccompress%26q%3D90%26trim%3Dcolor%26updated_at%3D1603481985%26w%3D1000/https/stockx.imgix.net/products/collectibles/MSI-GeForce-RTX-3080-DirectX-12-RTX-3080-VENTUS-3X-10G-10GB-320-Bit-GDDR6X-PCI-Express-40-HDCP-Black.jpg", "https://images-ext-2.discordapp.net/external/JIZXF5JUg1DtiYOuxAYgxsMybm1Klgvi9GWkMQGN4Qk/%3Ffit%3Dfill%26bg%3DFFFFFF%26w%3D700%26h%3D500%26auto%3Dformat%2Ccompress%26q%3D90%26trim%3Dcolor%26updated_at%3D1603481985%26w%3D1000/https/stockx.imgix.net/products/collectibles/MSI-GeForce-RTX-3080-DirectX-12-RTX-3080-VENTUS-3X-10G-10GB-320-Bit-GDDR6X-PCI-Express-40-HDCP-Black.jpg"]
-// };
+const category = [{
+  name: "CPU"
+},
+{
+  name: "CPU Cooler"
+},
+{
+  name: "Motherboard"
+},
+{
+  name: "Memory"
+},
+{
+  name: "Storage"
+},
+{
+  name: "Video Card"
+},
+{
+  name: "Power Supply"
+},
+{
+  name: "Case"
+}];
+
+const reviews = {
+  average: 4.4,
+  total: 40,
+};
+
 
 
 function App() {
-  // const dispatch = useDispatch();
-  // useEffect(() => {
-  //   // dispatch(getProduct(2));
-  //   dispatch(getProducts());
-  //   dispatch(addProduct(newProductTest));
-  //   dispatch(editProduct(2, { ...newProductTest, name: "Edited from Redux" }));
-  //   // dispatch(removeProduct(1));
-  //   dispatch(addCategoryToProduct(1, 3));
-  //   dispatch(addCategoryToProduct(2, 3));
-  //   dispatch(addCategoryToProduct(3, 3));
-  //   dispatch(addCategoryToProduct(4, 3));
-  //   dispatch(addCategoryToProduct(5, 3));
-  //   // dispatch(addCategory({ name: "CPU", description: "asdasdasd" }));
-  //   dispatch(getCategories());
-  //   dispatch(editCategory(1, { name: "Cooler", description: "asdsadsad" }));
-  //   // dispatch(removeCategory(2));
-  //   dispatch(filterProductsByCategory("CPU"));
-  // }, []);
-
   return (
     <BrowserRouter>
       <Layout>
         <Switch>
+
           <Route exact path='/' component={Home} />
+
+          <Route path='/admin' component={ProductTable} />
+
+          <Route path='/products' >
+            <Catalogue product={products} category={category} reviews={reviews} />
+          </Route>
+
+          <Route path='/product/:id' render={({ match }) => <Product match={match} product={products[0]} category={category[5]} reviews={reviews} />} />
+
           <Route component={NotFound} />
+
         </Switch>
       </Layout>
     </BrowserRouter>
   );
 }
-
 export default App;
-
