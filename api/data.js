@@ -8,7 +8,7 @@ const products = [
       "https://images-na.ssl-images-amazon.com/images/I/71WPGXQLcLL._AC_SL1384_.jpg",
       "https://images-na.ssl-images-amazon.com/images/I/61-jkNrO3NL._AC_SL1108_.jpg",
       "https://images-na.ssl-images-amazon.com/images/I/716hAjT1uUL._AC_SL1500_.jpg"
-    ]
+    ],
   },
   {
     "name": "Intel Core i9-10900K 10-Core 3.7 GHz LGA 1200 125W",
@@ -38,8 +38,6 @@ const products = [
     "stock": 71,
     "images": [
       "https://images-na.ssl-images-amazon.com/images/I/61aMmen0cFL._AC_SL1099_.jpg",
-      "",
-      ""
     ]
   },
   {
@@ -861,7 +859,7 @@ const categories = [
   }
 ];
 
-module.exports={
+module.exports = {
   products,
   categories
-}
+};

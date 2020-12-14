@@ -30,7 +30,7 @@ server.route('/').get((req, res) => {
     .catch(err => res.status(400).json(err));
 });
 
-server.get('/category/', (req, res, next) => {
+server.get('/category', (req, res, next) => {
 
   Category.findAll({
     order: [
@@ -75,7 +75,6 @@ server.put('/:id', (req, res, next) => {
       return Product.findByPk(id, { include: [Category] });
     })
     .then(product => {
-      console.log(product);
       return res.send(product);
     })
     .catch(next);

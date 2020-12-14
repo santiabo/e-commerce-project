@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 // Components
 import Button from "../Button";
@@ -7,17 +7,29 @@ import Button from "../Button";
 import { SearchBarForm, SearchInput, InputWrapper, SearchIconStyled } from "./styles";
 
 const SearchBar = ({ handleSubmit }) => {
+
+  const [search, setSearch] = useState("");
+
+  const handleChange = (e) => {
+    const { value } = e.target;
+    setSearch(value);
+  };
+
   return (
-    <SearchBarForm onSubmit={handleSubmit}>
+    <SearchBarForm onSubmit={(e) => handleSubmit(e, search)}>
 
       <InputWrapper>
         <SearchIconStyled />
-        <SearchInput placeholder={"Search..."} />
+        <SearchInput
+          name="search"
+          placeholder={"Search..."}
+          onChange={handleChange}
+        />
       </InputWrapper>
 
       <Button>Search</Button>
 
-    </SearchBarForm>
+    </SearchBarForm >
   );
 };
 

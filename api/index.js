@@ -56,7 +56,27 @@ conn.sync({ force: true }).then(() => {
     );
 
     //Productos harcodeados cuando se levanta el servidor(descomentar para probar back)
-    Product.bulkCreate(data.products);
+    // Product.bulkCreate(data.products);
     Category.bulkCreate(data.categories);
+
+    // data.categories.forEach(async c => {
+    //   await Category.create({
+    //     name: c.name,
+    //     description: c.description,
+    //   })
+    // })
+
+    data.products.forEach(async p => {
+      await Product.create({
+        name: p.name,
+        description: p.description,
+        price: p.price,
+        stock: p.stock,
+        images: p.images
+      }).then(createdProduct => {
+        createdProduct.setCategories([Math.floor(Math.random() * data.categories.length) + 1]);
+      });
+    });
+
   });
 });

@@ -1,86 +1,27 @@
 import React, { useState } from 'react';
 import { Modal, ModalBody, ModalHeader, ModalFooter } from 'reactstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { removeProduct, addProduct, editProduct, addCategoryToProduct, removeCategoryToProduct } from '../../redux/actions/product';
+import { addCategory } from '../../redux/actions/category';
+
+import "./ProductTable.css";
 
 function ProductTable() {
-  const productos = [{
-    id: 1,
-    name: 'prueba1',
-    description: 'adsdfaskjfhalsfalsfhaoshf',
-    price: 5.99,
-    stock: 6,
-    img: 'https//imagen.com',
-    category: 'Cooler'
-  },
-  {
-    id: 2,
-    name: 'prueba2',
-    description: 'jaldfhalsnclie',
-    price: 8.99,
-    stock: 1,
-    img: 'https//imagen2.com',
-    category: 'Mother'
-  },
-  {
-    id: 3,
-    name: 'prueba2',
-    description: 'jaldfhalsnclie',
-    price: 8.99,
-    stock: 1,
-    img: 'https//imagen2.com',
-    category: 'PC'
-  },
-  {
-    id: 4,
-    name: 'prueba2',
-    description: 'jaldfhalsnclie',
-    price: 8.99,
-    stock: 1,
-    img: 'https//imagen2.com',
-    category: 'Keyboards'
-  },
-  {
-    id: 5,
-    name: 'prueba2',
-    description: 'jaldfhalsnclie',
-    price: 8.99,
-    stock: 1,
-    img: 'https//imagen2.com',
-    category: 'CPU'
-  }
-  ];
 
-  const categories = [
-    {
-      id: 1,
-      name: 'Coolers',
-      description: 'loajfandflajbfjlasf'
-    },
-    {
-      id: 2,
-      name: 'PC',
-      description: 'sadajnsfljaslfjna'
-    },
-    {
-      id: 3,
-      name: 'Mother',
-      description: 'asljfbasvalncpasnc'
-    },
-    {
-      id: 4,
-      name: 'Keyboards',
-      description: 'askdmaskdm'
-    },
-    {
-      id: 5,
-      name: 'CPU',
-      description: 'asfncndiaejfaeif'
-    }
-  ];
+  const dispatch = useDispatch();
+
+  const products = useSelector(state => state.product.products);
+  const dataCategories = useSelector(state => state.category.categories);
+
   //Prductos Hooks
-  const [data, setData] = useState(productos);
+  // const [data, setData] = useState(productos);
   const [modalEditar, setModalEditar] = useState(false);
   const [modalEliminar, setModalEliminar] = useState(false);
   const [modalInsertar, setModalInsertar] = useState(false);
+
+  // Add and Remove Categories
+  const [addCategoryModal, setAddCategoryModal] = useState(false);
+  const [removeCategoryModal, setRemoveCategoryModal] = useState(false);
 
   const [productoSeleccionado, setProductoSeleccionado] = useState({
     id: '',
@@ -88,11 +29,11 @@ function ProductTable() {
     description: '',
     price: '',
     stock: '',
-    img: '',
-    category: ''
+    images: [],
+    categories: []
   });
   //Categorias Hooks
-  const [dataCategories, setDataCategories] = useState(categories);
+  // const [dataCategories, setDataCategories] = useState(categories);
   const [modalEditarCategoria, setModalEditarCategoria] = useState(false);
   const [modalEliminarCategoria, setModalEliminarCategoria] = useState(false);
   const [modalInsertarCategoria, setModalInsertarCategoria] = useState(false);
@@ -117,14 +58,22 @@ function ProductTable() {
   //Productos
   const handleChange = e => {
     const { name, value } = e.target;
-    setProductoSeleccionado((prevState) => ({
-      ...prevState,
-      [name]: value
-    }));
+    if (name === "img")
+      setProductoSeleccionado({
+        ...productoSeleccionado,
+        images: [value]
+      });
+    else
+      setProductoSeleccionado((prevState) => ({
+        ...prevState,
+        [name]: value
+      }));
   };
   //Categorias
   const handleChangeCategory = e => {
     const { name, value } = e.target;
+    if (!value) return;
+
     setCategoriaSeleccionada((prevState) => ({
       ...prevState,
       [name]: value
@@ -133,75 +82,106 @@ function ProductTable() {
 
   //Productos
   const editar = () => {
-    setData(data.map(d => {
-      if (d.id === productoSeleccionado.id) {
-        return productoSeleccionado;
-      }
-      return d;
-    }));
+    // setData(data.map(d => {
+    //   if (d.id === productoSeleccionado.id) {
+    //     return productoSeleccionado;
+    //   }
+    //   return d;
+    // }));
+
+    dispatch(editProduct(productoSeleccionado.id, productoSeleccionado));
 
     setModalEditar(false);
   };
   //Categorias
   const editarCategoria = () => {
-    var dataNueva = dataCategories;
-    dataNueva.map(categoria => {
-      if (categoria.id === categoriaSeleccionada.id) {
-        categoria.name = categoriaSeleccionada.name;
-        categoria.description = categoriaSeleccionada.description;
-      }
-    });
-    setDataCategories(dataNueva);
+    // var dataNueva = dataCategories;
+    // dataNueva.map(categoria => {
+    //   if (categoria.id === categoriaSeleccionada.id) {
+    //     categoria.name = categoriaSeleccionada.name;
+    //     categoria.description = categoriaSeleccionada.description;
+    //   }
+    // });
+    // setDataCategories(dataNueva);
     setModalEditarCategoria(false);
   };
 
   //Productos
-  const eliminar = () => {
-    setData(data.filter(producto => producto.id !== productoSeleccionado.id));
+  const eliminar = (e) => {
+    // setData(data.filter(producto => producto.id !== productoSeleccionado.id));
+    dispatch(removeProduct(productoSeleccionado.id));
     setModalEliminar(false);
   };
   //Categorias
   const eliminarCategoria = () => {
-    setDataCategories(dataCategories.filter(categoria => categoria.id !== categoriaSeleccionada.id));
+    // setDataCategories(dataCategories.filter(categoria => categoria.id !== categoriaSeleccionada.id));
     setModalEliminarCategoria(false);
   };
 
   //Productos
-  const abrirModalInsertar = () => {
+  const newProductModal = () => {
     setProductoSeleccionado(null);
     setModalInsertar(true);
   };
   //Categories
-  const abrirModalInsertarCategoria = () => {
+  const newCategoryModal = () => {
     setCategoriaSeleccionada(null);
     setModalInsertarCategoria(true);
   };
 
+  const addCategoryToProductModal = (p) => {
+    setProductoSeleccionado(p);
+    setCategoriaSeleccionada(null);
+    setAddCategoryModal(true);
+  };
+
+  const removeCategoryToProductModal = (p) => {
+    setProductoSeleccionado(p);
+    setCategoriaSeleccionada(null);
+    setRemoveCategoryModal(true);
+  };
+
   //Productos
   const insertar = () => {
-    var valorInsertar = productoSeleccionado;
-    valorInsertar.id = data[data.length - 1].id + 1;
-    var dataNueva = data;
-    dataNueva.push(valorInsertar);
-    setData(dataNueva);
+    // var valorInsertar = productoSeleccionado;
+    // valorInsertar.id = data[data.length - 1].id + 1;
+    // var dataNueva = data;
+    // dataNueva.push(valorInsertar);
+    // setData(dataNueva);
+    dispatch(addProduct(productoSeleccionado));
     setModalInsertar(false);
   };
   //Categorias
   const insertarCategoria = () => {
-    var valorInsertar = categoriaSeleccionada;
-    valorInsertar.id = dataCategories[data.length - 1].id + 1;
-    var dataNueva = dataCategories;
-    dataNueva.push(valorInsertar);
-    setDataCategories(dataNueva);
+    // var valorInsertar = categoriaSeleccionada;
+    // valorInsertar.id = dataCategories[data.length - 1].id + 1;
+    // var dataNueva = dataCategories;
+    // dataNueva.push(valorInsertar);
+    // setDataCategories(dataNueva);
+    dispatch(addCategory(categoriaSeleccionada));
     setModalInsertarCategoria(false);
+  };
+
+  const setCategoryToProduct = () => {
+    if (!categoriaSeleccionada) return;
+
+    dispatch(addCategoryToProduct(productoSeleccionado.id, categoriaSeleccionada.categoryId));
+    setAddCategoryModal(false);
+  };
+
+  const unsetCategoryToProduct = () => {
+    if (!categoriaSeleccionada) return;
+
+    dispatch(removeCategoryToProduct(productoSeleccionado.id, categoriaSeleccionada.categoryId));
+    setRemoveCategoryModal(false);
   };
 
   return (
     <div className="App">
-      <h2>Lista de Productos</h2>
+      <h2>Product List</h2>
       <br />
-      <button className="btn btn-success" onClick={() => abrirModalInsertar()}>Nuevo Producto</button>{"   "}
-      <button className="btn btn-primary" onClick={() => abrirModalInsertarCategoria()}>Add Category</button>
+      <button className="btn btn-success" onClick={() => newProductModal()}>New Product</button>{"   "}
+      <button className="btn btn-primary" onClick={() => newCategoryModal()}>New Category</button>
       <br /><br />
       <table className="table table-bordered">
         <thead>
@@ -216,23 +196,121 @@ function ProductTable() {
             <th>Edit-Delete</th>
           </tr>
         </thead>
-        <tbody>
-          {data.map((elemento, i) => (
-            <tr key={i}>
-              <td>{elemento.id}</td>
-              <td>{elemento.name}</td>
-              <td>{elemento.description}</td>
-              <td>{elemento.price}</td>
-              <td>{elemento.stock}</td>
-              <td id='imgBox'><img src={elemento.img} alt={elemento.name} /></td>
-              <td>{elemento.category}</td>
-              <td><button className="btn btn-primary" onClick={() => seleccionarProducto(elemento, 'Editar')}>Editar</button> {"   "}
-                <button className="btn btn-danger" onClick={() => seleccionarProducto(elemento, 'Eliminar')}>Eliminar</button></td>
+        <tbody id="tBody">
+          {products.map((p) => (
+            <tr key={p.id}>
+              <td>{p.id}</td>
+              <td>{p.name}</td>
+              <td>{p.description}</td>
+              <td>{p.price}</td>
+              <td>{p.stock}</td>
+              <td id='imgBox'>
+                {
+                  p.images.map(img => (
+                    <img src={img} alt={p.name} />
+                  ))
+                }
+              </td>
+              <td>
+                {
+                  p.categories.map(c => (
+                    <li>{c.name}</li>
+                  ))
+                }
+              </td>
+              <td id="buttonBox">
+                <button className="btn btn-primary" onClick={() => seleccionarProducto(p, 'Editar')}>Editar</button> {"   "}
+                <button className="btn btn-danger" onClick={() => seleccionarProducto(p, 'Eliminar')}>Eliminar</button>
+                <br />
+                <button className="btn btn-primary" onClick={() => addCategoryToProductModal(p)}>Add Category</button>
+                <button className="btn btn-danger" onClick={() => removeCategoryToProductModal(p)}>Remove Category</button>
+              </td>
             </tr>
           ))
           }
         </tbody>
       </table>
+
+      {
+        addCategory && <Modal isOpen={addCategoryModal}>
+          <ModalHeader>
+            <div>
+              <h3>Add Category to Product</h3>
+            </div>
+          </ModalHeader>
+          <ModalBody>
+            <div className="form-group">
+
+              <label>Category</label>
+              <select
+                className="custom-select"
+                name="categoryId"
+                onChange={handleChangeCategory}
+              >
+                <option selected value="" name="category">Select a Category</option>
+                {dataCategories.map((e) =>
+                  <option value={e.id} name="category">{e.name}</option>
+                )}
+              </select>
+
+            </div>
+
+          </ModalBody>
+
+          <ModalFooter>
+            <button className="btn btn-primary"
+              onClick={() => setCategoryToProduct()}>
+              Add
+          </button>
+            <button
+              className="btn btn-danger"
+              onClick={() => setAddCategoryModal(false)}
+            >
+              Close
+          </button>
+          </ModalFooter>
+        </Modal>
+
+      }
+
+      {removeCategoryModal && <Modal isOpen={removeCategoryModal}>
+        <ModalHeader>
+          <div>
+            <h3>Remove Category From Product</h3>
+          </div>
+        </ModalHeader>
+        <ModalBody>
+          <div className="form-group">
+
+            <label>Category</label>
+            <select
+              className="custom-select"
+              name="categoryId"
+              onChange={handleChangeCategory}
+            >
+              <option selected value="" name="category">Select a Category</option>
+              {productoSeleccionado.categories.map((e) =>
+                <option value={e.id} name="category">{e.name}</option>
+              )}
+            </select>
+
+          </div>
+
+        </ModalBody>
+
+        <ModalFooter>
+          <button className="btn btn-primary"
+            onClick={() => unsetCategoryToProduct()}>
+            Remove
+          </button>
+          <button
+            className="btn btn-danger"
+            onClick={() => setRemoveCategoryModal(false)}
+          >
+            Close
+          </button>
+        </ModalFooter>
+      </Modal>}
 
       <Modal isOpen={modalEditar}>
         <ModalHeader>
@@ -297,22 +375,8 @@ function ProductTable() {
               className="form-control"
               type="text"
               name="img"
-              value={productoSeleccionado && productoSeleccionado.img}
               onChange={handleChange}
             />
-            <br />
-
-            <label>Categoria</label>
-
-            <select
-              className="custom-select"
-              name="category"
-              onChange={handleChange}
-            >
-              {dataCategories.map((e) =>
-                <option value={e.name} name="category">{e.name}</option>
-              )}
-            </select>
             <br />
 
           </div>
@@ -331,7 +395,6 @@ function ProductTable() {
         </ModalFooter>
       </Modal>
 
-
       <Modal isOpen={modalEliminar}>
         <ModalBody>
           Estás Seguro que deseas eliminar el producto {productoSeleccionado && productoSeleccionado.nombre}
@@ -348,7 +411,6 @@ function ProductTable() {
           </button>
         </ModalFooter>
       </Modal>
-
 
       <Modal isOpen={modalInsertar}>
         <ModalHeader>
@@ -368,7 +430,7 @@ function ProductTable() {
             />
             <br /> */}
 
-            <label>Product</label>
+            <label>Name</label>
             <input
               className="form-control"
               type="text"
@@ -419,7 +481,7 @@ function ProductTable() {
             <br />
           </div>
 
-          <label>Categoria</label>
+          {/* <label>Categoria</label>
           <select
             className="custom-select"
             name="category"
@@ -428,7 +490,7 @@ function ProductTable() {
             {dataCategories.map((e) =>
               <option value={e.name} name="category">{e.name}</option>
             )}
-          </select>
+          </select> */}
           <br />
         </ModalBody>
 
@@ -501,7 +563,7 @@ function ProductTable() {
           </button>
         </ModalFooter>
       </Modal>
-    </div>
+    </div >
   );
 }
 

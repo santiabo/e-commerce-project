@@ -25,61 +25,59 @@ const Catalogue = ({ products }) => {
   useEffect(() => {
     (async () => {
       const result = await getAll();
-      console.log(result)
-      result && setCategories(result.sort((a,b)=>a.name.toUpperCase() > b.name.toUpperCase()? 1:-1));
+      result && setCategories(result.sort((a, b) => a.name.toUpperCase() > b.name.toUpperCase() ? 1 : -1));
     })();
   }, []);
 
   return (
     <div>
       {
-        products && 
-          products.map(e => {
-            const image = e.image ? e.image[0].url || undefined : undefined;
-           console.log(e.name)
-            return (
-              <Product 
-                key = {e.id}
-                id = {e.id}
-                img = {image}
-                title = {e.name}
-                price = {e.price}
-                onClick = {() => {
-                  history.push(`/products/${e.id}`);
-                }}
-              />
-              )
-            })
-          }
-          <span>Filtrar por categoría</span>
-          <button onClick = {() => setShowFilter(!showFilter)}>
-            Filtrar {" "}
-            <i
-              className = {[
-                "fas",
-                showFilter ? "fa-caret-up" : "fa-caret-down",
-              ].join(" ")}
-            ></i>
-          </button>
-            <ul>
-              {categories.map((category) => (
-                <li
-                  key = {category.id}
-                  onClick = {() => history.push(`/products?category=${category.id}`)}
-                >
-                  {category.name}
-                </li>
-              ))}
-              <li
-                key = {'all'}
-                onClick = {() => history.push(`/products`)}
-              >
-                Mostrar todos los articulos
+        products &&
+        products.map(e => {
+          const image = e.image ? e.image[0].url || undefined : undefined;
+          return (
+            <Product
+              key={e.id}
+              id={e.id}
+              img={image}
+              title={e.name}
+              price={e.price}
+              onClick={() => {
+                history.push(`/products/${e.id}`);
+              }}
+            />
+          );
+        })
+      }
+      <span>Filtrar por categoría</span>
+      <button onClick={() => setShowFilter(!showFilter)}>
+        Filtrar {" "}
+        <i
+          className={[
+            "fas",
+            showFilter ? "fa-caret-up" : "fa-caret-down",
+          ].join(" ")}
+        ></i>
+      </button>
+      <ul>
+        {categories.map((category) => (
+          <li
+            key={category.id}
+            onClick={() => history.push(`/products?category=${category.id}`)}
+          >
+            {category.name}
+          </li>
+        ))}
+        <li
+          key={'all'}
+          onClick={() => history.push(`/products`)}
+        >
+          Mostrar todos los articulos
               </li>
-            </ul>
+      </ul>
 
     </div>
-  )
+  );
 };
 
 export default Catalogue;
