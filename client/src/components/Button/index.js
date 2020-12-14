@@ -1,9 +1,9 @@
 import React from 'react';
 import { ButtonWrapper } from './styles';
 
-const Button = ({ children }) => {
+const Button = ({ children, color }) => {
   return (
-    <ButtonWrapper>
+    <ButtonWrapper color={color}>
       <span>{children}</span>
     </ButtonWrapper>
   );

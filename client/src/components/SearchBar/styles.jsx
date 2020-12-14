@@ -13,7 +13,7 @@ export const SearchBarForm = styled.form`
 `;
 
 export const InputWrapper = styled.label`
-  border: 1px solid #232323;
+  border: 1px solid #41434f;
   display: flex;
   align-items: center;
   margin: 0;

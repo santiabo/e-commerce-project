@@ -1,11 +1,24 @@
 import styled from 'styled-components';
 
+import { Link } from "react-router-dom";
+
+
+export const StyledLink = styled(Link)`
+  height: 100% !important;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: none;
+  }
+`;
+
 export const ProductCardWrapper = styled.div`
   display: flex;
+  justify-content: space-between;
   flex-direction: column;
-  width: 350px;
+  width: 100%;
+  height: 100% !important;
   padding: 1rem;
-  margin: 1rem;
   background-color: #fafafa;
   border: 0.5px solid #e2e2e2;
 `;
@@ -26,11 +39,13 @@ export const ButtonsWrapper = styled.div`
 export const ImageContainer = styled.div`
   display: flex;
   justify-content: center;
+  height: 60%;
+
 
   img {
     width: 100%;
-    height: 300px;
-    object-fit: cover;
+    height: 320px;
+    object-fit: contain;
   }
 `;
 
@@ -61,5 +76,13 @@ export const CategoryTag = styled.h3`
   color: #323232;
   text-decoration: none;
   margin: 0 !important;
+
+`;
+
+export const InfoBox = styled.div`
+  height: 40%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
 `;

@@ -15,7 +15,7 @@ const NavBar = () => {
   const handleSubmit = (e, search) => {
     e.preventDefault();
     dispatch(getProducts(search));
-    history.push("/products");
+    // history.push("/products");
   };
 
   return (

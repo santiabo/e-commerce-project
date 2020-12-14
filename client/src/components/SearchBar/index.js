@@ -27,7 +27,7 @@ const SearchBar = ({ handleSubmit }) => {
         />
       </InputWrapper>
 
-      <Button>Search</Button>
+      <Button color={"#41434f"}>Search</Button>
 
     </SearchBarForm >
   );
