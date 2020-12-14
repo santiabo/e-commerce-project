@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from "react-router-dom";
 
 // Components
 import Button from '../Button';
@@ -13,36 +12,40 @@ import {
   Price,
   Title,
   RowWrapper,
-  CategoryTag
+  CategoryTag,
+  InfoBox,
+  StyledLink
 } from './styles';
 
 const ProductCard = ({ product, categories, reviews = { average: 4, } }) => {
 
   return (
-    <Link to={"product/" + product.id} style={{
-      textDecoration: "none"
-    }}>
+    <StyledLink to={"product/" + product.id}>
       <ProductCardWrapper>
 
         <ImageContainer>
           <img src={product.images[0]} alt={product.name} />
         </ImageContainer>
 
-        <RowWrapper>
-          {categories.map(category => <CategoryTag key={category.id}>{category.name}</CategoryTag>)}
-          <Rating stars={Math.round(reviews.average)} />
-        </RowWrapper>
+        <InfoBox>
 
-        <Title>{product.name.substring(0, 60)} {product.name.length > 60 ? "..." : ""}</Title>
+          <RowWrapper>
+            {categories.map(category => <CategoryTag key={category.id}>{category.name}</CategoryTag>)}
+            <Rating stars={Math.round(reviews.average)} />
+          </RowWrapper>
 
-        <Price>$ {product.price}</Price>
+          <Title>{product.name.substring(0, 55)} {product.name.length > 55 ? "..." : ""}</Title>
 
-        <ButtonsWrapper>
-          <Button>Add to Cart</Button>
-        </ButtonsWrapper>
+          <Price>$ {product.price}</Price>
+
+          <ButtonsWrapper>
+            <Button>Add to Cart</Button>
+          </ButtonsWrapper>
+
+        </InfoBox>
 
       </ProductCardWrapper>
-    </Link >
+    </StyledLink >
   );
 };
 
