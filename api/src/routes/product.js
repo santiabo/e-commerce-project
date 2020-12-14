@@ -30,7 +30,7 @@ server.route('/').get((req, res) => {
     .catch(err => res.status(400).json(err));
 });
 
-server.get('/category/', (req, res, next) => {
+server.get('/category', (req, res, next) => {
 
   Category.findAll({
     order: [

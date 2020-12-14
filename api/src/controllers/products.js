@@ -33,21 +33,6 @@ const getAll = (search) => {
       ]
     })
       .then((products) => {
-        if (products.length === 0) {
-          return reject({
-            error: {
-              name: "ApiFindError",
-              type: "Products Error",
-              errors: [
-                {
-                  message: "there are no products in the database",
-                  type: "not found",
-                  value: null,
-                },
-              ],
-            },
-          });
-        }
 
         resolve(products);
       })
