@@ -20,6 +20,7 @@ export const ImageContainer = styled.div`
 
   img {
     height: 100%;
+    max-width: 90%;
     object-fit: cover;
     overflow: hidden;
   }
@@ -31,8 +32,13 @@ export const RatingWrapper = styled.div`
   margin: 1rem 0;
 `;
 
+export const CategoriesTags = styled.div`
+  display: flex;
+`;
+
 export const Title = styled.h1`
   margin: 1rem 0;
+  font-size: 20px;
   /* font-size: 16px;
   color: #323232; */
 
@@ -42,6 +48,7 @@ export const Description = styled.p``;
 export const CategoryTag = styled.h3`
   display: flex;
   justify-content: center;
+  margin-right: 0.5rem;
   align-items: center;
   width: fit-content;
   color: white;

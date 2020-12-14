@@ -75,7 +75,6 @@ server.put('/:id', (req, res, next) => {
       return Product.findByPk(id, { include: [Category] });
     })
     .then(product => {
-      console.log(product);
       return res.send(product);
     })
     .catch(next);

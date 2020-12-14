@@ -45,14 +45,19 @@ const getAll = (search) => {
 const createOne = (name, description, price, stock, images) => {
   return new Promise((resolve, reject) => {
 
-    Product.create({ name, description, price, stock, images })
-      .then(product => {
-        if (stock) {
-          product.stock = stock;
-          product.save();
-        }
+    Product.create(
+      { name, description, price, stock, images })
+      .then(async product => {
 
-        resolve(product);
+        const newProduct = await Product.findByPk(product.id,
+          {
+            include: [{
+              model: Category,
+            }],
+          }
+        );
+
+        resolve(newProduct);
       })
       .catch(err => reject({ error: err }));
   });

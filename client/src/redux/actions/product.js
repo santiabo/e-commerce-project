@@ -10,56 +10,56 @@ export const SET_CATEGORY_TO_PRODUCT = "SET_CATEGORY_TO_PRODUCT";
 export const UNSET_CATEGORY_TO_PRODUCT = "UNSET_CATEGORY_TO_PRODUCT";
 export const GET_PRODUCTS_FILTERED_BY_CATEGORY = "GET_PRODUCTS_FILTERED_BY_CATEGORY";
 
-export const getDetailProduct = (product) => {
+const getDetailProduct = (product) => {
   return {
     type: GET_DETAIL_PRODUCT,
     product
   };
 };
 
-export const getAllProducts = (products) => {
+const getAllProducts = (products) => {
   return {
     type: GET_ALL_PRODUCTS,
     products
   };
 };
 
-export const createProduct = (product) => {
+const createProduct = (product) => {
   return {
     type: CREATE_PRODUCT,
     product
   };
 };
 
-export const updateProduct = (product) => {
+const updateProduct = (product) => {
   return {
     type: UPDATE_PRODUCT,
     product
   };
 };
 
-export const deleteProduct = ({ productDeleted }) => {
+const deleteProduct = ({ productDeleted }) => {
   return {
     type: DELETE_PRODUCT,
     productDeleted
   };
 };
 
-export const setCategoryToProduct = (product) => {
+const setCategoryToProduct = (product) => {
   return {
     type: SET_CATEGORY_TO_PRODUCT,
     product
   };
 };
 
-export const unsetCategoryToProduct = (product) => {
+const unsetCategoryToProduct = (product) => {
   return {
     type: UNSET_CATEGORY_TO_PRODUCT,
     product
   };
 };
 
-export const getProductsFilteredByCategory = (products) => {
+const getProductsFilteredByCategory = (products) => {
   return {
     type: GET_PRODUCTS_FILTERED_BY_CATEGORY,
     products
@@ -135,7 +135,7 @@ export const addCategoryToProduct = (productId, categoryId) => {
   return async (dispatch) => {
     try {
 
-      const res = axios.post(`http://localhost:5000/products/${productId}/category/${categoryId}`);
+      const res = await axios.post(`http://localhost:5000/products/${productId}/category/${categoryId}`);
 
       dispatch(setCategoryToProduct(res.data));
     } catch (err) {

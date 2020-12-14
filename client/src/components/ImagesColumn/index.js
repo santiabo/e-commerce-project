@@ -2,11 +2,11 @@ import React from "react";
 
 import { ImageBox, ImagesColumnWrapper } from "./styles";
 
-const ImagesColumn = ({ images, product }) => {
+const ImagesColumn = ({ product }) => {
   return (
+    // TODO: FIX BUG IMAGES
     <ImagesColumnWrapper>
-      {/* TODO: Cambiar key por product.id */}
-      {images.map((img, i) => <ImageBox src={img} alt={product.title} key={i} />)}
+      {product.images && product.images.map((img) => <ImageBox src={img} alt={product.name} key={product.id + product.name} />)}
     </ImagesColumnWrapper>
   );
 };

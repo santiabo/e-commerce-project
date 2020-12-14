@@ -1,3 +1,13 @@
 #imgBox img {
-  width: 80;
-};
+  width: 80px !important;
+}
+
+#buttonBox button {
+  margin-top: 2px;
+  width: 100%;
+}
+
+#tBody tr td {
+  padding: .5rem;
+  vertical-align: middle;
+}

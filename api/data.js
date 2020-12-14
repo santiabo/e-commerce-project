@@ -38,8 +38,6 @@ const products = [
     "stock": 71,
     "images": [
       "https://images-na.ssl-images-amazon.com/images/I/61aMmen0cFL._AC_SL1099_.jpg",
-      "",
-      ""
     ]
   },
   {

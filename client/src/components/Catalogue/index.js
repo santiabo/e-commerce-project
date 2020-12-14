@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from "react-redux";
+import { getProducts } from "../../redux/actions/product";
 
 // Components
 import ProductCard from '../ProductCard';
@@ -12,19 +14,56 @@ import {
   ProductsColumn
 } from './styles';
 
-const Catalogue = ({ product, category, reviews }) => {
+const Catalogue = () => {
+
+  const [filtered, setFiltered] = useState([]);
+
+  const dispatch = useDispatch();
+
+  const products = useSelector(state => state.product.products);
+  const categories = useSelector(state => state.category.categories);
+
+  const handleFilter = (categoryId) => {
+    setFiltered(products.filter(p => p.categories.map(c => c.id).includes(categoryId)));
+  };
+
+  const getAllProducts = () => {
+    setFiltered([]);
+    dispatch(getProducts());
+  };
 
   return (
     <CatalogueWrapper>
 
       <CategoriesColumn>
         <CategoriesTitle>Categories</CategoriesTitle>
-        {category.map((category, i) => <CategoryButton category={category} key={i} >{category.name}</CategoryButton>)}
+        <CategoryButton
+          onClick={() => getAllProducts()}
+        >
+          All Products
+        </CategoryButton>
+        {
+          categories.map((category) => (
+            <CategoryButton
+              key={category.id}
+              onClick={() => handleFilter(category.id)}
+            >
+              {category.name}
+            </CategoryButton>
+          ))
+        }
       </CategoriesColumn>
 
-      <ProductsColumn>
-        {product.map((product, i) => <ProductCard product={product} category={category} reviews={reviews} key={i} />)}
-      </ProductsColumn>
+      {
+        filtered.length ?
+          <ProductsColumn>
+            {filtered.map((product) => <ProductCard product={product} categories={product.categories} key={product.id} />)}
+          </ProductsColumn>
+          :
+          <ProductsColumn>
+            {products.map((product) => <ProductCard product={product} categories={product.categories} key={product.id} />)}
+          </ProductsColumn>
+      }
 
     </CatalogueWrapper>
   );

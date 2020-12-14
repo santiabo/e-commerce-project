@@ -12,12 +12,11 @@ export default function CategoryForm() {
       [e.target.name]: e.target.value
     });
 
-  }
+  };
 
   const handleSubmit = function (e) {
     e.preventDefault();
-    console.log("mandando datos al servidor");
-  }
+  };
   return (
     <form onSubmit={handleSubmit}>
       <div>
@@ -26,5 +25,5 @@ export default function CategoryForm() {
       </div>
       <div><input type="submit" value="Submit" /></div>
     </form>
-  )
+  );
 }

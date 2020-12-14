@@ -5,7 +5,7 @@ import Footer from '../components/Footer/Footer';
 const Layout = ({ children }) => (
   <>
     <Header />
-    <div className="container">
+    <div style={{ margin: "0 10vw" }}>
       {children}
     </div>
     <Footer />
