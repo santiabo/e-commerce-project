@@ -20,7 +20,7 @@ module.exports = (sequelize) => {
       allowNull: false,
     },
     images: {
-      type: DataTypes.ARRAY(DataTypes.TEXT) // Array de URLS para las imágenes de CLOUDINARY.
+      type: DataTypes.ARRAY(DataTypes.TEXT) 
     }
   });
 };
