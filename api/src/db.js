@@ -53,24 +53,7 @@ User.hasOne(Order);//, {as:"client", foreignKey: "client_id"});
 OrderLine.belongsTo(Order);
 Order.hasMany(OrderLine);
 
-OrderLine.belongsTo(Product); //, {as:"Item", foreignKey: "product_id"});  
-
-
-
-
-
-
-/* User.belongsToMany(Order, {through: 'OrderLines'});
-Order.belongsToMany(User, { through: 'OrderLines'}) */
-
-
-
-
-
-
-
-
-
+OrderLine.belongsTo(Product); //, {as:"Item", foreignKey: "product_id"});
 
 module.exports = {
   conn: sequelize,     // para importart la conexión { conn } = require('./db.js');
