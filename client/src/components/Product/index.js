@@ -22,6 +22,7 @@ import {
   ButtonsWrapper,
   CategoriesTags
 } from "./styles";
+import NotFound from '../../containers/NotFound';
 
 const Product = ({ match, reviews = { average: 4, total: 200 } }) => {
 
@@ -35,8 +36,13 @@ const Product = ({ match, reviews = { average: 4, total: 200 } }) => {
 
   let keys = Object.keys(product);
 
+  if (!product.id) {
+    return <NotFound />;
+  }
+
   return (
     <ProductWrapper>
+
       <LeftSide>
         <ImagesColumn product={product} />
         <ImageContainer>
@@ -46,28 +52,37 @@ const Product = ({ match, reviews = { average: 4, total: 200 } }) => {
           }
         </ImageContainer>
       </LeftSide>
+
       <RightSide>
+
         <CategoriesTags>
           {keys.length && product.categories.map(category => (
             <CategoryTag>{category.name}</CategoryTag>
           ))}
         </CategoriesTags>
+
         <Title>{product.name}</Title>
+
         <RatingWrapper>
           <Rating stars={Math.round(reviews.average)} />
           <span>{reviews.average} ({reviews.total} reviews)</span>
         </RatingWrapper>
+
         <Description>
           {product.description}
         </Description>
+
         <Price>
           $ {product.price}
         </Price>
+
         <ButtonsWrapper>
           <UnitsAmount />
           <Button>Add to Cart</Button>
         </ButtonsWrapper>
+
       </RightSide>
+
     </ProductWrapper>
   );
 };
