@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const UnitsAmountWrapper = styled.div`
   background: #232323;
   min-width: 40px;
-  height: 50px;
+  height: 100%;
   color: white;
   padding: 0 1rem;
   display: flex;
