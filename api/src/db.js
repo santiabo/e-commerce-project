@@ -48,7 +48,7 @@ Product.belongsToMany(Category, { through: 'products_categories' });
 Category.belongsToMany(Product, { through: 'products_categories' });
 
 Order.belongsTo(User);
-User.hasOne(Order);//, {as:"client", foreignKey: "client_id"});
+User.hasOne(Order, {as:"client", foreignKey: "client_id"});
 
 OrderLine.belongsTo(Order);
 Order.hasMany(OrderLine);
