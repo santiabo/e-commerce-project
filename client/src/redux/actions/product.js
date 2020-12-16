@@ -9,6 +9,7 @@ export const DELETE_PRODUCT = "DELETE_PRODUCT";
 export const SET_CATEGORY_TO_PRODUCT = "SET_CATEGORY_TO_PRODUCT";
 export const UNSET_CATEGORY_TO_PRODUCT = "UNSET_CATEGORY_TO_PRODUCT";
 export const GET_PRODUCTS_FILTERED_BY_CATEGORY = "GET_PRODUCTS_FILTERED_BY_CATEGORY";
+export const FETCH_RESOURCES_FAILED = "FETCH_RESOURCES_FAILED";
 
 const getDetailProduct = (product) => {
   return {
@@ -66,6 +67,13 @@ const getProductsFilteredByCategory = (products) => {
   };
 };
 
+const fetchResourcesFailed = (err) => {
+  return {
+    type: FETCH_RESOURCES_FAILED,
+    err
+  };
+};
+
 export const getProduct = (id) => {
   return async (dispatch) => {
     try {
@@ -74,7 +82,7 @@ export const getProduct = (id) => {
 
       dispatch(getDetailProduct(res.data));
     } catch (err) {
-      console.log(err);
+      dispatch(fetchResourcesFailed(err));
     }
   };
 };
