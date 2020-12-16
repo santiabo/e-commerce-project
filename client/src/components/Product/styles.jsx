@@ -45,7 +45,7 @@ export const Title = styled.h1`
 `;
 export const Description = styled.p``;
 
-export const CategoryTag = styled.h3`
+export const CategoryTag = styled.span`
   display: flex;
   justify-content: center;
   margin-right: 0.5rem;
@@ -54,7 +54,7 @@ export const CategoryTag = styled.h3`
   color: white;
   background: #232323;
   padding: 0.5rem;
-  margin-top: 1rem;
+  margin: 1rem 0;
   font-size: 18px;
   font-weight: 400;
 `;
@@ -65,5 +65,12 @@ export const Price = styled.h3`
 `;
 
 export const ButtonsWrapper = styled.div`
-  display: flex
+  display: flex;
+  height: 3rem;
+
+`;
+
+export const NoStockAlert = styled.span`
+  color: #f44336;
+
 `;
