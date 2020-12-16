@@ -26,39 +26,43 @@ import {
 const CartItem =({match, reviews = { average: 4, total: 200 } })=> {
 
 
-   const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getProduct(match.params.id));
   }, []);
 
-  const product = useSelector(state => state.product.productDetail);
+  const cart = useSelector(state => state.cart.items);
 
-  let keys = Object.keys(product);
+  let keys = Object.keys(cart);
  
   return (
     <ProductWrapper>
       <LeftSide>
+        <ImagesColumn cart={product} />
         <ImageContainer>
-            <img src={product.images[0]} alt={product.title} />
+          {
+            keys.length &&
+            <img src={cart.images[0]} alt={cart.title} />
+          }
         </ImageContainer>
       </LeftSide>
       <RightSide>
         <CategoriesTags>
-          {product.categories.map(category => (
+          {keys.length && cart.categories.map(category => (
             <CategoryTag>{category.name}</CategoryTag>
           ))}
         </CategoriesTags>
-        <Title>{product.name}</Title>
+        <Title>{cart.name}</Title>
         <RatingWrapper>
           <Rating stars={Math.round(reviews.average)} />
           <span>{reviews.average} ({reviews.total} reviews)</span>
         </RatingWrapper>
         <Description>
-          {product.description}
+          {cart.description}
         </Description>
         <Price>
-          $ {product.price}
+          $ {cart.price}
         </Price>
         <ButtonsWrapper>
           <UnitsAmount />
