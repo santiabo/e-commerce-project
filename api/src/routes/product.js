@@ -44,12 +44,12 @@ server.get('/category', (req, res, next) => {
     .catch(next);
 });
 
-server.route('/:id').get((req, res, next) => {
+server.route('/:id').get((req, res) => {
   const { id } = req.params;
 
   getOne(id)
     .then(product => res.json(product))
-    .catch(next);
+    .catch(err => res.status(404).json({ err, status: 404 }));
 });
 
 // ------- Update Product Route -------
