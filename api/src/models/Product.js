@@ -7,6 +7,7 @@ module.exports = (sequelize) => {
     name: {
       type: DataTypes.STRING,
       allowNull: false,
+      notEmpty: true,
     },
     description: {
       type: DataTypes.TEXT,
@@ -14,10 +15,12 @@ module.exports = (sequelize) => {
     price: {
       type: DataTypes.DECIMAL,
       allowNull: false,
+      min: 0
     },
     stock: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      min: 0
     },
     images: {
       type: DataTypes.ARRAY(DataTypes.TEXT) 
