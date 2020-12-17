@@ -11,7 +11,7 @@ import NotFound from '../containers/NotFound';
 import Catalogue from '../components/Catalogue';
 import ProductTable from '../components/ProductTable';
 import Product from '../components/Product';
-import CartItem from '../components/CartItem/CartItem'
+import Cart from '../components/Cart/Cart'
 
 function App() {
 
@@ -39,7 +39,7 @@ function App() {
 
           <Route path='/product/:id' render={({ match }) => <Product match={match} />} />
 
-          <Route path='/users/:idUser/cart' render ={({ match }) => <CartItem match={match}/>} />      
+          <Route path='/cart' component={Cart}/>      
 
           <Route component={NotFound} />
 
