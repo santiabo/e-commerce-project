@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { removeItemFromCart, clearCart } from "../../redux/actions/cart";
 
 // Components
 import Button from "../Button";
@@ -20,16 +22,12 @@ import {
 
 
 
-const CartItem = () => {  
-  
-  const cartFromLocalStorage= JSON.parse(localStorage.getItem('cart')) || '[]';
-  const [cart, setCart] = useState(cartFromLocalStorage)
+const CartItem = () => {
 
-  useEffect(()=>{
-    localStorage.setItem('cart',JSON.stringify(cart))
-  },[cart])
+  const dispatch = useDispatch();
+  const { cart, cartAmount } = useSelector(state => state.cart);
 
-  if (cart.length === 0) {
+  if (!cartAmount) {
     return (
       <section className='cart'>
         {/* cart header */}
@@ -38,21 +36,20 @@ const CartItem = () => {
           <h4 className='empty-cart'>is currently empty</h4>
         </header>
       </section>
-    )
+    );
   }
 
-  const removeFromCart = (productToRemove) => {
-    let filterCart=cart.filter((item) => item.id !== productToRemove.id);
-    setCart(filterCart);
-  }
+  const removeFromCart = (idToRemove) => {
+    dispatch(removeItemFromCart(idToRemove));
+  };
 
-  const clearCart = () => {  
-    setCart([])  
-  }
+  const clearAllItems = () => {
+    dispatch(clearCart());
+  };
 
-  const getTotal = ()=>{
-    return cart.reduce((sum,{price})=> sum + Number(price), 0)
-  }
+  const getTotal = () => {
+    return Number(cart.reduce((sum, { price }) => sum + Number(price), 0).toFixed(2));
+  };
 
   return (
     <section className='cart'>
@@ -60,15 +57,15 @@ const CartItem = () => {
       <header>
         <h2>Shipping Cart</h2>
       </header>
-      {console.log('Cart',cart)}
+      {console.log('Cart', cart)}
       {cart.map((item) =>
         <div>
-          {console.log('item:',item)}
+          {console.log('item:', item)}
           <ProductWrapper>
             <LeftSide>
-             <ImageContainer>
+              <ImageContainer>
                 <img src={item.images[0]} width={150} alt={item.name} />
-             </ImageContainer>             
+              </ImageContainer>
             </LeftSide>
             <RightSide>
               <CategoriesTags>
@@ -84,11 +81,9 @@ const CartItem = () => {
                 $ {item.price}
               </Price>
               <ButtonsWrapper>
-                <UnitsAmount />
-                <Button>
-                  <button onClick={() => removeFromCart(item)}>
-                    Remove
-                 </button>
+                {/* <UnitsAmount /> */}
+                <Button onClick={() => removeFromCart(item.id)}>
+                  Remove
                 </Button>
               </ButtonsWrapper>
             </RightSide>
@@ -102,12 +97,9 @@ const CartItem = () => {
             total <span>${getTotal()}</span>
           </h4>
         </div>
-        <button
-          className='btn clear-btn'
-          onClick={() => clearCart()}
-        >
+        <Button onClick={() => clearAllItems()}>
           clear cart
-        </button>
+        </Button>
       </footer>
     </section>
   );
