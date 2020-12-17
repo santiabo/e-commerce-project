@@ -21,8 +21,10 @@ import {
   CategoryTag,
   Price,
   ButtonsWrapper,
-  CategoriesTags
+  CategoriesTags,
+  NoStockAlert
 } from "./styles";
+import NotFound from '../../containers/NotFound';
 
 
 const Product = ({ match, reviews = { average: 4, total: 200 } }) => {
@@ -56,10 +58,16 @@ const Product = ({ match, reviews = { average: 4, total: 200 } }) => {
     filterItem.length > 0 ? setcomponentInCart(false) : setcomponentInCart(true)
   }
 
-  let keys = Object.keys(product);
+  const keys = Object.keys(product);
+  const inStock = product.stock > 0;
+
+  if (!product.id) {
+    return <NotFound />;
+  }
 
   return (
     <ProductWrapper>
+
       <LeftSide>
         <ImagesColumn product={product} />
         <ImageContainer>
@@ -69,23 +77,30 @@ const Product = ({ match, reviews = { average: 4, total: 200 } }) => {
           }
         </ImageContainer>
       </LeftSide>
+
       <RightSide>
+
         <CategoriesTags>
           {keys.length && product.categories.map(category => (
             <CategoryTag>{category.name}</CategoryTag>
           ))}
         </CategoriesTags>
+        {!inStock && <NoStockAlert>This product is currently out of stock, please come back later.</NoStockAlert>}
         <Title>{product.name}</Title>
+
         <RatingWrapper>
           <Rating stars={Math.round(reviews.average)} />
           <span>{reviews.average} ({reviews.total} reviews)</span>
         </RatingWrapper>
+
         <Description>
           {product.description}
         </Description>
+
         <Price>
           $ {product.price}
         </Price>
+
         <ButtonsWrapper>
           <UnitsAmount />
           {
@@ -96,15 +111,16 @@ const Product = ({ match, reviews = { average: 4, total: 200 } }) => {
                 </Link>
               </Button>
               :
-              <Button>
+              <Button disabled={!inStock}>
                 <button onClick={() => handlerClick(product, cart)} >
                   Add to Cart
                  </button>
               </Button>
-
           }
         </ButtonsWrapper>
+
       </RightSide>
+
     </ProductWrapper>
   );
 };

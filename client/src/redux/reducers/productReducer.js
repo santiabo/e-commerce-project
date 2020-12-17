@@ -6,13 +6,15 @@ import {
   DELETE_PRODUCT,
   SET_CATEGORY_TO_PRODUCT,
   UNSET_CATEGORY_TO_PRODUCT,
-  GET_PRODUCTS_FILTERED_BY_CATEGORY
+  GET_PRODUCTS_FILTERED_BY_CATEGORY,
+  FETCH_RESOURCES_FAILED
 } from "../actions/product";
 
 const initialState = {
   products: [],
   filteredProducts: [],
-  productDetail: {}
+  productDetail: {},
+  err: {}
 };
 
 const productReducer = (state = initialState, action) => {
@@ -69,6 +71,11 @@ const productReducer = (state = initialState, action) => {
         ...state,
         filteredProducts: action.products
       };
+    case FETCH_RESOURCES_FAILED:
+      return {
+        ...state,
+        err: action.err
+      }
     default:
       return state;
   };

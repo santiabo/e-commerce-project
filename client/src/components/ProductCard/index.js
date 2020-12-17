@@ -14,38 +14,43 @@ import {
   RowWrapper,
   CategoryTag,
   InfoBox,
-  StyledLink
+  StyledLink,
+  NoStockTag,
+  StyledImg
 } from './styles';
 
 const ProductCard = ({ product, categories, reviews = { average: 4, } }) => {
-
+  const inStock = product.stock > 0;
   return (
-    <StyledLink to={"product/" + product.id}>
-      <ProductCardWrapper>
+    <ProductCardWrapper>
 
+      <StyledLink to={"product/" + product.id}>
         <ImageContainer>
-          <img src={product.images[0]} alt={product.name} />
+          {!inStock && <NoStockTag>No Stock</NoStockTag>}
+          <StyledImg src={product.images[0]} alt={product.name} inStock={inStock} />
         </ImageContainer>
+      </StyledLink >
 
-        <InfoBox>
-        
-          <RowWrapper>
-            {categories.map(category => <CategoryTag key={category.id}>{category.name}</CategoryTag>)}
-            <Rating stars={Math.round(reviews.average)} />
-          </RowWrapper>
+      <InfoBox>
 
+        <RowWrapper>
+          {categories.map(category => <CategoryTag key={category.id}>{category.name}</CategoryTag>)}
+          <Rating stars={Math.round(reviews.average)} />
+        </RowWrapper>
+
+        <StyledLink to={"product/" + product.id}>
           <Title>{product.name.substring(0, 55)} {product.name.length > 55 ? "..." : ""}</Title>
+        </StyledLink>
 
-          <Price>$ {product.price}</Price>
+        <Price>$ {product.price}</Price>
 
-          <ButtonsWrapper>
-            <Button>DETAIL</Button>
-          </ButtonsWrapper>
+        <ButtonsWrapper>
+          <Button disabled={!inStock}>Add to Cart</Button>
+        </ButtonsWrapper>
 
-        </InfoBox>
+      </InfoBox>
 
-      </ProductCardWrapper>
-    </StyledLink >
+    </ProductCardWrapper>
   );
 };
 
