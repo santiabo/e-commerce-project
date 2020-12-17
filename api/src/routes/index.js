@@ -2,6 +2,7 @@ const { Router } = require('express');
 // import all routers;
 const productRouter = require('./product');
 const usersRouter = require('./users');
+const orderRouter = require('./order')
 
 const router = Router();
 
@@ -10,5 +11,7 @@ const router = Router();
 // router.use('/auth', authRouter);
 router.use('/products', productRouter);
 router.use('/users', usersRouter);
+router.use('/orders', orderRouter);
+
 
 module.exports = router;

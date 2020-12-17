@@ -1,68 +1,112 @@
 const server = require('express').Router();
-const { User, Order } = require('../db.js');
-const OrderLine = require('../models/OrderLine.js');
+const { Order, OrderLine } = require('../db.js');
 
 // Update or Create Cart
-server.post('users/:idUser/cart', (req, res, next) => {
-  const { idUser } = req.params;
-  const {idProduct, quantity} = req.body;
- 
- 
+server.post('/users/:userId/cart', (req, res, next) => {
+  const { userId } = req.params;
+  const { idProduct, amount } = req.body;
+
   // El user tiene Order ?
   Order.findOne({
     where: {
-      client_id: idUser,
+      client_id: userId,
       status: 'on_cart' // Tiene que tener el estado en carrito, para poder agregar mas items.
     }
-  }).then(c => {
+  }).then(order => {
 
     // si no tiene, se crea una Order.
-    if (!c) {
+    if (!order) {
       Order.create({
-        idUser,
+        client_id: userId,
         status: 'on_cart'
       })
+
         // Creo una OrderLine
-        .then((cart) => {
-          res.send({ ...cart.dataValues });
+        .then((order) => {
+          OrderLine.create({
+            quantity: amount,
+            productId: idProduct,  // Le asigno el id del producto.
+            orderId: order.id   // Le asigno el id de la orden
+          })
+          return res.send(order.dataValues)
+        })
+        .catch(next);
+      // Si ya tiene una order.
+      /*  } else {
+           // Tiene una orderLine con ese producto ?
+           OrderLine.findOne({
+             where: {
+               productId: idProduct,
+               orderId: order.id
+             }
+           }).then((orderLine) => {
+             
+             //Si ya tiene orderLine con ese producto, se le suma la cantidad.
+             if(orderLine){
+               
+               OrderLine.update (
+                 {quantity: amount},
+                 {where: {productId: idProduct}}
+                 )
+                 .then((data) => {
+                   res.send({ ...data.dataValues });
+                 })
+                 .catch(next); */
+    } else {
+
+      //si no tiene, se crea una OrderLine
+      OrderLine.create({
+        quantity: amount,
+        productId: idProduct,  // Le asigno el id del producto.
+        orderId: order.id   // Le asigno el id de la orden
+      })
+        .then((orderLine) => {
+          return res.send({ ...orderLine.dataValues });
         })
         .catch(next);
 
-    } else {
-      Order.update({
-        idUser,
-        totalPrice,
-        status: 'on_cart'
-      })
-        .then((cart) => {
-          res.send({ ...cart.dataValues });
-        })
-        .catch(next);
     }
+
   })
 
- /* Busco una order line con el mismo producto, si la encuentro le sumo la cantidad 
-OrderLine.findOne({
-  where: {
-    product_id: idProduct
-  }
-}).then(orderLine =>{
- OrderLine.update({
-   quantity
- })
 })
 
- 
-  OrderLine.create({
-   quantity,
-   product_id: idProduct  
- })
- */
+server.get('/users/:userId/cart', (req, res, next) => {
+  const { userId } = req.params;
 
-  
-  
+  Order.findOne({
+    where: {
+      client_id: userId,
+      status: 'on_cart'
+    }
+  })
+    .then((order) => {
+      if (!order) {
+        return res.status(404).send({ error: `User doesn't have an order` })
+      } else
+        OrderLine.findAll({
+          where: { orderId: order.id }
+        })
+          .then((orderLine) => {
+            let totalProducts = orderLine.map(e => `Id: ${e.productId} Amount: ${e.quantity}`);
+            return res.send({ totalProducts })
+          })
+    })
+    .catch(next)
+
+})
+
+server.delete('/users/:userId/cart', (req, res, next) => {
+  const { userId } = req.params;
+
+  Order.destroy({
+    where: { client_id: userId }
+  })
+    .then((data) => {
+      return res.send({ CartDeletd: Number(userId) });
+
+    })
+    .catch(next);
 });
 
-//
-
-// FALTA TERMINAR.
+module.exports = server;

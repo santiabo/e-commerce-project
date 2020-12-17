@@ -7,7 +7,7 @@ module.exports = (sequelize) => {
      {
        totalPrice: {
          type: DataTypes.DECIMAL,
-         allowNull:false            
+                  
     },
         status: {
         type: DataTypes.ENUM('on_cart', 'created', 'processing', 'completed', 'cancelled'),
