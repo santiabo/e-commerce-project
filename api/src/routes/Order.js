@@ -40,10 +40,10 @@ server.post('/users/:userId/cart', (req, res, next) => {
           orderId: order.id
         }
       }).then((orderLine) => {
-        console.log(orderLine.dataValues)
+       
         //Si ya tiene orderLine con ese producto, se le suma la cantidad.
         if (orderLine) {
-          console.log(orderLine.dataValues)
+          
           OrderLine.update(
             { quantity: amount },
             { where: { productId: idProduct } }
