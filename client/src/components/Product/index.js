@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProduct } from "../../redux/actions/product";
-import { Link } from 'react-router-dom'
+import { setItemToCart } from "../../redux/actions/cart";
+import { Link } from 'react-router-dom';
 
 // Components
 import ImagesColumn from "../ImagesColumn";
@@ -28,15 +29,16 @@ import NotFound from '../../containers/NotFound';
 
 
 const Product = ({ match, reviews = { average: 4, total: 200 } }) => {
-  const cartFromLocalStorage = JSON.parse(localStorage.getItem('cart')) || [];
-  const [cart, setCart] = useState(cartFromLocalStorage);
+  // const cartFromLocalStorage = JSON.parse(localStorage.getItem('cart')) || [];
+  // const [cart, setCart] = useState(cartFromLocalStorage);
   const [count, setCount] = useState(1);
 
-  const [productInCart, setproductInCart] = useState(false)
+  //const [productInCart, setproductInCart] = useState(false);
 
-  useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify(cart))
-  }, [cart])
+  // useEffect(() => {
+  //   localStorage.setItem('cart', JSON.stringify(cart));
+  //   mapFunction();
+  // }, [cart]);
 
   const dispatch = useDispatch();
 
@@ -47,45 +49,22 @@ const Product = ({ match, reviews = { average: 4, total: 200 } }) => {
 
 
 
-  const mapFunction = () => {
-    let filterItem = cart.filter((item) => item.id === product.id);
-    console.log('filterItem',filterItem)
-    filterItem.length > 0 ? setproductInCart(true) : setproductInCart(false)
-  }
+  // const mapFunction = () => {
+  //   let filterItem = cart.filter((item) => item.id === product.id);
+  //   console.log('filterItem', filterItem);
+  //   filterItem.length > 0 ? setproductInCart(true) : setproductInCart(false);
+  // };
 
   const handleChange = (e) => {
     setCount({
       [e.target.name]: e.target.value
-    })
+    });
+  };
 
-  }
   const handleSubmit = (e) => {
-
     e.preventDefault();
-    mapFunction();
-    if (!productInCart) {
-      setCart([
-        ...cart,
-        {
-          ...product,
-          quantity: count
-        }
-      ])
-    } else {
-      console.log('Entre')
-      setCart(
-        cart.map(item => {
-          if (item.id === product.id) {
-            return {
-              ...item,
-              quantity: item.quantity + count
-            }
-          }
-          return item;
-        })
-      )
-    }
-  }
+    dispatch(setItemToCart(product, count));
+  };
 
   const keys = Object.keys(product);
   const inStock = product.stock > 0;
@@ -133,16 +112,16 @@ const Product = ({ match, reviews = { average: 4, total: 200 } }) => {
         <ButtonsWrapper>
           <form onSubmit={handleSubmit}>
             <UnitsAmount handleChange={handleChange} count={count} setCount={setCount} />
-            {
+            {/* {
               productInCart ?
                 <Button>
                   <h3>This product is in your Cart</h3>
                 </Button>
-                :
-                <Button disabled={!inStock}>
-                  Add to Cart
+                : */}
+            <Button disabled={!inStock}>
+              Add to Cart
               </Button>
-            }
+            {/* } */}
           </form>
         </ButtonsWrapper>
 

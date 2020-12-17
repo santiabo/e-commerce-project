@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from "react-redux";
 import { NavLink } from 'react-router-dom';
 
 // Components
@@ -14,7 +15,7 @@ import { ReactComponent as Login } from "../../assets/icons/login3.svg";
 import { ReactComponent as Register } from "../../assets/icons/register3.svg";
 
 const Header = () => {
-  const cart = JSON.parse(localStorage.getItem('cart'));
+  const cartAmount = useSelector(state => state.cart.cartAmount);
   return (
     <nav>
       <NavWrapper>
