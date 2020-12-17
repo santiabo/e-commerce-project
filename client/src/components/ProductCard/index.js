@@ -28,7 +28,7 @@ const ProductCard = ({ product, categories, reviews = { average: 4, } }) => {
         </ImageContainer>
 
         <InfoBox>
-
+        
           <RowWrapper>
             {categories.map(category => <CategoryTag key={category.id}>{category.name}</CategoryTag>)}
             <Rating stars={Math.round(reviews.average)} />
@@ -39,7 +39,7 @@ const ProductCard = ({ product, categories, reviews = { average: 4, } }) => {
           <Price>$ {product.price}</Price>
 
           <ButtonsWrapper>
-            <Button>Add to Cart</Button>
+            <Button>DETAIL</Button>
           </ButtonsWrapper>
 
         </InfoBox>

@@ -18,7 +18,7 @@ import orderReducer from "./reducers/orderReducer"
 const rootReducer = combineReducers({
   product: productReducer,
   category: categoryReducer,
-  order:orderReducer
+  order:  orderReducer
 });
 
 export default rootReducer;

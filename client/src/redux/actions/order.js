@@ -1,4 +1,4 @@
-import axios from "axios";
+/* import axios from "axios";
 
 // Types
 export const POST_CART_ITEM= "POST_CART_ITEM";
@@ -48,7 +48,7 @@ export const postNewCartItem = (newCartItem) => {
   };
 };
 
-export const getCartItems = (idUser) => {
+/* export const getCartItems = (idUser) => {
   return async (dispatch) => {
     try {
 
@@ -70,7 +70,7 @@ export const removeItemsFromCart = (idUser) => {
       console.log(err);
     }
   };
-};
+}; 
 
 export const editCartItem = (idUser, updatedItem) => {
   return async (dispatch) => {
@@ -83,6 +83,6 @@ export const editCartItem = (idUser, updatedItem) => {
       console.log(err);
     }
   };
-};
+}; */
 
 
