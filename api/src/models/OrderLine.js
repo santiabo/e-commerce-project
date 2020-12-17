@@ -8,11 +8,6 @@ module.exports = (sequelize) => {
       allowNull:false,
       min: 0 
 
-    },
-    price: {
-      type: DataTypes.DECIMAL,
-      allowNull:false,
-      min: 0
-    }
+    }   
   });
 };
