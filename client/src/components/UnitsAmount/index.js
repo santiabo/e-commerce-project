@@ -5,9 +5,7 @@ import { ReactComponent as ArrowDownIcon } from "../../assets/icons/arrowdown.sv
 // StyledComponents
 import { UnitsAmountWrapper, ButtonsWrapper } from "./styles";
 
-const UnitsAmount = () => {
-
-  const [count, setCount] = useState(1);
+const UnitsAmount = ({count,setCount,handleChange}) => {
 
   const increment = () => {
     setCount(count + 1);
@@ -20,7 +18,7 @@ const UnitsAmount = () => {
 
   return (
     <UnitsAmountWrapper>
-      <span>{count}</span>
+      <input value={count} name='count' onChange={handleChange}/>
       <ButtonsWrapper>
         <ArrowUpIcon onClick={increment}>+</ArrowUpIcon>
         <ArrowDownIcon onClick={decrement}>-</ArrowDownIcon>
