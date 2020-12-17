@@ -1,6 +1,7 @@
 import { combineReducers } from "redux";
 import productReducer from "./reducers/productReducer";
 import categoryReducer from "./reducers/categoryReducer";
+import orderReducer from "./reducers/orderReducer"
 
 // Scaffolding
 // store = {
@@ -16,7 +17,8 @@ import categoryReducer from "./reducers/categoryReducer";
 
 const rootReducer = combineReducers({
   product: productReducer,
-  category: categoryReducer
+  category: categoryReducer,
+  order:  orderReducer
 });
 
 export default rootReducer;
