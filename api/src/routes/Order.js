@@ -49,7 +49,7 @@ server.post('/users/:userId/cart', (req, res, next) => {
             { where: { productId: idProduct } }
           )
             .then((orderLine) => {
-             return  res.send({ItemsQuantity: `Changed to: ${amount}`});
+              return res.send({ ItemsQuantity: `Changed to: ${amount}` });
             })
             .catch(next);
         } else {
@@ -74,42 +74,42 @@ server.post('/users/:userId/cart', (req, res, next) => {
 });
 
 
-  server.get('/users/:userId/cart', (req, res, next) => {
-    const { userId } = req.params;
+server.get('/users/:userId/cart', (req, res, next) => {
+  const { userId } = req.params;
 
-    Order.findOne({
-      where: {
-        client_id: userId,
-        status: 'on_cart'
-      }
-    })
-      .then((order) => {
-        if (!order) {
-          return res.status(404).send({ error: `User doesn't have an order` })
-        } else
-          OrderLine.findAll({
-            where: { orderId: order.id }
-          })
-            .then((orderLine) => {
-              let totalProducts = orderLine.map(e => `Id: ${e.productId} Amount: ${e.quantity}`);
-              return res.send({ totalProducts })
-            })
-      })
-      .catch(next)
-
+  Order.findOne({
+    where: {
+      client_id: userId,
+      status: 'on_cart'
+    }
   })
-
-  server.delete('/users/:userId/cart', (req, res, next) => {
-    const { userId } = req.params;
-
-    Order.destroy({
-      where: { client_id: userId }
+    .then((order) => {
+      if (!order) {
+        return res.status(404).send({ error: `User doesn't have an order` })
+      } else
+        OrderLine.findAll({
+          where: { orderId: order.id }
+        })
+          .then((orderLine) => {
+            let totalProducts = orderLine.map(e => `Id: ${e.productId} Amount: ${e.quantity}`);
+            return res.send({ totalProducts })
+          })
     })
-      .then((data) => {
-        return res.send({ CartDeletd: Number(userId) });
+    .catch(next)
 
-      })
-      .catch(next);
-  });
+})
 
-  module.exports = server;
+server.delete('/users/:userId/cart', (req, res, next) => {
+  const { userId } = req.params;
+
+  Order.destroy({
+    where: { client_id: userId }
+  })
+    .then((data) => {
+      return res.send({ CartDeleted: `User ID: ${Number(userId)}` });
+
+    })
+    .catch(next);
+});
+
+module.exports = server;
