@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { getProducts } from "../redux/actions/product";
 import { getCategories } from "../redux/actions/category";
+import { getCartItemsFromLocalStorage } from "../redux/actions/cart";
 import { getOrders } from '../redux/actions/order';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
@@ -13,41 +14,46 @@ import Catalogue from '../components/Catalogue';
 import ProductTable from '../components/ProductTable';
 import Product from '../components/Product';
 import TableOrder from '../components/TableOrder';
+import UserRegister from '../components/RegisterForm';
+import EditProfile from '../components/EditProfile';
+import Cart from '../components/Cart/Cart';
 
 function App() {
 
   const dispatch = useDispatch();
 
-
   useEffect(() => {
     dispatch(getProducts());
     dispatch(getCategories());
+    dispatch(getCartItemsFromLocalStorage());
     dispatch(getOrders());
   }, []);
-
 
   return (
     <BrowserRouter>
       <Layout>
         <Switch>
+          <Route exact path='/' component={Home} />
 
-          <Route exact path = '/' component = {Home} />
+          <Route exact path="/user/account" component={EditProfile} />
 
-          <Route path = '/admin' component = {ProductTable} />
-          
-          <Route path = '/orders' component = {TableOrder}/>
+          <Route path="/register" component={UserRegister} />
 
-          <Route path = '/products' >
-            <Catalogue />
-          </Route>
+          <Route path='/admin' component={ProductTable} />
 
-          <Route path = '/product/:id' render = {({ match }) => <Product match = {match} />} />
+          <Route path='/orders' component={TableOrder} />
 
-          <Route component = {NotFound} />
+          <Route path='/products' component={Catalogue} />
 
+          <Route path='/cart' component={Cart} />
+
+          <Route path='/product/:id' render={({ match }) => <Product match={match} />} />
+
+          <Route component={NotFound} />
         </Switch>
       </Layout>
     </BrowserRouter>
   );
 }
+
 export default App;

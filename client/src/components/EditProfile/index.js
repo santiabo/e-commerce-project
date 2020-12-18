@@ -11,7 +11,7 @@ export default function EditProfile() {
   const toggle = () => {
     setCollapse(!collapse);
 
-  }
+  };
 
   return (
 
@@ -41,7 +41,7 @@ export default function EditProfile() {
                         <td>
                           <div className="collapsed">
                             <div className="username-section">username</div>
-                            <button onClick={toggle} type="button" className="btn btn-mini btn-tertiary accordion-btn-edit trigger-expand">Edit</button>
+                            <button onClick={toggle} type="button" className="btn btn-mini btn-tertiary accordion-btn-edit trigger-expand" id="ProfileButton">Edit</button>
                           </div>
                           <div className="expanded">
                             <Collapse isOpen={collapse}>
@@ -62,8 +62,8 @@ export default function EditProfile() {
                                     <span></span>
                                   </div>
                                   <div className="button-area">
-                                    <button type="button" className="btn accordion-trigger-collapse" onClick={toggle}>Cancel</button>
-                                    <button id="submit" type="button" className="btn btn-primary">Save Changes</button>
+                                    <button type="button" className="btn accordion-trigger-collapse" onClick={toggle} id="ProfileButton">Cancel</button>
+                                    <button id="ProfileButton" type="button" className="btn btn-primary">Save Changes</button>
                                   </div>
                                 </form>
                               </div>
@@ -78,7 +78,7 @@ export default function EditProfile() {
                         <td>
                           <div className="collapsed">
                             <div className="username-section">user@email.com</div>
-                            <button type="button" className="btn btn-mini btn-tertiary accordion-btn-edit trigger-expand" onClick={toggle}>Edit</button>
+                            <button type="button" className="btn btn-mini btn-tertiary accordion-btn-edit trigger-expand" onClick={toggle} id="ProfileButton">Edit</button>
                           </div>
                           <div className="expanded">
                             <Collapse isOpen={collapse}>
@@ -108,8 +108,8 @@ export default function EditProfile() {
                                     <span></span>
                                   </div>
                                   <div className="button-area">
-                                    <button type="button" className="btn accordion-trigger-collapse" onClick={toggle}>Cancel</button>
-                                    <button id="submit" type="button" className="btn btn-primary">Save Changes</button>
+                                    <button type="button" className="btn accordion-trigger-collapse" onClick={toggle} id="ProfileButton">Cancel</button>
+                                    <button id="ProfileButton" type="button" className="btn btn-primary">Save Changes</button>
                                   </div>
                                 </form>
                               </div>
@@ -124,7 +124,7 @@ export default function EditProfile() {
                         <td>
                           <div className="collapsed">
                             <div className="username-section">*******</div>
-                            <button type="button" className="btn btn-mini btn-tertiary accordion-btn-edit trigger-expand">Edit</button>
+                            <button type="button" className="btn btn-mini btn-tertiary accordion-btn-edit trigger-expand" id="ProfileButton">Edit</button>
                           </div>
                           <div className="expanded">
                             <Collapse isOpen={collapse}>
@@ -154,8 +154,8 @@ export default function EditProfile() {
                                     <span></span>
                                   </div>
                                   <div className="button-area">
-                                    <button type="button" className="btn accordion-trigger-collapse" onClick={toggle}>Cancel</button>
-                                    <button id="submit" type="button" className="btn btn-primary">Save Changes</button>
+                                    <button type="button" className="btn accordion-trigger-collapse" onClick={toggle} id="ProfileButton">Cancel</button>
+                                    <button id="ProfileButton" type="button" className="btn btn-primary">Save Changes</button>
                                   </div>
                                 </form>
                               </div>
@@ -172,5 +172,5 @@ export default function EditProfile() {
         </div>
       </div>
     </section>
-  )
+  );
 }
