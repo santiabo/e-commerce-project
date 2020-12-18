@@ -11,6 +11,8 @@ import NotFound from '../containers/NotFound';
 import Catalogue from '../components/Catalogue';
 import ProductTable from '../components/ProductTable';
 import Product from '../components/Product';
+import UserRegister from '../components/RegisterForm';
+import EditProfile from '../components/EditProfile';
 
 function App() {
 
@@ -26,7 +28,16 @@ function App() {
   return (
     <BrowserRouter>
       <Layout>
+
         <Switch>
+
+          <Route exact path="/user/account">
+            <EditProfile />
+          </Route>
+
+          <Route path="/register">
+            <UserRegister />
+          </Route>
 
           <Route exact path='/' component={Home} />
 

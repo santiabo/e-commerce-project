@@ -25,7 +25,7 @@ const Header = () => {
           </ImageContainer>
 
           <ImageContainer>
-            <NavLink to='/'><Register /> </NavLink>
+            <NavLink to='/register'><Register /> </NavLink>
           </ImageContainer>
 
           <ImageContainer>
