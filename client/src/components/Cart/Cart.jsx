@@ -4,7 +4,8 @@ import { removeItemFromCart, clearCart } from "../../redux/actions/cart";
 
 // Components
 import Button from "../Button";
-import UnitsAmount from "../UnitsAmount";
+import UnitsAmount from "../UnitsAmount"
+
 
 // StyledComponents
 import {
@@ -17,8 +18,10 @@ import {
   CategoryTag,
   Price,
   ButtonsWrapper,
-  CategoriesTags
+  CategoriesTags,
 } from "./styles";
+
+import './cart.css'
 
 
 
@@ -32,8 +35,8 @@ const CartItem = () => {
       <section className='cart'>
         {/* cart header */}
         <header>
-          <h2>Your cart</h2>
-          <h4 className='empty-cart'>is currently empty</h4>
+          <h2 className= 'header'>Your cart</h2>
+          <h4 className= 'header'>is currently empty</h4>
         </header>
       </section>
     );
@@ -55,16 +58,13 @@ const CartItem = () => {
     <section className='cart'>
       {/* cart header */}
       <header>
-        <h2>Shipping Cart</h2>
-      </header>
-      {console.log('Cart', cart)}
+        <h2 className= 'header'>Shipping Cart</h2>
+      </header>     
       {cart.map((item) =>
-        <div>
-          {console.log('item:', item)}
-          <ProductWrapper>
+         <ProductWrapper>
             <LeftSide>
               <ImageContainer>
-                <img src={item.images[0]} width={150} alt={item.name} />
+                <img src={item.images[0]}  alt={item.name} />
               </ImageContainer>
             </LeftSide>
             <RightSide>
@@ -77,28 +77,28 @@ const CartItem = () => {
               <Description>
                 {item.description}
               </Description>
+              {item.quantity && <h4>Units: {item.quantity}</h4>}
               <Price>
-                $ {item.price}
+                $ {item.price * item.quantity}
               </Price>
               <ButtonsWrapper>
-                {/* <UnitsAmount /> */}
+               
                 <Button onClick={() => removeFromCart(item.id)}>
                   Remove
                 </Button>
               </ButtonsWrapper>
             </RightSide>
           </ProductWrapper>
-        </div>
       )}
       <footer>
         <hr />
         <div className='cart-total'>
-          <h4>
-            total <span>${getTotal()}</span>
+          <h4 className='price'>
+            Total <span>${getTotal()}</span>
           </h4>
         </div>
         <Button onClick={() => clearAllItems()}>
-          clear cart
+          CLEAR CART
         </Button>
       </footer>
     </section>

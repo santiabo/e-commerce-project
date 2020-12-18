@@ -18,7 +18,7 @@ const UnitsAmount = ({count,setCount,handleChange}) => {
 
   return (
     <UnitsAmountWrapper>
-      <input value={count} name='count' onChange={handleChange}/>
+      <input value={count} name='count' onChange={handleChange} size='1'/>
       <ButtonsWrapper>
         <ArrowUpIcon onClick={increment}>+</ArrowUpIcon>
         <ArrowDownIcon onClick={decrement}>-</ArrowDownIcon>

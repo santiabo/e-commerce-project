@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProduct } from "../../redux/actions/product";
 import { setItemToCart } from "../../redux/actions/cart";
-import { Link } from 'react-router-dom';
+
 
 // Components
 import ImagesColumn from "../ImagesColumn";
@@ -46,7 +46,6 @@ const Product = ({ match, reviews = { average: 4, total: 200 } }) => {
     dispatch(getProduct(match.params.id));
   }, []);
   const product = useSelector(state => state.product.productDetail);
-
 
 
   // const mapFunction = () => {
@@ -112,22 +111,12 @@ const Product = ({ match, reviews = { average: 4, total: 200 } }) => {
         <ButtonsWrapper>
           <form onSubmit={handleSubmit}>
             <UnitsAmount handleChange={handleChange} count={count} setCount={setCount} />
-            {/* {
-              productInCart ?
-                <Button>
-                  <h3>This product is in your Cart</h3>
-                </Button>
-                : */}
             <Button disabled={!inStock}>
               Add to Cart
               </Button>
-            {/* } */}
           </form>
         </ButtonsWrapper>
-
-
       </RightSide>
-
     </ProductWrapper>
   );
 };

@@ -32,7 +32,7 @@ const Header = () => {
 
           <ImageContainer>
             <NavLink to='/cart'> <CartLogo />
-              {cart && <span className="cart-counter">{cart.length}</span>}
+              {cartAmount && <span className="cart-counter">{cartAmount}</span>}
             </NavLink>
           </ImageContainer>
 
