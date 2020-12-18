@@ -10,6 +10,8 @@ export const LeftSide = styled.div`
 `;
 
 export const RightSide = styled.div`
+  display:flex;
+  flex-direction:column;
   width: 40%;
 `;
 
@@ -66,11 +68,11 @@ export const Price = styled.h3`
 
 export const ButtonsWrapper = styled.div`
   display: flex;
+  flex-direction: row;
   height: 3rem;
 
 `;
 
 export const NoStockAlert = styled.span`
   color: #f44336;
-
 `;

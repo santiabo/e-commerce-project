@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProduct } from "../../redux/actions/product";
-import { Link } from 'react-router-dom'
+import { setItemToCart } from "../../redux/actions/cart";
+
 
 // Components
 import ImagesColumn from "../ImagesColumn";
@@ -28,35 +29,41 @@ import NotFound from '../../containers/NotFound';
 
 
 const Product = ({ match, reviews = { average: 4, total: 200 } }) => {
-  const cartFromLocalStorage= JSON.parse(localStorage.getItem('cart')) || '[]';
-  const [cart, setCart] = useState(cartFromLocalStorage)
+  // const cartFromLocalStorage = JSON.parse(localStorage.getItem('cart')) || [];
+  // const [cart, setCart] = useState(cartFromLocalStorage);
+  const [count, setCount] = useState(1);
 
-  const [componentInCart, setcomponentInCart] = useState(false)
+  //const [productInCart, setproductInCart] = useState(false);
 
-  useEffect(()=>{
-    localStorage.setItem('cart',JSON.stringify(cart))
-  },[cart])
+  // useEffect(() => {
+  //   localStorage.setItem('cart', JSON.stringify(cart));
+  //   mapFunction();
+  // }, [cart]);
 
-  const dispatch = useDispatch(); 
+  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getProduct(match.params.id));
   }, []);
   const product = useSelector(state => state.product.productDetail);
-  
-
-  const handlerClick = (products, cart) => {
-    setCart([
-      ...cart,products
-    ])
-    mapFunction()
-  }
 
 
-  const mapFunction = () => {
-    let filterItem = cart.filter((item) => item.id === product.id);
-    filterItem.length > 0 ? setcomponentInCart(false) : setcomponentInCart(true)
-  }
+  // const mapFunction = () => {
+  //   let filterItem = cart.filter((item) => item.id === product.id);
+  //   console.log('filterItem', filterItem);
+  //   filterItem.length > 0 ? setproductInCart(true) : setproductInCart(false);
+  // };
+
+  const handleChange = (e) => {
+    setCount({
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(setItemToCart(product, count));
+  };
 
   const keys = Object.keys(product);
   const inStock = product.stock > 0;
@@ -102,25 +109,14 @@ const Product = ({ match, reviews = { average: 4, total: 200 } }) => {
         </Price>
 
         <ButtonsWrapper>
-          <UnitsAmount />
-          {
-            componentInCart ?
-              <Button>
-                <Link to='/cart'>
-                  <h3>This product is in your Cart</h3>
-                </Link>
+          <form onSubmit={handleSubmit}>
+            <UnitsAmount handleChange={handleChange} count={count} setCount={setCount} />
+            <Button disabled={!inStock}>
+              Add to Cart
               </Button>
-              :
-              <Button disabled={!inStock}>
-                <button onClick={() => handlerClick(product, cart)} >
-                  Add to Cart
-                 </button>
-              </Button>
-          }
+          </form>
         </ButtonsWrapper>
-
       </RightSide>
-
     </ProductWrapper>
   );
 };
