@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setItemToCart } from "../../redux/actions/cart";
 
 // Components
 import Button from '../Button';
@@ -20,6 +22,16 @@ import {
 } from './styles';
 
 const ProductCard = ({ product, categories, reviews = { average: 4, } }) => {
+ 
+  const count = 1;
+  const dispatch = useDispatch();
+
+  const handleClick = () => {
+    console.log('product',product)
+    console.log('count',count)
+    dispatch(setItemToCart(product, count));
+  };
+
   const inStock = product.stock > 0;
   return (
     <ProductCardWrapper>
@@ -45,7 +57,7 @@ const ProductCard = ({ product, categories, reviews = { average: 4, } }) => {
         <Price>$ {product.price}</Price>
 
         <ButtonsWrapper>
-          <Button disabled={!inStock}>Add to Cart</Button>
+          <Button disabled={!inStock} onClick={handleClick}>Add to Cart</Button>
         </ButtonsWrapper>
 
       </InfoBox>
