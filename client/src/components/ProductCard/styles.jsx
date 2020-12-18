@@ -21,6 +21,8 @@ export const ProductCardWrapper = styled.div`
   padding: 1rem;
   background-color: #fafafa;
   border: 0.5px solid #e2e2e2;
+
+  
 `;
 
 export const RowWrapper = styled.div`
@@ -34,19 +36,21 @@ export const RowWrapper = styled.div`
 export const ButtonsWrapper = styled.div`
   display: flex;
   width: 100%;
+  height: 40px !important;
 `;
 
 export const ImageContainer = styled.div`
   display: flex;
   justify-content: center;
-  height: 60%;
+  position: relative;
 
+`;
 
-  img {
-    width: 100%;
-    height: 320px;
-    object-fit: contain;
-  }
+export const StyledImg = styled.img`
+  width: 100%;
+  height: 320px;
+  object-fit: contain;
+  filter: ${props => !props.inStock ? "opacity(.4)" : "opacity(1)"};
 `;
 
 export const Price = styled.h2`
@@ -85,4 +89,20 @@ export const InfoBox = styled.div`
   flex-direction: column;
   justify-content: space-between;
 
+`;
+
+export const NoStockTag = styled.div`
+  position: absolute;
+  top: 0.2rem;
+  right: 0.2rem;
+
+  height: 1.5rem;
+  width: fit-content;
+  padding: 0 1rem;
+  
+  color: white;
+  text-decoration: none;
+  background: #232323;
+  border-radius: 12px;
+  z-index: 100;
 `;

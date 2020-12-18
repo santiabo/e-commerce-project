@@ -1,37 +1,38 @@
 import styled from "styled-components";
 
 export const ProductWrapper = styled.div`
-  display: flex;
+  display: flex; 
+  justify-content:center;
+  border: solid grey 1px;
+  margin: 20px;
+  padding: 0 20px 30px;
+  width:85%
 `;
 
 export const LeftSide = styled.div`
   display: flex;
-  width: 60%;
+  justify-content:center;
+  width: 50%;
 `;
 
 export const RightSide = styled.div`
-  display:flex;
+  display: flex;
   flex-direction:column;
-  width: 40%;
+  width: 70%;
 `;
 
 export const ImageContainer = styled.div`
-  width: 90%;
-  max-height: 500px;
-  object-fit:  cover;
+  display:flex;  
+  justify-content: center;
+
 
   img {
-    height: 100%;
-    max-width: 90%;
+    display: flex;
+    justify-content: center;
+    width: 65%;
     object-fit: cover;
     overflow: hidden;
   }
-`;
-
-export const RatingWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  margin: 1rem 0;
 `;
 
 export const CategoriesTags = styled.div`
@@ -47,7 +48,7 @@ export const Title = styled.h1`
 `;
 export const Description = styled.p``;
 
-export const CategoryTag = styled.span`
+export const CategoryTag = styled.h3`
   display: flex;
   justify-content: center;
   margin-right: 0.5rem;
@@ -56,7 +57,7 @@ export const CategoryTag = styled.span`
   color: white;
   background: #232323;
   padding: 0.5rem;
-  margin: 1rem 0;
+  margin-top: 1rem;
   font-size: 18px;
   font-weight: 400;
 `;
@@ -67,12 +68,5 @@ export const Price = styled.h3`
 `;
 
 export const ButtonsWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  height: 3rem;
-
-`;
-
-export const NoStockAlert = styled.span`
-  color: #f44336;
+  display: flex
 `;

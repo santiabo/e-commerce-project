@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setItemToCart } from "../../redux/actions/cart";
 
 // Components
 import Button from '../Button';
@@ -14,38 +16,53 @@ import {
   RowWrapper,
   CategoryTag,
   InfoBox,
-  StyledLink
+  StyledLink,
+  NoStockTag,
+  StyledImg
 } from './styles';
 
 const ProductCard = ({ product, categories, reviews = { average: 4, } }) => {
+ 
+  const count = 1;
+  const dispatch = useDispatch();
 
+  const handleClick = () => {
+    console.log('product',product)
+    console.log('count',count)
+    dispatch(setItemToCart(product, count));
+  };
+
+  const inStock = product.stock > 0;
   return (
-    <StyledLink to={"product/" + product.id}>
-      <ProductCardWrapper>
+    <ProductCardWrapper>
 
+      <StyledLink to={"product/" + product.id}>
         <ImageContainer>
-          <img src={product.images[0]} alt={product.name} />
+          {!inStock && <NoStockTag>No Stock</NoStockTag>}
+          <StyledImg src={product.images[0]} alt={product.name} inStock={inStock} />
         </ImageContainer>
+      </StyledLink >
 
-        <InfoBox>
+      <InfoBox>
 
-          <RowWrapper>
-            {categories.map(category => <CategoryTag key={category.id}>{category.name}</CategoryTag>)}
-            <Rating stars={Math.round(reviews.average)} />
-          </RowWrapper>
+        <RowWrapper>
+          {categories.map(category => <CategoryTag key={category.id}>{category.name}</CategoryTag>)}
+          <Rating stars={Math.round(reviews.average)} />
+        </RowWrapper>
 
+        <StyledLink to={"product/" + product.id}>
           <Title>{product.name.substring(0, 55)} {product.name.length > 55 ? "..." : ""}</Title>
+        </StyledLink>
 
-          <Price>$ {product.price}</Price>
+        <Price>$ {product.price}</Price>
 
-          <ButtonsWrapper>
-            <Button>Add to Cart</Button>
-          </ButtonsWrapper>
+        <ButtonsWrapper>
+          <Button disabled={!inStock} onClick={handleClick}>Add to Cart</Button>
+        </ButtonsWrapper>
 
-        </InfoBox>
+      </InfoBox>
 
-      </ProductCardWrapper>
-    </StyledLink >
+    </ProductCardWrapper>
   );
 };
 

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { getProducts } from "../redux/actions/product";
 import { getCategories } from "../redux/actions/category";
+import { getCartItemsFromLocalStorage } from "../redux/actions/cart";
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 // Components
@@ -13,6 +14,7 @@ import ProductTable from '../components/ProductTable';
 import Product from '../components/Product';
 import UserRegister from '../components/RegisterForm';
 import EditProfile from '../components/EditProfile';
+import Cart from '../components/Cart/Cart';
 
 function App() {
 
@@ -22,6 +24,7 @@ function App() {
   useEffect(() => {
     dispatch(getProducts());
     dispatch(getCategories());
+    dispatch(getCartItemsFromLocalStorage());
   }, []);
 
 
@@ -48,6 +51,8 @@ function App() {
           </Route>
 
           <Route path='/product/:id' render={({ match }) => <Product match={match} />} />
+
+          <Route path='/cart' component={Cart} />
 
           <Route component={NotFound} />
 
