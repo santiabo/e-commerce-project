@@ -50,5 +50,18 @@ server.get('/', (req, res, next) => {
     .catch(next);
 });
 
+// User delete route
 
+server.delete('/:id', (req, res, next) => {
+  const {id} = req.params;
+
+  User.destroy({
+    where: { id }
+  })
+    .then(() => {
+      return res.send({ UserDeleted: `id: ${Number(id)}` });
+
+    })
+    .catch(next);
+})
 module.exports = server;
