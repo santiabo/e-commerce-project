@@ -220,7 +220,7 @@ server.get("/category/:categoryName", (req, res, next) => {
 //-----------Post Product Review Route -----------
 server.post('/:id/review', (req, res, next) => {
   const { id } = req.params;
-  const { stars, description, idUser } = req.body;
+  const { stars, description, userId } = req.body;
 
   Product.findOne({
     where: {
@@ -234,7 +234,7 @@ server.post('/:id/review', (req, res, next) => {
         stars,
         description,
         productId: id,
-        userId: idUser
+        userId
       })
         .then(r => {
           res.send({ ...r.dataValues });

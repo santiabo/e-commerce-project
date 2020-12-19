@@ -8,7 +8,7 @@ module.exports = (sequelize) => {
       allowNull: false,
       unique: true,
     },
-    /*  role: {
+    /*  isAadmin: {
        type: DataTypes.STRING,     <-- Se va a usar después!
        allowNull: false,
      }, */

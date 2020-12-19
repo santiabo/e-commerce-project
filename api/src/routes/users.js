@@ -41,7 +41,7 @@ server.get('/', (req, res, next) => {
   
   User.findAll({
     order: [
-      ['name', 'DESC']
+      ['email', 'DESC']
     ]
   })
     .then(users => {
