@@ -1,5 +1,5 @@
 const server = require('express').Router();
-const { Product, Category } = require('../db.js');
+const { Product, Category, Review } = require('../db.js');
 
 const {
   getAll,
@@ -216,4 +216,31 @@ server.get("/category/:categoryName", (req, res, next) => {
     .catch(next);
 });
 
+
+//-----------Post Product Review Route -----------
+server.post('/:id/review', (req, res, next) => {
+  const { id } = req.params;
+  const { stars, description, idUser } = req.body;
+
+  Product.findOne({
+    where: {
+      id
+    }
+  }).then(product => {
+    if (!product) {
+      return res.status(404).send({ error: `Product not found` })
+    } else {
+      Review.create({
+        stars,
+        description,
+        productId: id,
+        userId: idUser
+      })
+        .then(r => {
+          res.send({ ...r.dataValues });
+        })
+        .catch(next);
+    }
+  })
+});
 module.exports = server;

@@ -2,13 +2,6 @@ const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
   sequelize.define('user', {
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-      isAlphanumeric: true,
-      len: [4, 10]   // <-- Entre 4 y 10 caracteres !
-    },
     email: {
       type: DataTypes.STRING,
       isEmail: true,  // <-- Valida que sea un Email.
