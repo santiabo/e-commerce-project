@@ -27,8 +27,6 @@ const ProductCard = ({ product, categories, reviews = { average: 4, } }) => {
   const dispatch = useDispatch();
 
   const handleClick = () => {
-    console.log('product',product)
-    console.log('count',count)
     dispatch(setItemToCart(product, count));
   };
 
