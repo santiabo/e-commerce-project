@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProduct } from "../../redux/actions/product";
+import { setItemToCart, decrementItem,incrementItem } from "../../redux/actions/cart";
+
 
 // Components
 import ImagesColumn from "../ImagesColumn";
 import Rating from "../Rating";
 import Button from "../Button";
-import UnitsAmount from "../UnitsAmount";
 
 // StyledComponents
 import {
@@ -20,8 +21,9 @@ import {
   CategoryTag,
   Price,
   ButtonsWrapper,
-  CategoriesTags
+  CategoriesTags,
 } from "./styles";
+import { UnitsAmountWrapper } from "../UnitsAmount/styles";
 
 const Product = ({ match, reviews = { average: 4, total: 200 } }) => {
 
@@ -33,9 +35,23 @@ const Product = ({ match, reviews = { average: 4, total: 200 } }) => {
 
   const product = useSelector(state => state.product.productDetail);
 
-  let keys = Object.keys(product);
-  console.log(product)
+  const { cart } = useSelector(state => state.cart);
 
+  console.log('cart',cart)
+  
+  const quantity=1;
+  
+
+  const handleClick = () => {
+    if (!cart) {
+       quantity = cart[0].quantity;
+    }
+    dispatch(setItemToCart(product, quantity));
+  };
+
+  const inStock = product.stock > 0;
+
+  let keys = Object.keys(product);
   return (
     <ProductWrapper>
       <LeftSide>
@@ -64,9 +80,14 @@ const Product = ({ match, reviews = { average: 4, total: 200 } }) => {
         <Price>
           $ {product.price}
         </Price>
+        <h4>Units: {product.quantity}</h4>
         <ButtonsWrapper>
-          <UnitsAmount />
-          <Button>Add to Cart</Button>
+        <UnitsAmountWrapper>
+                <input type="button"  value='-'  onClick={() => product.quantity > 1 && dispatch(decrementItem(product.id))}  />
+                <input type="button" value={product.quantity} />
+                <input type="button" value='+' onClick={() => dispatch(incrementItem(product.id))} />
+        </UnitsAmountWrapper>
+          <Button disabled={!inStock} onClick={handleClick}>Add to Cart</Button>
         </ButtonsWrapper>
       </RightSide>
     </ProductWrapper>
