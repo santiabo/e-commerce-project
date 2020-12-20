@@ -1,7 +1,7 @@
 const server = require('express').Router();
 const { Order, OrderLine } = require('../db.js');
 
-// Update or Create Cart
+//---------------- Update or Create Cart
 server.post('/users/:userId/cart', (req, res, next) => {
   const { userId } = req.params;
   const { idProduct, amount } = req.body;
@@ -10,12 +10,13 @@ server.post('/users/:userId/cart', (req, res, next) => {
   Order.findOne({
     where: {
       client_id: userId,
-      status: 'on_cart' // Tiene que tener el estado en carrito, para poder agregar mas items.
+      status: 'on_cart' // Tiene que tener el estado en carrito, para poder agregar más items.
     }
   }).then(order => {
 
-    // si no tiene, se crea una Order.
+    // Si no tiene, se crea una Order.
     if (!order) {
+
       Order.create({
         client_id: userId,
         status: 'on_cart'
@@ -27,8 +28,12 @@ server.post('/users/:userId/cart', (req, res, next) => {
             quantity: amount,
             productId: idProduct,  // Le asigno el id del producto.
             orderId: order.id   // Le asigno el id de la orden
-          })
-          return res.send(order.dataValues)
+          });
+          if (!this.orderLine) { // Tiene items ?
+            return res.status(400).send({ error: `Item quantity must be bigger than one` })
+          } else {
+            return res.send(order.values) 
+          }
         })
         .catch(next);
       // Si ya tiene una order.
@@ -40,10 +45,10 @@ server.post('/users/:userId/cart', (req, res, next) => {
           orderId: order.id
         }
       }).then((orderLine) => {
-       
+
         //Si ya tiene orderLine con ese producto, se le suma la cantidad.
         if (orderLine) {
-          
+
           OrderLine.update(
             { quantity: amount },
             { where: { productId: idProduct } }
@@ -64,11 +69,8 @@ server.post('/users/:userId/cart', (req, res, next) => {
               return res.send({ ...orderLine.dataValues });
             })
             .catch(next);
-
         }
-
       })
-
     }
   })
 });
@@ -116,42 +118,42 @@ server.delete('/users/:userId/cart', (req, res, next) => {
 
 // ---> 44 45 46 47 <-- falta terminar de armar dos get y el put
 
-server.get('/status/:status', (req, res) => { 
+server.get('/status/:status', (req, res) => {
   //Esta ruta puede recibir el query string "status" y deberá devolver sólo las ordenes con ese status.
-//vamos a adivinar
+  //vamos a adivinar
   var status = req.params.status //query string status
   Order.findAll({ //busca todas las ordenes
     where: {
       status //que tengan este argumento especifico (un estado)
     }
-  }).then((orders)=>{
+  }).then((orders) => {
     return res.send(orders) //devuelve esas ordenes
-  }).catch((err)=>{
+  }).catch((err) => {
     return res.send(err) //o devuelve un error
   })
 
- });
+});
 
- server.get('/users/:id/orders', (req, res, next) => { 
+server.get('/users/:id/orders', (req, res, next) => {
   //devuelve las ordenes de usuarios
- 
 
 
- });
 
- 
+});
 
- server.put('/edit/id/:id', (req, res) => {
+
+
+server.put('/edit/id/:id', (req, res) => {
 
   //modifica una orden
-  
-  
-  });
-
-  // server.get('/:id', (req, res) => { 
-  //   //una orden particular
-    
-  //  });
 
 
- module.exports = server;
+});
+
+// server.get('/:id', (req, res) => { 
+//   //una orden particular
+
+//  });
+
+
+module.exports = server;
