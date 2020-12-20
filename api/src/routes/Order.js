@@ -29,12 +29,13 @@ server.post('/users/:userId/cart', (req, res, next) => {
             productId: idProduct,  // Le asigno el id del producto.
             orderId: order.id   // Le asigno el id de la orden
           });
-          if (!this.orderLine) { // Tiene items ?
-            return res.status(400).send({ error: `Item quantity must be bigger than one` })
-          } else {
-            return res.send(order.values) 
-          }
         })
+        .then((orderLine) => {
+          if (!orderLine) { // Tiene items ?
+          return res.status(400).send({ error: `Item quantity must be bigger than one` })
+        } else {
+          return res.send(order.values) 
+        }})
         .catch(next);
       // Si ya tiene una order.
     } else {
