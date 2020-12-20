@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProduct } from "../../redux/actions/product";
-import { setItemToCart, decrementItem,incrementItem } from "../../redux/actions/cart";
+import { setItemToCart, decrementItem, incrementItem } from "../../redux/actions/cart";
 
 
 // Components
@@ -33,19 +33,31 @@ const Product = ({ match, reviews = { average: 4, total: 200 } }) => {
     dispatch(getProduct(match.params.id));
   }, []);
 
-  const product = useSelector(state => state.product.productDetail);
+  let product = useSelector(state => state.product.productDetail);
+  const quantity = product.quantity || 1;
+  console.log('product', product)
 
-  const { cart } = useSelector(state => state.cart);
+  const increment = () => {  
+    console.log('entre')  
+    product = {
+      ...product,
+      quantity: product.quantity +1
+    };
+    console.log(product)
+    return product;
+  }
 
-  console.log('cart',cart)
-  
-  const quantity=1;
+  const decrement = () => {    
+    product = {
+      ...product,
+      quantity: product.quantity - 1
+    };
+    return product;
+  }
+
   
 
   const handleClick = () => {
-    if (!cart) {
-       quantity = cart[0].quantity;
-    }
     dispatch(setItemToCart(product, quantity));
   };
 
@@ -80,13 +92,13 @@ const Product = ({ match, reviews = { average: 4, total: 200 } }) => {
         <Price>
           $ {product.price}
         </Price>
-        <h4>Units: {product.quantity}</h4>
+        <h4>Units: {product.quantity || 1}</h4>
         <ButtonsWrapper>
-        <UnitsAmountWrapper>
-                <input type="button"  value='-'  onClick={() => product.quantity > 1 && dispatch(decrementItem(product.id))}  />
-                <input type="button" value={product.quantity} />
-                <input type="button" value='+' onClick={() => dispatch(incrementItem(product.id))} />
-        </UnitsAmountWrapper>
+          <UnitsAmountWrapper>
+            <input type="button" value='-' onClick={() => product.quantity > 1 && decrement()} />
+            <input type="button" value={product.quantity || 1} />
+            <input type="button" value='+' onClick={() => increment()} />
+          </UnitsAmountWrapper>
           <Button disabled={!inStock} onClick={handleClick}>Add to Cart</Button>
         </ButtonsWrapper>
       </RightSide>

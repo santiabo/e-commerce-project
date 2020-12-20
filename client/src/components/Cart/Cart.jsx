@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
 import { removeItemFromCart, clearCart, incrementItem, decrementItem } from "../../redux/actions/cart";
 
@@ -80,11 +81,11 @@ const CartItem = () => {
             </Description>
             {item.quantity && <h4>Units: {item.quantity}</h4>}
             <Price>
-              $ {item.price * item.quantity}
+              $ {Number(item.price * item.quantity).toFixed(2)}
             </Price>
             <ButtonsWrapper>
               <UnitsAmountWrapper>
-                <input type="button"  value='-'  onClick={() => item.quantity > 1 && dispatch(decrementItem(item.id))}  />
+                <input type="button" value='-' onClick={() => item.quantity > 1 && dispatch(decrementItem(item.id))} />
                 <input type="button" value={item.quantity} />
                 <input type="button" value='+' onClick={() => dispatch(incrementItem(item.id))} />
               </UnitsAmountWrapper>
@@ -102,9 +103,14 @@ const CartItem = () => {
             Total <span>${getTotal()}</span>
           </h4>
         </div>
-        <Button onClick={() => clearAllItems()}>
-          CLEAR CART
+        <ButtonsWrapper>
+          <Button className='nav-button' onClick={() => clearAllItems()}>
+            CLEAR CART
         </Button>
+          <Button className='nav-button' as="a" href='/register'>
+           BUY NOW!
+        </Button>
+        </ButtonsWrapper>
       </footer>
     </section>
   );
