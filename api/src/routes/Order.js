@@ -114,12 +114,12 @@ server.delete('/users/:userId/cart', (req, res, next) => {
 
 // FALTA TERMINAR.
 
-// ---> 44 45 46 47 <-- falta terminar de armar dos get y el put
+// ---> 44 45 46 47 <-- REVISAR CON POSTMAN!!
 
 server.get('/status/:status', (req, res) => { 
   //Esta ruta puede recibir el query string "status" y deberá devolver sólo las ordenes con ese status.
 //vamos a adivinar
-  var status = req.params.status //query string status
+  const status = req.params.status //query string status
   Order.findAll({ //busca todas las ordenes
     where: {
       status //que tengan este argumento especifico (un estado)
@@ -134,7 +134,15 @@ server.get('/status/:status', (req, res) => {
 
  server.get('/users/:id/orders', (req, res, next) => { 
   //devuelve las ordenes de usuarios
- 
+  const {userId} = req.params
+
+  Order.findAll({ //busca las ordenes
+    where: { userId } //<-- del usuario especifico
+   }).then((order)=>{
+     return res.send(order) //devuelve las ordenes
+   }).catch((err)=>{
+     return res.send(err) //o devuelve un error
+   })
 
 
  });
@@ -145,13 +153,36 @@ server.get('/status/:status', (req, res) => {
 
   //modifica una orden
   
-  
+  const { id } = req.params;
+  const { totalPrice, status } = req.body;
+
+  Order.update({
+    totalPrice,
+    status
+    }, 
+    { where: { id } }
+   )
+    .then(order => {
+      return res.send(order);
+    })
+    .catch(next);
+
   });
 
-  // server.get('/:id', (req, res) => { 
-  //   //una orden particular
-    
-  //  });
+  
+  server.get('/:id', (req, res) => { 
+     //una orden particular
+    const {id} = req.params
+
+    Order.findByPk({ //busca una orden
+      where: { id }
+     }).then((order)=>{
+       return res.send(order) //devuelve esa orden
+     }).catch((err)=>{
+       return res.send(err) //o devuelve un error
+     })
+
+    });
 
 
  module.exports = server;
