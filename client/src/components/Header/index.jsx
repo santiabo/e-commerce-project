@@ -23,7 +23,7 @@ const Header = () => {
         <NavWrapper2>
 
           <ImageContainer>
-            <NavLink to='/user/account'><Login /> </NavLink>
+            <NavLink to='/signin'><Login /> </NavLink>
           </ImageContainer>
 
           <ImageContainer>

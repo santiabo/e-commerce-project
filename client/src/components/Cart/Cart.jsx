@@ -52,7 +52,7 @@ const CartItem = () => {
   };
 
   const getTotal = () => {
-    return Number(cart.reduce((sum, { price }) => sum + Number(price), 0).toFixed(2));
+    return Number(cart.reduce((sum, { price, quantity }) => sum + Number(price) * quantity, 0).toFixed(2));
   };
 
 

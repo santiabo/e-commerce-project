@@ -27,8 +27,8 @@ server.post('/users/:userId/cart', (req, res, next) => {
             quantity: amount,
             productId: idProduct,  // Le asigno el id del producto.
             orderId: order.id   // Le asigno el id de la orden
-          })
-          return res.send(order.dataValues)
+          });
+          return res.send(order.dataValues);
         })
         .catch(next);
       // Si ya tiene una order.
@@ -40,10 +40,10 @@ server.post('/users/:userId/cart', (req, res, next) => {
           orderId: order.id
         }
       }).then((orderLine) => {
-       
+
         //Si ya tiene orderLine con ese producto, se le suma la cantidad.
         if (orderLine) {
-          
+
           OrderLine.update(
             { quantity: amount },
             { where: { productId: idProduct } }
@@ -67,10 +67,10 @@ server.post('/users/:userId/cart', (req, res, next) => {
 
         }
 
-      })
+      });
 
     }
-  })
+  });
 });
 
 
@@ -85,19 +85,19 @@ server.get('/users/:userId/cart', (req, res, next) => {
   })
     .then((order) => {
       if (!order) {
-        return res.status(404).send({ error: `User doesn't have an order` })
+        return res.status(404).send({ error: `User doesn't have an order` });
       } else
         OrderLine.findAll({
           where: { orderId: order.id }
         })
           .then((orderLine) => {
             let totalProducts = orderLine.map(e => `Id: ${e.productId} Amount: ${e.quantity}`);
-            return res.send({ totalProducts })
-          })
+            return res.send({ totalProducts });
+          });
     })
-    .catch(next)
+    .catch(next);
 
-})
+});
 
 server.delete('/users/:userId/cart', (req, res, next) => {
   const { userId } = req.params;
@@ -116,73 +116,73 @@ server.delete('/users/:userId/cart', (req, res, next) => {
 
 // ---> 44 45 46 47 <-- REVISAR CON POSTMAN!!
 
-server.get('/status/:status', (req, res) => { 
+server.get('/status/:status', (req, res, next) => {
   //Esta ruta puede recibir el query string "status" y deberá devolver sólo las ordenes con ese status.
-//vamos a adivinar
-  const status = req.params.status //query string status
+  //vamos a adivinar
+  const status = req.params.status; //query string status
+
   Order.findAll({ //busca todas las ordenes
     where: {
       status //que tengan este argumento especifico (un estado)
     }
-  }).then((orders)=>{
-    return res.send(orders) //devuelve esas ordenes
-  }).catch((err)=>{
-    return res.send(err) //o devuelve un error
-  })
+  }).then((orders) => {
+    return res.send(orders); //devuelve esas ordenes
+  }).catch(next);
+});
 
- });
 
- server.get('/users/:id/orders', (req, res, next) => { 
+server.get('/users/:id/orders', (req, res, next) => {
   //devuelve las ordenes de usuarios
-  const {userId} = req.params
+  const { id } = req.params;
 
   Order.findAll({ //busca las ordenes
-    where: { userId } //<-- del usuario especifico
-   }).then((order)=>{
-     return res.send(order) //devuelve las ordenes
-   }).catch((err)=>{
-     return res.send(err) //o devuelve un error
-   })
+    where: { id } //<-- del usuario especifico
+  }).then((order) => {
+    return res.send(order); //devuelve las ordenes
+  }).catch(next);
+});
 
 
- });
-
- 
-
- server.put('/edit/id/:id', (req, res) => {
+server.put('/edit/id/:id', (req, res, next) => {
 
   //modifica una orden
-  
+
   const { id } = req.params;
   const { totalPrice, status } = req.body;
 
   Order.update({
     totalPrice,
     status
-    }, 
+  },
     { where: { id } }
-   )
+  )
     .then(order => {
       return res.send(order);
     })
     .catch(next);
+});
 
-  });
 
-  
-  server.get('/:id', (req, res) => { 
-     //una orden particular
-    const {id} = req.params
+// server.get('/:id', async (req, res, next) => {
+server.get('/:id', (req, res) => {
 
-    Order.findByPk({ //busca una orden
-      where: { id }
-     }).then((order)=>{
-       return res.send(order) //devuelve esa orden
-     }).catch((err)=>{
-       return res.send(err) //o devuelve un error
-     })
+  //una orden particular
+  const { id } = req.params;
 
+  // try {
+  //   const order = await Order.findByPk(id);
+  //   res.send(order);
+  // } catch (error) {
+  //   next(error);
+  // }
+
+  Order.findByPk(id) //busca una orden
+    .then((order) => {
+      return res.send(order); //devuelve esa orden
+    }).catch((err) => {
+      return res.send(err); //o devuelve un error
     });
+});
 
 
- module.exports = server;
+module.exports = server;

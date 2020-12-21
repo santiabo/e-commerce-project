@@ -343,7 +343,7 @@ export default function UserRegister() {
                       marginBlockEnd: "0.83em",
                       marginInlineStart: "0px",
                       marginInlineEnd: "0px"
-                    }}>Have a account?</h2>
+                    }}>Have an account?</h2>
                   </div>
                 </div>
               </section>
