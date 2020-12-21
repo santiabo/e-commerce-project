@@ -2,7 +2,9 @@ import {
   GET_CART_ITEMS_FROM_LOCAL_STORAGE,
   SET_ITEM_TO_CART,
   CLEAR_CART,
-  REMOVE_ITEM_FROM_CART
+  REMOVE_ITEM_FROM_CART,
+  INCREMENT_ITEM,
+  DECREMENT_ITEM  
 } from "../actions/cart";
 
 const initialState = {
@@ -50,6 +52,38 @@ const cartReducer = (state = initialState, action) => {
     case CLEAR_CART:
       localStorage.removeItem("cart");
       return initialState;
+
+    case INCREMENT_ITEM:
+
+      const increment = {
+        ...state,
+        cart: state.cart.map((item)=>{
+          if(item.id === action.id){ return {
+            ...item,
+            quantity: item.quantity+1 
+          };
+        }
+        return item;
+        })
+      };
+      localStorage.setItem("cart", JSON.stringify(increment.cart));
+      return increment;     
+      
+    case DECREMENT_ITEM:
+      const decrement = {
+        ...state,
+        cart: state.cart.map((item)=>{
+          if(item.id === action.id){ return {
+            ...item,
+            quantity: item.quantity-1 
+          };
+        }
+        return item;
+        })
+      };
+      localStorage.setItem("cart", JSON.stringify(decrement.cart));
+      return decrement; 
+       
 
     default:
       return state;
