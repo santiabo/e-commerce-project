@@ -46,7 +46,7 @@ server.post('/users/:userId/cart', (req, res, next) => {
           orderId: order.id
         }
       }).then((orderLine) => {
-        var thisOrderline = orderLine;
+        const thisOrderline = orderLine;
         //Si ya tiene orderLine con ese producto, se le suma la cantidad.
         if (thisOrderline) {
 
@@ -179,7 +179,7 @@ server.put('/users/:id/cart', async (req, res, next) => {
 server.get('/status/:status', (req, res, next) => {
   //Esta ruta puede recibir el query string "status" y deberá devolver sólo las ordenes con ese status.
   //vamos a adivinar
-  var status = req.params.status //query string status
+  const status = req.params.status //query string status
   Order.findAll({ //busca todas las ordenes
     where: {
       status //que tengan este argumento especifico (un estado)
