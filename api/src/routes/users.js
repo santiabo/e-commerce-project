@@ -1,18 +1,57 @@
 const server = require('express').Router();
 const { User } = require('../db');
 
+const crypto = require('crypto');
+
+generateSalt = function () {
+  return crypto.randomBytes(16).toString('base64');
+};
+
+encryptPassword = function (plainText, salt) {
+  return crypto
+    .createHash('RSA-SHA256')
+    .update(plainText)
+    .update(salt)
+    .digest('hex');
+};
 
 // User creation route
 
 server.post('/', (req, res, next) => {
 
-  User.create(req.body)
+  const { email, avatar, firstName, lastName, birthdate, password } = req.body;
+
+  const sal = generateSalt();
+  const encryptedPassword = encryptPassword(password, sal);
+
+  User.create({ email, avatar, firstName, lastName, birthdate, password: encryptedPassword, salt: sal })
     .then(user => {
       res.send({ ...user.dataValues });
     })
     .catch(next);
 });
 
+// User log in route
+
+server.post('/auth/login', (req, res, next) => {
+
+  const { email, password } = req.body;
+
+  User.findOne({
+    where: {
+      email
+    }
+  })
+    .then(user => {
+      const encryptedPassword = encryptPassword(password, user.salt.toString());
+
+      if (user.password === encryptedPassword) {
+        res.status(202).send(user);
+      }
+      res.status(401).send({ Error: 'Wrong password. Please, try again.' });
+    })
+    .catch(next);
+});
 
 // User update route
 
@@ -38,10 +77,10 @@ server.put('/:id', (req, res, next) => {
 // All users route
 
 server.get('/', (req, res, next) => {
-  
+
   User.findAll({
     order: [
-      ['email', 'DESC']
+      ['firstName', 'DESC']
     ]
   })
     .then(users => {
@@ -53,7 +92,7 @@ server.get('/', (req, res, next) => {
 // User delete route
 
 server.delete('/:id', (req, res, next) => {
-  const {id} = req.params;
+  const { id } = req.params;
 
   User.destroy({
     where: { id }
@@ -63,5 +102,6 @@ server.delete('/:id', (req, res, next) => {
 
     })
     .catch(next);
-})
+});
+
 module.exports = server;
