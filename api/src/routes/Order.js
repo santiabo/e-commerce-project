@@ -1,7 +1,7 @@
 const server = require('express').Router();
-const { Order, OrderLine } = require('../db.js');
+const { Order, OrderLine, Product } = require('../db.js');
 
-//---------------- Update or Create Cart
+//---------------- Update or Create Cart.
 server.post('/users/:userId/cart', (req, res, next) => {
   const { userId } = req.params;
   const { idProduct, amount } = req.body;
@@ -9,7 +9,7 @@ server.post('/users/:userId/cart', (req, res, next) => {
   // El user tiene Order ?
   Order.findOne({
     where: {
-      client_id: userId,
+       userId,
       status: 'on_cart' // Tiene que tener el estado en carrito, para poder agregar más items.
     }
   }).then(order => {
@@ -18,30 +18,24 @@ server.post('/users/:userId/cart', (req, res, next) => {
     if (!order) {
 
       Order.create({
-        client_id: userId,
+         userId,
         status: 'on_cart'
       })
 
         // Creo una OrderLine
         .then((order) => {
-          /*  console.log("<<<>>>", idProduct, amount) */
+
           const orderId = order.dataValues.id;
 
           OrderLine.create({
             quantity: amount,
             productId: idProduct,  // Le asigno el id del producto.
-<<<<<<< HEAD
-            orderId: order.id   // Le asigno el id de la orden
-          });
-          return res.send(order.dataValues);
-=======
-            client_id: orderId   // Le asigno el id de la orden
+            orderId: orderId   // Le asigno el id de la orden
           })
             .then((orderLine) => {
               return res.send(orderLine)
             })
             .catch(next);
->>>>>>> S53-Reviews_model
         })
         .catch(next);
     } else {
@@ -52,16 +46,24 @@ server.post('/users/:userId/cart', (req, res, next) => {
           orderId: order.id
         }
       }).then((orderLine) => {
-
+        var thisOrderline = orderLine;
         //Si ya tiene orderLine con ese producto, se le suma la cantidad.
-        if (orderLine) {
+        if (thisOrderline) {
 
           OrderLine.update(
             { quantity: amount },
             { where: { productId: idProduct } }
           )
-            .then((orderLine) => {
-              return res.send({ ItemsQuantity: `Changed to: ${amount}` });
+            .then(() => {
+              OrderLine.findOne({
+                where: {
+                  productId: idProduct,
+                  orderId: order.id
+                }
+              }).then((orderLine) => {
+                return res.send({ ...orderLine.dataValues });
+              })
+              .catch(next);
             })
             .catch(next);
         } else {
@@ -77,28 +79,18 @@ server.post('/users/:userId/cart', (req, res, next) => {
             })
             .catch(next);
         }
-<<<<<<< HEAD
-
-      });
-
-    }
-  });
-});
-
-=======
       })
     }
   }
   )
 })
->>>>>>> S53-Reviews_model
-
+//----------------Get user cart.
 server.get('/users/:userId/cart', (req, res, next) => {
   const { userId } = req.params;
 
   Order.findOne({
     where: {
-      client_id: userId,
+       userId,
       status: 'on_cart'
     }
   })
@@ -117,12 +109,12 @@ server.get('/users/:userId/cart', (req, res, next) => {
     .catch(next);
 
 });
-
+//-----------------Delete user cart.
 server.delete('/users/:userId/cart', (req, res, next) => {
   const { userId } = req.params;
 
   Order.destroy({
-    where: { client_id: userId }
+    where: { userId }
   })
     .then((data) => {
       return res.send({ CartDeleted: `User ID: ${Number(userId)}` });
@@ -130,29 +122,69 @@ server.delete('/users/:userId/cart', (req, res, next) => {
     })
     .catch(next);
 });
+//-------------Update or delete product from cart.
+server.put('/users/:id/cart', async (req, res, next) => {
+  const { id } = req.params;
+  const { quantity, productId } = req.body;
+
+  try {
+     const order = await Order.findOne({
+      where: {
+        userId: id
+      }
+    }) 
+    if (quantity < 1) {
+     await OrderLine.destroy({
+        where: {
+          productId,
+          orderId: order.dataValues.id
+        }
+      });
+      const aux = await OrderLine.findOne({
+        where: {
+          productId: productId,
+          orderId: order.id
+        }
+      })
+      
+      return res.send("Order deleted ");
+    } else {
+      await OrderLine.update(
+        { quantity },
+        {
+          where: {
+            productId: productId,
+            orderId: order.id
+          }
+        });
+        const orderLine3 = await OrderLine.findOne({
+          where: {
+            productId: productId,
+            orderId: order.id
+          }
+        })
+
+      return res.send(orderLine3);
+    }
+  }
+  catch (e) {
+    next(e);
+  }
+})
 
 // FALTA TERMINAR.
 
 // ---> 44 45 46 47 <-- REVISAR CON POSTMAN!!
 
-<<<<<<< HEAD
 server.get('/status/:status', (req, res, next) => {
   //Esta ruta puede recibir el query string "status" y deberá devolver sólo las ordenes con ese status.
   //vamos a adivinar
-  const status = req.params.status; //query string status
-
-=======
-server.get('/status/:status', (req, res) => {
-  //Esta ruta puede recibir el query string "status" y deberá devolver sólo las ordenes con ese status.
-  //vamos a adivinar
   var status = req.params.status //query string status
->>>>>>> S53-Reviews_model
   Order.findAll({ //busca todas las ordenes
     where: {
       status //que tengan este argumento especifico (un estado)
     }
   }).then((orders) => {
-<<<<<<< HEAD
     return res.send(orders); //devuelve esas ordenes
   }).catch(next);
 });
@@ -163,7 +195,7 @@ server.get('/users/:id/orders', (req, res, next) => {
   const { id } = req.params;
 
   Order.findAll({ //busca las ordenes
-    where: { id } //<-- del usuario especifico
+    where: {userId: id } //<-- del usuario especifico
   }).then((order) => {
     return res.send(order); //devuelve las ordenes
   }).catch(next);
@@ -175,10 +207,10 @@ server.put('/edit/id/:id', (req, res, next) => {
   //modifica una orden
 
   const { id } = req.params;
-  const { totalPrice, status } = req.body;
+  const { total, status } = req.body;
 
   Order.update({
-    totalPrice,
+    total,
     status
   },
     { where: { id } }
@@ -213,35 +245,3 @@ server.get('/:id', (req, res) => {
 
 
 module.exports = server;
-=======
-    return res.send(orders) //devuelve esas ordenes
-  }).catch((err) => {
-    return res.send(err) //o devuelve un error
-  })
-
-});
-
-server.get('/users/:id/orders', (req, res, next) => {
-  //devuelve las ordenes de usuarios
-
-
-
-});
-
-
-
-server.put('/edit/id/:id', (req, res) => {
-
-  //modifica una orden
-
-
-});
-
-// server.get('/:id', (req, res) => { 
-//   //una orden particular
-
-//  });
-
-
-module.exports = server;
->>>>>>> S53-Reviews_model
