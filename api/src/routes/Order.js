@@ -24,20 +24,20 @@ server.post('/users/:userId/cart', (req, res, next) => {
 
         // Creo una OrderLine
         .then((order) => {
+          /*  console.log("<<<>>>", idProduct, amount) */
+          const orderId = order.dataValues.id;
+
           OrderLine.create({
             quantity: amount,
             productId: idProduct,  // Le asigno el id del producto.
-            orderId: order.id   // Le asigno el id de la orden
-          });
+            client_id: orderId   // Le asigno el id de la orden
+          })
+            .then((orderLine) => {
+              return res.send(orderLine)
+            })
+            .catch(next);
         })
-        .then((orderLine) => {
-          if (!orderLine) { // Tiene items ?
-          return res.status(400).send({ error: `Item quantity must be bigger than one` })
-        } else {
-          return res.send(order.values) 
-        }})
         .catch(next);
-      // Si ya tiene una order.
     } else {
       // Tiene una orderLine con ese producto ?
       OrderLine.findOne({
@@ -73,9 +73,9 @@ server.post('/users/:userId/cart', (req, res, next) => {
         }
       })
     }
-  })
-});
-
+  }
+  )
+})
 
 server.get('/users/:userId/cart', (req, res, next) => {
   const { userId } = req.params;
