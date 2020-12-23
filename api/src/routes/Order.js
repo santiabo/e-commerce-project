@@ -1,15 +1,17 @@
 const server = require('express').Router();
-const { Order, OrderLine } = require('../db.js');
+const { Order } = require('../db.js');
+
+//---------------- Update or Create Cart.
 
 
+// FALTA TERMINAR.
 
 // ---> 44 45 46 47 <-- REVISAR CON POSTMAN!!
 
 server.get('/status/:status', (req, res, next) => {
   //Esta ruta puede recibir el query string "status" y deberá devolver sólo las ordenes con ese status.
   //vamos a adivinar
-  const status = req.params.status; //query string status
-
+  const status = req.params.status //query string status
   Order.findAll({ //busca todas las ordenes
     where: {
       status //que tengan este argumento especifico (un estado)
@@ -20,27 +22,15 @@ server.get('/status/:status', (req, res, next) => {
 });
 
 
-server.get('/users/:id/orders', (req, res, next) => {
-  //devuelve las ordenes de usuarios
-  const { id } = req.params;
-
-  Order.findAll({ //busca las ordenes
-    where: { id } //<-- del usuario especifico
-  }).then((order) => {
-    return res.send(order); //devuelve las ordenes
-  }).catch(next);
-});
-
-
 server.put('/edit/id/:id', (req, res, next) => {
 
   //modifica una orden
 
   const { id } = req.params;
-  const { totalPrice, status } = req.body;
+  const { total, status } = req.body;
 
   Order.update({
-    totalPrice,
+    total,
     status
   },
     { where: { id } }
