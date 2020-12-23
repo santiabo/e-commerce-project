@@ -23,7 +23,7 @@ server.delete('/product/:id/review/:idReview', (req, res, next) => {
       if (data) return res.send({ reviewDeleted: Number(id) }); //confirma
       return res.status(404).send({ error: "Review not Found." }); //o envia un error si no la encuentra
     })
-    .catch(next);
+    .catch(next); 
 });
 
 
