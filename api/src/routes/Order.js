@@ -1,5 +1,5 @@
 const server = require('express').Router();
-const { Order, OrderLine, Product } = require('../db.js');
+const { Order } = require('../db.js');
 
 //---------------- Update or Create Cart.
 
@@ -18,18 +18,6 @@ server.get('/status/:status', (req, res, next) => {
     }
   }).then((orders) => {
     return res.send(orders); //devuelve esas ordenes
-  }).catch(next);
-});
-
-
-server.get('/users/:id/orders', (req, res, next) => {
-  //devuelve las ordenes de usuarios
-  const { id } = req.params;
-
-  Order.findAll({ //busca las ordenes
-    where: {userId: id } //<-- del usuario especifico
-  }).then((order) => {
-    return res.send(order); //devuelve las ordenes
   }).catch(next);
 });
 

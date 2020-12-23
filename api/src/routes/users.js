@@ -1,6 +1,5 @@
 const server = require('express').Router();
-const { User } = require('../db');
-const { DB_SECRET } = process.env;
+const { User, Order, OrderLine } = require('../db');
 
 
 // User creation route
@@ -48,25 +47,29 @@ server.get("/", async (req, res, next) => {
 
 server.delete('/:id', (req, res, next) => {
   const { id } = req.params;
-  User.destroy({
-    where: { id }
-  })
-    .then(() => {
-      return res.send({ UserDeleted: `id: ${Number(id)}` });
-
+  if (req.user && req.user.isAdmin) {
+    User.destroy({
+      where: { id }
     })
-    .catch(next);
+      .then(() => {
+        return res.send({ UserDeleted: `id: ${Number(id)}` });
+
+      })
+      .catch(next);
+  } else {
+    res.status(401).send('You are not an Admin');
+  }
 });
 
 
-server.post('/users/:userId/cart', (req, res, next) => {
+server.post('/:userId/cart', (req, res, next) => {
   const { userId } = req.params;
   const { idProduct, amount } = req.body;
 
   // El user tiene Order ?
   Order.findOne({
     where: {
-       userId,
+      userId,
       status: 'on_cart' // Tiene que tener el estado en carrito, para poder agregar más items.
     }
   }).then(order => {
@@ -75,7 +78,7 @@ server.post('/users/:userId/cart', (req, res, next) => {
     if (!order) {
 
       Order.create({
-         userId,
+        userId,
         status: 'on_cart'
       })
 
@@ -120,7 +123,7 @@ server.post('/users/:userId/cart', (req, res, next) => {
               }).then((orderLine) => {
                 return res.send({ ...orderLine.dataValues });
               })
-              .catch(next);
+                .catch(next);
             })
             .catch(next);
         } else {
@@ -142,32 +145,34 @@ server.post('/users/:userId/cart', (req, res, next) => {
   )
 })
 //----------------Get user cart.
-server.get('/users/:userId/cart', (req, res, next) => {
+server.get('/:userId/cart', (req, res, next) => {
   const { userId } = req.params;
 
-  Order.findOne({
-    where: {
-       userId,
-      status: 'on_cart'
-    }
-  })
-    .then((order) => {
-      if (!order) {
-        return res.status(404).send({ error: `User doesn't have an order` });
-      } else
-        OrderLine.findAll({
-          where: { orderId: order.id }
-        })
-          .then((orderLine) => {
-            let totalProducts = orderLine.map(e => `Id: ${e.productId} Amount: ${e.quantity}`);
-            return res.send({ totalProducts });
-          });
+  if (req.user) {
+    Order.findOne({
+      where: {
+        userId,
+        status: 'on_cart'
+      }
     })
-    .catch(next);
-
+      .then((order) => {
+        if (!order) {
+          return res.status(404).send({ error: `User doesn't have an order` });
+        } else
+          OrderLine.findAll({
+            where: { orderId: order.id }
+          })
+            .then((orderLine) => {
+              let totalProducts = orderLine.map(e => `Id: ${e.productId} Amount: ${e.quantity}`);
+              return res.send({ totalProducts });
+            });
+      })
+      .catch(next);
+  } return res.redirect(401, '/login')
 });
+
 //-----------------Delete user cart.
-server.delete('/users/:userId/cart', (req, res, next) => {
+server.delete('/:userId/cart', (req, res, next) => {
   const { userId } = req.params;
 
   Order.destroy({
@@ -180,46 +185,39 @@ server.delete('/users/:userId/cart', (req, res, next) => {
     .catch(next);
 });
 //-------------Update or delete product from cart.
-server.put('/users/:id/cart', async (req, res, next) => {
+server.put('/:id/cart', async (req, res, next) => {
   const { id } = req.params;
   const { quantity, productId } = req.body;
 
   try {
-     const order = await Order.findOne({
+    const order = await Order.findOne({
       where: {
         userId: id
       }
-    }) 
+    })
     if (quantity < 1) {
-     await OrderLine.destroy({
+      await OrderLine.destroy({
         where: {
           productId,
           orderId: order.dataValues.id
         }
       });
-      const aux = await OrderLine.findOne({
-        where: {
-          productId: productId,
-          orderId: order.id
-        }
-      })
-      
       return res.send("Order deleted ");
     } else {
       await OrderLine.update(
         { quantity },
         {
           where: {
-            productId: productId,
+            productId,
             orderId: order.id
           }
         });
-        const orderLine3 = await OrderLine.findOne({
-          where: {
-            productId: productId,
-            orderId: order.id
-          }
-        })
+      const orderLine3 = await OrderLine.findOne({
+        where: {
+          productId: productId,
+          orderId: order.id
+        }
+      })
 
       return res.send(orderLine3);
     }
@@ -228,6 +226,18 @@ server.put('/users/:id/cart', async (req, res, next) => {
     next(e);
   }
 })
+
+//-------------Get User Order
+server.get('/:id/orders', (req, res, next) => {
+  //devuelve las ordenes de usuarios
+  const { id } = req.params;
+
+  Order.findAll({ //busca las ordenes
+    where: {userId: id } //<-- del usuario especifico
+  }).then((order) => {
+    return res.send(order); //devuelve las ordenes
+  }).catch(next);
+});
 
 
 module.exports = server;
