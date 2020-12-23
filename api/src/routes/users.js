@@ -48,14 +48,18 @@ server.get("/", async (req, res, next) => {
 
 server.delete('/:id', (req, res, next) => {
   const { id } = req.params;
-  User.destroy({
-    where: { id }
-  })
-    .then(() => {
-      return res.send({ UserDeleted: `id: ${Number(id)}` });
-
+  if (req.user && req.user.isAdmin) {
+    User.destroy({
+      where: { id }
     })
-    .catch(next);
+      .then(() => {
+        return res.send({ UserDeleted: `id: ${Number(id)}` });
+
+      })
+      .catch(next);
+  } else {
+    res.status(401).send('You are not an Admin');
+  }
 });
 
 
@@ -137,27 +141,27 @@ server.post('/:userId/cart', (req, res, next) => {
 server.get('/:userId/cart', (req, res, next) => {
   const { userId } = req.params;
 
-  if(req.user){
-  Order.findOne({
-    where: {
-      client_id: userId,
-      status: 'on_cart'
-    }
-  })
-    .then((order) => {
-      if (!order) {
-        return res.status(404).send({ error: `User doesn't have an order` });
-      } else
-        OrderLine.findAll({
-          where: { orderId: order.id }
-        })
-          .then((orderLine) => {
-            let totalProducts = orderLine.map(e => `Id: ${e.productId} Amount: ${e.quantity}`);
-            return res.send({ totalProducts });
-          });
+  if (req.user) {
+    Order.findOne({
+      where: {
+        client_id: userId,
+        status: 'on_cart'
+      }
     })
-    .catch(next);
-  }return res.redirect(401,'/login')
+      .then((order) => {
+        if (!order) {
+          return res.status(404).send({ error: `User doesn't have an order` });
+        } else
+          OrderLine.findAll({
+            where: { orderId: order.id }
+          })
+            .then((orderLine) => {
+              let totalProducts = orderLine.map(e => `Id: ${e.productId} Amount: ${e.quantity}`);
+              return res.send({ totalProducts });
+            });
+      })
+      .catch(next);
+  } return res.redirect(401, '/login')
 });
 
 server.delete('/:userId/cart', (req, res, next) => {
