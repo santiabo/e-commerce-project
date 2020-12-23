@@ -59,88 +59,95 @@ server.delete('/:id', (req, res, next) => {
 });
 
 
-// Update or Create Cart
-server.post('/:userId/cart', (req, res, next) => {
+server.post('/users/:userId/cart', (req, res, next) => {
   const { userId } = req.params;
   const { idProduct, amount } = req.body;
 
   // El user tiene Order ?
-  if (req.user) {
-    Order.findOne({
-      where: {
-        client_id: userId,
-        status: 'on_cart' // Tiene que tener el estado en carrito, para poder agregar mas items.
-      }
-    }).then(order => {
+  Order.findOne({
+    where: {
+       userId,
+      status: 'on_cart' // Tiene que tener el estado en carrito, para poder agregar más items.
+    }
+  }).then(order => {
 
-      // si no tiene, se crea una Order.
-      if (!order) {
-        Order.create({
-          client_id: userId,
-          status: 'on_cart'
-        })
+    // Si no tiene, se crea una Order.
+    if (!order) {
 
-          // Creo una OrderLine
-          .then((order) => {
-            OrderLine.create({
-              quantity: amount,
-              productId: idProduct,  // Le asigno el id del producto.
-              orderId: order.id   // Le asigno el id de la orden
-            });
-            return res.send(order.dataValues);
+      Order.create({
+         userId,
+        status: 'on_cart'
+      })
+
+        // Creo una OrderLine
+        .then((order) => {
+
+          const orderId = order.dataValues.id;
+
+          OrderLine.create({
+            quantity: amount,
+            productId: idProduct,  // Le asigno el id del producto.
+            orderId: orderId   // Le asigno el id de la orden
           })
-          .catch(next);
-        // Si ya tiene una order.
-      } else {
-        // Tiene una orderLine con ese producto ?
-        OrderLine.findOne({
-          where: {
-            productId: idProduct,
-            orderId: order.id
-          }
-        }).then((orderLine) => {
-
-          //Si ya tiene orderLine con ese producto, se le suma la cantidad.
-          if (orderLine) {
-
-            OrderLine.update(
-              { quantity: amount },
-              { where: { productId: idProduct } }
-            )
-              .then((orderLine) => {
-                return res.send({ ItemsQuantity: `Changed to: ${amount}` });
-              })
-              .catch(next);
-          } else {
-
-            //si no tiene, se crea una OrderLine
-            OrderLine.create({
-              quantity: amount,
-              productId: idProduct,  // Le asigno el id del producto.
-              orderId: order.id   // Le asigno el id de la orden
+            .then((orderLine) => {
+              return res.send(orderLine)
             })
-              .then((orderLine) => {
+            .catch(next);
+        })
+        .catch(next);
+    } else {
+      // Tiene una orderLine con ese producto ?
+      OrderLine.findOne({
+        where: {
+          productId: idProduct,
+          orderId: order.id
+        }
+      }).then((orderLine) => {
+        const thisOrderline = orderLine;
+        //Si ya tiene orderLine con ese producto, se le suma la cantidad.
+        if (thisOrderline) {
+
+          OrderLine.update(
+            { quantity: amount },
+            { where: { productId: idProduct } }
+          )
+            .then(() => {
+              OrderLine.findOne({
+                where: {
+                  productId: idProduct,
+                  orderId: order.id
+                }
+              }).then((orderLine) => {
                 return res.send({ ...orderLine.dataValues });
               })
               .catch(next);
+            })
+            .catch(next);
+        } else {
 
-          }
-
-        });
-
-      }
-    })
-  } return res.redirect(401, '/login');
-});
-
-
-server.get('/:userId/cart', (req, res, next) => {
+          //si no tiene, se crea una OrderLine
+          OrderLine.create({
+            quantity: amount,
+            productId: idProduct,  // Le asigno el id del producto.
+            orderId: order.id   // Le asigno el id de la orden
+          })
+            .then((orderLine) => {
+              return res.send({ ...orderLine.dataValues });
+            })
+            .catch(next);
+        }
+      })
+    }
+  }
+  )
+})
+//----------------Get user cart.
+server.get('/users/:userId/cart', (req, res, next) => {
   const { userId } = req.params;
 
-  if(req.user){
   Order.findOne({
     where: {
-      client_id: userId,
+       userId,
       status: 'on_cart'
     }
   })
@@ -157,21 +164,70 @@ server.get('/:userId/cart', (req, res, next) => {
           });
     })
     .catch(next);
-  }return res.redirect(401,'/login')
-});
 
-server.delete('/:userId/cart', (req, res, next) => {
+});
+//-----------------Delete user cart.
+server.delete('/users/:userId/cart', (req, res, next) => {
   const { userId } = req.params;
 
   Order.destroy({
-    where: { client_id: userId }
+    where: { userId }
   })
-    .then(() => {
+    .then((data) => {
       return res.send({ CartDeleted: `User ID: ${Number(userId)}` });
 
     })
     .catch(next);
 });
+//-------------Update or delete product from cart.
+server.put('/users/:id/cart', async (req, res, next) => {
+  const { id } = req.params;
+  const { quantity, productId } = req.body;
+
+  try {
+     const order = await Order.findOne({
+      where: {
+        userId: id
+      }
+    }) 
+    if (quantity < 1) {
+     await OrderLine.destroy({
+        where: {
+          productId,
+          orderId: order.dataValues.id
+        }
+      });
+      const aux = await OrderLine.findOne({
+        where: {
+          productId: productId,
+          orderId: order.id
+        }
+      })
+      
+      return res.send("Order deleted ");
+    } else {
+      await OrderLine.update(
+        { quantity },
+        {
+          where: {
+            productId: productId,
+            orderId: order.id
+          }
+        });
+        const orderLine3 = await OrderLine.findOne({
+          where: {
+            productId: productId,
+            orderId: order.id
+          }
+        })
+
+      return res.send(orderLine3);
+    }
+  }
+  catch (e) {
+    next(e);
+  }
+})
 
 
 module.exports = server;
