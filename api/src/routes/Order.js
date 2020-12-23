@@ -1,6 +1,7 @@
 const server = require('express').Router();
 const { Order, OrderLine, Product } = require('../db.js');
 
+<<<<<<< HEAD
 //---------------- Update or Create Cart.
 server.post('/users/:userId/cart', (req, res, next) => {
   const { userId } = req.params;
@@ -173,6 +174,9 @@ server.put('/users/:id/cart', async (req, res, next) => {
 })
 
 // FALTA TERMINAR.
+=======
+
+>>>>>>> master
 
 // ---> 44 45 46 47 <-- REVISAR CON POSTMAN!!
 
