@@ -58,12 +58,13 @@ conn.sync({ force: true }).then(() => {
     //Productos harcodeados cuando se levanta el servidor(descomentar para probar back)
     // Product.bulkCreate(data.products);
     User.create({
-      "email": "maggie@gmail.com",
+      "email": "admin@admin.com",
       "avatar": "https://static.wikia.nocookie.net/simpsons/images/9/9d/Maggie_Simpson.png",
       "firstName": "Maggie",
       "lastName": "Simpson",
       "birthdate": "1999-12-01",
-      "password": "asdf1234"
+      "password": "1234",
+      "isAdmin":"true"
     });
     
     Category.bulkCreate(data.categories);

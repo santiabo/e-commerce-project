@@ -56,7 +56,10 @@ server.route('/:id').get((req, res) => {
 server.put('/:id', (req, res, next) => {
   const { id } = req.params;
   const { name, description, price, stock, images } = req.body;
-
+  if(!(req.user && req.user.isAdmin)){ 
+    return res.status(401).send('Not Autorized')
+  }   
+  
   Product.update({
     name,
     description,
@@ -79,6 +82,7 @@ server.put('/:id', (req, res, next) => {
     })
     .catch(next);
 });
+
 
 // ------- Delete Product Route -------
 server.delete('/:id', (req, res, next) => {
