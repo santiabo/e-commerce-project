@@ -16,7 +16,6 @@ passport.use(
     async (email, password, done) => {
       //busca en la db si existe el email
       const user = await User.findOne({ where: { email: email } });
-      console.log(user)
       //el done recibe tres argumentos: first error, el usuario, y un mensaje
       //si no hay usuario el error es null, el usuario es false, y el mensaje es optativo
       if (!user) return done(null, false,'User not found');
