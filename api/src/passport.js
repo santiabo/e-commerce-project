@@ -19,11 +19,11 @@ passport.use(
       console.log(user)
       //el done recibe tres argumentos: first error, el usuario, y un mensaje
       //si no hay usuario el error es null, el usuario es false, y el mensaje es optativo
-      if (!user) return done(null, false,'el usuario es incorrecto');
+      if (!user) return done(null, false,'User not found');
       //si encuentra al usuario compara la contraseña
       //si la contraseña es incorrecta retorno lo mismo que si no encontrara el usuario
 
-      if (!user.compare(password)) return done(null, false,'El password es incorrecto');
+      if (!user.compare(password)) return done(null, false,'Password is incorrect');
       //si esta todo ok devolvemos el usuario
       //la manera en que sequelize devuelve el usuario es incompatible con JWT
       //por lo debemos extraer los datos que necesitamos y enviarlos por fuera de la instancia de sequelize
