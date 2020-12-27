@@ -37,14 +37,10 @@ server.post("/login", function (req, res, next) {
 //------Promote turns user with ID: id to Admin.
 server.post('/promote/:id', isAdmin, async function (req, res, next) {
   const { id } = req.params;
-  const { idUser } = req.user;
   try {
     const result = await User.findByPk(id)
     result.update({
-      where: {
-        id: idUser,
         isAdmin: true
-      }
     }); res.send('User role changed to Admin')
   } catch (error) {
     next(error);
