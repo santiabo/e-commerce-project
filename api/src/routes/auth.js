@@ -2,15 +2,14 @@ const server = require("express").Router();
 const { User } = require("../db.js");
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
+const { isUser, isAdmin } = require('../middlewares/auth')
 const { DB_SECRET } = process.env;
 
-server.get("/me", async (req, res, next) => {
+server.get("/me", isUser, async (req, res, next) => {
   try {
-    if (req.user) {
-      const { id } = req.user;
-      const result = await User.findByPk(id);
-      res.json(result);
-    } else res.sendStatus(401);
+    const { id } = req.user;
+    const result = await User.findByPk(id);
+    res.json(result);
   } catch (error) {
     next(error);
   }
@@ -33,6 +32,19 @@ server.post("/login", function (req, res, next) {
     //vamos a firmar un token enviando el usuario y un secreto
     else return res.send(jwt.sign(user, DB_SECRET));
   })(req, res, next);
+});
+
+//------Promote turns user with ID: id to Admin.
+server.post('/promote/:id', isAdmin, async function (req, res, next) {
+  const { id } = req.params;
+  try {
+    const result = await User.findByPk(id)
+    result.update({
+        isAdmin: true
+    }); res.send('User role changed to Admin')
+  } catch (error) {
+    next(error);
+  }
 });
 
 

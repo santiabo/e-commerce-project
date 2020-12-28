@@ -158,7 +158,7 @@ server.get('/:userId/cart', isUser, (req, res, next) => {
 });
 
 //-----------------Delete user cart.
-server.delete('/:userId/cart',isUser, (req, res, next) => {
+server.delete('/:userId/cart', isUser, (req, res, next) => {
   const { userId } = req.params;
 
   Order.destroy({
@@ -171,7 +171,7 @@ server.delete('/:userId/cart',isUser, (req, res, next) => {
     .catch(next);
 });
 //-------------Update or delete product from cart.
-server.put('/:id/cart',isUser, async (req, res, next) => {
+server.put('/:id/cart', isUser, async (req, res, next) => {
   const { id } = req.params;
   const { quantity, productId } = req.body;
 
@@ -214,7 +214,7 @@ server.put('/:id/cart',isUser, async (req, res, next) => {
 })
 
 //-------------Get User Order
-server.get('/:id/orders',isUser, (req, res, next) => {
+server.get('/:id/orders', isUser, (req, res, next) => {
   //devuelve las ordenes de usuarios
   const { id } = req.params;
 
@@ -225,5 +225,17 @@ server.get('/:id/orders',isUser, (req, res, next) => {
   }).catch(next);
 });
 
+server.post('/:id/passwordReset', isUser, async (req, res, next) => {
+  const { id } = req.params;
+  const newPassword = req.body.password;
+  try {
+    const result = await User.findByPk(id)
+    result.update({
+        password: newPassword,
+    }); res.send('Password Updated')
+  } catch (error) {
+    next(error);
+  }
+})
 
 module.exports = server;
