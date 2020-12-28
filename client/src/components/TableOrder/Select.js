@@ -1,13 +1,13 @@
 import React from 'react';
 
 const values = [
-  'IN CREATION',
-  'CONFIRMED',
-  'REJECTED',
-  'PREPARING',
+  'ON_CART',
+  'CREATED',
+  'CANCELLED',
+  'PROCESSING',
   'SEND',
   'DELIVERED',
-  'FINALIZED'
+  'COMPLETED'
 ];
 
 const Select = (props) => {

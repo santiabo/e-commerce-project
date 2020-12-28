@@ -4,7 +4,6 @@ const { isUser, isAdmin } = require('../middlewares/auth')
 
 
 // User creation route
-
 server.post("/", async (req, res, next) => {
   try {
     const result = await User.create(req.body);
@@ -14,9 +13,7 @@ server.post("/", async (req, res, next) => {
   }
 });
 
-
 // User update route
-
 server.put("/:id", isUser, async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -27,9 +24,7 @@ server.put("/:id", isUser, async (req, res, next) => {
   }
 });
 
-
 // All users route
-
 server.get("/", isAdmin, async (req, res, next) => {
   try {
     //si no esta logueado como admin no puede hacer un get de todos los usuarios      
@@ -41,7 +36,6 @@ server.get("/", isAdmin, async (req, res, next) => {
 });
 
 // User delete route
-
 server.delete('/:id', isAdmin, (req, res, next) => {
   const { id } = req.params;
   User.destroy({
@@ -225,6 +219,7 @@ server.get('/:id/orders', isUser, (req, res, next) => {
   }).catch(next);
 });
 
+//--------------Password Reset Route
 server.post('/:id/passwordReset', isUser, async (req, res, next) => {
   const { id } = req.params;
   const newPassword = req.body.password;
