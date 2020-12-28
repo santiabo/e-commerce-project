@@ -6,11 +6,11 @@ const SET_SHOPPINGCART = 'SET_SHOPPINGCART';
 const GET_ALL_ORDERS = 'GET_ALL_ORDERS';
 const RESET_STATE = 'RESET_STATE';
 const REMOVE_ORDER = 'REMOVE_ORDER';
-const CONFIRM_ORDER = 'CONFIRM_ORDER';
+const CREATED_ORDER = 'CREATED_ORDER';
 const DELIVERED_ORDER = 'DELIVERED_ORDER';
-const PREPARE_ORDER = 'PREPARE_ORDER';
-const REJECT_ORDER = 'REJECT_ORDER';
-const FINALIZED_ORDER = 'FINALIZED_ORDER';
+const PROCESSING_ORDER = 'PROCESSING_ORDER';
+const CANCELLED_ORDER = 'CANCELLED_ORDER';
+const COMPLETED_ORDER = 'COMPLETED_ORDER';
 const SEND_ORDER = 'SEND_ORDER';
 const HANDLE_VIEW_ORDER = 'HANDLE_VIEW_ORDER';
 const GET_ORDER_DETAIL = 'GET_ORDER_DETAIL';
@@ -98,7 +98,7 @@ export const setConfirmOrderAction = (id, address) => {
     return setConfirmOrder(id, address)
       .then((data) => {
         dispatch({
-          type: CONFIRM_ORDER,
+          type: CREATED_ORDER,
           payload: data
         })
       })
@@ -128,7 +128,7 @@ export const setPrepareOrderAction = (id) => {
     return setPreparedOrder(id)
     .then(data => {
       dispatch({
-        type: PREPARE_ORDER,
+        type: PROCESSING_ORDER,
         payload: data
       })
     })
@@ -143,7 +143,7 @@ export const setRejectedOrderAction = (id) => {
     return setRejectedOrder(id)
     .then(data => {
       dispatch({
-        type: REJECT_ORDER,
+        type: CANCELLED_ORDER,
         payload: data
       })
     })
@@ -158,7 +158,7 @@ export const setFinalizedOrderAction = (id) => {
     return setFinalizedOrder(id)
     .then(data => {
       dispatch({
-        type: FINALIZED_ORDER,
+        type: COMPLETED_ORDER,
         payload: data
       })
     })

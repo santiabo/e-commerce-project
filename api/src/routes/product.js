@@ -248,7 +248,7 @@ server.post('/:id/review', (req, res, next) => {
   })
 });
 
-//-----------REVIEWS--------
+//-----------Get Product Review Route -----------
 server.get('/:id/review', (req, res, next) => {
   //devuelve las reviews del producto
   const { id } = req.params;
@@ -260,7 +260,7 @@ server.get('/:id/review', (req, res, next) => {
   }).catch(next);
 });
 
-
+//-----------Delete Product Review Route -----------
 server.delete('/:id/review/:idReview', (req, res, next) => {
   //elimina review
   const { id } = req.params;
@@ -274,12 +274,5 @@ server.delete('/:id/review/:idReview', (req, res, next) => {
     })
     .catch(next); 
 });
-
-
-
-
-
-
-
 
 module.exports = server;

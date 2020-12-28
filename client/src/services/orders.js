@@ -20,10 +20,10 @@ export async function addProductToOrder(
     });
 }
 
-// CREA UNA ORDEN Y LE ENVIAMOS LA DIRECCION DEL USUARIO
-export async function createOrder(address) {
+// CREA UNA ORDEN
+export async function createOrder() {
   return axios
-    .post(`localhost:5000/orders`, { address })
+    .post(`localhost:5000/orders`)
     .then(res => {
       return res.data;
     })
