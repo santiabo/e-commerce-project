@@ -5,7 +5,7 @@ module.exports = (sequelize) => {
   sequelize.define(
     'order',
     {
-      totalPrice: {
+      total: {
         type: DataTypes.DECIMAL,
 
       },
