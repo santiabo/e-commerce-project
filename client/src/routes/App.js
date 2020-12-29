@@ -17,6 +17,7 @@ import TableOrder from '../components/TableOrder';
 import UserRegister from '../components/RegisterForm';
 import EditProfile from '../components/EditProfile';
 import Cart from '../components/Cart/Cart';
+import LoginUser from '../components/LoginForm';
 
 function App() {
 
@@ -36,6 +37,8 @@ function App() {
           <Route exact path='/' component={Home} />
 
           <Route exact path="/user/account" component={EditProfile} />
+
+          <Route exact path='/login' component={LoginUser} />
 
           <Route path="/register" component={UserRegister} />
 
