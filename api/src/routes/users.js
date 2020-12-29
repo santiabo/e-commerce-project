@@ -1,6 +1,6 @@
 const server = require('express').Router();
 const { User, Order, OrderLine } = require('../db');
-const { isUser, isAdmin } = require('../middlewares/auth')
+const { isUser, isAdmin } = require('../middlewares/auth');
 
 
 // User creation route
@@ -17,7 +17,7 @@ server.post("/", async (req, res, next) => {
 server.put("/:id", isUser, async (req, res, next) => {
   try {
     const { id } = req.params;
-    const result = await User.update(req.body, { where: id, returning: true });
+    const result = await User.update(req.body, { where: { id }, returning: true });
     res.status(202).json(result);
   } catch (error) {
     next(error);
@@ -75,7 +75,7 @@ server.post('/:userId/cart', isUser, (req, res, next) => {
             orderId: orderId   // Le asigno el id de la orden
           })
             .then((orderLine) => {
-              return res.send(orderLine)
+              return res.send(orderLine);
             })
             .catch(next);
         })
@@ -119,10 +119,10 @@ server.post('/:userId/cart', isUser, (req, res, next) => {
             })
             .catch(next);
         }
-      })
+      });
     }
-  })
-})
+  });
+});
 
 //----------------Get user cart.
 server.get('/:userId/cart', isUser, (req, res, next) => {
@@ -174,7 +174,7 @@ server.put('/:id/cart', isUser, async (req, res, next) => {
       where: {
         userId: id
       }
-    })
+    });
     if (quantity < 1) {
       await OrderLine.destroy({
         where: {
@@ -197,7 +197,7 @@ server.put('/:id/cart', isUser, async (req, res, next) => {
           productId: productId,
           orderId: order.id
         }
-      })
+      });
 
       return res.send(orderLine3);
     }
@@ -205,7 +205,7 @@ server.put('/:id/cart', isUser, async (req, res, next) => {
   catch (e) {
     next(e);
   }
-})
+});
 
 //-------------Get User Order
 server.get('/:id/orders', isUser, (req, res, next) => {
@@ -224,13 +224,13 @@ server.post('/:id/passwordReset', isUser, async (req, res, next) => {
   const { id } = req.params;
   const newPassword = req.body.password;
   try {
-    const result = await User.findByPk(id)
+    const result = await User.findByPk(id);
     result.update({
-        password: newPassword,
-    }); res.send('Password Updated')
+      password: newPassword,
+    }); res.send('Password Updated');
   } catch (error) {
     next(error);
   }
-})
+});
 
 module.exports = server;
