@@ -14,6 +14,7 @@ import { ReactComponent as CartLogo } from "../../assets/icons/cart.svg";
 import { ReactComponent as Login } from "../../assets/icons/login3.svg";
 import { ReactComponent as Register } from "../../assets/icons/register3.svg";
 
+
 const Header = () => {
   const cartAmount = useSelector(state => state.cart.cartAmount);
   return (

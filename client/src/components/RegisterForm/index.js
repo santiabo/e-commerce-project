@@ -74,13 +74,13 @@ export default function UserRegister() {
                   padding: "2px 0",
                   cursor: "default"
                 }}>name: </label>
-                {errors.name && <span style={{
+                {errors.firstName && <span style={{
                   marginLeft: ".5rem",
                   marginBottom: "3rem",
                   fontSize: "0.6875rem"
                 }} className="text-danger"> Name is required! </span>}
                 <input
-                  name="name"
+                  name="firstName"
                   style={{
                     WebkitWritingMode: "horizontal-tb !important",
                     boxShadow: "inset 0px 1px 2px 0px rgba(0, 0, 0, 0.21), inset 0px 0px 0px 1px rgba(0, 0, 0, 0.12)",
@@ -107,7 +107,7 @@ export default function UserRegister() {
                   ref={register({ required: true })}
                 />
                 <label style={{
-                  top: "-21px",
+                  marginTop: "1rem",
                   opacity: "1",
                   transition: "top 0.1s cubic-bezier(0.165, 0.84, 0.44, 1), opacity 0.1s cubic-bezier(0.165, 0.84, 0.44, 1)",
                   color: "#929292",
@@ -117,13 +117,56 @@ export default function UserRegister() {
                   padding: "2px 0",
                   cursor: "default"
                 }}>lastname: </label>
-                {errors.lastname && <span style={{
+                {errors.lastName && <span style={{
                   marginLeft: ".5rem",
                   marginBottom: "3rem",
                   fontSize: "0.6875rem"
                 }} className="text-danger"> Lastname is required! </span>}
                 <input
-                  name="lastname"
+                  name="lastName"
+                  style={{
+                    WebkitWritingMode: "horizontal-tb !important",
+                    boxShadow: "inset 0px 1px 2px 0px rgba(0, 0, 0, 0.21), inset 0px 0px 0px 1px rgba(0, 0, 0, 0.12)",
+                    fontSize: "1.25rem",
+                    marginBottom: "0",
+                    width: "100%",
+                    border: "none",
+                    borderRadius: "0.25rem",
+                    padding: ".375rem .5rem",
+                    lineHeight: "1.5",
+                    backgroundColor: "rgb(232, 240, 254) !important",
+                    color: "internal-light-dark(black, white) !important",
+                    textRendering: "auto",
+                    letterSpacing: "normal",
+                    wordSpacing: "normal",
+                    textTransform: "none",
+                    textIndent: "0px",
+                    textShadow: "none",
+                    display: "inline-block",
+                    textAlign: "start",
+                    cursor: "text",
+                    WebkitFontSmoothing: "antialiased"
+                  }}
+                  ref={register({ required: true })}
+                />
+                <label style={{
+                  marginTop: "1rem",
+                  opacity: "1",
+                  transition: "top 0.1s cubic-bezier(0.165, 0.84, 0.44, 1), opacity 0.1s cubic-bezier(0.165, 0.84, 0.44, 1)",
+                  color: "#929292",
+                  fontWeight: "bold",
+                  textTransform: "uppercase",
+                  fontSize: "0.6875rem",
+                  padding: "2px 0",
+                  cursor: "default"
+                }}>birthdate: </label>
+                {errors.birthdate && <span style={{
+                  marginLeft: ".5rem",
+                  marginBottom: "3rem",
+                  fontSize: "0.6875rem"
+                }} className="text-danger"> Birthdate is required! </span>}
+                <input
+                  name="birthdate"
                   style={{
                     WebkitWritingMode: "horizontal-tb !important",
                     boxShadow: "inset 0px 1px 2px 0px rgba(0, 0, 0, 0.21), inset 0px 0px 0px 1px rgba(0, 0, 0, 0.12)",
@@ -161,13 +204,13 @@ export default function UserRegister() {
                   padding: "2px 0",
                   cursor: "default"
                 }}>E-mail: </label>
-                {errors.Email && <span style={{
+                {errors.email && <span style={{
                   marginLeft: ".5rem",
                   marginBottom: "3rem",
                   fontSize: "0.6875rem"
                 }} className="text-danger"> E-mail is required! </span>}
                 <input
-                  name="Email"
+                  name="email"
                   style={{
                     WebkitWritingMode: "horizontal-tb !important",
                     boxShadow: "inset 0px 1px 2px 0px rgba(0, 0, 0, 0.21), inset 0px 0px 0px 1px rgba(0, 0, 0, 0.12)",
@@ -353,7 +396,7 @@ export default function UserRegister() {
                 marginRight: "auto",
                 width: "50%"
               }}>
-                <Link to="/signin"><button style={{
+                <Link to="/login"><button style={{
                   width: "100%",
                   marginTop: "0",
                   borderColor: "#2c85c5",
@@ -377,6 +420,5 @@ export default function UserRegister() {
         </div>
       </div>
     </section>
-
   )
 };
