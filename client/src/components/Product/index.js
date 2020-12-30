@@ -29,36 +29,24 @@ const Product = ({ match, reviews = { average: 4, total: 200 } }) => {
 
   const dispatch = useDispatch();
 
+  const [quantity, setQuantity] = useState(1)
+
   useEffect(() => {
     dispatch(getProduct(match.params.id));
   }, []);
 
   let product = useSelector(state => state.product.productDetail);
-  const quantity = product.quantity || 1;
-  console.log('product', product)
 
   const increment = () => {  
-    console.log('entre')  
-    product = {
-      ...product,
-      quantity: product.quantity +1
-    };
-    console.log(product)
-    return product;
+    setQuantity(quantity + 1)
   }
 
   const decrement = () => {    
-    product = {
-      ...product,
-      quantity: product.quantity - 1
-    };
-    return product;
-  }
-
-  
+    setQuantity(quantity - 1)
+  }  
 
   const handleClick = () => {
-    dispatch(setItemToCart(product, quantity));
+    dispatch(setItemToCart({ ...product, quantity }, quantity))
   };
 
   const inStock = product.stock > 0;
@@ -92,11 +80,11 @@ const Product = ({ match, reviews = { average: 4, total: 200 } }) => {
         <Price>
           $ {product.price}
         </Price>
-        <h4>Units: {product.quantity || 1}</h4>
+        <h4>Units: {quantity}</h4>
         <ButtonsWrapper>
           <UnitsAmountWrapper>
-            <input type="button" value='-' onClick={() => product.quantity > 1 && decrement()} />
-            <input type="button" value={product.quantity || 1} />
+            <input type="button" value='-' onClick={() => quantity > 1 && decrement()} />
+            <input type="button" value={quantity} />
             <input type="button" value='+' onClick={() => increment()} />
           </UnitsAmountWrapper>
           <Button disabled={!inStock} onClick={handleClick}>Add to Cart</Button>

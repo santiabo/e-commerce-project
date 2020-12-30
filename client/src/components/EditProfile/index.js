@@ -36,11 +36,11 @@ export default function EditProfile() {
                     <tbody>
                       <tr className="name-section">
                         <td>
-                          <label className="form-label">Name / Username</label>
+                          <label className="form-label">Name</label>
                         </td>
                         <td>
                           <div className="collapsed">
-                            <div className="username-section">username</div>
+                            <div className="username-section">Maggie Simpson</div>
                             <button onClick={toggle} type="button" className="btn btn-mini btn-tertiary accordion-btn-edit trigger-expand" id="ProfileButton">Edit</button>
                           </div>
                           <div className="expanded">
@@ -77,7 +77,7 @@ export default function EditProfile() {
                         </td>
                         <td>
                           <div className="collapsed">
-                            <div className="username-section">user@email.com</div>
+                            <div className="username-section">maggie@gmail.com</div>
                             <button type="button" className="btn btn-mini btn-tertiary accordion-btn-edit trigger-expand" onClick={toggle} id="ProfileButton">Edit</button>
                           </div>
                           <div className="expanded">
