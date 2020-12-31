@@ -51,7 +51,7 @@ server.delete('/:id', isAdmin, (req, res, next) => {
 //----------------Post Cart User
 server.post('/:userId/cart', isUser, (req, res, next) => {
   const { userId } = req.params;
-  const { idProduct, amount } = req.body;
+  const { productId, quantity } = req.body;
 
   // El user tiene Order ?
   Order.findOne({
@@ -70,9 +70,9 @@ server.post('/:userId/cart', isUser, (req, res, next) => {
         .then((order) => {
           const orderId = order.dataValues.id;
           OrderLine.create({
-            quantity: amount,
-            productId: idProduct,  // Le asigno el id del producto.
-            orderId: orderId   // Le asigno el id de la orden
+            quantity,
+            productId,  // Le asigno el id del producto.
+            orderId   // Le asigno el id de la orden
           })
             .then((orderLine) => {
               return res.send(orderLine);
@@ -84,21 +84,20 @@ server.post('/:userId/cart', isUser, (req, res, next) => {
       // Tiene una orderLine con ese producto ?
       OrderLine.findOne({
         where: {
-          productId: idProduct,
+          productId,
           orderId: order.id
         }
       }).then((orderLine) => {
-        const thisOrderline = orderLine;
-        //Si ya tiene orderLine con ese producto, se le suma la cantidad.
-        if (thisOrderline) {
+               //Si ya tiene orderLine con ese producto, se le suma la cantidad.
+        if (orderLine) {
           OrderLine.update(
-            { quantity: amount },
-            { where: { productId: idProduct } }
+            { quantity },
+            { where: { productId } }
           )
             .then(() => {
               OrderLine.findOne({
                 where: {
-                  productId: idProduct,
+                  productId,
                   orderId: order.id
                 }
               }).then((orderLine) => {
@@ -110,8 +109,8 @@ server.post('/:userId/cart', isUser, (req, res, next) => {
         } else {
           //si no tiene, se crea una OrderLine
           OrderLine.create({
-            quantity: amount,
-            productId: idProduct,  // Le asigno el id del producto.
+            quantity,
+            productId,  // Le asigno el id del producto.
             orderId: order.id   // Le asigno el id de la orden
           })
             .then((orderLine) => {
