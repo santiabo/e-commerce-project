@@ -24,7 +24,7 @@ const Header = () => {
         <NavWrapper2>
 
           <ImageContainer>
-            <NavLink to='/signin'><Login /></NavLink>
+            <NavLink to='/login'><Login /></NavLink>
           </ImageContainer>
 
           <ImageContainer>
