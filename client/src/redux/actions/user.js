@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 // Types
 export const CREATE_USER = "CREATE_USER";
 export const UPDATE_USER = "UPDATE_USER";
@@ -130,7 +132,7 @@ export const removeUser = (id) => {
 export const addUserCart = (userId) => {
   return async (dispatch) => {
     try {
-      const cart = JSON.parse(localStorage.getItem("cart")),
+      const cart = JSON.parse(localStorage.getItem("cart"));
       const res = await axios.post(`http://localhost:5000/users/${userId}/cart`, { ...cart });
 
       dispatch(postUserCart(res.data));
@@ -140,7 +142,7 @@ export const addUserCart = (userId) => {
   };
 };
 
-export const getUserCartDetail = (id) => {
+export const getUserCartDetail = (userId) => {
   return async (dispatch) => {
     try {
 
