@@ -1,13 +1,20 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
-
+import { useDispatch, useSelector } from "react-redux";
+import { createNewUser } from "../../redux/actions/user";
 
 export default function UserRegister() {
 
   const { register, handleSubmit, errors } = useForm();
+  
+  const dispatch = useDispatch();
 
-  const onSubmit = data => console.log("esto es data: ", data);
+  const onSubmit = (user) => {
+    dispatch(createNewUser(user));
+  };
+
+ // const onSubmit = data => console.log("esto es data: ", data);
 
   return (
     <section>
