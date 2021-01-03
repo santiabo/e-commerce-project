@@ -35,19 +35,19 @@ const TableOrder = ({ state, getAllOrdersAction, setFinalizedOrderAction, setCon
         case 'DELIVERED':
           await setDeliveredOrderAction(id, address)
           break;
-        case 'CONFIRMED':
+        case 'CREATED':
           await setConfirmOrderAction(id, address)
           break;
         case 'SEND':
           await setSendOrderAction(id)
           break;
-        case 'REJECTED':
+        case 'CANCELLED':
           await setRejectOrderAction(id)
           break;
-        case 'PREPARING':
+        case 'PROCESSING':
           await setPreparedOrderAction(id, address)
           break;
-        case 'FINALIZED':
+        case 'COMPLETED':
           await setFinalizedOrderAction(id)
           break;
         default:
@@ -98,7 +98,7 @@ const TableOrder = ({ state, getAllOrdersAction, setFinalizedOrderAction, setCon
                 
                 <td style={{ display: "flex" }}>
                 <ButtonsWrapper>
-                  <Button onClick={() => history.push(`/admin/orders/${id}`)}>
+                  <Button onClick={() => history.push(`/orders/${id}`)}>
                   <i className="fas fa-search"></i>                
                 </Button>
                 </ButtonsWrapper>
@@ -106,12 +106,12 @@ const TableOrder = ({ state, getAllOrdersAction, setFinalizedOrderAction, setCon
               </td>            
               </tr> 
             ))}
-                {/* <td>1</td>
+                <td>1</td>
                 <td>1</td>
                 <td>En proceso</td>
                 <td>16/12/2020</td>
                 <td>17/12/2020</td>
-                <td>1</td>
+                {/* <td>1</td>
                 <td>5</td>
                 <td>Finalizado</td>
                 <td>12/12/2020</td>

@@ -1,6 +1,6 @@
 const server = require('./src/app.js');
 const { conn } = require('./src/db.js');
-const { Product, Category } = require('./src/db');
+const { Product, Category, User } = require('./src/db');
 const data = require('./data');
 
 // Syncing all the models at once.
@@ -57,6 +57,16 @@ conn.sync({ force: true }).then(() => {
 
     //Productos harcodeados cuando se levanta el servidor(descomentar para probar back)
     // Product.bulkCreate(data.products);
+    User.create({
+      "email": "admin@admin.com",
+      "avatar": "https://static.wikia.nocookie.net/simpsons/images/9/9d/Maggie_Simpson.png",
+      "firstName": "Maggie",
+      "lastName": "Simpson",
+      "birthdate": "1999-12-01",
+      "password": "1234",
+      "isAdmin":"true"
+    });
+    
     Category.bulkCreate(data.categories);
 
     // data.categories.forEach(async c => {
