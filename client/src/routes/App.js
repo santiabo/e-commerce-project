@@ -8,7 +8,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 // Components
 import Layout from '../containers/Layout';
-import Home from '../containers/Home';
+import Home, { SlideData } from '../containers/Home';
 import NotFound from '../containers/NotFound';
 import Catalogue from '../components/Catalogue';
 import ProductTable from '../components/ProductTable';
@@ -34,7 +34,9 @@ function App() {
     <BrowserRouter>
       <Layout>
         <Switch>
-          <Route exact path='/' component={Home} />
+          <Route exact path='/'>
+            <Home slides={SlideData} />
+          </Route>
 
           <Route exact path="/user/account" component={EditProfile} />
 
