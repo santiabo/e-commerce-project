@@ -30,6 +30,7 @@ export default function orders_reducer(state = initialState, action) {
         orderUpdate: null
       }
     case GET_ALL_ORDERS:
+      console.log('entre!',action.payload)
       return {
         ...state,
         allOrders: action.payload
