@@ -83,6 +83,7 @@ export const createNewUser = (newUser) => {
       const res = await axios.post(`http://localhost:5000/users`, { ...newUser });
 
       dispatch(createUser(res.data));
+      alert(`User ${res.data.firstName} created successfully`)
     } catch (err) {
       console.log(err);
     }
