@@ -18,6 +18,7 @@ import UserRegister from '../components/RegisterForm';
 import EditProfile from '../components/EditProfile';
 import Cart from '../components/Cart/Cart';
 import LoginUser from '../components/LoginForm';
+import Order from '../components/Order/Order'
 
 function App() {
 
@@ -51,6 +52,8 @@ function App() {
           <Route path='/products' component={Catalogue} />
 
           <Route path='/cart' component={Cart} />
+
+          <Route path='/order' component={Order} />
 
           <Route path='/product/:id' render={({ match }) => <Product match={match} />} />
 
