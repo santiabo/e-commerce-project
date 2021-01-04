@@ -1,13 +1,17 @@
 const server = require('express').Router();
 const { Order } = require('../db.js');
 
-//---------------- Update or Create Cart.
+//-------------Get All Orders
+server.get('/', (req, res, next) => {
+  Order.findAll()
+    .then(res => {
+      res.send(res);
+    }).catch(err => {
+      res.send(err)
+    })
+})
 
-
-// FALTA TERMINAR.
-
-// ---> 44 45 46 47 <-- REVISAR CON POSTMAN!!
-
+//-------------Status Order
 server.get('/status/:status', (req, res, next) => {
   //Esta ruta puede recibir el query string "status" y deberá devolver sólo las ordenes con ese status.
   //vamos a adivinar
@@ -21,11 +25,8 @@ server.get('/status/:status', (req, res, next) => {
   }).catch(next);
 });
 
-
+//-------------Update Order
 server.put('/edit/id/:id', (req, res, next) => {
-
-  //modifica una orden
-
   const { id } = req.params;
   const { total, status } = req.body;
 
@@ -41,7 +42,7 @@ server.put('/edit/id/:id', (req, res, next) => {
     .catch(next);
 });
 
-
+//-------------Get Order
 // server.get('/:id', async (req, res, next) => {
 server.get('/:id', (req, res) => {
 

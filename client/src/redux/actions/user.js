@@ -12,6 +12,8 @@ export const GET_USER_CART = "GET_USER_CART";
 export const DELETE_USER_CART = "DELETE_USER_CART";
 export const UPDATE_USER_CART = "UPDATE_USER_CART";
 
+export const LOGIN_USER = "LOGIN_USER";
+
 //export const PASSWORD_RESET = "PASSWORD_RESET"; 
 
 const createUser = (user) => {
@@ -44,21 +46,21 @@ const deleteUser = ({ userDeleted }) => {
 };
 
 
-export const postUserCart = (userId) => {
+const postUserCart = (userId) => {
   return {
     type: POST_USER_CART,
     userId
   };
 };
 
-export const getUserCart = (id) => {
+const getUserCart = (id) => {
   return {
     type: GET_USER_CART,
     id
   };
 };
 
-export const deleteUserCart = (userId) => {
+const deleteUserCart = (userId) => {
   return {
     type: DELETE_USER_CART,
     userId
@@ -73,6 +75,13 @@ const updateUserCart = (id,userCart) => {
   };
 };
 
+const loginUser = (token) => {
+  return {
+    type: LOGIN_USER,
+    token
+  };
+};
+
 
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -83,6 +92,7 @@ export const createNewUser = (newUser) => {
       const res = await axios.post(`http://localhost:5000/users`, { ...newUser });
 
       dispatch(createUser(res.data));
+      alert(`User ${res.data.firstName} created successfully`)
     } catch (err) {
       console.log(err);
     }
@@ -175,6 +185,23 @@ export const editUserCart = (id, userCart) => {
       const res = await axios.put(`http://localhost:5000/users/${id}/cart`, { ...userCart });
 
       dispatch(updateUserCart(res.data));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const signInUser = (email, password) => {
+  return async (dispatch) => {
+    try {
+
+      const res = await axios.post(`http://localhost:5000/auth/login`, { ...email, ...password });
+      const token = res.data;
+      console.log('res',res)
+      console.log('token',token)
+      dispatch(loginUser(res.token));
+      alert(`Welcome ${res.data.firstName}!`)
+      localStorage.setItem("token", JSON.stringify(token));
     } catch (err) {
       console.log(err);
     }
