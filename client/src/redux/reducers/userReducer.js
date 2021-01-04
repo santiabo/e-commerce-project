@@ -6,7 +6,8 @@ import {
   POST_USER_CART,
   GET_USER_CART,
   DELETE_USER_CART,
-  UPDATE_USER_CART
+  UPDATE_USER_CART,
+  LOGIN_USER
 } from "../actions/user";
 
 const initialState = {
@@ -80,6 +81,12 @@ const userReducer = (state = initialState, action) => {
           }
         })
       }
+      case LOGIN_USER:
+        console.log('action',action)
+        return{
+          ...state,
+          token: action.token
+        }
     default:
       return state;
   }

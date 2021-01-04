@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
+import { signInUser } from '../../redux/actions/user'
 import '../LoginForm/style.css';
 
 
@@ -8,7 +10,13 @@ export default function LoginUser() {
 
   const { register, handleSubmit, errors } = useForm();
 
-  const onSubmit = data => console.log("data:", data);
+  const dispatch = useDispatch();
+
+  const onSubmit = (user) => {
+    dispatch(signInUser(user));
+  };
+
+  //const onSubmit = data => console.log("data:", data);
 
   return (
     <section className="main-wrapper xs-col-12">
