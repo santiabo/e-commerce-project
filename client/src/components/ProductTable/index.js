@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import {Link} from 'react-router-dom';
 import { Modal, ModalBody, ModalHeader, ModalFooter } from 'reactstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeProduct, addProduct, editProduct, addCategoryToProduct, removeCategoryToProduct } from '../../redux/actions/product';
@@ -180,6 +181,9 @@ function ProductTable() {
     <div className="App">
       <h2>Product List</h2>
       <br />
+      <Link to='/orders' className='mainLink'>
+      <h2>Order Table</h2>     
+      </Link>      
       <button className="btn btn-success" onClick={() => newProductModal()}>New Product</button>{"   "}
       <button className="btn btn-primary" onClick={() => newCategoryModal()}>New Category</button>
       <br /><br />

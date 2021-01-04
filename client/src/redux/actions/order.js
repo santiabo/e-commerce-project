@@ -16,7 +16,7 @@ const HANDLE_VIEW_ORDER = 'HANDLE_VIEW_ORDER';
 const GET_ORDER_DETAIL = 'GET_ORDER_DETAIL';
 const DISABLED_CRUD = 'DISABLED_CRUD';
 
-export const addProductToShoppingCart =(id, name, price, amount) => {
+export const addProductToShoppingCart = (id, name, price, amount) => {
   return {
     type: ADD_PRODUCT_TO_SHOPPINGCART,
     payload: {
@@ -49,14 +49,19 @@ export const getOrders = (id) => {
 };
 
 export const getAllOrdersAction = () => {
-  return (dispatch) => {
-    return getAllOrders()
-    .then((data) => {
+  return async (dispatch) => {
+    try {
+
+      const res = await axios.get(`http://localhost:5000/orders/`);
+      console.log('res', res.data)
+      const data = res.data;
       dispatch({
         type: GET_ALL_ORDERS,
         payload: data
       })
-    })
+    } catch (err) {
+      console.log(err);
+    }
   }
 }
 
@@ -66,12 +71,12 @@ export const removeOrderAction = (id) => {
       type: RESET_STATE,
     })
     return removeOrder(id)
-    .then((data) => {
-      dispatch({
-        type: REMOVE_ORDER,
-        payload: data
+      .then((data) => {
+        dispatch({
+          type: REMOVE_ORDER,
+          payload: data
+        })
       })
-    })
   }
 }
 
@@ -81,12 +86,12 @@ export const setCompletedOrderAction = (id) => {
       type: RESET_STATE
     })
     return setCompleteOrder(id)
-    .then((data) => {
-      dispatch({
-        type: REMOVE_ORDER,
-        payload: data
+      .then((data) => {
+        dispatch({
+          type: REMOVE_ORDER,
+          payload: data
+        })
       })
-    })
   }
 }
 
@@ -107,16 +112,16 @@ export const setConfirmOrderAction = (id, address) => {
 
 export const setDeliveredOrderAction = (id) => {
   return (dispatch) => {
-    dispatch ({
+    dispatch({
       type: RESET_STATE
     })
     return setDeliveredOrder(id)
-    .then(data => {
-      dispatch({
-        type: DELIVERED_ORDER,
-        payload: data
+      .then(data => {
+        dispatch({
+          type: DELIVERED_ORDER,
+          payload: data
+        })
       })
-    })
   }
 }
 
@@ -126,12 +131,12 @@ export const setPrepareOrderAction = (id) => {
       type: RESET_STATE
     })
     return setPreparedOrder(id)
-    .then(data => {
-      dispatch({
-        type: PROCESSING_ORDER,
-        payload: data
+      .then(data => {
+        dispatch({
+          type: PROCESSING_ORDER,
+          payload: data
+        })
       })
-    })
   }
 }
 
@@ -141,12 +146,12 @@ export const setRejectedOrderAction = (id) => {
       type: RESET_STATE
     })
     return setRejectedOrder(id)
-    .then(data => {
-      dispatch({
-        type: CANCELLED_ORDER,
-        payload: data
+      .then(data => {
+        dispatch({
+          type: CANCELLED_ORDER,
+          payload: data
+        })
       })
-    })
   }
 }
 
@@ -156,12 +161,12 @@ export const setFinalizedOrderAction = (id) => {
       type: RESET_STATE
     })
     return setFinalizedOrder(id)
-    .then(data => {
-      dispatch({
-        type: COMPLETED_ORDER,
-        payload: data
+      .then(data => {
+        dispatch({
+          type: COMPLETED_ORDER,
+          payload: data
+        })
       })
-    })
   }
 }
 
@@ -171,23 +176,23 @@ export const setSendOrderAction = (id) => {
       type: RESET_STATE
     })
     return setSendOrder(id)
-    .then(data => {
-      dispatch({
-        type: SEND_ORDER,
-        payload: data
+      .then(data => {
+        dispatch({
+          type: SEND_ORDER,
+          payload: data
+        })
       })
-    })
   }
 }
 
 export const handleViewOrder = (id) => {
   return dispatch => {
     dispatch(getOrderDetail(id))
-    .then(() => {
-      dispatch({
-        type: HANDLE_VIEW_ORDER
+      .then(() => {
+        dispatch({
+          type: HANDLE_VIEW_ORDER
+        })
       })
-    })
   }
 }
 
@@ -198,12 +203,12 @@ export const getOrderDetail = (id) => {
       payload: null
     })
     return getOrderById(id)
-    .then(data => {
-      dispatch({
-        type: GET_ORDER_DETAIL,
-        payload: data
+      .then(data => {
+        dispatch({
+          type: GET_ORDER_DETAIL,
+          payload: data
+        })
       })
-    })
   }
 }
 

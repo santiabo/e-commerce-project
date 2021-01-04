@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import * as actionsOrders from '../../redux/actions/order';
 import { useHistory } from 'react-router';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import initialState from '../../redux/reducers/orderReducer';
+import {initialState} from '../../redux/reducers/orderReducer';
 import Select from './Select';
 import style from './index.module.scss';
 
@@ -25,7 +25,8 @@ const TableOrder = ({ state, getAllOrdersAction, setFinalizedOrderAction, setCon
       initialState.orderDetail
   ]);
 
-  let orders = initialState.allOrders;
+  let orders = useSelector(state=> state.order.allOrders)
+ console.log('ORDERS',orders)
 
   const handleChange = async (e, id, address) => {
     let resp = window.confirm(`Desea cambiar el estado de la orden a ${e.target.value}`);

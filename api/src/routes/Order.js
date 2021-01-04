@@ -4,8 +4,8 @@ const { Order } = require('../db.js');
 //-------------Get All Orders
 server.get('/', (req, res, next) => {
   Order.findAll()
-    .then(res => {
-      res.send(res);
+    .then(order => {
+      return res.send(order);
     }).catch(err => {
       res.send(err)
     })
