@@ -30,7 +30,7 @@ server.post("/login", function (req, res, next) {
     else if (!user) return res.sendStatus(401);
     //si todo esta correcto la respuesta va a ser un body(JWT)
     //vamos a firmar un token enviando el usuario y un secreto
-    else return res.send(jwt.sign(user, DB_SECRET));
+    else return res.send({token:jwt.sign(user, DB_SECRET), user});
   })(req, res, next);
 });
 

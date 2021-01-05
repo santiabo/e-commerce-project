@@ -11,7 +11,7 @@ import {
 } from "../actions/user";
 
 const initialState = {
-  users: [],
+  user: [],
   isUser: false
 };
 
@@ -38,12 +38,11 @@ const userReducer = (state = initialState, action) => {
           users: action.user
         }
     case DELETE_USER:
-      if (action.user.isAdmin)
         return {
           ...state,
-          users: state.users.filter(user => {
-            action.userDeleted !== user.id
-          })
+          users: state.users.filter(user => 
+            action.userDeleted.id !== user.id
+          )
         }
     case POST_USER_CART:
       return {
@@ -82,10 +81,11 @@ const userReducer = (state = initialState, action) => {
         })
       }
       case LOGIN_USER:
-        console.log('action',action)
+        console.log('action',action.user)
         return{
           ...state,
-          token: action.token
+          user: action.user,
+          isUser: true
         }
     default:
       return state;

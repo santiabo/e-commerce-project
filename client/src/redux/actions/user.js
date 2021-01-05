@@ -49,7 +49,7 @@ const deleteUser = ({ userDeleted }) => {
 const postUserCart = (userId) => {
   return {
     type: POST_USER_CART,
-    userId
+    userId,
   };
 };
 
@@ -75,15 +75,24 @@ const updateUserCart = (id,userCart) => {
   };
 };
 
-const loginUser = (token) => {
+const loginUser = (user) => {
   return {
     type: LOGIN_USER,
-    token
+    user
   };
 };
 
 
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+//instancia de axios para realizar peticiones con headers que contengan el token
+const accessToken = JSON.parse(localStorage.getItem("token"));
+const authAxios=axios.create({
+  baseURL: 'http://localhost:5000',
+  headers:{
+    Authorization: `Bearer ${accessToken}`
+  }
+});
 
 export const createNewUser = (newUser) => {
   return async (dispatch) => {
@@ -103,7 +112,7 @@ export const editUser = (id, updatedUser) => {
   return async (dispatch) => {
     try {
 
-      const res = await axios.put(`http://localhost:5000/users/${id}`, { ...updatedUser });
+      const res = await authAxios.put(`/users/${id}`, { ...updatedUser });
 
       dispatch(updateUser(res.data));
     } catch (err) {
@@ -116,7 +125,7 @@ export const getUsers = () => {
   return async (dispatch) => {
     try {
 
-      const res = await axios.get(`http://localhost:5000/users`);
+      const res = await authAxios.get(`/users`);
 
       dispatch(getAllUsers(res.data));
     } catch (err) {
@@ -130,7 +139,7 @@ export const removeUser = (id) => {
   return async (dispatch) => {
     try {
 
-      const res = await axios.delete(`http://localhost:5000/users/${id}`);
+      const res = await authAxios.delete(`/users/${id}`);
 
       dispatch(deleteUser(res.data));
     } catch (err) {
@@ -143,7 +152,9 @@ export const addUserCart = (userId) => {
   return async (dispatch) => {
     try {
       const cart = JSON.parse(localStorage.getItem("cart"));
-      const res = await axios.post(`http://localhost:5000/users/${userId}/cart`, { ...cart });
+      console.log('cart',cart)
+      const res = await authAxios.post(`/users/${userId}/cart`, { cart });
+      console.log('Se posteo cart',res)
 
       dispatch(postUserCart(res.data));
     } catch (err) {
@@ -156,7 +167,7 @@ export const getUserCartDetail = (userId) => {
   return async (dispatch) => {
     try {
 
-      const res = await axios.get(`http://localhost:5000/users/${userId}/cart`);
+      const res = await authAxios.get(`/users/${userId}/cart`);
 
       dispatch(getUserCart(res.data));
     } catch (err) {
@@ -169,7 +180,7 @@ export const removeUserCart = (userId) => {
   return async (dispatch) => {
     try {
 
-      const res = await axios.delete(`http://localhost:5000/users/${userId}/cart`);
+      const res = await authAxios.delete(`/users/${userId}/cart`);
 
       dispatch(deleteUserCart(res.data));
     } catch (err) {
@@ -182,7 +193,7 @@ export const editUserCart = (id, userCart) => {
   return async (dispatch) => {
     try {
 
-      const res = await axios.put(`http://localhost:5000/users/${id}/cart`, { ...userCart });
+      const res = await authAxios.put(`/users/${id}/cart`, { ...userCart });
 
       dispatch(updateUserCart(res.data));
     } catch (err) {
@@ -194,14 +205,16 @@ export const editUserCart = (id, userCart) => {
 export const signInUser = (email, password) => {
   return async (dispatch) => {
     try {
-
       const res = await axios.post(`http://localhost:5000/auth/login`, { ...email, ...password });
-      const token = res.data;
-      console.log('res',res)
-      console.log('token',token)
-      dispatch(loginUser(res.token));
-      alert(`Welcome ${res.data.firstName}!`)
+      const {token, user} = res.data;
+     
+      dispatch(loginUser(token));
+      alert(`Welcome ${user.firstName}!`)
       localStorage.setItem("token", JSON.stringify(token));
+
+      dispatch(addUserCart(user.id))
+
+      //localStorage.setItem("cart", JSON.stringify([]));
     } catch (err) {
       console.log(err);
     }
