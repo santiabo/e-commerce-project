@@ -87,7 +87,7 @@ const loginUser = (user) => {
 
 //instancia de axios para realizar peticiones con headers que contengan el token
 const accessToken = JSON.parse(localStorage.getItem("token"));
-const authAxios=axios.create({
+export const authAxios=axios.create({
   baseURL: 'http://localhost:5000',
   headers:{
     Authorization: `Bearer ${accessToken}`
