@@ -181,8 +181,8 @@ function ProductTable() {
     <div className="App">
       <h2>Product List</h2>
       <br />
-      <Link to='/orders' className='mainLink'>
-      <h2>Order Table</h2>     
+      <Link to='/orders' >
+      <h2 className='mainLink'>Order Table</h2>     
       </Link>      
       <button className="btn btn-success" onClick={() => newProductModal()}>New Product</button>{"   "}
       <button className="btn btn-primary" onClick={() => newCategoryModal()}>New Category</button>
@@ -211,7 +211,7 @@ function ProductTable() {
               <td id='imgBox'>
                 {
                   p.images.map(img => (
-                    <img src={img} alt={p.name} />
+                    <img src={img} alt={p.name}/>
                   ))
                 }
               </td>

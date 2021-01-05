@@ -13,7 +13,7 @@ import NotFound from '../containers/NotFound';
 import Catalogue from '../components/Catalogue';
 import ProductTable from '../components/ProductTable';
 import Product from '../components/Product';
-import TableOrder from '../components/TableOrder';
+import OrderTable from '../components/OrderTable';
 import UserRegister from '../components/RegisterForm';
 import EditProfile from '../components/EditProfile';
 import Cart from '../components/Cart/Cart';
@@ -47,7 +47,7 @@ function App() {
 
           <Route path='/admin' component={ProductTable} />
 
-          <Route path='/orders' component={TableOrder} />
+          <Route path='/orders' component={OrderTable} />
 
           <Route path='/products' component={Catalogue} />
 

@@ -43,7 +43,7 @@ export const getOrders = (id) => {
 
       dispatch(getAllOrders(res.data));
     } catch (err) {
-      console.log(err);
+      return err
     }
   };
 };
@@ -125,7 +125,7 @@ export const setDeliveredOrderAction = (id) => {
   }
 }
 
-export const setPrepareOrderAction = (id) => {
+export const setPreparedOrderAction = (id) => {
   return (dispatch) => {
     dispatch({
       type: RESET_STATE
