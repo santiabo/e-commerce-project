@@ -48,6 +48,35 @@ server.delete('/:id', isAdmin, (req, res, next) => {
     .catch(next);
 });
 
+
+server.post('/:userId/cart', isUser, (req, res, next) => {
+  const { userId } = req.params;
+  const { cart } = req.body;
+
+  Order.create({
+    userId,
+    status: 'on_cart'
+  })
+  .then((order) => {
+    const orderId = order.dataValues.id;
+    cart.forEach(async (product) => {
+      var { price, id, quantity } = product;
+      var productId = id;
+    OrderLine.create({
+      quantity,
+      productId, 
+      orderId  
+    })
+      .then((orderLine) => {
+        return res.send(orderLine);
+      })
+      .catch(next);
+    
+  })
+  .catch(next);
+});
+});
+
 //----------------Post Cart User
 server.post('/:userId/cart', isUser, (req, res, next) => {
   const { userId } = req.params;
