@@ -50,99 +50,101 @@ server.delete('/:id', isAdmin, (req, res, next) => {
 
 //----------------Post Cart User(REVISAR URGENTEMENTE!)
 server.post('/:userId/cart', isUser, async (req, res, next) => {
-//   try {
-//     const { userId } = req.params;
-//     const { cart } = req.body;
-//     const order = await Order.create({
-//       userId,
-//       status: 'on_cart',
-//     })
-//     try {
-//       cart.map(async p => {
-//         const { id } = order
-//         const result = await OrderLine.create({
-//           quantity: p.quantity,
-//           productId: p.id,
-//           orderId: id
-//         })
-//         return res.send(result);
-//       })
-//     } catch (err) {
-//       return res.send(err)
-//     }
-//   } catch (error) {
-//     next(error)
-//   }
-// }) 
-  // El user tiene Order ?
-  Order.findOne({
-    where: {
-      userId,
-      status: 'on_cart' // Tiene que tener el estado en carrito, para poder agregar más items.
-    }
-  }).then(order => {
-    // Si no tiene, se crea una Order.
-    if (!order) {
-      Order.create({
+  try {
+    const { userId } = req.params;
+    const { cart } = req.body;
+    const order = await Order.findOrCreate({
+      where: {
         userId,
-        status: 'on_cart'
-      })
-        // Creo una OrderLine
-        .then((order) => {
-          const orderId = order.dataValues.id;
-          OrderLine.create({
-            quantity,
-            productId,  // Le asigno el id del producto.
-            orderId   // Le asigno el id de la orden
-          })
-            .then((orderLine) => {
-              return res.send(orderLine);
-            })
-            .catch(next);
-        })
-        .catch(next);
-    } else {
-      // Tiene una orderLine con ese producto ?
-      OrderLine.findOne({
+        status: 'on_cart',
+      }
+    })
+    console.log('Orderderuta', order[0].dataValues)
+    const { id } = order[0].dataValues
+    cart.map(async p => {
+      const result = await OrderLine.findOrCreate({
         where: {
-          productId,
-          orderId: order.id
-        }
-      }).then((orderLine) => {
-               //Si ya tiene orderLine con ese producto, se le suma la cantidad.
-        if (orderLine) {
-          OrderLine.update(
-            { quantity },
-            { where: { productId } }
-          )
-            .then(() => {
-              OrderLine.findOne({
-                where: {
-                  productId,
-                  orderId: order.id
-                }
-              }).then((orderLine) => {
-                return res.send({ ...orderLine.dataValues });
-              })
-                .catch(next);
-            })
-            .catch(next);
-        } else {
-          //si no tiene, se crea una OrderLine
-          OrderLine.create({
-            quantity,
-            productId,  // Le asigno el id del producto.
-            orderId: order.id   // Le asigno el id de la orden
-          })
-            .then((orderLine) => {
-              return res.send({ ...orderLine.dataValues });
-            })
-            .catch(next);
-        }
-      });
-    }
-  });
-}); 
+        quantity: p.quantity,
+        productId: p.id,
+        orderId: id,
+        price: p.price
+      }
+      })
+    return res.send('Order Created');
+  })
+  } catch (error) {
+  next(error)
+}
+})
+// El user tiene Order ?
+//   Order.findOne({
+//     where: {
+//       userId,
+//       status: 'on_cart' // Tiene que tener el estado en carrito, para poder agregar más items.
+//     }
+//   }).then(order => {
+//     // Si no tiene, se crea una Order.
+//     if (!order) {
+//       Order.create({
+//         userId,
+//         status: 'on_cart'
+//       })
+//         // Creo una OrderLine
+//         .then((order) => {
+//           const orderId = order.dataValues.id;
+//           OrderLine.create({
+//             quantity,
+//             productId,  // Le asigno el id del producto.
+//             orderId   // Le asigno el id de la orden
+//           })
+//             .then((orderLine) => {
+//               return res.send(orderLine);
+//             })
+//             .catch(next);
+//         })
+//         .catch(next);
+//     } else {
+//       // Tiene una orderLine con ese producto ?
+//       OrderLine.findOne({
+//         where: {
+//           productId,
+//           orderId: order.id
+//         }
+//       }).then((orderLine) => {
+//                //Si ya tiene orderLine con ese producto, se le suma la cantidad.
+//         if (orderLine) {
+//           OrderLine.update(
+//             { quantity },
+//             { where: { productId } }
+//           )
+//             .then(() => {
+//               OrderLine.findOne({
+//                 where: {
+//                   productId,
+//                   orderId: order.id
+//                 }
+//               }).then((orderLine) => {
+//                 return res.send({ ...orderLine.dataValues });
+//               })
+//                 .catch(next);
+//             })
+//             .catch(next);
+//         } else {
+//           //si no tiene, se crea una OrderLine
+//           OrderLine.create({
+//             quantity,
+//             productId,  // Le asigno el id del producto.
+//             orderId: order.id   // Le asigno el id de la orden
+//           })
+//             .then((orderLine) => {
+//               return res.send({ ...orderLine.dataValues });
+//             })
+//             .catch(next);
+//         }
+//       });
+//     }
+//   });
+// }); 
 
 //----------------Get user cart.
 server.get('/:userId/cart', isUser, (req, res, next) => {

@@ -11,7 +11,7 @@ import Button from '../Button';
 
 import { ButtonsWrapper } from './styles';
 
-const TableOrder = () => {
+const TableOrder = ({ getAllOrdersAction, setFinalizedOrderAction, setConfirmOrderAction, setDeliveredOrderAction, setPreparedOrderAction, setRejectedOrderAction, setSendOrderAction }) => {
   const history = useHistory();
 
   useEffect(() => {

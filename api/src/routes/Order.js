@@ -26,12 +26,10 @@ server.get('/status/:status', (req, res, next) => {
 });
 
 //-------------Update Order
-server.put('/edit/id/:id', (req, res, next) => {
-  const { id } = req.params;
-  const { total, status } = req.body;
+server.put('/:id/:status', (req, res, next) => {
+  const { id, status } = req.params;
 
   Order.update({
-    total,
     status
   },
     { where: { id } }
