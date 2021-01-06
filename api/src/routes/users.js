@@ -49,6 +49,7 @@ server.delete('/:id', isAdmin, (req, res, next) => {
 });
 
 
+
 server.post('/:userId/cart', isUser, (req, res, next) => {
   const { userId } = req.params;
   const { cart } = req.body;
@@ -81,7 +82,33 @@ server.post('/:userId/cart', isUser, (req, res, next) => {
 server.post('/:userId/cart', isUser, (req, res, next) => {
   const { userId } = req.params;
   const { productId, quantity } = req.body;
-
+  
+//----------------Post Cart User(REVISAR URGENTEMENTE!)
+server.post('/:userId/cart', isUser, async (req, res, next) => {
+//   try {
+//     const { userId } = req.params;
+//     const { cart } = req.body;
+//     const order = await Order.create({
+//       userId,
+//       status: 'on_cart',
+//     })
+//     try {
+//       cart.map(async p => {
+//         const { id } = order
+//         const result = await OrderLine.create({
+//           quantity: p.quantity,
+//           productId: p.id,
+//           orderId: id
+//         })
+//         return res.send(result);
+//       })
+//     } catch (err) {
+//       return res.send(err)
+//     }
+//   } catch (error) {
+//     next(error)
+//   }
+// 
   // El user tiene Order ?
   Order.findOne({
     where: {
@@ -150,13 +177,15 @@ server.post('/:userId/cart', isUser, (req, res, next) => {
       });
     }
   });
+
 }); */
+=======
+
 
 //----------------Get user cart.
 server.get('/:userId/cart', isUser, (req, res, next) => {
   const { userId } = req.params;
 
-  //if (req.user) {
   Order.findOne({
     where: {
       userId,
@@ -176,7 +205,6 @@ server.get('/:userId/cart', isUser, (req, res, next) => {
           });
     })
     .catch(next);
-  // } return res.redirect(401, '/login')
 });
 
 //-----------------Delete user cart.

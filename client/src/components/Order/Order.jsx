@@ -2,79 +2,36 @@ import React from "react";
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
 
-// Components
-import Button from "../Button";
-
-// StyledComponents
-import {
-  ProductWrapper,
-  LeftSide,
-  RightSide,
-  ImageContainer,
-  Title,
-  Description,
-  CategoryTag,
-  Price,
-  ButtonsWrapper,
-  CategoriesTags,
-} from "./styles";
+import './order.css'
 
 
 const Order = () => {
 
-  const dispatch = useDispatch();
-  const { cart }  = useSelector(state => state.user.user);
-  console.log('state',cart)
-
-  const getTotal = () => {
-    return Number(cart.reduce((sum, { price, quantity }) => sum + Number(price) * quantity, 0).toFixed(2));
-  };
-
   return (
-    <section className='cart'>
-      {/* cart header */}
-      <header>
-        <h2 className='header'>Order</h2>
-      </header>
-      {cart.map((item) =>
-        <ProductWrapper>
-          <LeftSide>
-            <ImageContainer>
-              <img src={item.images[0]} alt={item.name} />
-            </ImageContainer>
-          </LeftSide>
-          <RightSide>
-            <CategoriesTags>
-              {item.categories.map(category => (
-                <CategoryTag>{category.name}</CategoryTag>
-              ))}
-            </CategoriesTags>
-            <Title>{item.name}</Title>
-            <Description>
-              {item.description}
-            </Description>
-            {item.quantity && <h4>Units: {item.quantity}</h4>}
-            <Price>
-              $ {Number(item.price * item.quantity).toFixed(2)}
-            </Price>
-          </RightSide>
-        </ProductWrapper>
-      )}
-      <footer>
-        <hr />
-        <div className='cart-total'>
-          <h4 className='price'>
-            Total <span>${getTotal()}</span>
-          </h4>
+    <section className='order-section'>
+      <header className='order-header'>
+        <div className='header-description-container'>
+        <div className='header-button-container'>
+          <button className='order-button'>See Detail</button>
         </div>
-        <ButtonsWrapper>
-          <Button className='nav-button' as="a" href='/cart'>
-            EDIT ORDER
-        </Button>
-          <Button className='nav-button'>
-           BUY NOW!
-        </Button>
-        </ButtonsWrapper>
+          <h1>Status: on-cart</h1>
+          <h4>Deliver date 15-01-2021</h4>
+        </div>
+      </header>
+      <main className='order-main'>
+        <div className='order-img'>
+          <img className='order-img' src="https://images-na.ssl-images-amazon.com/images/I/71WPGXQLcLL._AC_SL1384_.jpg" alt='product1' />
+        </div>
+        <div className='order-description'>
+          <h4>AMD Ryzen 5 3600XT 6-Core 3.8 GHz Socket AM4 95W</h4>
+          <h3>SubTotal</h3>
+          <h4>Price: 356.99 x 1 unit</h4>
+        </div>
+      </main>
+      <footer className='order-footer'>
+        <h4>Paymetn method: cash</h4>
+        <h4>Delivery Cost: $ 0 </h4>
+        <h3>Total: 356.99</h3>
       </footer>
     </section>
   );

@@ -102,6 +102,7 @@ export default function orders_reducer(state = initialState, action) {
           }
           return newState
         }
+        break;
       case SET_SHOPPINGCART:
         return {
           ...state,
