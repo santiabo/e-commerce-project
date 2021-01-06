@@ -59,7 +59,7 @@ server.post('/:userId/cart', isUser, (req, res, next) => {
   })
   .then((order) => {
     const orderId = order.dataValues.id;
-    cart.forEach(async (product) => {
+    cart.forEach((product) => {
       var { price, id, quantity } = product;
       var productId = id;
     OrderLine.create({
@@ -77,7 +77,7 @@ server.post('/:userId/cart', isUser, (req, res, next) => {
 });
 });
 
-//----------------Post Cart User
+/* //----------------Post Cart User
 server.post('/:userId/cart', isUser, (req, res, next) => {
   const { userId } = req.params;
   const { productId, quantity } = req.body;
@@ -150,7 +150,7 @@ server.post('/:userId/cart', isUser, (req, res, next) => {
       });
     }
   });
-});
+}); */
 
 //----------------Get user cart.
 server.get('/:userId/cart', isUser, (req, res, next) => {
