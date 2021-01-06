@@ -8,7 +8,7 @@ export async function addProductToOrder(
   idUser
 ) {
   return axios
-    .post(`localhost:5000/orders/${orderId}/product/${idProduct}`, {
+    .post(`http://localhost:5000/orders/${orderId}/product/${idProduct}`, {
       amount,
       idUser,
     })
@@ -23,7 +23,7 @@ export async function addProductToOrder(
 // CREA UNA ORDEN
 export async function createOrder() {
   return axios
-    .post(`localhost:5000/orders`)
+    .post(`http://localhost:5000/orders`)
     .then(res => {
       return res.data;
     })
@@ -35,7 +35,7 @@ export async function createOrder() {
 // CREA UNA ORDEN Y LE AGREGA TODOS LOS PRODUCTOS
 export async function createOrderProduct(products, idUser) {
   return axios
-    .post(`localhost:5000/orders/products`, { products, idUser })
+    .post(`http://localhost:5000/orders/products`, { products, idUser })
     .then(res => {
       return res.data
     })
@@ -47,7 +47,7 @@ export async function createOrderProduct(products, idUser) {
 // OBTIENE TODAS LAS ORDENES
 export async function getAllOrders() {
   return axios
-    .get(`localhost:5000/orders`)
+    .get(`http://localhost:5000/orders`)
     .then(res => {
       return res.data
     })
@@ -59,7 +59,7 @@ export async function getAllOrders() {
 // OBTIENE UNA ORDEN SEGUN SU ID
 export async function getOrderById(id) {
   return axios
-  .get(`localhost:5000/orders/${id}`)
+  .get(`http://localhost:5000/orders/${id}`)
   .then(res => {
     return res.data;
   })
@@ -71,7 +71,7 @@ export async function getOrderById(id) {
 // OBTIENE TODAS LAS ORDENES DEL USUARIO DADO SU ID
 export async function getOrderByUserId(idUser) {
   return axios
-  .get(`localhost:5000/users/${idUser}/orders`)
+  .get(`http://localhost:5000/users/${idUser}/orders`)
   .then(res => {
     return res.data;
   })
@@ -83,7 +83,7 @@ export async function getOrderByUserId(idUser) {
 // PONE UNA ORDEN COMO VACIA
 export async function removeEmptyOrder(id) {
   return axios
-  .delete(`localhost:5000/order/${id}/empty`)
+  .delete(`http://localhost:5000/order/${id}/empty`)
   .then(res => {
     return res.data;
   })
@@ -95,7 +95,7 @@ export async function removeEmptyOrder(id) {
 // ELIMINA UNA ORDEN 
 export async function removeOrder(id) {
   return axios
-  .delete(`localhost:5000/orders/${id}`)
+  .delete(`http://localhost:5000/orders/${id}`)
   .then(res => {
     return res.data;
   })
@@ -107,7 +107,7 @@ export async function removeOrder(id) {
 // ELIMINA UN PRODUCTO DE UNA ORDEN
 export async function removeProduct(idOrder, idProduct) {
   return axios
-  .delete(`localhost/5000/orders/${idOrder}/product/${idProduct}`)
+  .delete(`http://localhost/5000/orders/${idOrder}/product/${idProduct}`)
   .then(res => {
     return res.data;
   })
@@ -119,7 +119,7 @@ export async function removeProduct(idOrder, idProduct) {
 // PONE UNA ORDEN COMO FINALIZADA
 export async function setCompleteOrder(idOrder) {
   return axios
-  .put(`localhost:5000/orders/${idOrder}/finalized`)
+  .put(`http://localhost:5000/orders/${idOrder}/finalized`)
   .then(res => {
     return res.data;
   })
@@ -129,9 +129,9 @@ export async function setCompleteOrder(idOrder) {
 }
 
 // PONE UNA ORDEN COMO CONFIRMED
-export async function setConfirmOrder(idOrder, address) {
+export async function setConfirmOrder(idOrder) {
   return axios
-  .put(`localhost:5000/orders/${idOrder}/confirmed`, { address })
+  .put(`http://localhost:5000/orders/${idOrder}/confirmed`, )
   .then(res => {
     return res.data;
   })
@@ -143,7 +143,7 @@ export async function setConfirmOrder(idOrder, address) {
 // PONE UNA ORDEN COMO DELIVERED
 export async function setDeliveredOrder(idOrder) {
   return axios
-  .put(`localhost:5000/orders/${idOrder}/delivered`)
+  .put(`http://localhost:5000/orders/${idOrder}/delivered`)
   .then(res => {
     return res.data;
   })
@@ -155,7 +155,7 @@ export async function setDeliveredOrder(idOrder) {
 // PONE UNA ORDEN COMO VACIA
 export async function setEmptyOrder(idOrder) {
   return axios
-  .put(`localhost:5000/orders/${idOrder}/empty`)
+  .put(`http://localhost:5000/orders/${idOrder}/empty`)
   .then(res => {
     return res.data;
   })
@@ -167,7 +167,7 @@ export async function setEmptyOrder(idOrder) {
 // PONE UNA ORDEN COMO FINALIZED
 export async function setFinalizedOrder(idOrder) {
   return axios
-  .put(`localhost:5000/orders/${idOrder}/finalized`)
+  .put(`http://localhost:5000/orders/${idOrder}/finalized`)
   .then(res => {
     return res.data;
   })
@@ -179,7 +179,7 @@ export async function setFinalizedOrder(idOrder) {
 // AGREGA UN PRODUCTO A UNA ORDEN
 export async function setOrderToUser(idOrder, idUser) {
   return axios
-  .post(`localhost:5000/orders/${idOrder}/user/${idUser}`)
+  .post(`http://localhost:5000/orders/${idOrder}/user/${idUser}`)
   .then(res => {
     return res.data;
   })
@@ -189,9 +189,9 @@ export async function setOrderToUser(idOrder, idUser) {
 }
 
 //PONE UNA ORDEN COMO PREPARING
-export async function setPreparedOrder(idOrder, address) {
+export async function setPreparedOrder(idOrder) {
   return axios
-  .put(`localhost:5000/orders/${idOrder}/preparing`, { address })
+  .put(`http://localhost:5000/orders/${idOrder}/preparing`)
   .then(res => {
     return res.data;
   })
@@ -200,9 +200,10 @@ export async function setPreparedOrder(idOrder, address) {
   })
 }
 
-export async function setRejectedOrder(idOrder, address) {
+//PONE COMO REJECTED UNA ORDEN
+export async function setRejectedOrder(idOrder) {
   return axios
-  .put(`localhost:5000/orders/${idOrder}/rejected`, { address })
+  .put(`http://localhost:5000/orders/${idOrder}/rejected`)
   .then(res => {
     return res.data;
   })
@@ -214,7 +215,7 @@ export async function setRejectedOrder(idOrder, address) {
 // PONE COMO SET UNA ORDEN
 export async function setSendOrder(idOrder) {
   return axios
-  .put(`localhost:5000/orders/${idOrder}/send`)
+  .put(`http://localhost:5000/orders/${idOrder}/send`)
   .then(res => {
     return res.data;
   })
@@ -223,10 +224,10 @@ export async function setSendOrder(idOrder) {
   })
 }
 
-// ACTUALIZA EL STATUS O EL ADDRESS DE UNA ORDEN
-export async function setUpdateOrder (id, status, address) {
+// ACTUALIZA EL STATUS
+export async function setUpdateOrder (id, status) {
   return axios
-  .put(`localhost:5000/orders/${id}`, { status, address })
+  .put(`http://localhost:5000/orders/${id}`, { status })
   .then(res => {
     return res.data
   })
