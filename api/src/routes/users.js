@@ -77,7 +77,6 @@ server.post('/:userId/cart', isUser, async (req, res, next) => {
 }
 })
 
-
 //----------------Get user cart.
 server.get('/:userId/cart', isUser, (req, res, next) => {
   const { userId } = req.params;

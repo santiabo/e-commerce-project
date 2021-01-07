@@ -32,7 +32,7 @@ export default function LoginUser() {
               <form id="login-form" method="post" onSubmit={handleSubmit(onSubmit)}>
                 <section className="subTitle">
                   <div className="header-sub">
-                    <h2 id="sub">Sign In</h2>
+                    <h2 id="sub">Log In</h2>
                   </div>
                 </section>
                 <label for="email" className="label-email">E-mail: </label>
@@ -42,7 +42,7 @@ export default function LoginUser() {
                 {errors.password && <span id="spn" className="text-danger">Password incorrect!</span>}
                 <input type="password" className="text-input psw" name="password" ref={register({ required: true })} />
                 <div className="wrapper-buttn-link">
-                  <input type="submit" className="loged-button" value="Sign In" />
+                  <input type="submit" className="loged-button" value="Log In" />
                 </div>
                 <div className="wrapper-buttn-link">
                   <Link id="lnk" to="/reset/account/password"><p className="note">Forgot password?</p></Link>

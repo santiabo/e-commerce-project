@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom';
 
 // Components
 import NavBar from './navBar';
+import LoggedInUser from '../LoggedInUser';
 
 //Styled Components
 
@@ -11,9 +12,6 @@ import { ImageContainer, NavWrapper, NavWrapper2 } from "./styles";
 
 import { ReactComponent as Home } from "../../assets/icons/logo.svg";
 import { ReactComponent as CartLogo } from "../../assets/icons/cart.svg";
-import { ReactComponent as Login } from "../../assets/icons/login3.svg";
-import { ReactComponent as Register } from "../../assets/icons/register3.svg";
-
 
 const Header = () => {
   const cartAmount = useSelector(state => state.cart.cartAmount);
@@ -24,11 +22,15 @@ const Header = () => {
         <NavWrapper2>
 
           <ImageContainer>
-            <NavLink to='/login'><Login /></NavLink>
+            <NavLink to='/login'>Log In</NavLink>
           </ImageContainer>
 
           <ImageContainer>
-            <NavLink to='/register'><Register /> </NavLink>
+            <NavLink to='/register'>Register</NavLink>
+          </ImageContainer>
+
+          <ImageContainer>
+            <LoggedInUser />
           </ImageContainer>
 
           <ImageContainer>

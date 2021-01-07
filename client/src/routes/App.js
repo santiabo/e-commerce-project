@@ -19,6 +19,7 @@ import EditProfile from '../components/EditProfile';
 import Cart from '../components/Cart/Cart';
 import LoginUser from '../components/LoginForm';
 import Order from '../components/Order/Order'
+import userTable from '../components/UserTable';
 
 function App() {
 
@@ -47,6 +48,8 @@ function App() {
           <Route path='/admin' component={ProductTable} />
 
           <Route path='/orders' component={TableOrder} />
+
+          <Route path='/users' component={userTable} />
 
           <Route path='/products' component={Catalogue} />
 
