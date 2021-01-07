@@ -22,7 +22,7 @@ import {
 } from './styles';
 
 const ProductCard = ({ product, categories, reviews = { average: 4, } }) => {
- 
+
   const count = 1;
   const dispatch = useDispatch();
 
@@ -45,7 +45,7 @@ const ProductCard = ({ product, categories, reviews = { average: 4, } }) => {
 
         <RowWrapper>
           {categories.map(category => <CategoryTag key={category.id}>{category.name}</CategoryTag>)}
-          <Rating stars={Math.round(reviews.average)} />
+          <Rating stars={reviews.average} />
         </RowWrapper>
 
         <StyledLink to={"product/" + product.id}>

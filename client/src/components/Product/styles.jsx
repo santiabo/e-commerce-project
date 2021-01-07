@@ -1,7 +1,12 @@
 import styled from "styled-components";
 
+export const ProductDetailWrapper = styled.div`
+  display: flex;
+`;
+
 export const ProductWrapper = styled.div`
   display: flex;
+  flex-direction: column;
 `;
 
 export const LeftSide = styled.div`

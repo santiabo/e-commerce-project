@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const FooterWrapper = styled.footer`
   display: block;
   list-style-type: disc;
+  /* background: red; */
   background: #191b2b;
   overflow: hidden;
   padding-bottom: 1rem;
