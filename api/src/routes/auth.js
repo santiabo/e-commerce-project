@@ -47,6 +47,9 @@ server.post('/promote/:id', isAdmin, async function (req, res, next) {
   }
 });
 
-
+server.get('/login/google', (passport.authenticate("google", {
+  scope: ["profile", "email"],
+})
+));
 
 module.exports = server;

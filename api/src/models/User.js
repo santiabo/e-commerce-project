@@ -57,6 +57,7 @@ module.exports = (sequelize) => {
     googleId: {
       type: DataTypes.STRING,
       allowNull: true,
+      unique: true,
     },
   });
 
