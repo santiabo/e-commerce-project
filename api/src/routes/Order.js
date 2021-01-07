@@ -1,9 +1,13 @@
 const server = require('express').Router();
-const { Order } = require('../db.js');
+const { Order, User, Product, OrderLine } = require('../db.js');
 
 //-------------Get All Orders
 server.get('/', (req, res, next) => {
-  Order.findAll()
+  Order.findAll({
+    include: [{
+      model: User, attributes: ['email']
+    }]
+  })
     .then(order => {
       return res.send(order);
     }).catch(err => {
@@ -26,12 +30,10 @@ server.get('/status/:status', (req, res, next) => {
 });
 
 //-------------Update Order
-server.put('/edit/id/:id', (req, res, next) => {
-  const { id } = req.params;
-  const { total, status } = req.body;
+server.put('/:id/:status', (req, res, next) => {
+  const { id, status } = req.params;
 
   Order.update({
-    total,
     status
   },
     { where: { id } }
@@ -43,24 +45,25 @@ server.put('/edit/id/:id', (req, res, next) => {
 });
 
 //-------------Get Order
-// server.get('/:id', async (req, res, next) => {
+
 server.get('/:id', (req, res) => {
 
-  //una orden particular
   const { id } = req.params;
 
-  // try {
-  //   const order = await Order.findByPk(id);
-  //   res.send(order);
-  // } catch (error) {
-  //   next(error);
-  // }
-
-  Order.findByPk(id) //busca una orden
+  Order.findByPk(id, {
+    include: [{
+      model: OrderLine,
+      attributes: ['quantity', 'price'],
+      include: [{
+        model: Product,
+        attributes: ['name', 'images']
+      }]
+    }]
+  })
     .then((order) => {
-      return res.send(order); //devuelve esa orden
+      return res.send(order); 
     }).catch((err) => {
-      return res.send(err); //o devuelve un error
+      return res.send(err);
     });
 });
 

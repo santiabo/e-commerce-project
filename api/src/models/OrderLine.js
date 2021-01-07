@@ -7,8 +7,13 @@ module.exports = (sequelize) => {
     {
       quantity: {
         type: DataTypes.INTEGER,
-        allowNull: true,
+        allowNull: false,
         validate: { min: [1] }
+      },
+      price:{
+        type:DataTypes.FLOAT,
+        allowNull:false,
+        validate:{ min:[0]}
       }
     }
   )
