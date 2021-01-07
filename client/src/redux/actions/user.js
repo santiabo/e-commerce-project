@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Alert } from 'reactstrap';
 
 // Types
 export const CREATE_USER = "CREATE_USER";
@@ -13,6 +14,7 @@ export const DELETE_USER_CART = "DELETE_USER_CART";
 export const UPDATE_USER_CART = "UPDATE_USER_CART";
 
 export const LOGIN_USER = "LOGIN_USER";
+export const LOGOUT_USER = "LOGOUT_USER";
 
 //export const PASSWORD_RESET = "PASSWORD_RESET"; 
 
@@ -78,6 +80,13 @@ const updateUserCart = (id,userCart) => {
 const loginUser = (user) => {
   return {
     type: LOGIN_USER,
+    user
+  };
+};
+
+const logoutUser = (user) => {
+  return {
+    type: LOGOUT_USER,
     user
   };
 };
@@ -152,11 +161,9 @@ export const addUserCart = (userId) => {
   return async (dispatch) => {
     try {
       const cart = JSON.parse(localStorage.getItem("cart"));
-      console.log('cart',cart)
       const res = await authAxios.post(`/users/${userId}/cart`, { cart });
       console.log('Se posteo cart',res)
-
-      dispatch(postUserCart(res.data));
+      dispatch(postUserCart(cart));
     } catch (err) {
       console.log(err);
     }
@@ -219,4 +226,17 @@ export const signInUser = (email, password) => {
       console.log(err);
     }
   };
+};
+
+export const signOutUser = () => {
+  return async (dispatch) => {
+    try {
+      const res = await axios.get(`http://localhost:5000/auth/logout`);
+      dispatch(logoutUser())
+      alert("Goodbye");
+    }
+    catch (err) {
+      console.log(err)
+    }
+}
 };

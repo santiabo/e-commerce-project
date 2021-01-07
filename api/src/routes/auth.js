@@ -34,6 +34,14 @@ server.post("/login", function (req, res, next) {
   })(req, res, next);
 });
 
+// User log out route
+
+server.get("/logout", function (req, res){
+
+  req.logOut()  
+  res.send('User logged out') 
+});
+
 //------Promote turns user with ID: id to Admin.
 server.post('/promote/:id', isAdmin, async function (req, res, next) {
   const { id } = req.params;
