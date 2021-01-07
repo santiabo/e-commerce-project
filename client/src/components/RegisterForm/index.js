@@ -54,7 +54,7 @@ export default function UserRegister() {
                 <label className='globalLabel'>Email</label>
                 {errors.email && <span className='globalSpan text-danger'> Invalid email address</span>}
                 <input
-                  name="email" className='globalInput' ref={register({ required: true, maxLength: 76, pattern: /\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b/ })}
+                  name="email" className='globalInput' ref={register({ required: true, maxLength: 76, pattern: /\b[\w.-]+@[\w.-]+\.\w{2,4}\b/ })}
                 />
                 <label className='globalLabel'>Password</label>
                 {errors.password && <span className='globalSpan text-danger'>{errors.password.message}</span>}

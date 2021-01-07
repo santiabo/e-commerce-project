@@ -2,14 +2,13 @@ import React, { useState } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { signOutUser } from '../../redux/actions/user';
-import { useForm } from 'react-hook-form';
+import { logOutUser } from '../../redux/actions/user';
 
 // Styles
 import './styles.css';
 import { MdAccountCircle } from "react-icons/md";
 
-const LoggedInUser = (props) => {
+const LoggedInUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   
   const toggle = () => setDropdownOpen(prevState => !prevState);
@@ -17,7 +16,7 @@ const LoggedInUser = (props) => {
   const dispatch = useDispatch();
 
   const onSubmit = (user) => {
-    dispatch(signOutUser(user));
+    dispatch(logOutUser(user));
   };
 
   return (

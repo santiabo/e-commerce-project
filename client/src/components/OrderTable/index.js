@@ -3,7 +3,6 @@ import { getAllOrdersAction, setFinalizedOrderAction, setConfirmOrderAction, set
 import { useHistory } from 'react-router';
 import { connect, useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import {initialState} from '../../redux/reducers/orderReducer';
 import Select from './Select';
 import style from './index.module.scss';
 

@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux';
 import { getProducts } from "../redux/actions/product";
 import { getCategories } from "../redux/actions/category";
 import { getCartItemsFromLocalStorage } from "../redux/actions/cart";
-import { getOrders } from '../redux/actions/order';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 // Components

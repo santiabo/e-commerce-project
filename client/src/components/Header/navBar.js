@@ -1,5 +1,4 @@
 import React from 'react';
-import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { getProducts } from "../../redux/actions/product";
 
@@ -9,7 +8,6 @@ import { NavWrapper3, StyledLink } from "./styles";
 
 const NavBar = () => {
 
-  const history = useHistory();
   const dispatch = useDispatch();
 
   const handleSubmit = (e, search) => {
