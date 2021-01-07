@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import { signInUser } from '../../redux/actions/user'
+import { logInUser } from '../../redux/actions/user'
 import '../LoginForm/style.css';
 
 
@@ -13,7 +13,7 @@ export default function LoginUser() {
   const dispatch = useDispatch();
 
   const onSubmit = (user) => {
-    dispatch(signInUser(user));
+    dispatch(logInUser(user));
   };
 
   //const onSubmit = data => console.log("data:", data);

@@ -41,7 +41,7 @@ const Home = () => {
             <div key={index} className="slide" style={{
               transform: `translateX(${current}%)`
             }}>
-              <img src={slide.banner} key={index} className="img-slide" />
+              <img src={slide.banner} key={index} className="img-slide" alt='' />
             </div>
           )
         })
