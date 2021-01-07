@@ -70,81 +70,13 @@ server.post('/:userId/cart', isUser, async (req, res, next) => {
         price: p.price
       }
       })
-    return res.send('Order Created');
+    return res.send(result.data);
   })
   } catch (error) {
   next(error)
 }
 })
-// El user tiene Order ?
-//   Order.findOne({
-//     where: {
-//       userId,
-//       status: 'on_cart' // Tiene que tener el estado en carrito, para poder agregar más items.
-//     }
-//   }).then(order => {
-//     // Si no tiene, se crea una Order.
-//     if (!order) {
-//       Order.create({
-//         userId,
-//         status: 'on_cart'
-//       })
-//         // Creo una OrderLine
-//         .then((order) => {
-//           const orderId = order.dataValues.id;
-//           OrderLine.create({
-//             quantity,
-//             productId,  // Le asigno el id del producto.
-//             orderId   // Le asigno el id de la orden
-//           })
-//             .then((orderLine) => {
-//               return res.send(orderLine);
-//             })
-//             .catch(next);
-//         })
-//         .catch(next);
-//     } else {
-//       // Tiene una orderLine con ese producto ?
-//       OrderLine.findOne({
-//         where: {
-//           productId,
-//           orderId: order.id
-//         }
-//       }).then((orderLine) => {
-//                //Si ya tiene orderLine con ese producto, se le suma la cantidad.
-//         if (orderLine) {
-//           OrderLine.update(
-//             { quantity },
-//             { where: { productId } }
-//           )
-//             .then(() => {
-//               OrderLine.findOne({
-//                 where: {
-//                   productId,
-//                   orderId: order.id
-//                 }
-//               }).then((orderLine) => {
-//                 return res.send({ ...orderLine.dataValues });
-//               })
-//                 .catch(next);
-//             })
-//             .catch(next);
-//         } else {
-//           //si no tiene, se crea una OrderLine
-//           OrderLine.create({
-//             quantity,
-//             productId,  // Le asigno el id del producto.
-//             orderId: order.id   // Le asigno el id de la orden
-//           })
-//             .then((orderLine) => {
-//               return res.send({ ...orderLine.dataValues });
-//             })
-//             .catch(next);
-//         }
-//       });
-//     }
-//   });
-// }); 
+
 
 //----------------Get user cart.
 server.get('/:userId/cart', isUser, (req, res, next) => {
@@ -153,7 +85,7 @@ server.get('/:userId/cart', isUser, (req, res, next) => {
   Order.findOne({
     where: {
       userId,
-      status: 'on_cart'
+    
     }
   })
     .then((order) => {
@@ -164,7 +96,12 @@ server.get('/:userId/cart', isUser, (req, res, next) => {
           where: { orderId: order.id }
         })
           .then((orderLine) => {
-            let totalProducts = orderLine.map(e => `Id: ${e.productId} Amount: ${e.quantity}`);
+            let totalProducts = orderLine.map(e => ({
+              productId: e.productId,
+              quantity: e.quantity,
+              price: e.price
+            }));
+            console.log("TOTALPRODUCTS ", totalProducts)
             return res.send({ totalProducts });
           });
     })
