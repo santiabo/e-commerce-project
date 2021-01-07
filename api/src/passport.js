@@ -1,10 +1,12 @@
 const passport = require("passport");
 //la LocalStrategy es la que se utiliza cuando no utilizamos servicios como Google para loguerse
 const LocalStrategy = require("passport-local").Strategy;
+const GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
 const BearerStrategy = require("passport-http-bearer").Strategy;
 const { User } = require("./db.js");
 const jwt = require("jsonwebtoken");
-const { DB_SECRET } = process.env;
+const { getOneByGoogleId, createOne } = require('./controllers/users');
+const { DB_SECRET, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } = process.env;
 
 //es un midlleware
 passport.use(
@@ -45,6 +47,37 @@ passport.use(
         lastName,
         birthdate,
         photoURL,
+      });
+    }
+  )
+);
+
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: GOOGLE_CLIENT_ID,
+      clientSecret: GOOGLE_CLIENT_SECRET,
+      callbackURL: 'http://localhost:3000/',
+      session: false,
+    },
+    async (token, tokenSecret, profile, done) => {
+      let user = await getOneByGoogleId(profile.id);
+      if(!user)
+        user = await createOne(
+          profile.displayName,
+          profile.emails[0].value,
+          null,
+          'GUEST',
+          profile.id,
+          null
+        );
+      const { id, firstName, lastName, createdAt, updateAt } = user;
+      return done(null, {
+        id,
+        firstName,
+        lastName,
+        createdAt,
+        updateAt
       });
     }
   )

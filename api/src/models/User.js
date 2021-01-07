@@ -54,6 +54,12 @@ module.exports = (sequelize) => {
       //   return () => this.getDataValue('password');
       // },
     }, 
+    role: {
+      type: DataTypes.ENUM,
+      values: ["ADMIN", "GUEST"],
+      defaultValue: "GUEST"
+    },
+
     googleId: {
       type: DataTypes.STRING,
       allowNull: true,
