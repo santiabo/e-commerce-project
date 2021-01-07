@@ -7,17 +7,21 @@ module.exports = (sequelize) => {
   const User = sequelize.define('user', {
     email: {
       type: DataTypes.STRING,
-      isEmail: true,  // <-- Valida que sea un Email.
+      isEmail: true,  
       allowNull: true,
       unique: true,
     },
-    isAdmin: {
-      type: DataTypes.BOOLEAN,  //   <-- Se va a usar después!
+     isAdmin: {
+       type: DataTypes.BOOLEAN,  
+       allowNull: true,
+     },
+     isBanned: {
+      type: DataTypes.BOOLEAN,  
       allowNull: true,
     },
     avatar: {
       type: DataTypes.TEXT,
-      isUrl: true  //   <--- Valida que sea URL.
+      isUrl: true  
     },
     firstName: {
       type: DataTypes.STRING,
@@ -38,7 +42,7 @@ module.exports = (sequelize) => {
     birthdate: {
       type: DataTypes.DATEONLY,
       allowNull: false,
-      isDate: true//  <--- Sólo fechas (AAAA-MM-DD)
+      isDate: true
     },
     password: {
       type: DataTypes.STRING,
