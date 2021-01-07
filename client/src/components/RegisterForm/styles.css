@@ -100,6 +100,15 @@
   border-width: 2px;
 }
 
+.inputButton:hover {
+  background-color: #1e5b86;
+  border-color: #1e5b86;
+  color: #ffffff;
+  border: none;
+  border-style: solid;
+  border-width: 2px;
+}
+
 .div3 {
   margin-top: 1rem;
   margin-left: auto;
@@ -148,4 +157,14 @@
   cursor: pointer;
   display: inline-block;
   text-align: center;
+}
+
+.linkButton:hover {
+  background-color: #1e5b86;
+  border-color: #1e5b86;
+  color: #ffffff;
+}
+
+::placeholder {
+  opacity: 0.4;
 }

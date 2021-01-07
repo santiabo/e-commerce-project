@@ -36,27 +36,27 @@ export default function UserRegister() {
                     <h2 className='h2global'>Create a new account</h2>
                   </div>
                 </section>
-                <label className='globalLabel'>name: </label>
-                {errors.firstName && <span className='globalSpan text-danger'> Name is required! </span>}
+                <label className='globalLabel'>First name</label>
+                {errors.firstName && <span className='globalSpan text-danger'> Invalid first name</span>}
                 <input
                   name="firstName" className='globalInput' ref={register({ required: true, minLength: 2, maxLength: 40, pattern: /^([a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/ })}
                 />
-                <label className='globalLabel'>lastname: </label>
-                {errors.lastName && <span className='globalSpan text-danger'> Lastname is required! </span>}
+                <label className='globalLabel'>Last name</label>
+                {errors.lastName && <span className='globalSpan text-danger'>Invalid last name</span>}
                 <input
                   name="lastName" className='globalInput' ref={register({ required: true, minLength: 2, maxLength: 40, pattern: /^([a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/ })}
                 />
-                <label className='globalLabel'>birthdate: </label>
-                {errors.birthdate && <span className='globalSpan text-danger'> Birthdate is required! </span>}
+                <label className='globalLabel'>Birthdate</label>
+                {errors.birthdate && <span className='globalSpan text-danger'> Invalid birthdate</span>}
                 <input
                   name="birthdate" className='globalInput' placeholder='YYYY-MM-DD' ref={register({ required: true, pattern: /^(19|20)\d{2}[-](0?[1-9]|1[0-2])[-](0?[1-9]|[12]\d|3[01])$/ })}
                 />
-                <label className='globalLabel'>E-mail: </label>
-                {errors.email && <span className='globalSpan text-danger'> E-mail is required! </span>}
+                <label className='globalLabel'>Email</label>
+                {errors.email && <span className='globalSpan text-danger'> Invalid email address</span>}
                 <input
                   name="email" className='globalInput' ref={register({ required: true, maxLength: 76, pattern: /\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b/ })}
                 />
-                <label className='globalLabel'>password: </label>
+                <label className='globalLabel'>Password</label>
                 {errors.password && <span className='globalSpan text-danger'>{errors.password.message}</span>}
                 <input
                   name="password"
@@ -68,7 +68,7 @@ export default function UserRegister() {
                     }
                   })}
                 />
-                <label className='globalLabel'>confirm password: </label>
+                <label className='globalLabel'>Repeat your password</label>
                 {errors.checkpassword && <span className='globalSpan text-danger'>{errors.checkpassword.message}</span>}
                 <input
                   name="checkpassword"
