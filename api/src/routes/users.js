@@ -85,7 +85,7 @@ server.get('/:userId/cart', isUser, (req, res, next) => {
   Order.findOne({
     where: {
       userId,
-    
+      status: 'on_cart'
     }
   })
     .then((order) => {
