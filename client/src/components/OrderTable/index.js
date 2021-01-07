@@ -88,10 +88,10 @@ const TableOrder = ({ getAllOrdersAction, setFinalizedOrderAction, setConfirmOrd
           </thead>
           <tbody>
           {orders !== undefined &&
-            orders.map(({ id, userId, status, createdAt, updatedAt, address}) => (
+            orders.map(({ id, user, status, createdAt, updatedAt, address}) => (
               <tr key={id}>
                 <td>{id}</td>
-                <td>{userId}</td>
+                <td>{user.email}</td>
                 <td>{status}</td>
                 <td>{new Date(createdAt).toLocaleString()}</td>
                 <td>{new Date(updatedAt).toLocaleString()}</td>

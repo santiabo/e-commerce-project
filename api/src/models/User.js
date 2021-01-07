@@ -15,6 +15,10 @@ module.exports = (sequelize) => {
        type: DataTypes.BOOLEAN,  //   <-- Se va a usar después!
        allowNull: true,
      },
+     isBanned: {
+      type: DataTypes.BOOLEAN,  //   <-- Se va a usar después!
+      allowNull: true,
+    },
     avatar: {
       type: DataTypes.TEXT,
       isUrl: true  //   <--- Valida que sea URL.
