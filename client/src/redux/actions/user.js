@@ -48,10 +48,10 @@ const deleteUser = ({ userDeleted }) => {
 };
 
 
-const postUserCart = (userId) => {
+const postUserCart = (userCart) => {
   return {
     type: POST_USER_CART,
-    userId,
+    userCart
   };
 };
 
@@ -162,8 +162,8 @@ export const addUserCart = (userId) => {
     try {
       const cart = JSON.parse(localStorage.getItem("cart"));
       const res = await authAxios.post(`/users/${userId}/cart`, { cart });
-      console.log('Se posteo cart',res)
-      dispatch(postUserCart(cart));
+      dispatch(postUserCart(res.data))
+      localStorage.removeItem('cart')
     } catch (err) {
       console.log(err);
     }
@@ -215,13 +215,13 @@ export const signInUser = (email, password) => {
       const res = await axios.post(`http://localhost:5000/auth/login`, { ...email, ...password });
       const {token, user} = res.data;
      
-      dispatch(loginUser(token));
+      dispatch(loginUser(user));
       alert(`Welcome ${user.firstName}!`)
       localStorage.setItem("token", JSON.stringify(token));
 
       dispatch(addUserCart(user.id))
+      
 
-      //localStorage.setItem("cart", JSON.stringify([]));
     } catch (err) {
       console.log(err);
     }
@@ -233,6 +233,7 @@ export const signOutUser = () => {
     try {
       const res = await axios.get(`http://localhost:5000/auth/logout`);
       dispatch(logoutUser())
+      localStorage.removeItem('token')
       alert("Goodbye");
     }
     catch (err) {

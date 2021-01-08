@@ -1,19 +1,37 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
+import { getAllOrders } from "../../services/orders";
 
 import './order.css'
 
 
 const Order = () => {
+  
+  const dispatch = useDispatch();
+  const isUSer = useSelector(state => state.isUSer)
+  const userCart = useSelector(state => state.userCart)
+
+  console.log('CartUSer',userCart)
+  useEffect(() => {
+    getAllOrders(userCart[0].id)
+  }, []);
+
+  useEffect(() => {
+    dispatch(getAllOrders(userCart[0].id))
+  }, []);
 
   return (
+    <>
+    {
+      isUSer ?
     <section className='order-section'>
       <header className='order-header'>
         <div className='header-description-container'>
         <div className='header-button-container'>
-          <button className='order-button'>See Detail</button>
+          <button className='order-button'>Edit Order</button>
         </div>
+          <h2>#orderId</h2>
           <h1>Status: on-cart</h1>
           <h4>Deliver date 15-01-2021</h4>
         </div>
@@ -34,6 +52,12 @@ const Order = () => {
         <h3>Total: 356.99</h3>
       </footer>
     </section>
+    : 
+    <div>
+      <h1>Return to Login</h1>
+    </div>
+    }
+    </>
   );
 };
 

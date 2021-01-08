@@ -70,7 +70,7 @@ server.post('/:userId/cart', isUser, async (req, res, next) => {
         price: p.price
       }
       })
-    return res.send(result.data);
+    return res.send(result);
   })
   } catch (error) {
   next(error)
