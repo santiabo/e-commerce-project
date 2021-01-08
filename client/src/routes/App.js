@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { getProducts } from "../redux/actions/product";
 import { getCategories } from "../redux/actions/category";
 import { getCartItemsFromLocalStorage } from "../redux/actions/cart";
+import { autoSignInUser } from "../redux/actions/user"
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 // Components
@@ -25,12 +26,14 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(autoSignInUser());
     dispatch(getProducts());
     dispatch(getCategories());
     dispatch(getCartItemsFromLocalStorage());
   }, []);
 
   return (
+
     <BrowserRouter>
       <Layout>
         <Switch>

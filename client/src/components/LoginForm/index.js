@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { logInUser } from '../../redux/actions/user'
@@ -8,9 +8,20 @@ import '../LoginForm/style.css';
 
 export default function LoginUser() {
 
+  const history = useHistory();  
+
   const { register, handleSubmit, errors } = useForm();
 
   const dispatch = useDispatch();
+
+  const isUser = useSelector(state=> state.user.isUser)
+
+  useEffect(()=>{
+    if(isUser){
+      history.push('/');
+    }
+  },[isUser])
+
 
   const onSubmit = (user) => {
     dispatch(logInUser(user));
