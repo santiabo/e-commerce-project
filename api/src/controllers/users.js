@@ -1,6 +1,6 @@
 const { User } = require('../db');
 
-const createOne = (role, avatar, firstName, lastName, birthdate, password, googleId) => {
+const createOne = (avatar, firstName, lastName, birthdate, password, googleId) => {
   return new Promise((resolve, reject) => {
     // Verifica si hay password y el password tiene un espacio, envia un mensaje que la contraseña no puede tener espacios en blanco
     if (password && password.includes(" ")) {
@@ -13,15 +13,6 @@ const createOne = (role, avatar, firstName, lastName, birthdate, password, googl
 
     User.create({ avatar, firstName, lastName, birthdate, password, googleId })
       .then((user) => {
-        if(role) {
-          if(role !== "ADMIN" && role !== "GUEST") {
-            return reject({
-              error: "Los campos para el rol son ADMIN o GUEST",
-            });
-          }
-          user.role = role;
-          user.save();
-        }
         return user;
       })
       .then((user) => resolve(user))

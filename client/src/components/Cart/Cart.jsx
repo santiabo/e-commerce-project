@@ -22,6 +22,7 @@ import {
 
 import './cart.css'
 import { UnitsAmountWrapper } from "../UnitsAmount/styles";
+import Cart from '../../assets/icons/shopping_cart.svg';
 
 
 
@@ -36,8 +37,11 @@ const CartItem = () => {
       <section className='cart'>
         {/* cart header */}
         <header>
-          <h2 className='header'>Your cart</h2>
-          <h4 className='header'>is currently empty</h4>
+          <h2 className='header'>YOUR CART</h2>
+          <h4 className='header'>IS CURRENTLY EMPTY</h4>
+          <div className = "content">
+          <img className = "cart" src={Cart}/>
+          </div>
         </header>
       </section>
     );

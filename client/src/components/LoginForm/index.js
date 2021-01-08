@@ -48,7 +48,6 @@ export default function LoginUser() {
                   <Link id="lnk" to="/reset/account/password"><p className="note">Forgot password?</p></Link>
                 </div>
                 <section className="subForm">
-                <div>"Loguearse con terceros"</div>
                 <div className = "note2">
                   <p>Or login with </p>
                 </div>

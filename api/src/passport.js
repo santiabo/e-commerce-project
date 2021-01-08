@@ -74,7 +74,6 @@ passport.use(
           profile.displayName,
           profile.emails[0].value,
           null,
-          'GUEST',
           profile.id,
           null
         );
