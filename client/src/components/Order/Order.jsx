@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getAllOrders } from "../../services/orders";
 
 import './order.css'
+import { getOrders } from "../../redux/actions/order";
 
 
 const Order = () => {
@@ -14,12 +15,9 @@ const Order = () => {
 
   console.log('CartUSer',userCart)
   useEffect(() => {
-    getAllOrders(userCart[0].id)
+    getOrders(userCart.id)
   }, []);
 
-  useEffect(() => {
-    dispatch(getAllOrders(userCart[0].id))
-  }, []);
 
   return (
     <>

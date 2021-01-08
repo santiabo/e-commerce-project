@@ -8,7 +8,8 @@ import {
   DELETE_USER_CART,
   UPDATE_USER_CART,
   LOGIN_USER,
-  LOGOUT_USER
+  LOGOUT_USER,
+  AUTO_LOGIN
 } from "../actions/user";
 
 const initialState = {
@@ -90,6 +91,12 @@ const userReducer = (state = initialState, action) => {
         user: action.user,
         isUser: false
       }
+    case AUTO_LOGIN:
+      return{
+        ...state,
+        user: action.user,
+        isUser:true
+    }
     default:
       return state;
   }
