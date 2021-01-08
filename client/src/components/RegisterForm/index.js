@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { useDispatch } from "react-redux";
@@ -9,7 +9,9 @@ import './styles.css';
 
 export default function UserRegister() {
 
-  const { register, handleSubmit, errors } = useForm();
+  const { register, handleSubmit, errors, watch } = useForm();
+  const password = useRef({});
+  password.current = watch('password', '');
 
   const dispatch = useDispatch();
 
@@ -34,37 +36,46 @@ export default function UserRegister() {
                     <h2 className='h2global'>Create a new account</h2>
                   </div>
                 </section>
-                <label className='globalLabel'>name: </label>
-                {errors.firstName && <span className='globalSpan text-danger'> Name is required! </span>}
+                <label className='globalLabel'>First name</label>
+                {errors.firstName && <span className='globalSpan text-danger'> Invalid first name</span>}
                 <input
-                  name="firstName" className='globalInput' ref={register({ required: true })}
+                  name="firstName" className='globalInput' ref={register({ required: true, minLength: 2, maxLength: 40, pattern: /^([a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/ })}
                 />
-                <label className='globalLabel'>lastname: </label>
-                {errors.lastName && <span className='globalSpan text-danger'> Lastname is required! </span>}
+                <label className='globalLabel'>Last name</label>
+                {errors.lastName && <span className='globalSpan text-danger'>Invalid last name</span>}
                 <input
-                  name="lastName" className='globalInput' ref={register({ required: true })}
+                  name="lastName" className='globalInput' ref={register({ required: true, minLength: 2, maxLength: 40, pattern: /^([a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/ })}
                 />
-                <label className='globalLabel'>birthdate: </label>
-                {errors.birthdate && <span className='globalSpan text-danger'> Birthdate is required! </span>}
+                <label className='globalLabel'>Birthdate</label>
+                {errors.birthdate && <span className='globalSpan text-danger'> Invalid birthdate</span>}
                 <input
-                  name="birthdate" className='globalInput' ref={register({ required: true })}
+                  name="birthdate" className='globalInput' placeholder='YYYY-MM-DD' ref={register({ required: true, pattern: /^(19|20)\d{2}[-](0?[1-9]|1[0-2])[-](0?[1-9]|[12]\d|3[01])$/ })}
                 />
-                <label className='globalLabel'>E-mail: </label>
-                {errors.email && <span className='globalSpan text-danger'> E-mail is required! </span>}
+                <label className='globalLabel'>Email</label>
+                {errors.email && <span className='globalSpan text-danger'> Invalid email address</span>}
                 <input
-                  name="email" className='globalInput' ref={register({ required: true })}
+                  name="email" className='globalInput' ref={register({ required: true, maxLength: 76, pattern: /\b[\w.-]+@[\w.-]+\.\w{2,4}\b/ })}
                 />
-                <label className='globalLabel'>password: </label>
-                {errors.password && <span className='globalSpan text-danger'> Password is required! </span>}
-                <input
-                  name="checkpassword"
-                  type="password" className='globalInput' ref={register({ required: true })}
-                />
-                <label className='globalLabel'>confirm password: </label>
-                {errors.checkpassword && <span className='globalSpan text-danger'> Passwords do not match! </span>}
+                <label className='globalLabel'>Password</label>
+                {errors.password && <span className='globalSpan text-danger'>{errors.password.message}</span>}
                 <input
                   name="password"
-                  type="password" className='globalInput' ref={register({ required: true })}
+                  type="password" className='globalInput' ref={register({
+                    required: 'You must specify a password.',
+                    pattern: {
+                      value: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,40}$/,
+                      message: 'Password must contain at least one uppercase letter, one lowercase letter, and one number.'
+                    }
+                  })}
+                />
+                <label className='globalLabel'>Repeat your password</label>
+                {errors.checkpassword && <span className='globalSpan text-danger'>{errors.checkpassword.message}</span>}
+                <input
+                  name="checkpassword"
+                  type="password" className='globalInput' ref={register({
+                    validate: value =>
+                      value === password.current || 'The passwords do not match.'
+                  })}
                 />
               </div>
               <div className='div3'>

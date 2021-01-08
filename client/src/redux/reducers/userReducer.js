@@ -7,11 +7,14 @@ import {
   GET_USER_CART,
   DELETE_USER_CART,
   UPDATE_USER_CART,
-  LOGIN_USER
+  LOGIN_USER,
+  LOGOUT_USER,
+  AUTO_LOGIN
 } from "../actions/user";
 
 const initialState = {
   user: [],
+  userCart: [],
   isUser: false
 };
 
@@ -20,12 +23,12 @@ const userReducer = (state = initialState, action) => {
     case CREATE_USER:
       return {
         ...state,
-        users: [...state.users, action.user]
+        user: [...state.user, action.user]
       };
     case UPDATE_USER:
       return {
         ...state,
-        users: state.users.map(user => {
+        user: state.user.map(user => {
           if (user.id === action.user.id)
             return action.user;
           return user;
@@ -35,28 +38,25 @@ const userReducer = (state = initialState, action) => {
       if (action.user.isAdmin)
         return {
           ...state,
-          users: action.user
+          user: action.user
         }
+        break
     case DELETE_USER:
-        return {
-          ...state,
-          users: state.users.filter(user => 
-            action.userDeleted.id !== user.id
-          )
-        }
+      return {
+        ...state,
+        user: state.user.filter(user =>
+          action.userDeleted.id !== user.id
+        )
+      }
     case POST_USER_CART:
       return {
         ...state,
-        users: state.users.map(user => {
-          if (user.id === action.userId)
-            return [...user, action.cart]
-          return user;
-        })
+        userCart:action.userCart
       };
     case GET_USER_CART:
       return {
         ...state,
-        users: state.users.map(user => {
+        user: state.user.map(user => {
           if (user.id === action.id && user.cart)
             return user.cart
           return user;
@@ -65,28 +65,41 @@ const userReducer = (state = initialState, action) => {
     case DELETE_USER_CART:
       return {
         ...state,
-        users: state.users.map(user => {
+        user: state.user.map(user => {
           if (user.id === action.userId && user.cart) {
             user.cart = [];
           }
+          return user;
         })
       }
     case UPDATE_USER_CART:
       return {
         ...state,
-        users: state.users.map(user => {
+        user: state.user.map(user => {
           if (user.id === action.id && user.cart) {
             user.cart = action.userCart
           }
+          return user;
         })
       }
-      case LOGIN_USER:
-        console.log('action',action.user)
-        return{
-          ...state,
-          user: action.user,
-          isUser: true
-        }
+    case LOGIN_USER:
+      return {
+        ...state,
+        user: action.user,
+        isUser: true
+      }
+    case LOGOUT_USER:
+      return {
+        ...state,
+        user: action.user,
+        isUser: false
+      }
+    case AUTO_LOGIN:
+      return{
+        ...state,
+        user: action.user,
+        isUser:true
+    }
     default:
       return state;
   }

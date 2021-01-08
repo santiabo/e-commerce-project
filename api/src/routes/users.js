@@ -1,5 +1,5 @@
 const server = require('express').Router();
-const { User, Order, OrderLine } = require('../db');
+const { User, Order, OrderLine, Product } = require('../db');
 const { isUser, isAdmin } = require('../middlewares/auth');
 
 
@@ -62,19 +62,29 @@ server.post('/:userId/cart', isUser, async (req, res, next) => {
     console.log('Orderderuta', order[0].dataValues)
     const { id } = order[0].dataValues
     cart.map(async p => {
-      const result = await OrderLine.findOrCreate({
+      await OrderLine.findOrCreate({
         where: {
-        quantity: p.quantity,
-        productId: p.id,
-        orderId: id,
-        price: p.price
-      }
+          quantity: p.quantity,
+          productId: p.id,
+          orderId: id,
+          price: p.price
+        }
       })
-    return res.send(result.data);
-  })
+    })
+    const userCart = await OrderLine.findAll({
+      where: {
+        orderId: order[0].dataValues.id
+      },
+      include: [
+        Product,
+        Order
+      ]
+    })
+    console.log('usercart',userCart)
+    return res.send(userCart);
   } catch (error) {
-  next(error)
-}
+    next(error)
+  }
 })
 
 //----------------Get user cart.
@@ -184,6 +194,19 @@ server.post('/:id/passwordReset', isUser, async (req, res, next) => {
     result.update({
       password: newPassword,
     }); res.send('Password Updated');
+  } catch (error) {
+    next(error);
+  }
+});
+
+//-------------- Ban User
+server.put('/:id/ban', isAdmin, async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const ban = await User.findByPk(id);
+    ban.update({
+     isBanned: true,
+    }); res.send('User Banned');
   } catch (error) {
     next(error);
   }

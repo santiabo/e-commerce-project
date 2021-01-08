@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
 import { removeItemFromCart, clearCart, incrementItem, decrementItem } from "../../redux/actions/cart";
 

@@ -1,19 +1,30 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
-import { signInUser } from '../../redux/actions/user'
+import { useDispatch, useSelector } from 'react-redux';
+import { logInUser } from '../../redux/actions/user'
 import '../LoginForm/style.css';
 import {FcGoogle } from 'react-icons/fc'; 
 
 export default function LoginUser() {
 
+  const history = useHistory();  
+
   const { register, handleSubmit, errors } = useForm();
 
   const dispatch = useDispatch();
 
+  const isUser = useSelector(state=> state.user.isUser)
+
+  useEffect(()=>{
+    if(isUser){
+      history.push('/');
+    }
+  },[isUser])
+
+
   const onSubmit = (user) => {
-    dispatch(signInUser(user));
+    dispatch(logInUser(user));
   };
 
   //const onSubmit = data => console.log("data:", data);

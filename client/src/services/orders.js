@@ -61,6 +61,7 @@ export async function getOrderById(id) {
   return axios
   .get(`http://localhost:5000/orders/${id}`)
   .then(res => {
+    console.log("continuacion de entre",res.data)
     return res.data;
   })
   .catch(() => {

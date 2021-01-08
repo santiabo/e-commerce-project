@@ -1,15 +1,25 @@
 import React, { useState } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { logOutUser } from '../../redux/actions/user';
 
 // Styles
 import './styles.css';
 import { MdAccountCircle } from "react-icons/md";
 
-const LoggedInUser = (props) => {
+const LoggedInUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const toggle = () => setDropdownOpen(prevState => !prevState);
+
+  const { user } = useSelector(state => state.user);
+
+  const dispatch = useDispatch();
+
+  const onSubmit = (user) => {
+    dispatch(logOutUser(user));
+  };
 
   return (
     <Dropdown className='Dropdown' isOpen={dropdownOpen} toggle={toggle}>
@@ -17,8 +27,8 @@ const LoggedInUser = (props) => {
         <MdAccountCircle className='Avatar' />
       </DropdownToggle>
 
-      <DropdownMenu right >
-        <DropdownItem className='UserName'>Maggie</DropdownItem>
+      <DropdownMenu right>
+        <DropdownItem className='UserName'>{user.firstName}</DropdownItem>
 
         <DropdownItem divider />
 
@@ -37,7 +47,7 @@ const LoggedInUser = (props) => {
         <DropdownItem divider />
 
         <DropdownItem>
-          <Link to='/' className='LinkItem'>Sign Out</Link>
+          <Link to='/' className='LinkItem' onClick={onSubmit}>Log Out</Link>
         </DropdownItem>
       </DropdownMenu>
     </Dropdown>
