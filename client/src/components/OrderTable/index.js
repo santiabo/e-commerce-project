@@ -25,7 +25,6 @@ const TableOrder = ({ getAllOrdersAction, setFinalizedOrderAction, setConfirmOrd
   // ]);
 
   let orders = useSelector(state=> state.order.allOrders)
- console.log('ORDERS',orders)
 
   const handleChange = async (e, id) => {
     let resp = window.confirm(`Desea cambiar el estado de la orden a ${e.target.value}`);
