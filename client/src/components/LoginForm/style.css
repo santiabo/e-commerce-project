@@ -248,16 +248,17 @@
 }*/
 
 button {
-  border-radius: 16px;
-  border: none;
+  border-radius: 5px;
+  border: 1.5px solid #2c85c5;
   padding: 0;
+  padding-left: 12px;
   display: flex;
   /* justify-content: center; */
   align-items: center;
   background: #fff;
   box-shadow: 0 0 6px #818181;
   cursor: pointer;
-  margin: 8px 16px;  
+  margin: auto;  
 }
 
 /* button:hover {
@@ -273,15 +274,21 @@ button {
   color: #ffffff;
   border-color: #2c85c5;
   border-radius: 0.25rem;
-  font-size: 1.25rem;
+  font-size: 15px;
   font-weight: 700;
   cursor: pointer;
   border: none;
   border-style: solid;
   user-select: none;
-  padding: .5rem .875rem;
+  padding: 12px;
   line-height: 1.5rem;
   text-align: center;
   border-width: 2px;
   transition: background-color .15s ease 0s, border-color .15s ease 0s;
+}
+
+.iconGoogle {
+  margin-right: 7px;
+  width: 30px;
+  height: 30px;
 }

@@ -6,7 +6,6 @@ import { signInUser } from '../../redux/actions/user'
 import '../LoginForm/style.css';
 import {FcGoogle } from 'react-icons/fc'; 
 
-
 export default function LoginUser() {
 
   const { register, handleSubmit, errors } = useForm();
@@ -53,9 +52,10 @@ export default function LoginUser() {
                 <div className = "note2">
                   <p>Or login with </p>
                 </div>
-                <div className="buttonRedes">
+                <div>
+                  {/*window.location = Retorna un objeto Location con información acerca de la ubicación actual del documento*/}
                   <button onClick = {() => (window.location = 'http://localhost:5000/auth/login/google')}>
-                    <FcGoogle />
+                    <FcGoogle className="iconGoogle"/>
                     <div className = "google">Login with Google</div>
                   </button>
                 </div>

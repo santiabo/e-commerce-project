@@ -2,6 +2,7 @@ const { User } = require('../db');
 
 const createOne = (role, avatar, firstName, lastName, birthdate, password, googleId) => {
   return new Promise((resolve, reject) => {
+    // Verifica si hay password y el password tiene un espacio, envia un mensaje que la contraseña no puede tener espacios en blanco
     if (password && password.includes(" ")) {
       return reject({
         error: {

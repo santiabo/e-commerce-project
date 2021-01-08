@@ -58,11 +58,14 @@ server.get('/login/google',
     passport.authorize('google', function (err, user) {
       if(err) return next(err);
       if(!user) {
+        // Si no hay usuario redirecciona a la esa url
         res.redirect('http://localhost:5000/sign-in?error=401');
       } else {
+        // en cambio si todo esta correcto la respuesta va a ser un body(JWT)
+        // vamos a firmar un token con el id del usurio, el role y el secreto y redirecciona
         const token = jwt.sign({ uid: user.id, role: user.role }, secretGoogle);
         res.redirect(`http://localhost:5000/sign-in?token=${token}`);
-        console.log(user);
+        console.log(token);
       }
     })(req, res, next);
   })
