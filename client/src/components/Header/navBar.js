@@ -19,18 +19,18 @@ const NavBar = () => {
   return (
     <nav>
       <NavWrapper3>
-
         <StyledLink to='/'>Builder</StyledLink>
-        <StyledLink to='/'>Pc Builts</StyledLink>
+
+        <StyledLink to='/'>PC Builds</StyledLink>
+
         <StyledLink to='/products'>Products</StyledLink>
-        <StyledLink to='/'>About us</StyledLink>
+
+        <StyledLink to='/'>About Us</StyledLink>
+
         <StyledLink to='/admin'>Admin</StyledLink>
 
         <SearchBar handleSubmit={handleSubmit} />
       </NavWrapper3>
-
-
-
     </nav>
   );
 };
