@@ -1,10 +1,12 @@
 const passport = require("passport");
 //la LocalStrategy es la que se utiliza cuando no utilizamos servicios como Google para loguerse
 const LocalStrategy = require("passport-local").Strategy;
+const GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
 const BearerStrategy = require("passport-http-bearer").Strategy;
 const { User } = require("./db.js");
 const jwt = require("jsonwebtoken");
-const { DB_SECRET } = process.env;
+const { getOneByGoogleId, createOne } = require('./controllers/users');
+const { DB_SECRET, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } = process.env;
 
 //es un midlleware
 passport.use(
@@ -18,11 +20,11 @@ passport.use(
       const user = await User.findOne({ where: { email: email } });
       //el done recibe tres argumentos: first error, el usuario, y un mensaje
       //si no hay usuario el error es null, el usuario es false, y el mensaje es optativo
-      if (!user) return done(null, false,'User not found');
+      if (!user) return done(null, false, 'User not found');
       //si encuentra al usuario compara la contraseña
       //si la contraseña es incorrecta retorno lo mismo que si no encontrara el usuario
 
-      if (!user.compare(password)) return done(null, false,'Password is incorrect');
+      if (!user.compare(password)) return done(null, false, 'Password is incorrect');
       //si esta todo ok devolvemos el usuario
       //la manera en que sequelize devuelve el usuario es incompatible con JWT
       //por lo debemos extraer los datos que necesitamos y enviarlos por fuera de la instancia de sequelize
@@ -38,7 +40,7 @@ passport.use(
         photoURL,
       } = user;
       return done(null, {
-        id,       
+        id,
         email: userEmail,
         isAdmin,
         avatar,
@@ -46,6 +48,45 @@ passport.use(
         lastName,
         birthdate,
         photoURL,
+      });
+    }
+  )
+);
+
+// Middleware
+passport.use(
+  // Al crear la estrategia son requeridos el ID del cliente y el secreto obtenido al crear la aplicacion
+  // La estrategia tambien requiere un cb, el cual recibe el token de acceso y el token de
+  //actualización opcional 
+  new GoogleStrategy(
+    {
+      clientID: GOOGLE_CLIENT_ID,
+      clientSecret: GOOGLE_CLIENT_SECRET,
+      callbackURL: 'http://localhost:3000/',
+      session: false,
+    },
+    async (token, tokenSecret, profile, done) => {
+      // getOneByGoogleId recibe del controlador de usuario
+      let user = await getOneByGoogleId(profile.id);
+      console.log(profile);
+      // Si no hay usuario lo crea
+      if (!user)
+        user = await createOne(
+          profile.displayName,
+          profile.emails[0].value,
+          null,
+          profile.id,
+          null
+        );
+        // Si esta todo bien devolvemos el usuario, extrayendo los datos que necesitamos y enviandolos por fuera de sequilize
+      const { id, firstName, lastName, createdAt, updateAt } = user;
+      consele.log(user);
+      return done(null, {
+        id,
+        firstName,
+        lastName,
+        createdAt,
+        updateAt
       });
     }
   )
