@@ -106,7 +106,6 @@ const autoLoginUser = (user) => {
 
 //instancia de axios para realizar peticiones con headers que contengan el token
 const accessToken = JSON.parse(localStorage.getItem("token"));
-console.log('Paraquesepamos', accessToken)
 export const authAxios = axios.create({
   baseURL: 'http://localhost:5000',
   headers: {
@@ -173,7 +172,6 @@ export const addUserCart = (userId) => {
     try {
       const cart = JSON.parse(localStorage.getItem("cart")) || [];
       const res = await authAxios.post(`/users/${userId}/cart`, { cart });
-      console.log('DATA', res.data)
       dispatch(postUserCart(res.data))
       localStorage.removeItem('cart')
     } catch (err) {
