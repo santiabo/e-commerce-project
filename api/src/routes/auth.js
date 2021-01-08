@@ -62,8 +62,8 @@ server.get('/login/google',
         res.redirect('http://localhost:5000/sign-in?error=401');
       } else {
         // en cambio si todo esta correcto la respuesta va a ser un body(JWT)
-        // vamos a firmar un token con el id del usurio, el role y el secreto y redirecciona
-        const token = jwt.sign({ uid: user.id, role: user.role }, secretGoogle);
+        // vamos a firmar un token con el id del usurio y el secreto y redirecciona
+        const token = jwt.sign({ uid: user.id }, secretGoogle);
         res.redirect(`http://localhost:5000/sign-in?token=${token}`);
         console.log(token);
       }
