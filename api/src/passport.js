@@ -26,6 +26,7 @@ passport.use(
       //si esta todo ok devolvemos el usuario
       //la manera en que sequelize devuelve el usuario es incompatible con JWT
       //por lo debemos extraer los datos que necesitamos y enviarlos por fuera de la instancia de sequelize
+      if(user.isBanned) return done(null, false, 'User Banned');
       const {
         id,
         email: userEmail,//utilizo un alias porque viene por parametro el email(no se podria redefinir)

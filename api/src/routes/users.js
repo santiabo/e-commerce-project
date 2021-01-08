@@ -199,4 +199,17 @@ server.post('/:id/passwordReset', isUser, async (req, res, next) => {
   }
 });
 
+//-------------- Ban User
+server.put('/:id/ban', isAdmin, async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const ban = await User.findByPk(id);
+    ban.update({
+     isBanned: true,
+    }); res.send('User Banned');
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = server;

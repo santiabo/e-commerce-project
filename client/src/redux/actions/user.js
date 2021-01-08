@@ -2,6 +2,7 @@ import axios from 'axios';
 import { Alert } from 'reactstrap';
 import { clearCart } from './cart';
 
+
 // Types
 export const CREATE_USER = "CREATE_USER";
 export const UPDATE_USER = "UPDATE_USER";
@@ -220,7 +221,7 @@ export const editUserCart = (id, userCart) => {
   };
 };
 
-export const signInUser = (email, password) => {
+export const logInUser = (email, password) => {
   return async (dispatch) => {
     try {
       const res = await axios.post(`http://localhost:5000/auth/login`, { ...email, ...password });
@@ -239,7 +240,7 @@ export const signInUser = (email, password) => {
   };
 };
 
-export const signOutUser = () => {
+export const logOutUser = () => {
   return async (dispatch) => {
     try {
       const res = await axios.get(`http://localhost:5000/auth/logout`);

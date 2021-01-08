@@ -40,6 +40,7 @@ const userReducer = (state = initialState, action) => {
           ...state,
           user: action.user
         }
+        break
     case DELETE_USER:
       return {
         ...state,
@@ -68,6 +69,7 @@ const userReducer = (state = initialState, action) => {
           if (user.id === action.userId && user.cart) {
             user.cart = [];
           }
+          return user;
         })
       }
     case UPDATE_USER_CART:
@@ -77,6 +79,7 @@ const userReducer = (state = initialState, action) => {
           if (user.id === action.id && user.cart) {
             user.cart = action.userCart
           }
+          return user;
         })
       }
     case LOGIN_USER:

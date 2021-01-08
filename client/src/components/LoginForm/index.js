@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
-import { signInUser } from '../../redux/actions/user'
+import { useDispatch } from 'react-redux';
+import { logInUser } from '../../redux/actions/user'
 import '../LoginForm/style.css';
 
 
@@ -24,7 +24,7 @@ export default function LoginUser() {
 
 
   const onSubmit = (user) => {
-    dispatch(signInUser(user));
+    dispatch(logInUser(user));
   };
 
   //const onSubmit = data => console.log("data:", data);

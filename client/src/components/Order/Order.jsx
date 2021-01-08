@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
 import { getAllOrders } from "../../services/orders";
-
 import './order.css'
 import { getOrders } from "../../redux/actions/order";
 
