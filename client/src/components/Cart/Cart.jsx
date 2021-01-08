@@ -38,7 +38,7 @@ const CartItem = () => {
         {/* cart header */}
         <header>
           <h2 className='header'>YOUR CART</h2>
-          <h4 className='header'>IS CURRENTLY EMPTY</h4>
+          <h4 className='header'>IS CURRENTLY EMPTY!!</h4>
           <div className = "content">
           <img className = "cart" src={Cart}/>
           </div>
