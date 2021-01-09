@@ -1,22 +1,43 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUsers, removeUser, editUser } from '../../redux/actions/user.js';
 
 import "./UserTable.css";
-import User from '../../../../api/src/models/User.js';
+//import { User } from '../../../../api/src/models/User.js'; <---no se puede
+//import { getUsers, removeUser, editUser } from '../../redux/actions/user.js';
 
 
 function userTable(){
-  const dispatch = useDispatch();
+  //const dispatch = useDispatch();
 
-  const [makeAdminModal, setMakeAdminModal] = useState(false);
-  const [regularUserModal, setRegularUserModal] = useState(false);
-  // const [categoriaSeleccionada, setCategoriaSeleccionada] = useState({
-  //   id: '',
-  //   name: '',
-  //   description: ''
+
+  // const [changeAdmin, setIsAdmin] = React.useState('');
+
+  // const [role, setRole] = React.useState({
+  //   isAdmin: false
   // });
+
+  // const btnAdm = function(e) {
+  //   setRole({
+  //     ...role,
+  //     [e.target.name]: e.target.value
+  //   });
+  // }
+
+  //----iba adentro del boton---
+  //onClick={()=>function(event){event}}
+
+  // o
+  //name='changeAdmin' onClick={(e) => setIsAdmin(e.target.value)} value = {true}
+
+  // var u = {
+  //   email : this.email,
+  //   id: this.id,
+  //   firstName: this.firstName,
+  //   lastName: this.lastName,
+  //   isAdmin: false
+
+  // }
 
 
   return (
@@ -39,12 +60,20 @@ function userTable(){
    </thead>
    <tbody>
      <tr>
-       <td>{User.id}</td>
-       <td>{User.firstName}</td>
-       <td>{User.lastName}</td>
-       <td>{User.email}</td>
-       <td>{User.isAdmin}</td>
-       <td id="settings"><button type='button' onClick={()=>function(event){event}}>Edit Role</button></td>
+       <td>1</td>
+       <td>fulanito</td>
+       <td>ortiz</td>
+       <td>fula@fula.com</td>
+       <td>Admin</td>
+       <td id="settings">
+         <button type='button' >Edit Role</button>
+         <br></br>
+         <button type='button'>Force Password Change</button>
+         <br></br>
+         <button type='button'>Ban</button>
+         <br></br>
+         <button type='button'>Remove</button>
+       </td>
      </tr>
      
    </tbody>
