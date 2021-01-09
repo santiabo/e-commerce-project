@@ -223,14 +223,16 @@ export const logInUser = (email, password) => {
   return async (dispatch) => {
     try {
       const res = await axios.post(`http://localhost:5000/auth/login`, { ...email, ...password });
+      console.log("RES >>>", res.data)
       const { token, user } = res.data;
 
       dispatch(loginUser(user));
       alert(`Welcome ${user.firstName}!`)
       localStorage.setItem("token", JSON.stringify(token));
       if(localStorage.cart) dispatch(addUserCart(user.id));
+
     } catch (err) {
-      console.log("THIS IS ERROR >>>> ",err);
+      alert(err.response.data)      
     }
   };
 };
@@ -256,7 +258,7 @@ export const autoSignInUser = () => {
       const res = await authAxios.get(`/auth/me`);
       const user = res.data;
 
-      dispatch(autoLoginUser(user))
+      dispatch(autoLoginUser(user));
 
     } catch (err) {
       console.log(err);

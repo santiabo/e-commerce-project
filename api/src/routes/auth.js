@@ -12,8 +12,8 @@ server.get("/me", isUser, async (req, res, next) => {
     const result = await User.findByPk(id);
     res.json(result);
   } catch (error) {
-    next(error);
-  }
+    return next(error);
+  }  
 });
 
 // User log in route
@@ -22,13 +22,16 @@ server.post("/login", function (req, res, next) {
   //utilizamos el metodo de passport autenthicate
   //que recibe como primer argumento el tipo de estrategia a utilizar
   // como segundo argumento recibe una funcion autoejecutable la cual recibe: un err, user y un info
-  passport.authenticate("local", function (err, user) {
+  passport.authenticate("local", function (err, user, info) {
     //si hay un error nos pasamos al siguiente midleware
     if (err) return next(err);
     //si no hay error nos fijamos si el usuario es nulo
     //si no esta bien autenticado arrojamos un 401(usuario no autorizado)
     //tambien podemos enviar un mensaje(optativo)
-    else if (!user) return res.sendStatus(401);
+    else if (!user) {
+       res.status(401).send(info);
+  
+    }
     //si todo esta correcto la respuesta va a ser un body(JWT)
     //vamos a firmar un token enviando el usuario y un secreto
     else return res.send({ token: jwt.sign(user, DB_SECRET), user });
