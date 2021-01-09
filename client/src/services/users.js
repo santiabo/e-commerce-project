@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-//-----ASCIENDE A ADMIN-----
+//-----CAMBIO DE ROLES-----
 
-export async function editRole(id){
+export async function makeAdmin(id){
   return axios
   .post(`http://localhost:5000/promote/${id}`)
   .then(res => {
@@ -24,6 +24,32 @@ export async function editRole(id){
 //     next(error);
 //   }
 // });
+
+export async function makeRegular(id){
+  return axios
+  .post(`http://localhost:5000/degrade/${id}`)
+  .then(res => {
+    return res.data;
+  })
+  .catch((error) => {
+    return error;
+  })
+};
+
+// server.post('/degrade/:id', isAdmin, async function (req, res, next) {
+//   const { id } = req.params;
+//   try {
+//     const result = await User.findByPk(id)
+//     if(isAdmin === true){
+//       result.update({
+//         isAdmin: false
+//       }); res.send('User role is no longer admin')  
+//     }    
+//   } catch (error) {
+//     next(error);
+//   }
+// });
+
 
 //-----FUERZA CAMBIO DE CONTRASEÑA-----
 

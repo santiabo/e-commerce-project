@@ -59,6 +59,22 @@ server.post('/promote/:id', isAdmin, async function (req, res, next) {
   }
 });
 
+//------DEGRADE ADMIN TO REGULAR USER
+
+server.post('/degrade/:id', isAdmin, async function (req, res, next) {
+  const { id } = req.params;
+  try {
+    const result = await User.findByPk(id)
+    if(isAdmin === true){
+      result.update({
+        isAdmin: false
+      }); res.send('User role is no longer admin')  
+    }    
+  } catch (error) {
+    next(error);
+  }
+});
+
 server.get('/login/google',
   (passport.authenticate("google", {
     scope: ["profile", "email"],

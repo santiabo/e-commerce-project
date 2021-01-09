@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+//import { useDispatch, useSelector } from 'react-redux';
 
 import "./UserTable.css";
 //import { User } from '../../../../api/src/models/User.js'; <---no se puede
@@ -8,37 +8,7 @@ import "./UserTable.css";
 
 
 function userTable(){
-  //const dispatch = useDispatch();
-
-
-  // const [changeAdmin, setIsAdmin] = React.useState('');
-
-  // const [role, setRole] = React.useState({
-  //   isAdmin: false
-  // });
-
-  // const btnAdm = function(e) {
-  //   setRole({
-  //     ...role,
-  //     [e.target.name]: e.target.value
-  //   });
-  // }
-
-  //----iba adentro del boton---
-  //onClick={()=>function(event){event}}
-
-  // o
-  //name='changeAdmin' onClick={(e) => setIsAdmin(e.target.value)} value = {true}
-
-  // var u = {
-  //   email : this.email,
-  //   id: this.id,
-  //   firstName: this.firstName,
-  //   lastName: this.lastName,
-  //   isAdmin: false
-
-  // }
-
+  
 
   return (
 <div className="App">
@@ -66,13 +36,15 @@ function userTable(){
        <td>fula@fula.com</td>
        <td>Admin</td>
        <td id="settings">
-         <button type='button' >Edit Role</button>
+         <button type='button' className='btn'>Make Admin</button>         
+         <br></br> 
+         <button type='button' className='btn'>Make Regular</button>
          <br></br>
-         <button type='button'>Force Password Change</button>
+         <button type='button' className='btn'>Force Password Change</button>
          <br></br>
-         <button type='button'>Ban</button>
+         <button type='button' className='btn'>Ban</button>
          <br></br>
-         <button type='button'>Remove</button>
+         <button type='button' className='btn'>Delete User</button>
        </td>
      </tr>
      
