@@ -1,11 +1,13 @@
 export const initialState = {
   allOrders : [],
   searchOrder : [],
-  orderDetail: undefined,
+  orderDetail: [],
+  userOrders: [],
   orderReadOnly: null,
   orderUpdate: null
 };
 
+const USER_ORDERS = 'USER_ORDERS'
 const RESET_STATE = 'RESET_STATE';
 const GET_ALL_ORDERS = 'GET_ALL_ORDERS';
 const REMOVE_ORDER = 'REMOVE_ORDER';
@@ -29,6 +31,11 @@ export default function orders_reducer(state = initialState, action) {
         ...state,
         orderUpdate: null
       }
+      case USER_ORDERS:
+        return {
+          ...state,
+          USER_ORDERS: action.payload
+        }
     case GET_ALL_ORDERS:
       return {
         ...state,
@@ -65,7 +72,8 @@ export default function orders_reducer(state = initialState, action) {
         orderUpdate: true
       }
     case GET_ORDER_DETAIL:
-      return {
+      console.log("ORDER DETAIL >>> ", action.payload)
+      return {        
         ...state,
         orderDetail: action.payload
       }

@@ -1,6 +1,7 @@
-import { getAllOrders, removeOrder, setConfirmOrder, setFinalizedOrder, setCompleteOrder, setDeliveredOrder, setPreparedOrder, setRejectedOrder, setSendOrder, getOrderById } from '../../services/orders';
+import { getAllOrders, removeOrder, setConfirmOrder, setFinalizedOrder, setCompleteOrder, setDeliveredOrder, setPreparedOrder, setRejectedOrder, setSendOrder, getOrderById, getOrderByUserId } from '../../services/orders';
 import axios from 'axios';
 
+const USER_ORDERS = "USER_ORDERS";
 const ADD_PRODUCT_TO_SHOPPINGCART = 'ADD_PRODUCT_TO_SHOPPINGCART';
 const SET_SHOPPINGCART = 'SET_SHOPPINGCART';
 const GET_ALL_ORDERS = 'GET_ALL_ORDERS';
@@ -64,6 +65,19 @@ export const getAllOrdersAction = () => {
     }
   }
 }
+
+export const getUserOrders = (id) => {
+  return async (dispatch) => {
+    try {
+
+      const res = await axios.get(`http://localhost:5000/users/${id}/orders`);
+
+      dispatch(getAllOrders(res.data));
+    } catch (err) {
+      return err
+    }
+  };
+};
 
 export const removeOrderAction = (id) => {
   return (dispatch) => {

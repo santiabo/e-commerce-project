@@ -171,12 +171,19 @@ server.put('/:id/cart', isUser, async (req, res, next) => {
 });
 
 //-------------Get User Order
-server.get('/:id/orders', isUser, (req, res, next) => {
+server.get('/:id/orders',  /* isUser, */ (req, res, next) => {
   //devuelve las ordenes de usuarios
   const { id } = req.params;
 
   Order.findAll({ //busca las ordenes
-    where: { userId: id } //<-- del usuario especifico
+    where: { userId: id }, //<-- del usuario especifico
+    include: [{
+      model: OrderLine,
+      include: [{
+        model: Product
+      }],
+    }]
+
   }).then((order) => {
     return res.send(order); //devuelve las ordenes
   }).catch(next);
