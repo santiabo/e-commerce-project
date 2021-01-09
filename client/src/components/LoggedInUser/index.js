@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logOutUser } from '../../redux/actions/user';
 
 // Styles
@@ -10,8 +10,10 @@ import { MdAccountCircle } from "react-icons/md";
 
 const LoggedInUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  
+
   const toggle = () => setDropdownOpen(prevState => !prevState);
+
+  const { user } = useSelector(state => state.user);
 
   const dispatch = useDispatch();
 
@@ -26,7 +28,7 @@ const LoggedInUser = () => {
       </DropdownToggle>
 
       <DropdownMenu right>
-        <DropdownItem className='UserName'>Maggie</DropdownItem>
+        <DropdownItem className='UserName'>{user.firstName}</DropdownItem>
 
         <DropdownItem divider />
 

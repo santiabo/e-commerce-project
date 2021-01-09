@@ -4,13 +4,13 @@ import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { logInUser } from '../../redux/actions/user'
 import '../LoginForm/style.css';
-
+import {FcGoogle } from 'react-icons/fc'; 
 
 export default function LoginUser() {
 
   const history = useHistory();  
 
-  const { register, handleSubmit, errors } = useForm();
+  const { register, handleSubmit, errors} = useForm();
 
   const dispatch = useDispatch();
 
@@ -47,11 +47,19 @@ export default function LoginUser() {
                   </div>
                 </section>
                 <label for="email" className="label-email">E-mail: </label>
-                {errors.email && <span id="spn" className="text-danger">User incorrect!</span>}
-                <input type="text" className="text-input" name="email" maxLength="75" ref={register({ required: true })} />
+                {errors.email && <span id="spn" className="text-danger">Invalid email adress</span>}
+                <input type="text" className="text-input" name="email" ref={register({
+                    required: true,
+                    maxLength: 76,
+                    pattern: /\b[\w.-]+@[\w.-]+\.\w{2,4}\b/ })} />
                 <label for="password" className="label-password password">Password: </label>
                 {errors.password && <span id="spn" className="text-danger">Password incorrect!</span>}
-                <input type="password" className="text-input psw" name="password" ref={register({ required: true })} />
+                <input type="password" className="text-input psw" name="password" ref={register({
+                    required: 'You must specify a password.',
+                  //  pattern: {
+                  //  value: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,40}$/
+                  //  }
+                  })} />
                 <div className="wrapper-buttn-link">
                   <input type="submit" className="loged-button" value="Log In" />
                 </div>
@@ -59,7 +67,17 @@ export default function LoginUser() {
                   <Link id="lnk" to="/reset/account/password"><p className="note">Forgot password?</p></Link>
                 </div>
                 <section className="subForm">
-                  <div className="header-subform">
+                <div className = "note2">
+                  <p>Or login with </p>
+                </div>
+                <div>
+                  {/*window.location = Retorna un objeto Location con información acerca de la ubicación actual del documento*/}
+                  <button onClick = {() => (window.location = 'http://localhost:5000/auth/login/google')}>
+                    <FcGoogle className="iconGoogle"/>
+                    <div className = "google">Login with Google</div>
+                  </button>
+                </div>
+                <div className="header-subform">
                     <div>
                       <h2 id="sub">Don't have an account?</h2>
                     </div>

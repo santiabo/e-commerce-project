@@ -60,9 +60,11 @@ module.exports = (sequelize) => {
       //   return () => this.getDataValue('password');
       // },
     },
+    
     googleId: {
       type: DataTypes.STRING,
       allowNull: true,
+      unique: true,
     },
   });
 

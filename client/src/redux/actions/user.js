@@ -106,7 +106,6 @@ const autoLoginUser = (user) => {
 
 //instancia de axios para realizar peticiones con headers que contengan el token
 const accessToken = JSON.parse(localStorage.getItem("token"));
-console.log('Paraquesepamos', accessToken)
 export const authAxios = axios.create({
   baseURL: 'http://localhost:5000',
   headers: {
@@ -173,7 +172,6 @@ export const addUserCart = (userId) => {
     try {
       const cart = JSON.parse(localStorage.getItem("cart")) || [];
       const res = await authAxios.post(`/users/${userId}/cart`, { cart });
-      console.log('DATA', res.data)
       dispatch(postUserCart(res.data))
       localStorage.removeItem('cart')
     } catch (err) {
@@ -225,17 +223,16 @@ export const logInUser = (email, password) => {
   return async (dispatch) => {
     try {
       const res = await axios.post(`http://localhost:5000/auth/login`, { ...email, ...password });
+      console.log("RES >>>", res.data)
       const { token, user } = res.data;
 
       dispatch(loginUser(user));
       alert(`Welcome ${user.firstName}!`)
       localStorage.setItem("token", JSON.stringify(token));
-
-      dispatch(addUserCart(user.id))
-
+      if(localStorage.cart) dispatch(addUserCart(user.id));
 
     } catch (err) {
-      console.log(err);
+      alert(err.response.data)      
     }
   };
 };
@@ -261,7 +258,7 @@ export const autoSignInUser = () => {
       const res = await authAxios.get(`/auth/me`);
       const user = res.data;
 
-      dispatch(autoLoginUser(user))
+      dispatch(autoLoginUser(user));
 
     } catch (err) {
       console.log(err);
