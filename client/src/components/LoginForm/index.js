@@ -5,6 +5,8 @@ import { useDispatch } from 'react-redux';
 import { signInUser } from '../../redux/actions/user'
 import '../LoginForm/style.css';
 import {FcGoogle } from 'react-icons/fc'; 
+import { FaFacebookSquare } from 'react-icons/fa';
+import { FaInstagramSquare } from 'react-icons/fa';
 
 export default function LoginUser() {
 
@@ -51,11 +53,23 @@ export default function LoginUser() {
                 <div className = "note2">
                   <p>Or login with </p>
                 </div>
-                <div>
+                <div className="separar">
                   {/*window.location = Retorna un objeto Location con información acerca de la ubicación actual del documento*/}
                   <button onClick = {() => (window.location = 'http://localhost:5000/auth/login/google')}>
                     <FcGoogle className="iconGoogle"/>
                     <div className = "google">Login with Google</div>
+                  </button>
+                </div>
+                <div className="separar">
+                  <button onClick = {() => (window.location = 'http://localhost:5000/auth/login/facebook')}>
+                    <FaFacebookSquare className="iconFacebook"/>
+                    <div className = "facebook">Login with Facebook</div>
+                  </button>
+                </div>
+                <div className="separar">
+                  <button onClick = {() => (window.location = 'http://localhost:5000/auth/login/instagram')}>
+                    <FaInstagramSquare className="iconInstagram"/>
+                    <div className = "instagram">Login with Instagram</div>
                   </button>
                 </div>
                 <div className="header-subform">

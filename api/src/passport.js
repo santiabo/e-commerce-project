@@ -2,11 +2,20 @@ const passport = require("passport");
 //la LocalStrategy es la que se utiliza cuando no utilizamos servicios como Google para loguerse
 const LocalStrategy = require("passport-local").Strategy;
 const GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
+const FacebookStrategy = require("passport-facebook").Strategy;
+const InstagramStrategy = require("passport-instagram").Strategy;
 const BearerStrategy = require("passport-http-bearer").Strategy;
 const { User } = require("./db.js");
 const jwt = require("jsonwebtoken");
-const { getOneByGoogleId, createOne } = require('./controllers/users');
-const { DB_SECRET, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } = process.env;
+const { getOneByGoogleId, getOneByFacebookId, createOne } = require('./controllers/users');
+const { 
+        DB_SECRET, 
+        GOOGLE_CLIENT_ID, 
+        GOOGLE_CLIENT_SECRET, 
+        FACEBOOK_APP_ID, 
+        FACEBOOK_APP_SECRET,
+        INSTAGRAM_APP_ID,
+        INSTAGRAM_APP_SECRET } = process.env;
 
 //es un midlleware
 passport.use(
@@ -78,10 +87,113 @@ passport.use(
           null
         );
         // Si esta todo bien devolvemos el usuario, extrayendo los datos que necesitamos y enviandolos por fuera de sequilize
-      const { id, firstName, lastName, createdAt, updateAt } = user;
+      const { 
+        id, 
+        email: userEmail,
+        isAdmin,
+        avatar,
+        birthdate,
+        photoURL,
+        firstName, 
+        lastName, 
+        createdAt, 
+        updateAt } = user;
       consele.log(user);
       return done(null, {
         id,
+        email: userEmail,
+        isAdmin,
+        avatar,
+        birthdate,
+        photoURL,
+        firstName,
+        lastName,
+        createdAt,
+        updateAt
+      });
+    }
+  )
+);
+
+passport.use(
+  new FacebookStrategy(
+    {
+      clientID: FACEBOOK_APP_ID,
+      clientSecret: FACEBOOK_APP_SECRET,
+      callbackURL: "http://localhost:3000/",
+      profileFields: ["id", "emails", "displayName"],
+    },
+    async function(accessToken, refreshToken, profile, done) {
+      let user = await getOneByFacebookId(profile.id);
+      if(!user)
+      user = await createOne(
+        profile.displayName,
+        profile.emails,
+        null,
+        profile.id
+      );
+      const { 
+        id, 
+        email: userEmail,
+        isAdmin,
+        avatar,
+        birthdate,
+        photoURL,
+        firstName, 
+        lastName, 
+        createdAt, 
+        updateAt } = user;
+      return done(null, {
+        id,
+        email: userEmail,
+        isAdmin,
+        avatar,
+        birthdate,
+        photoURL,
+        firstName,
+        lastName,
+        createdAt,
+        updateAt
+      });
+    }
+  )
+);
+
+passport.use(
+  new InstagramStrategy(
+    {
+      clientID: INSTAGRAM_APP_ID,
+      clientSecret: INSTAGRAM_APP_SECRET,
+      callbackURL: "http://localhost:3000/",
+      profileFields: ["id", "emails", "displayName"],
+    },
+    async function(accessToken, refreshToken, profile, done) {
+      let user = await getOneByInstagramIdId(profile.id);
+      if(!user)
+      user = await createOne(
+        profile.displayName,
+        profile.emails,
+        null,
+        profile.id
+      );
+      const { 
+        id, 
+        email: userEmail,
+        isAdmin,
+        avatar,
+        birthdate,
+        photoURL,
+        firstName, 
+        lastName, 
+        createdAt, 
+        updateAt } = user;
+      return done(null, {
+        id,
+        email: userEmail,
+        isAdmin,
+        avatar,
+        birthdate,
+        photoURL,
         firstName,
         lastName,
         createdAt,

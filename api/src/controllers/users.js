@@ -1,4 +1,4 @@
-const { User } = require('../db');
+const { User, Review, Product } = require('../db');
 
 const createOne = (avatar, firstName, lastName, birthdate, password, googleId) => {
   return new Promise((resolve, reject) => {
@@ -23,8 +23,13 @@ const createOne = (avatar, firstName, lastName, birthdate, password, googleId) =
 const getOneByGoogleId = async (googleId) => {
   try {
     const user = User.findOne({
-      where: { googleId },
-      
+      where: { 
+        googleId 
+      },
+      include: [{
+        model: Review,
+        include: Product
+      }],      
     });
     return user;
   } catch (error) {
@@ -32,7 +37,43 @@ const getOneByGoogleId = async (googleId) => {
   }
 }
 
+const getOneByFacebookId = async (facebookId) => {
+  try {
+    const user = User.findOne({
+      where: {
+        facebookId
+      },
+      include: [{
+        model: Review,
+        include: Product
+      }],
+    });
+    return user;
+  } catch (error) {
+    return error;
+  }
+};
+
+const getOneByInstagramId = async (facebookId) => {
+  try {
+    const user = User.findOne({
+      where: {
+        instagramId
+      },
+      include: [{
+        model: Review,
+        include: Product
+      }],
+    });
+    return user;
+  } catch (error) {
+    return error;
+  }
+};
+
 module.exports = {
   getOneByGoogleId,
+  getOneByFacebookId,
+  getOneByInstagramId,
   createOne
 }

@@ -60,6 +60,16 @@ module.exports = (sequelize) => {
       allowNull: true,
       unique: true,
     },
+    facebookId: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      unique: false,
+    },
+    instagramId: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      unique: false
+    }
   });
 
 
