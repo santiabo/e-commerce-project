@@ -128,7 +128,7 @@ passport.use(
       if(!user)
       user = await createOne(
         profile.displayName,
-        profile.emails,
+        profile.emails[0].value,
         null,
         profile.id
       );
@@ -164,15 +164,16 @@ passport.use(
     {
       clientID: INSTAGRAM_APP_ID,
       clientSecret: INSTAGRAM_APP_SECRET,
-      callbackURL: "http://localhost:3000/",
-      profileFields: ["id", "emails", "displayName"],
+      callbackURL: "https://localhost:3000/",
+      // profileFields: ["id", "emails", "displayName"],
+      session: false
     },
     async function(accessToken, refreshToken, profile, done) {
       let user = await getOneByInstagramIdId(profile.id);
       if(!user)
       user = await createOne(
         profile.displayName,
-        profile.emails,
+        profile.emails[0].value,
         null,
         profile.id
       );
