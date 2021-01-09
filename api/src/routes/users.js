@@ -59,7 +59,6 @@ server.post('/:userId/cart', isUser, async (req, res, next) => {
         status: 'on_cart',
       }
     })
-    console.log('Orderderuta', order[0].dataValues)
     const { id } = order[0].dataValues
     cart.map(async p => {
       await OrderLine.findOrCreate({
@@ -80,7 +79,6 @@ server.post('/:userId/cart', isUser, async (req, res, next) => {
         Order
       ]
     })
-    console.log('usercart',userCart)
     return res.send(userCart);
   } catch (error) {
     next(error)
@@ -110,7 +108,6 @@ server.get('/:userId/cart', isUser, (req, res, next) => {
               quantity: e.quantity,
               price: e.price
             }));
-            console.log("TOTALPRODUCTS ", totalProducts)
             return res.send({ totalProducts });
           });
     })
