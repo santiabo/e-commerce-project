@@ -230,12 +230,9 @@ export const logInUser = (email, password) => {
       dispatch(loginUser(user));
       alert(`Welcome ${user.firstName}!`)
       localStorage.setItem("token", JSON.stringify(token));
-
-      dispatch(addUserCart(user.id))
-
-
+      if(localStorage.cart) dispatch(addUserCart(user.id));
     } catch (err) {
-      console.log(err);
+      console.log("THIS IS ERROR >>>> ",err);
     }
   };
 };
