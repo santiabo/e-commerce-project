@@ -10,7 +10,7 @@ export default function LoginUser() {
 
   const history = useHistory();  
 
-  const { register, handleSubmit, errors } = useForm();
+  const { register, handleSubmit, errors} = useForm();
 
   const dispatch = useDispatch();
 
@@ -47,11 +47,19 @@ export default function LoginUser() {
                   </div>
                 </section>
                 <label for="email" className="label-email">E-mail: </label>
-                {errors.email && <span id="spn" className="text-danger">User incorrect!</span>}
-                <input type="text" className="text-input" name="email" maxLength="75" ref={register({ required: true })} />
+                {errors.email && <span id="spn" className="text-danger">Invalid email adress</span>}
+                <input type="text" className="text-input" name="email" ref={register({
+                    required: true,
+                    maxLength: 76,
+                    pattern: /\b[\w.-]+@[\w.-]+\.\w{2,4}\b/ })} />
                 <label for="password" className="label-password password">Password: </label>
                 {errors.password && <span id="spn" className="text-danger">Password incorrect!</span>}
-                <input type="password" className="text-input psw" name="password" ref={register({ required: true })} />
+                <input type="password" className="text-input psw" name="password" ref={register({
+                    required: 'You must specify a password.',
+                  //  pattern: {
+                  //  value: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,40}$/
+                  //  }
+                  })} />
                 <div className="wrapper-buttn-link">
                   <input type="submit" className="loged-button" value="Log In" />
                 </div>
