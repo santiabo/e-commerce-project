@@ -72,7 +72,7 @@ export const getUserOrders = (id) => {
 
       const res = await axios.get(`http://localhost:5000/users/${id}/orders`);
 
-      dispatch(getAllOrders(res.data));
+      dispatch(getOrderByUserId(id));
     } catch (err) {
       return err
     }
