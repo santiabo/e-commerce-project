@@ -7,8 +7,13 @@ export const ButtonWrapper = styled.button`
   color: white;
   padding: 0 1rem;
   border: none;
+  outline: none !important;
   cursor: pointer;
   -webkit-user-select: none;
+  transition: 0.15s;
+  &:hover {
+    background-color: #3b3b3b;
+  }
   
   span {
     font-size: 20px;

@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { logInUser } from '../../redux/actions/user'
 import '../LoginForm/style.css';
-
+import {FcGoogle } from 'react-icons/fc'; 
 
 export default function LoginUser() {
 
@@ -67,7 +67,17 @@ export default function LoginUser() {
                   <Link id="lnk" to="/reset/account/password"><p className="note">Forgot password?</p></Link>
                 </div>
                 <section className="subForm">
-                  <div className="header-subform">
+                <div className = "note2">
+                  <p>Or login with </p>
+                </div>
+                <div>
+                  {/*window.location = Retorna un objeto Location con información acerca de la ubicación actual del documento*/}
+                  <button onClick = {() => (window.location = 'http://localhost:5000/auth/login/google')}>
+                    <FcGoogle className="iconGoogle"/>
+                    <div className = "google">Login with Google</div>
+                  </button>
+                </div>
+                <div className="header-subform">
                     <div>
                       <h2 id="sub">Don't have an account?</h2>
                     </div>
