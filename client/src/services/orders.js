@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {authAxios} from '../redux/actions/user'
 
 // AGREGA PRODUCTO A LA ORDEN DADO EL ID DEL PRODUCTO Y DE LA ORDEN
 export async function addProductToOrder(
@@ -70,7 +71,7 @@ export async function getOrderById(id) {
 
 // OBTIENE TODAS LAS ORDENES DEL USUARIO DADO SU ID
 export async function getOrderByUserId(idUser) {
-  return axios
+  return authAxios
   .get(`http://localhost:5000/users/${idUser}/orders`)
   .then(res => {
     return res.data;
