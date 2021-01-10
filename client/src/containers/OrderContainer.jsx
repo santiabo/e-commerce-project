@@ -46,6 +46,7 @@ const OrderContainer = () => {
               <th>Total</th>
               <th>Status</th>
               <th>  </th>
+              <th>Order Detail</th>
             </tr>
           </thead>
           <tbody>
@@ -58,6 +59,7 @@ const OrderContainer = () => {
                   <td>$ {getTotal(i)}</td>
                   <td>{i.status}</td>
                   <img src={i.orderLines[0].product.images[0]} width="75" height="75"></img>
+                  <td><button>View Detail</button></td>
                 </tr>
               )}
           </tbody>
