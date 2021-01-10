@@ -5,6 +5,8 @@ const jwt = require("jsonwebtoken");
 const { isUser, isAdmin } = require('../middlewares/auth')
 const { DB_SECRET } = process.env;
 const secretGoogle = process.env.GOOGLE_CLIENT_SECRET;
+const secretFacebook = process.env.FACEBOOK_CLIENT_SECRET;
+const secretInstagram = process.env.INSTAGRAM_CLIENT_SECRET;
 
 server.get("/me", isUser, async (req, res, next) => {
   try {
@@ -80,5 +82,31 @@ server.get('/login/google',
       }
     })(req, res, next);
   })
+
+  server.get('/login/facebook',(passport.authenticate("facebook")));
+  server.get('/login/facebook/callback', function(req, res, next) {
+    passport.authorize('facebook', function(err, user) {
+      if (err) return next(err);
+      if(!user) {
+        res.redirect('http://localhost:5000/sign-in?error=401');
+      } else {
+        const token = jwt.sign({ uid: user.id}, secretFacebook);
+        res.redirect(`http://localhost:5000/sign-in?token=${token}`);
+      }
+    })(req, res, next);
+  });
+
+  server.get('/login/instagram', (passport.authenticate('instagram')));
+  server.get('/login/instagram/callback', function(req, res, next) {
+    passport.authorize('instagram', function(err, user) {
+      if(err) return next(err);
+      if(!user) {
+        res.redirect('http://localhost:5000/sign-in?error=401');
+      } else {
+        const token = jwt.sign({ uid: user.id}, secretInstagram);
+        res.redirect(`http://localhost:5000/sign-in?token=${token}`);
+      }
+    })(req, res, next);
+  });
 
 module.exports = server;

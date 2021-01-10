@@ -266,8 +266,12 @@ button {
   color: #000;
 } */
 
+.separar {
+  padding-top: 5px;
+}
+
 .google {
-  width: 100%;
+  width: 172px;
   margin-top: 0;
   margin-bottom: 0;
   background-color: #2c85c5;
@@ -291,4 +295,58 @@ button {
   margin-right: 7px;
   width: 30px;
   height: 30px;
+}
+
+.facebook {
+  width: 100%;
+  margin-top: 0;
+  margin-bottom: 0;
+  background-color: #213554;
+  color: #fff;
+  border-color: #213554;
+  border-radius: 0.25rem;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  border-style: solid;
+  user-select: none;
+  padding: 12px;
+  line-height: 1.5rem;
+  text-align: center;
+  border-width: 2px;
+  transition: background-color .15s ease 0s, border-color .15s ease 0s; 
+}
+
+.iconFacebook {
+  margin-right: 7px;
+  width: 30px;
+  height: 30px; 
+}
+
+.instagram {
+  width: 100%;
+  margin-top: 0;
+  margin-bottom: 0;
+  background-image: linear-gradient(to bottom left, #9d07dc, #a70dc2, #b71696, #c51d72, #d1254d, #de3232, #eb4c22, #fa6910, #ff7a04);
+  color: #fff;
+  border-color: #213554;
+  border-radius: 0.25rem;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  border-style: solid;
+  user-select: none;
+  padding: 12px;
+  line-height: 1.5rem;
+  text-align: center;
+  border-width: 2px;
+  transition: background-color .15s ease 0s, border-color .15s ease 0s;  
+}
+
+.iconInstagram {
+  margin-right: 7px;
+  width: 27px;
+  height: 27px; 
 }
