@@ -37,8 +37,6 @@ function App() {
 
   const history = useHistory();
   useEffect(() => {
-    if (isUser)
-      console.log("USE", user.changePassword);
     if (isUser && user.changePassword)
       history.push("/change-password");
   }, [user, isUser]);

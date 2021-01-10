@@ -20,7 +20,23 @@ export const AUTO_LOGIN = "AUTO_LOGIN";
 
 export const USER_CHANGE_PASSWORD = "USER_CHANGE_PASSWORD";
 
+export const SUCCESS_REQUEST = "SUCCESS_REQUEST";
+export const SET_ERROR = "SET_ERROR";
+
 //export const PASSWORD_RESET = "PASSWORD_RESET"; 
+
+const setError = (error) => {
+  return {
+    type: SET_ERROR,
+    error
+  };
+};
+
+const successRequest = () => {
+  return {
+    type: SUCCESS_REQUEST,
+  };
+};
 
 const createUser = (user) => {
   return {
@@ -234,10 +250,9 @@ export const logInUser = (email, password) => {
       const { token, user } = res.data;
 
       dispatch(loginUser(user));
-      alert(`Welcome ${user.firstName}!`);
       localStorage.setItem("token", JSON.stringify(token));
       if (localStorage.cart) dispatch(addUserCart(user.id));
-
+      dispatch(successRequest());
     } catch (err) {
       alert(err.response.data);
     }
@@ -251,7 +266,7 @@ export const logOutUser = () => {
       dispatch(logoutUser());
       dispatch(clearCart());
       localStorage.clear();
-      alert("Goodbye");
+      dispatch(successRequest());
     }
     catch (err) {
       console.log(err);
@@ -266,7 +281,7 @@ export const autoSignInUser = () => {
       const user = res.data;
 
       dispatch(autoLoginUser(user));
-
+      dispatch(successRequest());
     } catch (err) {
       console.log(err);
     }

@@ -10,13 +10,15 @@ import {
   LOGIN_USER,
   LOGOUT_USER,
   AUTO_LOGIN,
-  USER_CHANGE_PASSWORD
+  USER_CHANGE_PASSWORD,
+  SUCCESS_REQUEST
 } from "../actions/user";
 
 const initialState = {
-  user: [],
+  user: {},
   userCart: [],
-  isUser: false
+  isUser: false,
+  loading: false
 };
 
 const userReducer = (state = initialState, action) => {
@@ -87,24 +89,32 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         user: action.user,
-        isUser: true
+        isUser: true,
+        loading: true
       };
     case LOGOUT_USER:
       return {
         ...state,
         user: action.user,
-        isUser: false
+        isUser: false,
+        loading: true
       };
     case AUTO_LOGIN:
       return {
         ...state,
         user: action.user,
-        isUser: true
+        isUser: true,
+        loading: true
       };
     case USER_CHANGE_PASSWORD:
       return {
         ...state,
         user: action.user
+      };
+    case SUCCESS_REQUEST:
+      return {
+        ...state,
+        loading: false
       };
     default:
       return state;
