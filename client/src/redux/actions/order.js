@@ -69,10 +69,12 @@ export const getAllOrdersAction = () => {
 export const getUserOrders = (id) => {
   return async (dispatch) => {
     try {
-
+      
       const res = await axios.get(`http://localhost:5000/users/${id}/orders`);
-
-      dispatch(getOrderByUserId(id));
+      dispatch({
+        type: USER_ORDERS,
+        payload: res.data
+      })
     } catch (err) {
       return err
     }

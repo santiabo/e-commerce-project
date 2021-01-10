@@ -34,7 +34,7 @@ export default function orders_reducer(state = initialState, action) {
       case USER_ORDERS:
         return {
           ...state,
-          USER_ORDERS: action.payload
+          userOrders: action.payload
         }
     case GET_ALL_ORDERS:
       return {
