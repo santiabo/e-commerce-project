@@ -1,5 +1,6 @@
-import React from 'react';
-import { Input } from '../Input';
+import React, { useState } from 'react';
+import Input from '../Input';
+import { Form } from './styles';
 
 const ChangePasswordForm = ({ handleSubmit }) => {
 
@@ -14,14 +15,14 @@ const ChangePasswordForm = ({ handleSubmit }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <Input name="currentPassword" type="password" value={values.currentPassword} handleChange={handleChange} />
-      <Input name="newPassword" type="password" value={values.newPassword} handleChange={handleChange} />
-      <Input name="rePassword" type="password" value={values.rePassword} handleChange={handleChange} />
+    <Form onSubmit={(e) => handleSubmit(e, values)}>
+      <Input name="currentPassword" type="password" label="Current Password" value={values.currentPassword} handleChange={handleChange} />
+      <Input name="newPassword" type="password" label="New Password" value={values.newPassword} handleChange={handleChange} />
+      <Input name="rePassword" type="password" label="Repeat Password" value={values.rePassword} handleChange={handleChange} />
       <button>
-        Cambiar contrasña
+        Change Password
       </button>
-    </form>
+    </Form>
   );
 };
 

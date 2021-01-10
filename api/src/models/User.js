@@ -7,28 +7,32 @@ module.exports = (sequelize) => {
   const User = sequelize.define('user', {
     email: {
       type: DataTypes.STRING,
-      isEmail: true,  
+      isEmail: true,
       allowNull: true,
       unique: true,
     },
-     isAdmin: {
-       type: DataTypes.BOOLEAN,  
-       allowNull: true,
-     },
-     isBanned: {
-      type: DataTypes.BOOLEAN,  
+    isAdmin: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+    },
+    isBanned: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+    },
+    changePassword: {
+      type: DataTypes.BOOLEAN,
       allowNull: true,
     },
     avatar: {
       type: DataTypes.TEXT,
-      isUrl: true  
+      isUrl: true
     },
     firstName: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
         is: /^([a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/,
-        len: [2,40]
+        len: [2, 40]
       }
     },
     lastName: {
@@ -36,7 +40,7 @@ module.exports = (sequelize) => {
       allowNull: false,
       validate: {
         is: /^([a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/,
-        len: [2,40]
+        len: [2, 40]
       }
     },
     birthdate: {
@@ -60,7 +64,7 @@ module.exports = (sequelize) => {
       //   return () => this.getDataValue('password');
       // },
     },
-    
+
     googleId: {
       type: DataTypes.STRING,
       allowNull: true,

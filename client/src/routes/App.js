@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { getProducts } from "../redux/actions/product";
 import { getCategories } from "../redux/actions/category";
 import { getCartItemsFromLocalStorage } from "../redux/actions/cart";
-import { autoSignInUser } from "../redux/actions/user"
+import { autoSignInUser } from "../redux/actions/user";
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 // Components
@@ -20,6 +20,7 @@ import Cart from '../components/Cart/Cart';
 import LoginUser from '../components/LoginForm';
 import userTable from '../components/UserTable';
 import OrderContainer from '../containers/OrderContainer';
+import ForcePasswordChangePage from '../containers/ForcePasswordChangePage';
 
 function App() {
 
@@ -43,6 +44,8 @@ function App() {
 
           <Route exact path="/user/account" component={EditProfile} />
 
+          <Route exact path='/change-password' component={ForcePasswordChangePage} />
+
           <Route exact path='/login' component={LoginUser} />
 
           <Route path="/register" component={UserRegister} />
@@ -54,11 +57,10 @@ function App() {
           <Route path='/users' component={userTable} />
 
           <Route path='/user/orders' component={OrderContainer} />
-          
+
           <Route path='/products' component={Catalogue} />
 
           <Route path='/cart' component={Cart} />
-
 
           <Route path='/product/:id' render={({ match }) => <Product match={match} />} />
 

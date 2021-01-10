@@ -58,8 +58,8 @@ server.post('/:userId/cart', isUser, async (req, res, next) => {
         userId,
         status: 'on_cart',
       }
-    })
-    const { id } = order[0].dataValues
+    });
+    const { id } = order[0].dataValues;
     cart.map(async p => {
       await OrderLine.findOrCreate({
         where: {
@@ -68,8 +68,8 @@ server.post('/:userId/cart', isUser, async (req, res, next) => {
           orderId: id,
           price: p.price
         }
-      })
-    })
+      });
+    });
     const userCart = await OrderLine.findAll({
       where: {
         orderId: order[0].dataValues.id
@@ -78,12 +78,12 @@ server.post('/:userId/cart', isUser, async (req, res, next) => {
         Product,
         Order
       ]
-    })
+    });
     return res.send(userCart);
   } catch (error) {
-    next(error)
+    next(error);
   }
-})
+});
 
 //----------------Get user cart.
 server.get('/:userId/cart', isUser, (req, res, next) => {
@@ -171,7 +171,7 @@ server.put('/:id/cart', isUser, async (req, res, next) => {
 });
 
 //-------------Get User Order
-server.get('/:id/orders',  /* isUser, */ (req, res, next) => {
+server.get('/:id/orders',  /* isUser, */(req, res, next) => {
   //devuelve las ordenes de usuarios
   const { id } = req.params;
 
@@ -209,8 +209,21 @@ server.put('/:id/ban', isAdmin, async (req, res, next) => {
   try {
     const ban = await User.findByPk(id);
     ban.update({
-     isBanned: true,
+      isBanned: true,
     }); res.send('User Banned');
+  } catch (error) {
+    next(error);
+  }
+});
+
+//-------------- Force User Change Password
+server.put('/:id/force-change-password', isAdmin, async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const user = await User.findByPk(id);
+    user.update({
+      changePassword: true,
+    }); res.send('ok');
   } catch (error) {
     next(error);
   }
