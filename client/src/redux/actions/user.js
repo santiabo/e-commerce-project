@@ -1,7 +1,5 @@
 import axios from 'axios';
-import { Alert } from 'reactstrap';
 import { clearCart } from './cart';
-
 
 // Types
 export const CREATE_USER = "CREATE_USER";
@@ -18,7 +16,9 @@ export const UPDATE_USER_CART = "UPDATE_USER_CART";
 export const LOGIN_USER = "LOGIN_USER";
 export const LOGOUT_USER = "LOGOUT_USER";
 
-export const AUTO_LOGIN = "AUTO_LOGIN"
+export const AUTO_LOGIN = "AUTO_LOGIN";
+
+export const USER_CHANGE_PASSWORD = "USER_CHANGE_PASSWORD";
 
 //export const PASSWORD_RESET = "PASSWORD_RESET"; 
 
@@ -99,8 +99,15 @@ const autoLoginUser = (user) => {
   return {
     type: AUTO_LOGIN,
     user
-  }
-}
+  };
+};
+
+const userChangePassword = (user) => {
+  return {
+    type: USER_CHANGE_PASSWORD,
+    user
+  };
+};
 
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -120,7 +127,7 @@ export const createNewUser = (newUser) => {
       const res = await axios.post(`http://localhost:5000/users`, { ...newUser });
 
       dispatch(createUser(res.data));
-      alert(`User ${res.data.firstName} created successfully`)
+      alert(`User ${res.data.firstName} created successfully`);
     } catch (err) {
       console.log(err);
     }
@@ -172,8 +179,8 @@ export const addUserCart = (userId) => {
     try {
       const cart = JSON.parse(localStorage.getItem("cart")) || [];
       const res = await authAxios.post(`/users/${userId}/cart`, { cart });
-      dispatch(postUserCart(res.data))
-      localStorage.removeItem('cart')
+      dispatch(postUserCart(res.data));
+      localStorage.removeItem('cart');
     } catch (err) {
       console.log(err);
     }
@@ -223,16 +230,16 @@ export const logInUser = (email, password) => {
   return async (dispatch) => {
     try {
       const res = await axios.post(`http://localhost:5000/auth/login`, { ...email, ...password });
-      console.log("RES >>>", res.data)
+      console.log("RES >>>", res.data);
       const { token, user } = res.data;
 
       dispatch(loginUser(user));
-      alert(`Welcome ${user.firstName}!`)
+      alert(`Welcome ${user.firstName}!`);
       localStorage.setItem("token", JSON.stringify(token));
-      if(localStorage.cart) dispatch(addUserCart(user.id));
+      if (localStorage.cart) dispatch(addUserCart(user.id));
 
     } catch (err) {
-      alert(err.response.data)      
+      alert(err.response.data);
     }
   };
 };
@@ -241,15 +248,15 @@ export const logOutUser = () => {
   return async (dispatch) => {
     try {
       const res = await axios.get(`http://localhost:5000/auth/logout`);
-      dispatch(logoutUser())
-      dispatch(clearCart())
-      localStorage.clear()
+      dispatch(logoutUser());
+      dispatch(clearCart());
+      localStorage.clear();
       alert("Goodbye");
     }
     catch (err) {
-      console.log(err)
+      console.log(err);
     }
-  }
+  };
 };
 
 export const autoSignInUser = () => {
@@ -260,6 +267,17 @@ export const autoSignInUser = () => {
 
       dispatch(autoLoginUser(user));
 
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const changePassword = (password) => {
+  return async (dispatch) => {
+    try {
+      const res = await authAxios.put(`/users/passwordReset`, { password });
+      dispatch(userChangePassword(res.data));
     } catch (err) {
       console.log(err);
     }

@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getProducts } from "../redux/actions/product";
 import { getCategories } from "../redux/actions/category";
 import { getCartItemsFromLocalStorage } from "../redux/actions/cart";
 import { autoSignInUser } from "../redux/actions/user";
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, useHistory } from 'react-router-dom';
 
 // Components
 import Layout from '../containers/Layout';
@@ -32,6 +32,16 @@ function App() {
     dispatch(getCategories());
     dispatch(getCartItemsFromLocalStorage());
   }, []);
+
+  const { user, isUser } = useSelector(state => state.user);
+
+  const history = useHistory();
+  useEffect(() => {
+    if (isUser)
+      console.log("USE", user.changePassword);
+    if (isUser && user.changePassword)
+      history.push("/change-password");
+  }, [user, isUser]);
 
   return (
 

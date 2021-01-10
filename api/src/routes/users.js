@@ -190,14 +190,17 @@ server.get('/:id/orders',  /* isUser, */(req, res, next) => {
 });
 
 //--------------Password Reset Route
-server.post('/:id/passwordReset', isUser, async (req, res, next) => {
-  const { id } = req.params;
+server.post('/passwordReset', isUser, async (req, res, next) => {
+  const { id } = req.user;
   const newPassword = req.body.password;
   try {
-    const result = await User.findByPk(id);
-    result.update({
+    const user = await User.findByPk(id);
+    await user.update({
       password: newPassword,
-    }); res.send('Password Updated');
+      changePassword: false,
+    });
+    const userUpdated = await User.findByPk(id);
+    res.send(userUpdated);
   } catch (error) {
     next(error);
   }

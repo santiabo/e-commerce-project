@@ -47,6 +47,7 @@ passport.use(
         lastName,
         birthdate,
         photoURL,
+        changePassword
       } = user;
       return done(null, {
         id,
@@ -57,6 +58,7 @@ passport.use(
         lastName,
         birthdate,
         photoURL,
+        changePassword
       });
     }
   )
