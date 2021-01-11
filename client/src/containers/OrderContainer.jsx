@@ -3,6 +3,8 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { getUserOrders } from '../redux/actions/order';
+// Styled Components
+import { StyledLink } from './orderStyles';
 
 
 const OrderContainer = () => {
@@ -46,18 +48,21 @@ const OrderContainer = () => {
               <th>Total</th>
               <th>Status</th>
               <th>  </th>
+              <th>Order Detail</th>
             </tr>
           </thead>
           <tbody>
             {userOrders !== undefined &&
-              userOrders.map((i) =>
+              userOrders.map((i,index) =>
                 <tr valign="middle" align="center">
                   <td>{i.id}</td>
                   <td>{i.createdAt.slice(0, 10)}</td>
                   <td>{i.updatedAt.slice(0, 10)}</td>
                   <td>$ {getTotal(i)}</td>
                   <td>{i.status}</td>
-                  <img src={i.orderLines[0].product.images[0]} width="75" height="75" alt=""></img>
+                  <img src={i.orderLines[0].product.images[0]} width="75" height="75"></img>
+                  <td><StyledLink to={`/user/orders/${index}`}>View Details</StyledLink></td>
+
                 </tr>
               )}
           </tbody>
