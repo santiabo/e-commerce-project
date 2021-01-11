@@ -47,7 +47,7 @@ export const setShoppingCart = (shoppingCart) => {
   };
 };
 
-export const getOrders = (id) => {
+export const getOrder = (id) => {
   return async (dispatch) => {
     try {
 

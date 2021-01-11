@@ -10,9 +10,9 @@ import { StyledLink } from './orderStyles';
 const OrderContainer = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const user = useSelector(state => state.user)
-  const isUser = useSelector(state => state.user.isUser)
-  console.log("USER ID >>>>>>> ", user.user.id)
+  const {user, isUser} = useSelector(state => state.user)
+  
+  console.log("USER ID >>>>>>> ", user.id)
   useEffect(() => {
     if (!isUser) {
       history.push('/');
@@ -20,8 +20,8 @@ const OrderContainer = () => {
   }, [history, isUser])
 
   useEffect(() => {
-    dispatch(getUserOrders(user.user.id))
-  }, [dispatch, user.user.id])
+    dispatch(getUserOrders(user.id))
+  }, [dispatch, user.id])
 
   const userOrders = useSelector(state => state.order.userOrders);
 
