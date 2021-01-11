@@ -220,7 +220,7 @@ server.get("/category/:categoryName", (req, res, next) => {
 //-----------Post Product Review Route -----------
 server.post('/:id/review', (req, res, next) => {
   const { id } = req.params;
-  const { stars, description, userId } = req.body;
+  const { stars, title, description, userId } = req.body;
 
   Product.findOne({
     where: {
@@ -228,19 +228,25 @@ server.post('/:id/review', (req, res, next) => {
     }
   }).then(product => {
     if (!product) {
-      return res.status(404).send({ error: `Product not found` })
+      return res.status(404).send({ error: `Product not found` });
     } else {
       Review.create({
         stars,
+        title,
         description,
         productId: id,
         userId
       })
         .then(r => {
-          res.send({ ...r.dataValues });
+          Review.findByPk(r.id, {
+            include: [User]
+          })
+            .then((review) => {
+              res.send(review);
+            });
         })
         .catch(next);
     }
-  })
+  });
 });
 module.exports = server;

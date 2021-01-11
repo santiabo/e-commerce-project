@@ -27,6 +27,7 @@ import {
 } from "./styles";
 import { UnitsAmountWrapper } from "../UnitsAmount/styles";
 import ReviewsList from "../ReviewsList";
+import ReviewForm from "../ReviewForm";
 
 const Product = ({ match, reviews = { average: 4, total: 200 } }) => {
 
@@ -102,6 +103,7 @@ const Product = ({ match, reviews = { average: 4, total: 200 } }) => {
           <ReviewsList reviews={product.reviews} />
           : null
       }
+      <ReviewForm />
     </ProductWrapper>
   );
 };
