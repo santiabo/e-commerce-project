@@ -8,9 +8,9 @@ module.exports = (sequelize) => {
     name: {
       type: DataTypes.TEXT,
       allowNull: false,
-      // validate: {
-      //   len: [3, 200]
-      // }
+      validate: {
+        len: [3, 200]
+      }
     },
     description: {
       type: DataTypes.TEXT,
@@ -29,10 +29,10 @@ module.exports = (sequelize) => {
     stock: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      validate: {
-        min: 0,
-        max: 9999
-      },
+      // validate: {
+      //   min: 0,
+      //   max: 9999
+      // },
     },
     images: {
       type: DataTypes.ARRAY(DataTypes.TEXT)

@@ -270,7 +270,7 @@ export const logInUser = (email, password) => {
 export const logOutUser = () => {
   return async (dispatch) => {
     try {
-      const res = await axios.get(`http://localhost:5000/auth/logout`);
+      await axios.get(`http://localhost:5000/auth/logout`);
       dispatch(logoutUser());
       dispatch(clearCart());
       localStorage.clear();

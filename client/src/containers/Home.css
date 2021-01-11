@@ -15,6 +15,7 @@
   height: 80vh;
   transition: 0.5s;
   overflow: hidden;
+  margin-bottom: -21px;
 }
 
 .img-slide {

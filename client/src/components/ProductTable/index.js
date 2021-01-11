@@ -10,13 +10,7 @@ import "./ProductTable.css";
 
 function ProductTable() {
 
-  const { register, handleSubmit, errors } = useForm();
-
   const dispatch = useDispatch();
-
-  const onSubmit = (productoSeleccionado) => {
-    dispatch(editProduct(productoSeleccionado.id, productoSeleccionado));
-  };
 
   const products = useSelector(state => state.product.products);
   const dataCategories = useSelector(state => state.category.categories);
@@ -186,13 +180,15 @@ function ProductTable() {
 
   return (
     <div className="App">
-      <h2>Products List</h2>
+      <h2 id='prodList' class="alert alert-info">Products List</h2>
       <br />
-      <Link to='/orders' >
-        <h2 className='mainLink'>Order Table</h2>
+      <Link id='ordTabl' to='/orders' >
+        <button className="btn btn-info">Order Table</button>
       </Link>
-      <button className="btn btn-success" onClick={() => newProductModal()}>New Product</button>{"   "}
-      <button className="btn btn-primary" onClick={() => newCategoryModal()}>New Category</button>
+      <div className='newProCat'>
+        <button className="btn btn-success" onClick={() => newProductModal()}>New Product</button>
+        <button className="btn btn-primary" onClick={() => newCategoryModal()}>New Category</button>
+      </div>
       <br /><br />
       <table className="table table-bordered">
         <thead>
@@ -204,7 +200,7 @@ function ProductTable() {
             <th>Stock</th>
             <th>Images</th>
             <th>Category</th>
-            <th>Edit-Delete</th>
+            <th>Edit Delete</th>
           </tr>
         </thead>
         <tbody id="tBody">
@@ -256,8 +252,7 @@ function ProductTable() {
               <select
                 className="custom-select"
                 name="categoryId"
-                onChange={handleChangeCategory}
-              >
+                onChange={handleChangeCategory}>
                 <option selected value="" name="category">Select a category</option>
                 {dataCategories.map((e, i) =>
                   <option value={e.id} name="category" key={i}>{e.name}</option>
@@ -275,8 +270,7 @@ function ProductTable() {
           </button>
             <button
               className="btn btn-danger"
-              onClick={() => setAddCategoryModal(false)}
-            >
+              onClick={() => setAddCategoryModal(false)}>
               Close
           </button>
           </ModalFooter>
@@ -297,8 +291,7 @@ function ProductTable() {
             <select
               className="custom-select"
               name="categoryId"
-              onChange={handleChangeCategory}
-            >
+              onChange={handleChangeCategory}>
               <option selected value="" name="category">Select a category</option>
               {productoSeleccionado.categories.map((e) =>
                 <option value={e.id} name="category">{e.name}</option>
@@ -316,8 +309,7 @@ function ProductTable() {
           </button>
           <button
             className="btn btn-danger"
-            onClick={() => setRemoveCategoryModal(false)}
-          >
+            onClick={() => setRemoveCategoryModal(false)}>
             Close
           </button>
         </ModalFooter>
@@ -338,20 +330,18 @@ function ProductTable() {
               id="idNum"
               type="text"
               name="id"
-              value={productoSeleccionado && productoSeleccionado.id}
-            />
+              value={productoSeleccionado && productoSeleccionado.id} />
             <br />
 
             <label>Product</label>
-                {errors.name && <p>NO</p>}
             <input
               className="form-control"
               type="text"
               name="name"
               value={productoSeleccionado && productoSeleccionado.name}
               onChange={handleChange}
-              ref={register({ required: true, minLength: 3, maxLength: 10 })}
-            />
+              minLength="3"
+              maxLength="200" />
             <br />
 
             <label>Description</label>
@@ -361,7 +351,8 @@ function ProductTable() {
               name="description"
               value={productoSeleccionado && productoSeleccionado.description}
               onChange={handleChange}
-            />
+              minLength="0"
+              maxLength="2000" />
             <br />
 
             <label>Price</label>
@@ -371,7 +362,8 @@ function ProductTable() {
               name="price"
               value={productoSeleccionado && productoSeleccionado.price}
               onChange={handleChange}
-              pattern="/^(\$)?([1-9]{1}[0-9]{0,2})(\,\d{3})*(\.\d{2})?$|^(\$)?([1-9]{1}[0-9]{0,2})(\d{3})*(\.\d{2})?$|^(0)?(\.\d{2})?$|^(\$0)?(\.\d{2})?$|^(\$\.)(\d{2})?$/"
+              minLength="4"
+              maxLength="8"
             />
             <br />
 
@@ -382,7 +374,8 @@ function ProductTable() {
               name="stock"
               value={productoSeleccionado && productoSeleccionado.stock}
               onChange={handleChange}
-            />
+              minLength="1"
+              maxLength="4" />
             <br />
 
             <label>Image URL</label>
@@ -390,15 +383,14 @@ function ProductTable() {
               className="form-control"
               type="text"
               name="img"
-              onChange={handleChange}
-            />
+              onChange={handleChange} />
             <br />
 
           </div>
         </ModalBody>
 
         <ModalFooter>
-          <button className="btn btn-primary" onClick={handleSubmit(onSubmit)} type="submit">
+          <button className="btn btn-primary" onClick={() => editar()}>
             Update
           </button>
           <button

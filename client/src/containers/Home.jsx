@@ -40,7 +40,7 @@ const Home = () => {
   useEffect(() => {
     if (!loading && isUser && user.changePassword)
       history.push("/changePassword");
-  }, [user, loading, isUser]);
+  }, [user, loading, isUser, history]);
 
 
   return (

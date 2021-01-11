@@ -9,6 +9,7 @@ import style from './index.module.scss';
 import Button from '../Button';
 
 import { ButtonsWrapper } from './styles';
+import { Link } from 'react-router-dom';
 
 const TableOrder = ({ getAllOrdersAction, setFinalizedOrderAction, setConfirmOrderAction, setDeliveredOrderAction, setPreparedOrderAction, setRejectedOrderAction, setSendOrderAction }) => {
   const history = useHistory();
@@ -71,7 +72,11 @@ const TableOrder = ({ getAllOrdersAction, setFinalizedOrderAction, setConfirmOrd
 
   return (
     <div className="App">
-      <h2>Order Table</h2>
+      <h2 id='prodList' class="alert alert-info">Order Table</h2>
+      <br />
+      <Link id='ordTabl' to='/admin' >
+        <button className="btn btn-info">Products List</button>
+      </Link>
       <section>
         <table className = {style.table}>
           <thead>
