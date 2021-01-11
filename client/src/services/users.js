@@ -2,15 +2,15 @@ import axios from 'axios';
 
 //-----CAMBIO DE ROLES-----
 
-export async function makeAdmin(id){
+export async function makeAdmin(id) {
   return axios
-  .post(`http://localhost:5000/promote/${id}`)
-  .then(res => {
-    return res.data;
-  })
-  .catch((error) => {
-    return error;
-  })
+    .post(`http://localhost:5000/auth/promote/${id}`)
+    .then(res => {
+      return res.data;
+    })
+    .catch((error) => {
+      return error;
+    });
 };
 
 // server.post('/promote/:id', isAdmin, async function (req, res, next) {
@@ -27,7 +27,7 @@ export async function makeAdmin(id){
 
 export async function makeRegular(id){
   return axios
-  .post(`http://localhost:5000/degrade/${id}`)
+  .post(`http://localhost:5000/auth/degrade/${id}`)
   .then(res => {
     return res.data;
   })
@@ -39,12 +39,12 @@ export async function makeRegular(id){
 // server.post('/degrade/:id', isAdmin, async function (req, res, next) {
 //   const { id } = req.params;
 //   try {
-//     const result = await User.findByPk(id)
-//     if(isAdmin === true){
+//     const result = await User.findByPk(id);
+//     if (result) {
 //       result.update({
 //         isAdmin: false
-//       }); res.send('User role is no longer admin')  
-//     }    
+//       }); res.send('User role is no longer admin');
+//     }
 //   } catch (error) {
 //     next(error);
 //   }
@@ -53,15 +53,15 @@ export async function makeRegular(id){
 
 //-----FUERZA CAMBIO DE CONTRASEÑA-----
 
-export async function forcePwChange(id){
+export async function forcePwChange(id) {
   return axios
-  .post(`http://localhost:5000/users/${id}/passwordReset`)
-  .then(res => {
-    return res.data;
-  })
-  .catch((error) => {
-    return error;
-  })
+    .post(`http://localhost:5000/users/${id}/passwordReset`)
+    .then(res => {
+      return res.data;
+    })
+    .catch((error) => {
+      return error;
+    });
 };
 
 // server.post('/:id/passwordReset', isUser, async (req, res, next) => {
@@ -79,15 +79,15 @@ export async function forcePwChange(id){
 
 //-----BANNEA USUARIO-----
 
-export async function banUser(id){
+export async function banUser(id) {
   return axios
-  .put(`http://localhost:5000/users/${id}/ban`)
-  .then(res => {
-    return res.data;
-  })
-  .catch((error) => {
-    return error;
-  })
+    .put(`http://localhost:5000/users/${id}/ban`)
+    .then(res => {
+      return res.data;
+    })
+    .catch((error) => {
+      return error;
+    });
 };
 
 // server.put('/:id/ban', isAdmin, async (req, res, next) => {
@@ -104,13 +104,13 @@ export async function banUser(id){
 
 //-----ELIMINA USUARIO-----
 
-export async function deleteUser(id){
+export async function deleteUser(id) {
   return axios
-  .delete(`http://localhost:5000/users/${id}`)
-  .then(res => {
-    return res.data;
-  })
-  .catch(next)
+    .delete(`http://localhost:5000/users/${id}`)
+    .then(res => {
+      return res.data;
+    })
+    .catch(next);
 };
 
 // server.delete('/:id', isAdmin, (req, res, next) => {
