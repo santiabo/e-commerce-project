@@ -33,13 +33,9 @@ function App() {
     dispatch(getCartItemsFromLocalStorage());
   }, []);
 
-  const { user, isUser } = useSelector(state => state.user);
+  const { loading } = useSelector(state => state.user);
 
-  const history = useHistory();
-  useEffect(() => {
-    if (isUser && user.changePassword)
-      history.push("/change-password");
-  }, [user, isUser]);
+  if (loading) return <h1>Loading ...</h1>;
 
   return (
 
@@ -52,7 +48,7 @@ function App() {
 
           <Route exact path="/user/account" component={EditProfile} />
 
-          <Route exact path='/change-password' component={ForcePasswordChangePage} />
+          <Route exact path='/changePassword' component={ForcePasswordChangePage} />
 
           <Route exact path='/login' component={LoginUser} />
 

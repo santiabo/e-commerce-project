@@ -194,11 +194,14 @@ server.post('/passwordReset', isUser, async (req, res, next) => {
   const { id } = req.user;
   const newPassword = req.body.password;
   try {
-    const user = await User.findByPk(id);
-    await user.update({
+    await User.update({
       password: newPassword,
       changePassword: false,
-    });
+    }, { where: { id } });
+    // await user.update({
+    //   password: newPassword,
+    //   changePassword: false,
+    // });
     const userUpdated = await User.findByPk(id);
     res.send(userUpdated);
   } catch (error) {

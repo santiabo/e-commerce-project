@@ -20,6 +20,7 @@ export const AUTO_LOGIN = "AUTO_LOGIN";
 
 export const USER_CHANGE_PASSWORD = "USER_CHANGE_PASSWORD";
 
+export const START_REQUEST = "START_REQUEST";
 export const SUCCESS_REQUEST = "SUCCESS_REQUEST";
 export const SET_ERROR = "SET_ERROR";
 
@@ -29,6 +30,12 @@ const setError = (error) => {
   return {
     type: SET_ERROR,
     error
+  };
+};
+
+const startRequest = () => {
+  return {
+    type: START_REQUEST
   };
 };
 
@@ -245,6 +252,7 @@ export const editUserCart = (id, userCart) => {
 export const logInUser = (email, password) => {
   return async (dispatch) => {
     try {
+      dispatch(startRequest());
       const res = await axios.post(`http://localhost:5000/auth/login`, { ...email, ...password });
       console.log("RES >>>", res.data);
       const { token, user } = res.data;
@@ -254,7 +262,7 @@ export const logInUser = (email, password) => {
       if (localStorage.cart) dispatch(addUserCart(user.id));
       dispatch(successRequest());
     } catch (err) {
-      alert(err.response.data);
+      dispatch(setError(err));
     }
   };
 };
@@ -266,7 +274,6 @@ export const logOutUser = () => {
       dispatch(logoutUser());
       dispatch(clearCart());
       localStorage.clear();
-      dispatch(successRequest());
     }
     catch (err) {
       console.log(err);
@@ -277,6 +284,7 @@ export const logOutUser = () => {
 export const autoSignInUser = () => {
   return async (dispatch) => {
     try {
+      dispatch(startRequest());
       const res = await authAxios.get(`/auth/me`);
       const user = res.data;
 
@@ -284,6 +292,7 @@ export const autoSignInUser = () => {
       dispatch(successRequest());
     } catch (err) {
       console.log(err);
+      dispatch(setError(err));
     }
   };
 };
@@ -291,7 +300,7 @@ export const autoSignInUser = () => {
 export const changePassword = (password) => {
   return async (dispatch) => {
     try {
-      const res = await authAxios.put(`/users/passwordReset`, { password });
+      const res = await authAxios.post(`/users/passwordReset`, { password });
       dispatch(userChangePassword(res.data));
     } catch (err) {
       console.log(err);

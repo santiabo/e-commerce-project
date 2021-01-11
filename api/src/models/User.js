@@ -54,7 +54,10 @@ module.exports = (sequelize) => {
       set(value) {//metodo de sequelize que recibe el valor del password ingresado por el usuario
         if (value) {//esto es por si el usuario no se loguea con password
           //hashea el password antes de guardarlo en la base de datos
+
           const salt = bcrypt.genSaltSync(10); //el salt se genera y se utiliza sin almacenarse
+          console.log("SALT", salt);
+          console.log("PASS", value);
           const hash = bcrypt.hashSync(value, salt);//con esta funcion hasheamos el password(value)
           this.setDataValue('password', hash);//almacenamos el valor de pasword en la base de datos
         }

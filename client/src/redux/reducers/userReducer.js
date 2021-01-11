@@ -11,7 +11,9 @@ import {
   LOGOUT_USER,
   AUTO_LOGIN,
   USER_CHANGE_PASSWORD,
-  SUCCESS_REQUEST
+  SUCCESS_REQUEST,
+  START_REQUEST,
+  SET_ERROR
 } from "../actions/user";
 
 const initialState = {
@@ -89,22 +91,19 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         user: action.user,
-        isUser: true,
-        loading: true
+        isUser: true
       };
     case LOGOUT_USER:
       return {
         ...state,
         user: action.user,
-        isUser: false,
-        loading: true
+        isUser: false
       };
     case AUTO_LOGIN:
       return {
         ...state,
         user: action.user,
-        isUser: true,
-        loading: true
+        isUser: true
       };
     case USER_CHANGE_PASSWORD:
       return {
@@ -112,6 +111,16 @@ const userReducer = (state = initialState, action) => {
         user: action.user
       };
     case SUCCESS_REQUEST:
+      return {
+        ...state,
+        loading: false
+      };
+    case START_REQUEST:
+      return {
+        ...state,
+        loading: true
+      };
+    case SET_ERROR:
       return {
         ...state,
         loading: false
