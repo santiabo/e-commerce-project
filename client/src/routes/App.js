@@ -30,7 +30,7 @@ function App() {
     dispatch(getProducts());
     dispatch(getCategories());
     dispatch(getCartItemsFromLocalStorage());
-  }, []);
+  }, [dispatch]);
 
   return (
 

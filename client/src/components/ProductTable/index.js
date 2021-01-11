@@ -1,15 +1,22 @@
 import React, { useState } from 'react';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Modal, ModalBody, ModalHeader, ModalFooter } from 'reactstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeProduct, addProduct, editProduct, addCategoryToProduct, removeCategoryToProduct } from '../../redux/actions/product';
 import { addCategory } from '../../redux/actions/category';
+import { useForm } from 'react-hook-form';
 
 import "./ProductTable.css";
 
 function ProductTable() {
 
+  const { register, handleSubmit, errors } = useForm();
+
   const dispatch = useDispatch();
+
+  const onSubmit = (productoSeleccionado) => {
+    dispatch(editProduct(productoSeleccionado.id, productoSeleccionado));
+  };
 
   const products = useSelector(state => state.product.products);
   const dataCategories = useSelector(state => state.category.categories);
@@ -179,11 +186,11 @@ function ProductTable() {
 
   return (
     <div className="App">
-      <h2>Product List</h2>
+      <h2>Products List</h2>
       <br />
       <Link to='/orders' >
-      <h2 className='mainLink'>Order Table</h2>     
-      </Link>      
+        <h2 className='mainLink'>Order Table</h2>
+      </Link>
       <button className="btn btn-success" onClick={() => newProductModal()}>New Product</button>{"   "}
       <button className="btn btn-primary" onClick={() => newCategoryModal()}>New Category</button>
       <br /><br />
@@ -210,21 +217,21 @@ function ProductTable() {
               <td>{p.stock}</td>
               <td id='imgBox'>
                 {
-                  p.images.map(img => (
-                    <img src={img} alt={p.name}/>
+                  p.images.map((img, i) => (
+                    <img src={img} alt={p.name} key={i} />
                   ))
                 }
               </td>
               <td>
                 {
-                  p.categories.map(c => (
-                    <li>{c.name}</li>
+                  p.categories.map((c, i) => (
+                    <li key={i}>{c.name}</li>
                   ))
                 }
               </td>
               <td id="buttonBox">
-                <button className="btn btn-primary" onClick={() => seleccionarProducto(p, 'Editar')}>Editar</button> {"   "}
-                <button className="btn btn-danger" onClick={() => seleccionarProducto(p, 'Eliminar')}>Eliminar</button>
+                <button className="btn btn-primary" onClick={() => seleccionarProducto(p, 'Editar')}>Edit Product</button> {"   "}
+                <button className="btn btn-danger" onClick={() => seleccionarProducto(p, 'Eliminar')}>Delete Product</button>
                 <br />
                 <button className="btn btn-primary" onClick={() => addCategoryToProductModal(p)}>Add Category</button>
                 <button className="btn btn-danger" onClick={() => removeCategoryToProductModal(p)}>Remove Category</button>
@@ -239,7 +246,7 @@ function ProductTable() {
         addCategory && <Modal isOpen={addCategoryModal}>
           <ModalHeader>
             <div>
-              <h3>Add Category to Product</h3>
+              <h3>Add category to product</h3>
             </div>
           </ModalHeader>
           <ModalBody>
@@ -251,9 +258,9 @@ function ProductTable() {
                 name="categoryId"
                 onChange={handleChangeCategory}
               >
-                <option selected value="" name="category">Select a Category</option>
-                {dataCategories.map((e) =>
-                  <option value={e.id} name="category">{e.name}</option>
+                <option selected value="" name="category">Select a category</option>
+                {dataCategories.map((e, i) =>
+                  <option value={e.id} name="category" key={i}>{e.name}</option>
                 )}
               </select>
 
@@ -280,7 +287,7 @@ function ProductTable() {
       {removeCategoryModal && <Modal isOpen={removeCategoryModal}>
         <ModalHeader>
           <div>
-            <h3>Remove Category From Product</h3>
+            <h3>Remove category from product</h3>
           </div>
         </ModalHeader>
         <ModalBody>
@@ -292,7 +299,7 @@ function ProductTable() {
               name="categoryId"
               onChange={handleChangeCategory}
             >
-              <option selected value="" name="category">Select a Category</option>
+              <option selected value="" name="category">Select a category</option>
               {productoSeleccionado.categories.map((e) =>
                 <option value={e.id} name="category">{e.name}</option>
               )}
@@ -319,7 +326,7 @@ function ProductTable() {
       <Modal isOpen={modalEditar}>
         <ModalHeader>
           <div>
-            <h3>Editar Producto</h3>
+            <h3>Edit Product</h3>
           </div>
         </ModalHeader>
         <ModalBody>
@@ -328,19 +335,22 @@ function ProductTable() {
             <input
               className="form-control"
               readOnly
+              id="idNum"
               type="text"
               name="id"
               value={productoSeleccionado && productoSeleccionado.id}
             />
             <br />
 
-            <label>Producto</label>
+            <label>Product</label>
+                {errors.name && <p>NO</p>}
             <input
               className="form-control"
               type="text"
               name="name"
               value={productoSeleccionado && productoSeleccionado.name}
               onChange={handleChange}
+              ref={register({ required: true, minLength: 3, maxLength: 10 })}
             />
             <br />
 
@@ -361,6 +371,7 @@ function ProductTable() {
               name="price"
               value={productoSeleccionado && productoSeleccionado.price}
               onChange={handleChange}
+              pattern="/^(\$)?([1-9]{1}[0-9]{0,2})(\,\d{3})*(\.\d{2})?$|^(\$)?([1-9]{1}[0-9]{0,2})(\d{3})*(\.\d{2})?$|^(0)?(\.\d{2})?$|^(\$0)?(\.\d{2})?$|^(\$\.)(\d{2})?$/"
             />
             <br />
 
@@ -374,7 +385,7 @@ function ProductTable() {
             />
             <br />
 
-            <label>Imagen URL</label>
+            <label>Image URL</label>
             <input
               className="form-control"
               type="text"
@@ -387,30 +398,28 @@ function ProductTable() {
         </ModalBody>
 
         <ModalFooter>
-          <button className="btn btn-primary" onClick={() => editar()}>
-            Actualizar
+          <button className="btn btn-primary" onClick={handleSubmit(onSubmit)} type="submit">
+            Update
           </button>
           <button
             className="btn btn-danger"
-            onClick={() => setModalEditar(false)}
-          >
-            Cancelar
+            onClick={() => setModalEditar(false)}>
+            Cancel
           </button>
         </ModalFooter>
       </Modal>
 
       <Modal isOpen={modalEliminar}>
         <ModalBody>
-          Estás Seguro que deseas eliminar el producto {productoSeleccionado && productoSeleccionado.nombre}
+          Are you sure you want to delete this product from the database? {productoSeleccionado && productoSeleccionado.nombre}
         </ModalBody>
         <ModalFooter>
           <button className="btn btn-danger" onClick={() => eliminar()}>
-            Sí
+            Yes
           </button>
           <button
             className="btn btn-secondary"
-            onClick={() => setModalEliminar(false)}
-          >
+            onClick={() => setModalEliminar(false)}>
             No
           </button>
         </ModalFooter>
@@ -419,7 +428,7 @@ function ProductTable() {
       <Modal isOpen={modalInsertar}>
         <ModalHeader>
           <div>
-            <h3>Insertar Producto</h3>
+            <h3>Add Product</h3>
           </div>
         </ModalHeader>
         <ModalBody>
@@ -440,8 +449,7 @@ function ProductTable() {
               type="text"
               name="name"
               value={productoSeleccionado ? productoSeleccionado.name : ''}
-              onChange={handleChange}
-            />
+              onChange={handleChange} />
             <br />
 
             <label>Description</label>
@@ -450,8 +458,7 @@ function ProductTable() {
               type="text"
               name="description"
               value={productoSeleccionado ? productoSeleccionado.description : ''}
-              onChange={handleChange}
-            />
+              onChange={handleChange} />
             <br />
 
             <label>Price</label>
@@ -460,8 +467,7 @@ function ProductTable() {
               type="text"
               name="price"
               value={productoSeleccionado ? productoSeleccionado.price : ''}
-              onChange={handleChange}
-            />
+              onChange={handleChange} />
             <br />
 
             <label>Stock</label>
@@ -470,18 +476,16 @@ function ProductTable() {
               type="text"
               name="stock"
               value={productoSeleccionado ? productoSeleccionado.stock : ''}
-              onChange={handleChange}
-            />
+              onChange={handleChange} />
             <br />
 
-            <label>Img URL</label>
+            <label>Image URL</label>
             <input
               className="form-control"
               type="text"
               name="img"
               value={productoSeleccionado ? productoSeleccionado.img : ''}
-              onChange={handleChange}
-            />
+              onChange={handleChange} />
             <br />
           </div>
 
@@ -501,13 +505,12 @@ function ProductTable() {
         <ModalFooter>
           <button className="btn btn-primary"
             onClick={() => insertar()}>
-            Insertar
+            Add
           </button>
           <button
             className="btn btn-danger"
-            onClick={() => setModalInsertar(false)}
-          >
-            Cancelar
+            onClick={() => setModalInsertar(false)}>
+            Cancel
           </button>
         </ModalFooter>
       </Modal>
@@ -516,7 +519,7 @@ function ProductTable() {
       <Modal isOpen={modalInsertarCategoria}>
         <ModalHeader>
           <div>
-            <h3>Insertar Categoria</h3>
+            <h3>Add Category</h3>
           </div>
         </ModalHeader>
         <ModalBody>
@@ -531,14 +534,13 @@ function ProductTable() {
             />
             <br /> */}
 
-            <label>Categoria</label>
+            <label>Category</label>
             <input
               className="form-control"
               type="text"
               name="name"
               value={categoriaSeleccionada ? categoriaSeleccionada.name : ''}
-              onChange={handleChangeCategory}
-            />
+              onChange={handleChangeCategory} />
             <br />
 
             <label>Description</label>
@@ -547,8 +549,7 @@ function ProductTable() {
               type="text"
               name="description"
               value={categoriaSeleccionada ? categoriaSeleccionada.description : ''}
-              onChange={handleChangeCategory}
-            />
+              onChange={handleChangeCategory} />
             <br />
           </div>
 
@@ -557,13 +558,12 @@ function ProductTable() {
         <ModalFooter>
           <button className="btn btn-primary"
             onClick={() => insertarCategoria()}>
-            Insertar
+            Add
           </button>
           <button
             className="btn btn-danger"
-            onClick={() => setModalInsertarCategoria(false)}
-          >
-            Cancelar
+            onClick={() => setModalInsertarCategoria(false)}>
+            Cancel
           </button>
         </ModalFooter>
       </Modal>

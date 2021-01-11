@@ -15,7 +15,7 @@ const TableOrder = ({ getAllOrdersAction, setFinalizedOrderAction, setConfirmOrd
 
   useEffect(() => {
     getAllOrdersAction()
-  }, []);
+  }, [getAllOrdersAction]);
 
   // useEffect(() => {
   //   getAllOrdersAction();
