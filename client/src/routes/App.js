@@ -4,7 +4,7 @@ import { getProducts } from "../redux/actions/product";
 import { getCategories } from "../redux/actions/category";
 import { getCartItemsFromLocalStorage } from "../redux/actions/cart";
 import { autoSignInUser } from "../redux/actions/user";
-import { BrowserRouter, Route, Switch, useHistory } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 // Components
 import Layout from '../containers/Layout';
@@ -32,7 +32,7 @@ function App() {
     dispatch(getProducts());
     dispatch(getCategories());
     dispatch(getCartItemsFromLocalStorage());
-  }, []);
+  }, [dispatch]);
 
   const { loading } = useSelector(state => state.user);
 
