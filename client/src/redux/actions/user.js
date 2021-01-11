@@ -6,6 +6,9 @@ export const CREATE_USER = "CREATE_USER";
 export const UPDATE_USER = "UPDATE_USER";
 
 export const GET_ALL_USERS = "GET_ALL_USERS";
+export const PROMOTE_USER = "PROMOTE_USER";
+export const DEGRADE_USER = "DEGRADE_USER";
+export const BAN_USER = "BAN_USER";
 export const DELETE_USER = "DELETE_USER";
 
 export const POST_USER_CART = "POST_USER_CART";
@@ -66,6 +69,26 @@ const getAllUsers = (user) => {
   };
 };
 
+const promoteUser = (user) => {
+  return {
+    type: PROMOTE_USER,
+    user
+  };
+};
+
+const degradeUser = (user) => {
+  return {
+    type: DEGRADE_USER,
+    user
+  };
+};
+
+const banUser = (user) => {
+  return {
+    type: BAN_USER,
+    user
+  };
+};
 
 const deleteUser = ({ userDeleted }) => {
   return {
@@ -302,6 +325,42 @@ export const changePassword = (password) => {
     try {
       const res = await authAxios.post(`/users/passwordReset`, { password });
       dispatch(userChangePassword(res.data));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const promoteUserRole = (id) => {
+  return async (dispatch) => {
+    try {
+      const res = await authAxios.put(`/auth/promote/${id}`);
+
+      dispatch(promoteUser(res.data));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const degradeUserRole = (id) => {
+  return async (dispatch) => {
+    try {
+      const res = await authAxios.put(`/auth/degrade/${id}`);
+
+      dispatch(degradeUser(res.data));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const banUserToOblivion = (id) => {
+  return async (dispatch) => {
+    try {
+      const res = await authAxios.put(`/auth/${id}/ban`);
+
+      dispatch(banUser(res.data));
     } catch (err) {
       console.log(err);
     }
