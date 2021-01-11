@@ -1,6 +1,6 @@
 import React from "react";
-import { useDispatch } from "react-redux";
-import { setItemToCart } from "../../redux/actions/cart";
+import { useDispatch, useSelector } from "react-redux";
+import { setItemToCart, addItemToCart } from "../../redux/actions/cart";
 
 // Components
 import Button from '../Button';
@@ -22,12 +22,24 @@ import {
 } from './styles';
 
 const ProductCard = ({ product, categories, reviews = { average: 4, } }) => {
- 
+
   const count = 1;
   const dispatch = useDispatch();
 
+  const { isUser } = useSelector(state => state.user);
+
   const handleClick = () => {
-    dispatch(setItemToCart(product, count));
+    if (!isUser) {
+      dispatch(setItemToCart(product, count));
+
+    } else {
+      dispatch(addItemToCart({
+        quantity: count,
+        productId: product.id,
+        price: product.price,
+        // orderId
+      }));
+    }
   };
 
   const inStock = product.stock > 0;

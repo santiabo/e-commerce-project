@@ -1,5 +1,8 @@
 import axios from 'axios';
-import { clearCart } from './cart';
+
+import { Alert } from 'reactstrap';
+import { clearCart, getUserCart } from './cart';
+
 
 // Types
 export const CREATE_USER = "CREATE_USER";
@@ -12,7 +15,6 @@ export const BAN_USER = "BAN_USER";
 export const DELETE_USER = "DELETE_USER";
 
 export const POST_USER_CART = "POST_USER_CART";
-export const GET_USER_CART = "GET_USER_CART";
 export const DELETE_USER_CART = "DELETE_USER_CART";
 export const UPDATE_USER_CART = "UPDATE_USER_CART";
 
@@ -105,12 +107,8 @@ const postUserCart = (userCart) => {
   };
 };
 
-const getUserCart = (id) => {
-  return {
-    type: GET_USER_CART,
-    id
-  };
-};
+
+
 
 const deleteUserCart = (userId) => {
   return {
@@ -233,18 +231,7 @@ export const addUserCart = (userId) => {
   };
 };
 
-export const getUserCartDetail = (userId) => {
-  return async (dispatch) => {
-    try {
 
-      const res = await authAxios.get(`/users/${userId}/cart`);
-
-      dispatch(getUserCart(res.data));
-    } catch (err) {
-      console.log(err);
-    }
-  };
-};
 
 export const removeUserCart = (userId) => {
   return async (dispatch) => {
@@ -277,9 +264,8 @@ export const logInUser = (email, password) => {
     try {
       dispatch(startRequest());
       const res = await axios.post(`http://localhost:5000/auth/login`, { ...email, ...password });
-      console.log("RES >>>", res.data);
       const { token, user } = res.data;
-
+   
       dispatch(loginUser(user));
       localStorage.setItem("token", JSON.stringify(token));
       if (localStorage.cart) dispatch(addUserCart(user.id));
@@ -310,7 +296,6 @@ export const autoSignInUser = () => {
       dispatch(startRequest());
       const res = await authAxios.get(`/auth/me`);
       const user = res.data;
-
       dispatch(autoLoginUser(user));
       dispatch(successRequest());
     } catch (err) {
@@ -366,3 +351,4 @@ export const banUserToOblivion = (id) => {
     }
   };
 };
+
