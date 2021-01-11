@@ -213,7 +213,7 @@ export const logInUser = (email, password) => {
       dispatch(loginUser(user));
       alert(`Welcome ${user.firstName}!`)
       localStorage.setItem("token", JSON.stringify(token));
-      if(localStorage.cart) dispatch(addUserCart(user.id));  
+      dispatch(addUserCart(user.id));  
       setTimeout(()=>dispatch(getUserCart(user.id)), 200);  
       
     } catch (err) {

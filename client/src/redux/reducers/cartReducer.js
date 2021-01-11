@@ -6,7 +6,8 @@ import {
   REMOVE_ITEM_FROM_CART,
   INCREMENT_ITEM,
   DECREMENT_ITEM,
-  SET_USER_CART  
+  SET_USER_CART,
+  ADD_ITEM_TO_CART
 } from "../actions/cart";
 
 
@@ -43,9 +44,9 @@ const cartReducer = (state = initialState, action) => {
           ),
         cartAmount: exist ? state.cartAmount : state.cartAmount + 1
       };
-      
+
       localStorage.setItem("cart", JSON.stringify(newState.cart));
-      
+
       return newState;
 
     case REMOVE_ITEM_FROM_CART:
@@ -64,40 +65,48 @@ const cartReducer = (state = initialState, action) => {
 
       const increment = {
         ...state,
-        cart: state.cart.map((item)=>{
-          if(item.id === action.id){ return {
-            ...item,
-            quantity: item.quantity+1 
-          };
-        }
-        return item;
+        cart: state.cart.map((item) => {
+          if (item.id === action.id) {
+            return {
+              ...item,
+              quantity: item.quantity + 1
+            };
+          }
+          return item;
         })
       };
       localStorage.setItem("cart", JSON.stringify(increment.cart));
-      return increment;     
-      
+      return increment;
+
     case DECREMENT_ITEM:
       const decrement = {
         ...state,
-        cart: state.cart.map((item)=>{
-          if(item.id === action.id){ return {
-            ...item,
-            quantity: item.quantity-1 
-          };
-        }
-        return item;
+        cart: state.cart.map((item) => {
+          if (item.id === action.id) {
+            return {
+              ...item,
+              quantity: item.quantity - 1
+            };
+          }
+          return item;
         })
       };
       localStorage.setItem("cart", JSON.stringify(decrement.cart));
-      return decrement; 
+      return decrement;
 
-      case SET_USER_CART:
+    case SET_USER_CART:
       return {
         ...state,
         cart: action.cart,
-        cartAmount: action.cart.length  
-      }
-       
+        cartAmount: action.cart.length
+      };
+
+    case ADD_ITEM_TO_CART:
+      return {
+        ...state,
+        cart: action.cart.concat(action.orderline),
+        cartAmount: action.cart.length + 1
+      };
 
     default:
       return state;

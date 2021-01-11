@@ -115,6 +115,7 @@ server.get('/:userId/cart', isUser, (req, res, next) => {
           ]
         })
           .then((orderLines) => {
+            console.log(orderLines)
             return res.send(orderLines);
           });
     })

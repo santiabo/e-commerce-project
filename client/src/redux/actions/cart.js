@@ -1,4 +1,4 @@
-import {authAxios} from './user'
+import { authAxios } from './user';
 
 // Types
 
@@ -7,8 +7,9 @@ export const SET_ITEM_TO_CART = "SET_ITEM_TO_CART";
 export const REMOVE_ITEM_FROM_CART = "REMOVE_ITEM_FROM_CART";
 export const CLEAR_CART = "CLEAR_CART";
 export const INCREMENT_ITEM = "INCREMENT_ITEM";
-export const DECREMENT_ITEM = "DECREMENT_ITEM"
+export const DECREMENT_ITEM = "DECREMENT_ITEM";
 export const SET_USER_CART = "SET_USER_CART";
+export const ADD_ITEM_TO_CART = "ADD_ITEM_TO_CART";
 
 export const getCartItemsFromLocalStorage = () => {
   const cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -24,6 +25,13 @@ export const setItemToCart = (product, quantity) => {
     type: SET_ITEM_TO_CART,
     product,
     quantity
+  };
+};
+
+export const addItemToCart = (orderline) => {
+  return {
+    type: ADD_ITEM_TO_CART,
+    orderline
   };
 };
 
@@ -59,7 +67,7 @@ const setUserCart = (cart) => {
     type: SET_USER_CART,
     cart
   };
-}; 
+};
 
 export const getUserCart = (userId) => {
   return async (dispatch) => {
@@ -68,6 +76,19 @@ export const getUserCart = (userId) => {
       const res = await authAxios.get(`/users/${userId}/cart`);
 
       dispatch(setUserCart(res.data));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const postItemToCart = (orderline) => {
+  return async (dispatch) => {
+    try {
+
+      const res = await authAxios.post(`/orderline`, orderline);
+
+      dispatch(addItemToCart(res.data));
     } catch (err) {
       console.log(err);
     }
