@@ -1,5 +1,6 @@
 const server = require('express').Router();
 const { Product, Category, Review } = require('../db.js');
+const { isAdmin } = require('../middlewares/auth');
 
 const {
   getAll,
@@ -287,8 +288,8 @@ server.delete('/:id/review/:idReview', (req, res) => {
       .then((data) => {
         if (data) return res.send({ reviewDeleted: Number(idReview) });
         return res.status(404).send({ Error: 'Review not found.' });
-      })
-      
+      });
+
   } else {
     Review.destroy({
       where: {
@@ -299,7 +300,7 @@ server.delete('/:id/review/:idReview', (req, res) => {
       .then((data) => {
         if (data) return res.send({ reviewDeleted: Number(idReview) });
         return res.status(403).send({ Error: "You can't delete that review." });
-      })
+      });
   }
 });
 

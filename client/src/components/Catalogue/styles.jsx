@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const CatalogueWrapper = styled.div`
   display: flex;
   margin: 2rem 0;
+  margin-bottom: 113px;
 `;
 
 export const ProductsColumn = styled.div`

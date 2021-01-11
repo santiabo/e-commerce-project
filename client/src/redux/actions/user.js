@@ -1,4 +1,5 @@
 import axios from 'axios';
+
 import { Alert } from 'reactstrap';
 import { clearCart, getUserCart } from './cart';
 
@@ -8,6 +9,9 @@ export const CREATE_USER = "CREATE_USER";
 export const UPDATE_USER = "UPDATE_USER";
 
 export const GET_ALL_USERS = "GET_ALL_USERS";
+export const PROMOTE_USER = "PROMOTE_USER";
+export const DEGRADE_USER = "DEGRADE_USER";
+export const BAN_USER = "BAN_USER";
 export const DELETE_USER = "DELETE_USER";
 
 export const POST_USER_CART = "POST_USER_CART";
@@ -17,9 +21,34 @@ export const UPDATE_USER_CART = "UPDATE_USER_CART";
 export const LOGIN_USER = "LOGIN_USER";
 export const LOGOUT_USER = "LOGOUT_USER";
 
-export const AUTO_LOGIN = "AUTO_LOGIN"
+export const AUTO_LOGIN = "AUTO_LOGIN";
+
+export const USER_CHANGE_PASSWORD = "USER_CHANGE_PASSWORD";
+
+export const START_REQUEST = "START_REQUEST";
+export const SUCCESS_REQUEST = "SUCCESS_REQUEST";
+export const SET_ERROR = "SET_ERROR";
 
 //export const PASSWORD_RESET = "PASSWORD_RESET"; 
+
+const setError = (error) => {
+  return {
+    type: SET_ERROR,
+    error
+  };
+};
+
+const startRequest = () => {
+  return {
+    type: START_REQUEST
+  };
+};
+
+const successRequest = () => {
+  return {
+    type: SUCCESS_REQUEST,
+  };
+};
 
 const createUser = (user) => {
   return {
@@ -42,6 +71,26 @@ const getAllUsers = (user) => {
   };
 };
 
+const promoteUser = (user) => {
+  return {
+    type: PROMOTE_USER,
+    user
+  };
+};
+
+const degradeUser = (user) => {
+  return {
+    type: DEGRADE_USER,
+    user
+  };
+};
+
+const banUser = (user) => {
+  return {
+    type: BAN_USER,
+    user
+  };
+};
 
 const deleteUser = ({ userDeleted }) => {
   return {
@@ -94,8 +143,15 @@ const autoLoginUser = (user) => {
   return {
     type: AUTO_LOGIN,
     user
-  }
-}
+  };
+};
+
+const userChangePassword = (user) => {
+  return {
+    type: USER_CHANGE_PASSWORD,
+    user
+  };
+};
 
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -115,7 +171,7 @@ export const createNewUser = (newUser) => {
       const res = await axios.post(`http://localhost:5000/users`, { ...newUser });
 
       dispatch(createUser(res.data));
-      alert(`User ${res.data.firstName} created successfully`)
+      alert(`User ${res.data.firstName} created successfully`);
     } catch (err) {
       console.log(err);
     }
@@ -167,8 +223,8 @@ export const addUserCart = (userId) => {
     try {
       const cart = JSON.parse(localStorage.getItem("cart")) || [];
       const res = await authAxios.post(`/users/${userId}/cart`, { cart });
-      dispatch(postUserCart(res.data))
-      localStorage.removeItem('cart')
+      dispatch(postUserCart(res.data));
+      localStorage.removeItem('cart');
     } catch (err) {
       console.log(err);
     }
@@ -206,18 +262,16 @@ export const editUserCart = (id, userCart) => {
 export const logInUser = (email, password) => {
   return async (dispatch) => {
     try {
+      dispatch(startRequest());
       const res = await axios.post(`http://localhost:5000/auth/login`, { ...email, ...password });
-     
       const { token, user } = res.data;
    
       dispatch(loginUser(user));
-      alert(`Welcome ${user.firstName}!`)
       localStorage.setItem("token", JSON.stringify(token));
-      dispatch(addUserCart(user.id));  
-      setTimeout(()=>dispatch(getUserCart(user.id)), 200);  
-      
+      if (localStorage.cart) dispatch(addUserCart(user.id));
+      dispatch(successRequest());
     } catch (err) {
-      alert(err.response.data)      
+      dispatch(setError(err));
     }
   };
 };
@@ -225,26 +279,73 @@ export const logInUser = (email, password) => {
 export const logOutUser = () => {
   return async (dispatch) => {
     try {
-      const res = await axios.get(`http://localhost:5000/auth/logout`);
-      dispatch(logoutUser())
-      dispatch(clearCart())
-      localStorage.clear()
-      alert("Goodbye");
+      await axios.get(`http://localhost:5000/auth/logout`);
+      dispatch(logoutUser());
+      dispatch(clearCart());
+      localStorage.clear();
     }
     catch (err) {
-      console.log(err)
+      console.log(err);
     }
-  }
+  };
 };
 
 export const autoSignInUser = () => {
   return async (dispatch) => {
     try {
+      dispatch(startRequest());
       const res = await authAxios.get(`/auth/me`);
       const user = res.data;
-
       dispatch(autoLoginUser(user));
-      dispatch(getUserCart(user.id))
+      dispatch(successRequest());
+    } catch (err) {
+      console.log(err);
+      dispatch(setError(err));
+    }
+  };
+};
+
+export const changePassword = (password) => {
+  return async (dispatch) => {
+    try {
+      const res = await authAxios.post(`/users/passwordReset`, { password });
+      dispatch(userChangePassword(res.data));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const promoteUserRole = (id) => {
+  return async (dispatch) => {
+    try {
+      const res = await authAxios.put(`/auth/promote/${id}`);
+
+      dispatch(promoteUser(res.data));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const degradeUserRole = (id) => {
+  return async (dispatch) => {
+    try {
+      const res = await authAxios.put(`/auth/degrade/${id}`);
+
+      dispatch(degradeUser(res.data));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const banUserToOblivion = (id) => {
+  return async (dispatch) => {
+    try {
+      const res = await authAxios.put(`/auth/${id}/ban`);
+
+      dispatch(banUser(res.data));
     } catch (err) {
       console.log(err);
     }

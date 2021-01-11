@@ -19,7 +19,7 @@ import {
   CategoriesTags,
 } from "./styles";
 
-import './cart.css'
+import './cart.css';
 import { UnitsAmountWrapper } from "../UnitsAmount/styles";
 import Cart from '../../assets/icons/shopping_cart.svg';
 
@@ -38,8 +38,8 @@ const CartItem = () => {
         <header>
           <h2 className='header'>YOUR CART</h2>
           <h4 className='header'>IS CURRENTLY EMPTY!!</h4>
-          <div className = "content">
-          <img className = "cart" src={Cart}/>
+          <div className="content">
+            <img className="cart" src={Cart} alt="Empty cart" />
           </div>
         </header>
       </section>
@@ -111,7 +111,7 @@ const CartItem = () => {
             CLEAR CART
         </Button>
           <Button className='nav-button' as="a" href='/register'>
-           BUY NOW!
+            BUY NOW!
         </Button>
         </ButtonsWrapper>
       </footer>

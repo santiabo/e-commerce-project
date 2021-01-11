@@ -33,9 +33,10 @@ const Product = ({ match, reviews = { average: 4, total: 200 } }) => {
 
   useEffect(() => {
     dispatch(getProduct(match.params.id));
-  }, []);
+  }, [dispatch, match.params.id]);
 
   const product = useSelector(state => state.product.productDetail);
+
 
   const { isUser } = useSelector(state => state.user);
 
@@ -43,11 +44,13 @@ const Product = ({ match, reviews = { average: 4, total: 200 } }) => {
     setQuantity(quantity + 1);
   };
 
+
   const decrement = () => {
     setQuantity(quantity - 1);
   };
 
   const handleClick = () => {
+
     if (!isUser) {
       dispatch(setItemToCart({ ...product, quantity }, quantity));
 
@@ -77,8 +80,8 @@ const Product = ({ match, reviews = { average: 4, total: 200 } }) => {
       </LeftSide>
       <RightSide>
         <CategoriesTags>
-          {keys.length && product.categories.map(category => (
-            <CategoryTag>{category.name}</CategoryTag>
+          {keys.length && product.categories.map((category, i) => (
+            <CategoryTag key={i}>{category.name}</CategoryTag>
           ))}
         </CategoriesTags>
         <Title>{product.name}</Title>

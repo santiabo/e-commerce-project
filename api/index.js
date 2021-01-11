@@ -64,9 +64,10 @@ conn.sync({ force: true }).then(() => {
       "lastName": "Simpson",
       "birthdate": "1999-12-01",
       "password": "1234",
-      "isAdmin":"true"
+      "isAdmin": true,
+      "changePassword": false
     });
-    
+
     Category.bulkCreate(data.categories);
 
     // data.categories.forEach(async c => {

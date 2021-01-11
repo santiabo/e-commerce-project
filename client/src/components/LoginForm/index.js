@@ -22,7 +22,7 @@ export default function LoginUser() {
     if(isUser){
       history.push('/');
     }
-  },[isUser])
+  },[isUser, history])
 
 
   const onSubmit = (user) => {
