@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { Alert } from 'reactstrap';
-import { clearCart } from './cart';
+import { clearCart, getUserCart } from './cart';
 
 
 // Types
@@ -11,7 +11,6 @@ export const GET_ALL_USERS = "GET_ALL_USERS";
 export const DELETE_USER = "DELETE_USER";
 
 export const POST_USER_CART = "POST_USER_CART";
-export const GET_USER_CART = "GET_USER_CART";
 export const DELETE_USER_CART = "DELETE_USER_CART";
 export const UPDATE_USER_CART = "UPDATE_USER_CART";
 
@@ -59,12 +58,8 @@ const postUserCart = (userCart) => {
   };
 };
 
-const getUserCart = (id) => {
-  return {
-    type: GET_USER_CART,
-    id
-  };
-};
+
+
 
 const deleteUserCart = (userId) => {
   return {
@@ -180,18 +175,7 @@ export const addUserCart = (userId) => {
   };
 };
 
-export const getUserCartDetail = (userId) => {
-  return async (dispatch) => {
-    try {
 
-      const res = await authAxios.get(`/users/${userId}/cart`);
-
-      dispatch(getUserCart(res.data));
-    } catch (err) {
-      console.log(err);
-    }
-  };
-};
 
 export const removeUserCart = (userId) => {
   return async (dispatch) => {
@@ -223,14 +207,15 @@ export const logInUser = (email, password) => {
   return async (dispatch) => {
     try {
       const res = await axios.post(`http://localhost:5000/auth/login`, { ...email, ...password });
-      console.log("RES >>>", res.data)
+     
       const { token, user } = res.data;
-
+   
       dispatch(loginUser(user));
       alert(`Welcome ${user.firstName}!`)
       localStorage.setItem("token", JSON.stringify(token));
-      if(localStorage.cart) dispatch(addUserCart(user.id));
-
+      if(localStorage.cart) dispatch(addUserCart(user.id));  
+      setTimeout(()=>dispatch(getUserCart(user.id)), 200);  
+      
     } catch (err) {
       alert(err.response.data)      
     }
@@ -259,9 +244,10 @@ export const autoSignInUser = () => {
       const user = res.data;
 
       dispatch(autoLoginUser(user));
-
+      dispatch(getUserCart(user.id))
     } catch (err) {
       console.log(err);
     }
   };
 };
+

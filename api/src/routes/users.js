@@ -60,14 +60,22 @@ server.post('/:userId/cart', isUser, async (req, res, next) => {
       }
     })
     const { id } = order[0].dataValues
+    const cartItems = [];
     cart.map(async p => {
-      await OrderLine.findOrCreate({
+      const orderLine = await OrderLine.findOne({
         where: {
-          quantity: p.quantity,
           productId: p.id,
-          orderId: id,
-          price: p.price
+          orderId: id
         }
+      })
+      if (orderLine) await orderLine.update({
+        quantity: orderLine.quantity + p.quantity
+      })
+      else await OrderLine.create({
+        quantity: p.quantity,
+        price: p.price,
+        productId: p.id,
+        orderId: order[0].dataValues.id
       })
     })
     const userCart = await OrderLine.findAll({
@@ -100,15 +108,14 @@ server.get('/:userId/cart', isUser, (req, res, next) => {
         return res.status(404).send({ error: `User doesn't have an order` });
       } else
         OrderLine.findAll({
-          where: { orderId: order.id }
+          where: { orderId: order.id },
+          include: [
+            Product,
+            Order
+          ]
         })
-          .then((orderLine) => {
-            let totalProducts = orderLine.map(e => ({
-              productId: e.productId,
-              quantity: e.quantity,
-              price: e.price
-            }));
-            return res.send({ totalProducts });
+          .then((orderLines) => {
+            return res.send(orderLines);
           });
     })
     .catch(next);
@@ -133,9 +140,10 @@ server.put('/:id/cart', isUser, async (req, res, next) => {
   const { quantity, productId } = req.body;
 
   try {
-    const order = await Order.findOne({
+    const order = await Order.findOrCreate({
       where: {
-        userId: id
+        userId: id,
+        status: on_cart
       }
     });
     if (quantity < 1) {
@@ -171,7 +179,7 @@ server.put('/:id/cart', isUser, async (req, res, next) => {
 });
 
 //-------------Get User Order
-server.get('/:id/orders',  /* isUser, */ (req, res, next) => {
+server.get('/:id/orders',  /* isUser, */(req, res, next) => {
   //devuelve las ordenes de usuarios
   const { id } = req.params;
 
@@ -209,7 +217,7 @@ server.put('/:id/ban', isAdmin, async (req, res, next) => {
   try {
     const ban = await User.findByPk(id);
     ban.update({
-     isBanned: true,
+      isBanned: true,
     }); res.send('User Banned');
   } catch (error) {
     next(error);

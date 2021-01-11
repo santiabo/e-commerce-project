@@ -1,11 +1,16 @@
+
 import {
   GET_CART_ITEMS_FROM_LOCAL_STORAGE,
   SET_ITEM_TO_CART,
   CLEAR_CART,
   REMOVE_ITEM_FROM_CART,
   INCREMENT_ITEM,
-  DECREMENT_ITEM  
+  DECREMENT_ITEM,
+  SET_USER_CART  
 } from "../actions/cart";
+
+
+
 
 const initialState = {
   cart: [],
@@ -38,7 +43,9 @@ const cartReducer = (state = initialState, action) => {
           ),
         cartAmount: exist ? state.cartAmount : state.cartAmount + 1
       };
+      
       localStorage.setItem("cart", JSON.stringify(newState.cart));
+      
       return newState;
 
     case REMOVE_ITEM_FROM_CART:
@@ -83,6 +90,13 @@ const cartReducer = (state = initialState, action) => {
       };
       localStorage.setItem("cart", JSON.stringify(decrement.cart));
       return decrement; 
+
+      case SET_USER_CART:
+      return {
+        ...state,
+        cart: action.cart,
+        cartAmount: action.cart.length  
+      }
        
 
     default:

@@ -4,7 +4,6 @@ import {
   GET_ALL_USERS,
   DELETE_USER,
   POST_USER_CART,
-  GET_USER_CART,
   DELETE_USER_CART,
   UPDATE_USER_CART,
   LOGIN_USER,
@@ -53,15 +52,7 @@ const userReducer = (state = initialState, action) => {
         ...state,
         userCart:action.userCart
       };
-    case GET_USER_CART:
-      return {
-        ...state,
-        user: state.user.map(user => {
-          if (user.id === action.id && user.cart)
-            return user.cart
-          return user;
-        })
-      }
+
     case DELETE_USER_CART:
       return {
         ...state,
