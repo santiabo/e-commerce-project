@@ -9,13 +9,18 @@ import {
   UPDATE_USER_CART,
   LOGIN_USER,
   LOGOUT_USER,
-  AUTO_LOGIN
+  AUTO_LOGIN,
+  USER_CHANGE_PASSWORD,
+  SUCCESS_REQUEST,
+  START_REQUEST,
+  SET_ERROR
 } from "../actions/user";
 
 const initialState = {
-  user: [],
+  user: {},
   userCart: [],
-  isUser: false
+  isUser: false,
+  loading: false
 };
 
 const userReducer = (state = initialState, action) => {
@@ -33,35 +38,35 @@ const userReducer = (state = initialState, action) => {
             return action.user;
           return user;
         })
-      }
+      };
     case GET_ALL_USERS:
       if (action.user.isAdmin)
         return {
           ...state,
           user: action.user
-        }
-        break
+        };
+      break;
     case DELETE_USER:
       return {
         ...state,
         user: state.user.filter(user =>
           action.userDeleted.id !== user.id
         )
-      }
+      };
     case POST_USER_CART:
       return {
         ...state,
-        userCart:action.userCart
+        userCart: action.userCart
       };
     case GET_USER_CART:
       return {
         ...state,
         user: state.user.map(user => {
           if (user.id === action.id && user.cart)
-            return user.cart
+            return user.cart;
           return user;
         })
-      }
+      };
     case DELETE_USER_CART:
       return {
         ...state,
@@ -71,35 +76,55 @@ const userReducer = (state = initialState, action) => {
           }
           return user;
         })
-      }
+      };
     case UPDATE_USER_CART:
       return {
         ...state,
         user: state.user.map(user => {
           if (user.id === action.id && user.cart) {
-            user.cart = action.userCart
+            user.cart = action.userCart;
           }
           return user;
         })
-      }
+      };
     case LOGIN_USER:
       return {
         ...state,
         user: action.user,
         isUser: true
-      }
+      };
     case LOGOUT_USER:
       return {
         ...state,
         user: action.user,
         isUser: false
-      }
+      };
     case AUTO_LOGIN:
-      return{
+      return {
         ...state,
         user: action.user,
-        isUser:true
-    }
+        isUser: true
+      };
+    case USER_CHANGE_PASSWORD:
+      return {
+        ...state,
+        user: action.user
+      };
+    case SUCCESS_REQUEST:
+      return {
+        ...state,
+        loading: false
+      };
+    case START_REQUEST:
+      return {
+        ...state,
+        loading: true
+      };
+    case SET_ERROR:
+      return {
+        ...state,
+        loading: false
+      };
     default:
       return state;
   }

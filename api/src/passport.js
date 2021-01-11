@@ -8,14 +8,14 @@ const BearerStrategy = require("passport-http-bearer").Strategy;
 const { User } = require("./db.js");
 const jwt = require("jsonwebtoken");
 const { getOneByGoogleId, getOneByFacebookId, createOne } = require('./controllers/users');
-const { 
-        DB_SECRET, 
-        GOOGLE_CLIENT_ID, 
-        GOOGLE_CLIENT_SECRET, 
-        FACEBOOK_APP_ID, 
-        FACEBOOK_APP_SECRET,
-        INSTAGRAM_APP_ID,
-        INSTAGRAM_APP_SECRET } = process.env;
+const {
+  DB_SECRET,
+  GOOGLE_CLIENT_ID,
+  GOOGLE_CLIENT_SECRET,
+  FACEBOOK_APP_ID,
+  FACEBOOK_APP_SECRET,
+  INSTAGRAM_APP_ID,
+  INSTAGRAM_APP_SECRET } = process.env;
 
 //es un midlleware
 passport.use(
@@ -37,7 +37,7 @@ passport.use(
       //si esta todo ok devolvemos el usuario
       //la manera en que sequelize devuelve el usuario es incompatible con JWT
       //por lo debemos extraer los datos que necesitamos y enviarlos por fuera de la instancia de sequelize
-      if(user.isBanned) return done(null, false, 'User Banned');
+      if (user.isBanned) return done(null, false, 'User Banned');
       const {
         id,
         email: userEmail,//utilizo un alias porque viene por parametro el email(no se podria redefinir)
@@ -47,6 +47,7 @@ passport.use(
         lastName,
         birthdate,
         photoURL,
+        changePassword
       } = user;
       return done(null, {
         id,
@@ -57,6 +58,7 @@ passport.use(
         lastName,
         birthdate,
         photoURL,
+        changePassword
       });
     }
   )
@@ -67,6 +69,7 @@ passport.use(
   // Al crear la estrategia son requeridos el ID del cliente y el secreto obtenido al crear la aplicacion
   // La estrategia tambien requiere un cb, el cual recibe el token de acceso y el token de
   //actualización opcional 
+
   new GoogleStrategy(
     {
       clientID: GOOGLE_CLIENT_ID,
@@ -87,17 +90,17 @@ passport.use(
           profile.id,
           null
         );
-        // Si esta todo bien devolvemos el usuario, extrayendo los datos que necesitamos y enviandolos por fuera de sequilize
-      const { 
-        id, 
+      // Si esta todo bien devolvemos el usuario, extrayendo los datos que necesitamos y enviandolos por fuera de sequilize
+      const {
+        id,
         email: userEmail,
         isAdmin,
         avatar,
         birthdate,
         photoURL,
-        firstName, 
-        lastName, 
-        createdAt, 
+        firstName,
+        lastName,
+        createdAt,
         updateAt } = user;
       consele.log(user);
       return done(null, {
@@ -124,25 +127,25 @@ passport.use(
       callbackURL: "http://localhost:3000/",
       profileFields: ["id", "emails", "displayName"],
     },
-    async function(accessToken, refreshToken, profile, done) {
+    async function (accessToken, refreshToken, profile, done) {
       let user = await getOneByFacebookId(profile.id);
-      if(!user)
-      user = await createOne(
-        profile.displayName,
-        profile.emails[0].value,
-        null,
-        profile.id
-      );
-      const { 
-        id, 
+      if (!user)
+        user = await createOne(
+          profile.displayName,
+          profile.emails[0].value,
+          null,
+          profile.id
+        );
+      const {
+        id,
         email: userEmail,
         isAdmin,
         avatar,
         birthdate,
         photoURL,
-        firstName, 
-        lastName, 
-        createdAt, 
+        firstName,
+        lastName,
+        createdAt,
         updateAt } = user;
       return done(null, {
         id,
@@ -169,25 +172,25 @@ passport.use(
       // profileFields: ["id", "emails", "displayName"],
       session: false
     },
-    async function(accessToken, refreshToken, profile, done) {
+    async function (accessToken, refreshToken, profile, done) {
       let user = await getOneByInstagramIdId(profile.id);
-      if(!user)
-      user = await createOne(
-        profile.displayName,
-        profile.emails[0].value,
-        null,
-        profile.id
-      );
-      const { 
-        id, 
+      if (!user)
+        user = await createOne(
+          profile.displayName,
+          profile.emails[0].value,
+          null,
+          profile.id
+        );
+      const {
+        id,
         email: userEmail,
         isAdmin,
         avatar,
         birthdate,
         photoURL,
-        firstName, 
-        lastName, 
-        createdAt, 
+        firstName,
+        lastName,
+        createdAt,
         updateAt } = user;
       return done(null, {
         id,
