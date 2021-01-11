@@ -14,6 +14,7 @@ export const DEGRADE_USER = "DEGRADE_USER";
 export const BAN_USER = "BAN_USER";
 export const DELETE_USER = "DELETE_USER";
 
+export const GET_USER_CART = "GET_USER_CART"
 export const POST_USER_CART = "POST_USER_CART";
 export const DELETE_USER_CART = "DELETE_USER_CART";
 export const UPDATE_USER_CART = "UPDATE_USER_CART";
