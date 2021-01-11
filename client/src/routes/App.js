@@ -20,6 +20,7 @@ import Cart from '../components/Cart/Cart';
 import LoginUser from '../components/LoginForm';
 import userTable from '../components/UserTable';
 import OrderContainer from '../containers/OrderContainer';
+import Order from '../components/Order/Order';
 
 function App() {
 
@@ -51,9 +52,11 @@ function App() {
 
           <Route path='/orders' component={TableOrder} />
 
-          <Route path='/users' component={userTable} />
+          <Route exact path='/users' component={userTable} />
 
-          <Route path='/user/orders' component={OrderContainer} />
+          <Route exact path='/user/orders' component={OrderContainer} />
+
+          <Route exact path='/user/orders/:id' render={({ match }) => <Order match={match} />} />
           
           <Route path='/products' component={Catalogue} />
 
