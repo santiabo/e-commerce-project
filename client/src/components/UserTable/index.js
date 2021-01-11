@@ -1,9 +1,15 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+//import { useDispatch, useSelector } from 'react-redux';
+
 import "./UserTable.css";
+//import { User } from '../../../../api/src/models/User.js'; <---no se puede
+//import { getUsers, removeUser, editUser } from '../../redux/actions/user.js';
 
 
 function userTable(){
+  
+
   return (
 <div className="App">
       
@@ -25,27 +31,23 @@ function userTable(){
    <tbody>
      <tr>
        <td>1</td>
-       <td>Mark</td>
-       <td>Otto</td>
-       <td>@mdo</td>
-       <td>User</td>
-       <td><button>Edit Role</button></td>
-     </tr>
-     <tr>
-       <td>2</td>
-       <td>Jacob</td>
-       <td>Thornton</td>
-       <td>@fat</td>
+       <td>fulanito</td>
+       <td>ortiz</td>
+       <td>fula@fula.com</td>
        <td>Admin</td>
-       <td><button>Edit Role</button></td>
+       <td id="settings">
+         <button type='button' className='btn'>Make Admin</button>         
+         <br></br> 
+         <button type='button' className='btn'>Make Regular</button>
+         <br></br>
+         <button type='button' className='btn'>Force Password Change</button>
+         <br></br>
+         <button type='button' className='btn'>Ban</button>
+         <br></br>
+         <button type='button' className='btn'>Delete User</button>
+       </td>
      </tr>
-     <tr>
-       <td>3</td>
-       <td colSpan="2">Larry the Bird</td>
-       <td>@twitter</td>
-       <td>User</td>
-       <td><button>Edit Role</button></td>
-     </tr>
+     
    </tbody>
  </table>
  </div>
