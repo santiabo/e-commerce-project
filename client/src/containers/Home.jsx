@@ -1,147 +1,63 @@
-import React from 'react';
-import { Switch, Route } from 'react-router-dom';
-
-// Components
-import Product from '../components/Product';
-import Catalogue from '../components/Catalogue';
+import React, { useState, useEffect } from "react";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 // Styles
-import '../routes/App.css';
+import '../containers/Home.css';
+import { useHistory } from "react-router";
+import { useSelector } from "react-redux";
 
-const products = [{
-  title: "Geforce RTX 3080",
-  description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-  price: 799.99,
-  amount: 300,
-  images: [
-    "https://asset.msi.com/resize/image/global/product/product_7_20200917182157_5f6338c5cd72a.png62405b38c58fe0f07fcef2367d8a9ba1/1024.png",
-    "https://www.venex.com.ar/products_images/1601906116_product_10_20200902111548_5f4f0e648ab77.png",
-    "https://imagenes.coolmod.com/msi-geforce-rtx-3080-ventus-3x-oc-10gb-gddr6x-tarjeta-grafica-005.jpg"
-  ]
-},
-{
-  title: "Geforce RTX 3080",
-  description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-  price: 799.99,
-  amount: 300,
-  images: [
-    "https://asset.msi.com/resize/image/global/product/product_7_20200917182157_5f6338c5cd72a.png62405b38c58fe0f07fcef2367d8a9ba1/1024.png",
-    "https://www.venex.com.ar/products_images/1601906116_product_10_20200902111548_5f4f0e648ab77.png",
-    "https://imagenes.coolmod.com/msi-geforce-rtx-3080-ventus-3x-oc-10gb-gddr6x-tarjeta-grafica-005.jpg"
-  ]
-},
-{
-  title: "Geforce RTX 3080",
-  description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-  price: 799.99,
-  amount: 300,
-  images: [
-    "https://asset.msi.com/resize/image/global/product/product_7_20200917182157_5f6338c5cd72a.png62405b38c58fe0f07fcef2367d8a9ba1/1024.png",
-    "https://www.venex.com.ar/products_images/1601906116_product_10_20200902111548_5f4f0e648ab77.png",
-    "https://imagenes.coolmod.com/msi-geforce-rtx-3080-ventus-3x-oc-10gb-gddr6x-tarjeta-grafica-005.jpg"
-  ]
-},
-{
-  title: "Geforce RTX 3080",
-  description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-  price: 799.99,
-  amount: 300,
-  images: [
-    "https://asset.msi.com/resize/image/global/product/product_7_20200917182157_5f6338c5cd72a.png62405b38c58fe0f07fcef2367d8a9ba1/1024.png",
-    "https://www.venex.com.ar/products_images/1601906116_product_10_20200902111548_5f4f0e648ab77.png",
-    "https://imagenes.coolmod.com/msi-geforce-rtx-3080-ventus-3x-oc-10gb-gddr6x-tarjeta-grafica-005.jpg"
-  ]
-},
-{
-  title: "Geforce RTX 3080",
-  description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-  price: 799.99,
-  amount: 300,
-  images: [
-    "https://asset.msi.com/resize/image/global/product/product_7_20200917182157_5f6338c5cd72a.png62405b38c58fe0f07fcef2367d8a9ba1/1024.png",
-    "https://www.venex.com.ar/products_images/1601906116_product_10_20200902111548_5f4f0e648ab77.png",
-    "https://imagenes.coolmod.com/msi-geforce-rtx-3080-ventus-3x-oc-10gb-gddr6x-tarjeta-grafica-005.jpg"
-  ]
-},
-{
-  title: "Geforce RTX 3080",
-  description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-  price: 799.99,
-  amount: 300,
-  images: [
-    "https://asset.msi.com/resize/image/global/product/product_7_20200917182157_5f6338c5cd72a.png62405b38c58fe0f07fcef2367d8a9ba1/1024.png",
-    "https://www.venex.com.ar/products_images/1601906116_product_10_20200902111548_5f4f0e648ab77.png",
-    "https://imagenes.coolmod.com/msi-geforce-rtx-3080-ventus-3x-oc-10gb-gddr6x-tarjeta-grafica-005.jpg"
-  ]
-},
-{
-  title: "Geforce RTX 3080",
-  description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-  price: 799.99,
-  amount: 300,
-  images: [
-    "https://asset.msi.com/resize/image/global/product/product_7_20200917182157_5f6338c5cd72a.png62405b38c58fe0f07fcef2367d8a9ba1/1024.png",
-    "https://www.venex.com.ar/products_images/1601906116_product_10_20200902111548_5f4f0e648ab77.png",
-    "https://imagenes.coolmod.com/msi-geforce-rtx-3080-ventus-3x-oc-10gb-gddr6x-tarjeta-grafica-005.jpg"
-  ]
-},
-{
-  title: "Geforce RTX 3080",
-  description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-  price: 799.99,
-  amount: 300,
-  images: [
-    "https://asset.msi.com/resize/image/global/product/product_7_20200917182157_5f6338c5cd72a.png62405b38c58fe0f07fcef2367d8a9ba1/1024.png",
-    "https://www.venex.com.ar/products_images/1601906116_product_10_20200902111548_5f4f0e648ab77.png",
-    "https://imagenes.coolmod.com/msi-geforce-rtx-3080-ventus-3x-oc-10gb-gddr6x-tarjeta-grafica-005.jpg"
-  ]
-}];
-
-const category = [{
-  name: "CPU"
-},
-{
-  name: "CPU Cooler"
-},
-{
-  name: "Motherboard"
-},
-{
-  name: "Memory"
-},
-{
-  name: "Storage"
-},
-{
-  name: "Video Card"
-},
-{
-  name: "Power Supply"
-},
-{
-  name: "Case"
-}];
-
-const reviews = {
-  average: 4.4,
-  total: 40,
-};
+export const SlideData = [
+  {
+    banner: "https://matrixwarehouse.co.za/wp-content/uploads/2020/07/ASUS-PC-GPUs-Graphics-Cards.jpg"
+  },
+  {
+    banner: "https://images.alphacoders.com/104/1044522.jpg"
+  },
+  {
+    banner: "https://wallpaperaccess.com/full/1523187.jpg"
+  },
+  {
+    banner: "https://i.pinimg.com/originals/78/53/fa/7853faec83b090f2ad4233142e5810c7.jpg"
+  },
+];
 
 const Home = () => {
 
+  const [current, setCurrent] = useState(0);
+
+  const goLeft = () => {
+    current === 0 ? setCurrent(-100 * (SlideData.length - 1)) : setCurrent(current + 100);
+  };
+
+  const goRight = () => {
+    current === -100 * (SlideData.length - 1) ? setCurrent(0) : setCurrent(current - 100);
+  };
+
+  const history = useHistory();
+
+  const { user, loading, isUser } = useSelector(state => state.user);
+
+  useEffect(() => {
+    if (!loading && isUser && user.changePassword)
+      history.push("/changePassword");
+  }, [user, loading, isUser]);
+
+
   return (
-    <div className="App">
-      <Switch>
-
-        <Route path="/products">
-          <Catalogue  />
-        </Route>
-
-        <Route path="/product/:id">
-          <Product  />
-        </Route>
-
-      </Switch>
+    <div className="slider">
+      <FaChevronLeft className="left-arrow" onClick={goLeft} />
+      <FaChevronRight className="right-arrow" onClick={goRight} />
+      {
+        SlideData.map((slide, index) => {
+          return (
+            <div key={index} className="slide" style={{
+              transform: `translateX(${current}%)`
+            }}>
+              <img src={slide.banner} key={index} className="img-slide" alt='' />
+            </div>
+          );
+        })
+      }
     </div>
   );
 };

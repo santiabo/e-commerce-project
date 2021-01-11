@@ -47,8 +47,8 @@ const { Product, Category, Order, OrderLine, User, Review } = sequelize.models;
 Product.belongsToMany(Category, { through: 'products_categories' });
 Category.belongsToMany(Product, { through: 'products_categories' });
 
-Order.belongsTo(User, { as: "client", foreignKey:"client_id"});
-User.hasMany(Order, { as: "client", foreignKey:"client_id"});
+Order.belongsTo(User);
+User.hasMany(Order);
 
 OrderLine.belongsTo(Order);
 Order.hasMany(OrderLine);

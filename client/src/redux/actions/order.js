@@ -1,16 +1,17 @@
-import { getAllOrders, removeOrder, setConfirmOrder, setFinalizedOrder, setCompleteOrder, setDeliveredOrder, setPreparedOrder, setRejectedOrder, setSendOrder, getOrderById } from '../../services/orders';
+import { getAllOrders, removeOrder, setConfirmOrder, setFinalizedOrder, setCompleteOrder, setDeliveredOrder, setPreparedOrder, setRejectedOrder, setSendOrder, getOrderById, getOrderByUserId } from '../../services/orders';
 import axios from 'axios';
 
+const USER_ORDERS = "USER_ORDERS";
 const ADD_PRODUCT_TO_SHOPPINGCART = 'ADD_PRODUCT_TO_SHOPPINGCART';
 const SET_SHOPPINGCART = 'SET_SHOPPINGCART';
 const GET_ALL_ORDERS = 'GET_ALL_ORDERS';
 const RESET_STATE = 'RESET_STATE';
 const REMOVE_ORDER = 'REMOVE_ORDER';
-const CONFIRM_ORDER = 'CONFIRM_ORDER';
+const CREATED_ORDER = 'CREATED_ORDER';
 const DELIVERED_ORDER = 'DELIVERED_ORDER';
-const PREPARE_ORDER = 'PREPARE_ORDER';
-const REJECT_ORDER = 'REJECT_ORDER';
-const FINALIZED_ORDER = 'FINALIZED_ORDER';
+const PROCESSING_ORDER = 'PROCESSING_ORDER';
+const CANCELLED_ORDER = 'CANCELLED_ORDER';
+const COMPLETED_ORDER = 'COMPLETED_ORDER';
 const SEND_ORDER = 'SEND_ORDER';
 const HANDLE_VIEW_ORDER = 'HANDLE_VIEW_ORDER';
 const GET_ORDER_DETAIL = 'GET_ORDER_DETAIL';
@@ -43,12 +44,13 @@ export const getOrders = (id) => {
 
       dispatch(getAllOrders(res.data));
     } catch (err) {
-      console.log(err);
+      return err
     }
   };
 };
 
 export const getAllOrdersAction = () => {
+<<<<<<< HEAD
   return (dispatch) => {
     return getAllOrders()
       .then((data) => {
@@ -57,6 +59,38 @@ export const getAllOrdersAction = () => {
           payload: data
         });
       });
+  };
+};
+=======
+  return async (dispatch) => {
+    try {
+
+      const res = await axios.get(`http://localhost:5000/orders/`);
+      console.log('res', res.data)
+      const data = res.data;
+      dispatch({
+        type: GET_ALL_ORDERS,
+        payload: data
+      })
+    } catch (err) {
+      console.log(err);
+    }
+  }
+}
+>>>>>>> master
+
+export const getUserOrders = (id) => {
+  return async (dispatch) => {
+    try {
+      
+      const res = await axios.get(`http://localhost:5000/users/${id}/orders`);
+      dispatch({
+        type: USER_ORDERS,
+        payload: res.data
+      })
+    } catch (err) {
+      return err
+    }
   };
 };
 
@@ -70,10 +104,17 @@ export const removeOrderAction = (id) => {
         dispatch({
           type: REMOVE_ORDER,
           payload: data
+<<<<<<< HEAD
         });
       });
   };
 };
+=======
+        })
+      })
+  }
+}
+>>>>>>> master
 
 export const setCompletedOrderAction = (id) => {
   return (dispatch) => {
@@ -85,10 +126,17 @@ export const setCompletedOrderAction = (id) => {
         dispatch({
           type: REMOVE_ORDER,
           payload: data
+<<<<<<< HEAD
         });
       });
   };
 };
+=======
+        })
+      })
+  }
+}
+>>>>>>> master
 
 export const setConfirmOrderAction = (id, address) => {
   return (dispatch) => {
@@ -98,7 +146,7 @@ export const setConfirmOrderAction = (id, address) => {
     return setConfirmOrder(id, address)
       .then((data) => {
         dispatch({
-          type: CONFIRM_ORDER,
+          type: CREATED_ORDER,
           payload: data
         });
       });
@@ -115,12 +163,19 @@ export const setDeliveredOrderAction = (id) => {
         dispatch({
           type: DELIVERED_ORDER,
           payload: data
+<<<<<<< HEAD
         });
       });
   };
 };
+=======
+        })
+      })
+  }
+}
+>>>>>>> master
 
-export const setPrepareOrderAction = (id) => {
+export const setPreparedOrderAction = (id) => {
   return (dispatch) => {
     dispatch({
       type: RESET_STATE
@@ -128,12 +183,21 @@ export const setPrepareOrderAction = (id) => {
     return setPreparedOrder(id)
       .then(data => {
         dispatch({
+<<<<<<< HEAD
           type: PREPARE_ORDER,
           payload: data
         });
       });
   };
 };
+=======
+          type: PROCESSING_ORDER,
+          payload: data
+        })
+      })
+  }
+}
+>>>>>>> master
 
 export const setRejectedOrderAction = (id) => {
   return dispatch => {
@@ -143,12 +207,21 @@ export const setRejectedOrderAction = (id) => {
     return setRejectedOrder(id)
       .then(data => {
         dispatch({
+<<<<<<< HEAD
           type: REJECT_ORDER,
           payload: data
         });
       });
   };
 };
+=======
+          type: CANCELLED_ORDER,
+          payload: data
+        })
+      })
+  }
+}
+>>>>>>> master
 
 export const setFinalizedOrderAction = (id) => {
   return dispatch => {
@@ -158,12 +231,21 @@ export const setFinalizedOrderAction = (id) => {
     return setFinalizedOrder(id)
       .then(data => {
         dispatch({
+<<<<<<< HEAD
           type: FINALIZED_ORDER,
           payload: data
         });
       });
   };
 };
+=======
+          type: COMPLETED_ORDER,
+          payload: data
+        })
+      })
+  }
+}
+>>>>>>> master
 
 export const setSendOrderAction = (id) => {
   return dispatch => {
@@ -175,10 +257,17 @@ export const setSendOrderAction = (id) => {
         dispatch({
           type: SEND_ORDER,
           payload: data
+<<<<<<< HEAD
         });
       });
   };
 };
+=======
+        })
+      })
+  }
+}
+>>>>>>> master
 
 export const handleViewOrder = (id) => {
   return dispatch => {
@@ -186,10 +275,17 @@ export const handleViewOrder = (id) => {
       .then(() => {
         dispatch({
           type: HANDLE_VIEW_ORDER
+<<<<<<< HEAD
         });
       });
   };
 };
+=======
+        })
+      })
+  }
+}
+>>>>>>> master
 
 export const getOrderDetail = (id) => {
   return dispatch => {
@@ -202,10 +298,17 @@ export const getOrderDetail = (id) => {
         dispatch({
           type: GET_ORDER_DETAIL,
           payload: data
+<<<<<<< HEAD
         });
       });
   };
 };
+=======
+        })
+      })
+  }
+}
+>>>>>>> master
 
 export const disabledCrud = () => {
   return {

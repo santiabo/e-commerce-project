@@ -4,36 +4,46 @@ import { NavLink } from 'react-router-dom';
 
 // Components
 import NavBar from './navBar';
+import LoggedInUser from '../LoggedInUser';
 
 //Styled Components
 
-import { ImageContainer, NavWrapper, NavWrapper2 } from "./styles";
+import { ImageContainer, NavWrapper, NavWrapper2, LoginRegisterLinks } from "./styles";
 
 import { ReactComponent as Home } from "../../assets/icons/logo.svg";
 import { ReactComponent as CartLogo } from "../../assets/icons/cart.svg";
-import { ReactComponent as Login } from "../../assets/icons/login3.svg";
-import { ReactComponent as Register } from "../../assets/icons/register3.svg";
 
 const Header = () => {
   const cartAmount = useSelector(state => state.cart.cartAmount);
+  const isUser = useSelector(state => state.user.isUser);
+
   return (
     <nav>
       <NavWrapper>
         <NavLink to='/'><Home /></NavLink>
         <NavWrapper2>
+          {!isUser ?
+            <>
+              <ImageContainer>
+                <LoginRegisterLinks to='/login'>Log In</LoginRegisterLinks>
+              </ImageContainer>
 
+              <ImageContainer>
+                <LoginRegisterLinks to='/register'>Register</LoginRegisterLinks>
+              </ImageContainer>
+            </>
+            :
+            <>
+              <ImageContainer>
+                <LoggedInUser />
+              </ImageContainer>
+            </>
+          }
           <ImageContainer>
-            <NavLink to='/signin'><Login /> </NavLink>
-          </ImageContainer>
-
-          <ImageContainer>
-            <NavLink to='/register'><Register /> </NavLink>
-          </ImageContainer>
-
-          <ImageContainer>
-            <NavLink to='/cart'> <CartLogo />
+            <LoginRegisterLinks to='/cart'>
+              <CartLogo />
               {cartAmount && <span className="cart-counter">{cartAmount}</span>}
-            </NavLink>
+            </LoginRegisterLinks>
           </ImageContainer>
 
         </NavWrapper2>

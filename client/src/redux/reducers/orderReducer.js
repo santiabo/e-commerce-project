@@ -1,23 +1,25 @@
 export const initialState = {
   allOrders : [],
   searchOrder : [],
-  orderDetail: undefined,
+  orderDetail: [],
+  userOrders: [],
   orderReadOnly: null,
   orderUpdate: null
 };
 
+const USER_ORDERS = 'USER_ORDERS'
 const RESET_STATE = 'RESET_STATE';
 const GET_ALL_ORDERS = 'GET_ALL_ORDERS';
 const REMOVE_ORDER = 'REMOVE_ORDER';
-const CONFIRM_ORDER = 'CONFIRM_ORDER';
+const CREATED_ORDER = 'CREATED_ORDER';
 const DELIVERED_ORDER = 'DELIVERED_ORDER';
-const PREPARE_ORDER = 'PREPARE_ORDER';
-const REJECT_ORDER = 'REJECT_ORDER';
+const PROCESSING_ORDER = 'PROCESSING_ORDER';
+const CANCELLED_ORDER = 'CANCELLED_ORDER';
 const SEND_ORDER = 'SEND_ORDER';
 const GET_ORDER_DETAIL = 'GET_ORDER_DETAIL';
 const HANDLE_VIEW_ORDER = 'HANDLE_VIEW_ORDER';
-const FINALIZED_ORDER = 'FINALIZED_ORDER';
-const DISABLED_ORDER = 'DISABLED_CRUD';
+const COMPLETED_ORDER = 'COMPLETED_ORDER';
+const DISABLED_CRUD = 'DISABLED_CRUD';
 const ADD_PRODUCT_TO_SHOPPINGCART = 'ADD_PRODUCT_TO_SHOPPINGCART';
 const SET_SHOPPINGCART = 'SET_SHOPPINGCART'
 
@@ -29,6 +31,11 @@ export default function orders_reducer(state = initialState, action) {
         ...state,
         orderUpdate: null
       }
+      case USER_ORDERS:
+        return {
+          ...state,
+          userOrders: action.payload
+        }
     case GET_ALL_ORDERS:
       return {
         ...state,
@@ -39,7 +46,7 @@ export default function orders_reducer(state = initialState, action) {
         ...state,
         orderRemove: action.payload
       }
-    case CONFIRM_ORDER: 
+    case CREATED_ORDER: 
       return {
         ...state,
         orderUpdate: true
@@ -49,12 +56,12 @@ export default function orders_reducer(state = initialState, action) {
         ...state,
         orderUpdate: true
       }
-    case PREPARE_ORDER: 
+    case PROCESSING_ORDER: 
       return {
         ...state,
         orderUpdate: true
       }
-    case REJECT_ORDER:
+    case CANCELLED_ORDER:
       return {
         ...state,
         orderUpdate: true
@@ -65,7 +72,8 @@ export default function orders_reducer(state = initialState, action) {
         orderUpdate: true
       }
     case GET_ORDER_DETAIL:
-      return {
+      console.log("ORDER DETAIL >>> ", action.payload)
+      return {        
         ...state,
         orderDetail: action.payload
       }
@@ -74,12 +82,12 @@ export default function orders_reducer(state = initialState, action) {
         ...state,
         orderReadOnly: true
       }
-    case FINALIZED_ORDER: 
+    case COMPLETED_ORDER: 
       return {
         ...state,
         orderUpdate: true
       }
-    case DISABLED_ORDER:
+    case DISABLED_CRUD:
       return {
         ...state,
         orderRemove: null,
@@ -101,6 +109,7 @@ export default function orders_reducer(state = initialState, action) {
           }
           return newState
         }
+        break;
       case SET_SHOPPINGCART:
         return {
           ...state,

@@ -1,382 +1,102 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
+import { useDispatch } from "react-redux";
+import { createNewUser } from "../../redux/actions/user";
 
+// Styles
+import './styles.css';
 
 export default function UserRegister() {
 
-  const { register, handleSubmit, errors } = useForm();
+  const { register, handleSubmit, errors, watch } = useForm();
+  const password = useRef({});
+  password.current = watch('password', '');
 
-  const onSubmit = data => console.log("esto es data: ", data);
+  const dispatch = useDispatch();
+
+  const onSubmit = (user) => {
+    dispatch(createNewUser(user));
+  };
 
   return (
     <section>
       <div>
         <section>
           <div>
-            <h1 style={{
-              marginTop: "25px",
-              marginBottom: "25px",
-              fontWeight: "700",
-              fontFamily: "Segoe UI",
-              textAlign: "center",
-            }}>Registration</h1>
+            <h1 className='Registration'>Registration</h1>
           </div>
         </section>
-        <div className="card" style={{
-          minWidth: "768px",
-          marginRight: "auto",
-          marginLeft: "auto",
-          width: "20%",
-          backgroundColor: "#f4f4f3",
-          padding: "3rem",
-          overflow: "hidden",
-          marginBottom: "3rem",
-          boxShadow: "0px 18px 35px 0px rgba(0, 0, 0, 0.29), 0px 6px 10px 0px rgba(0, 0, 0, 0.5)",
-          borderRadius: "3px"
-        }}>
-          <div style={{
-            marginBottom: "0",
-            position: "relative"
-          }}>
+        <div className="card">
+          <div id='div1'>
             <form onSubmit={handleSubmit(onSubmit)}>
-              <div style={{
-                display: "block"
-              }}>
+              <div>
                 <section>
-                  <div style={{
-                    marginBottom: "1rem",
-                    position: "relative",
-                    borderBottomStyle: "solid",
-                    borderBottomWidth: "1px"
-                  }}>
-                    <h2 style={{
-                      fontSize: "1.125rem",
-                      fontFamily: "-apple-system, Segoe UI Symbol, BlinkMacSystemFont, sans-serif",
-                      fontWeight: "700",
-                      lineHeight: "1.5",
-                      display: "block",
-                      marginBlockStart: "0.83em",
-                      marginBlockEnd: "0.83em",
-                      marginInlineStart: "0px",
-                      marginInlineEnd: "0px"
-                    }}>Create a new account</h2>
+                  <div className='div2'>
+                    <h2 className='h2global'>Create a new account</h2>
                   </div>
                 </section>
-                <label style={{
-                  top: "-21px",
-                  opacity: "1",
-                  transition: "top 0.1s cubic-bezier(0.165, 0.84, 0.44, 1), opacity 0.1s cubic-bezier(0.165, 0.84, 0.44, 1)",
-                  color: "#929292",
-                  fontWeight: "bold",
-                  textTransform: "uppercase",
-                  fontSize: "0.6875rem",
-                  padding: "2px 0",
-                  cursor: "default"
-                }}>name: </label>
-                {errors.name && <span style={{
-                  marginLeft: ".5rem",
-                  marginBottom: "3rem",
-                  fontSize: "0.6875rem"
-                }} className="text-danger"> Name is required! </span>}
+                <label className='globalLabel'>First name</label>
+                {errors.firstName && <span className='globalSpan text-danger'> Invalid first name</span>}
                 <input
-                  name="name"
-                  style={{
-                    WebkitWritingMode: "horizontal-tb !important",
-                    boxShadow: "inset 0px 1px 2px 0px rgba(0, 0, 0, 0.21), inset 0px 0px 0px 1px rgba(0, 0, 0, 0.12)",
-                    fontSize: "1.25rem",
-                    marginBottom: "0",
-                    width: "100%",
-                    border: "none",
-                    borderRadius: "0.25rem",
-                    padding: ".375rem .5rem",
-                    lineHeight: "1.5",
-                    backgroundColor: "rgb(232, 240, 254) !important",
-                    color: "internal-light-dark(black, white) !important",
-                    textRendering: "auto",
-                    letterSpacing: "normal",
-                    wordSpacing: "normal",
-                    textTransform: "none",
-                    textIndent: "0px",
-                    textShadow: "none",
-                    display: "inline-block",
-                    textAlign: "start",
-                    cursor: "text",
-                    WebkitFontSmoothing: "antialiased"
-                  }}
-                  ref={register({ required: true })}
+                  name="firstName" className='globalInput' ref={register({ required: true, minLength: 2, maxLength: 40, pattern: /^([a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/ })}
                 />
-                <label style={{
-                  top: "-21px",
-                  opacity: "1",
-                  transition: "top 0.1s cubic-bezier(0.165, 0.84, 0.44, 1), opacity 0.1s cubic-bezier(0.165, 0.84, 0.44, 1)",
-                  color: "#929292",
-                  fontWeight: "bold",
-                  textTransform: "uppercase",
-                  fontSize: "0.6875rem",
-                  padding: "2px 0",
-                  cursor: "default"
-                }}>lastname: </label>
-                {errors.lastname && <span style={{
-                  marginLeft: ".5rem",
-                  marginBottom: "3rem",
-                  fontSize: "0.6875rem"
-                }} className="text-danger"> Lastname is required! </span>}
+                <label className='globalLabel'>Last name</label>
+                {errors.lastName && <span className='globalSpan text-danger'>Invalid last name</span>}
                 <input
-                  name="lastname"
-                  style={{
-                    WebkitWritingMode: "horizontal-tb !important",
-                    boxShadow: "inset 0px 1px 2px 0px rgba(0, 0, 0, 0.21), inset 0px 0px 0px 1px rgba(0, 0, 0, 0.12)",
-                    fontSize: "1.25rem",
-                    marginBottom: "0",
-                    width: "100%",
-                    border: "none",
-                    borderRadius: "0.25rem",
-                    padding: ".375rem .5rem",
-                    lineHeight: "1.5",
-                    backgroundColor: "rgb(232, 240, 254) !important",
-                    color: "internal-light-dark(black, white) !important",
-                    textRendering: "auto",
-                    letterSpacing: "normal",
-                    wordSpacing: "normal",
-                    textTransform: "none",
-                    textIndent: "0px",
-                    textShadow: "none",
-                    display: "inline-block",
-                    textAlign: "start",
-                    cursor: "text",
-                    WebkitFontSmoothing: "antialiased"
-                  }}
-                  ref={register({ required: true })}
+                  name="lastName" className='globalInput' ref={register({ required: true, minLength: 2, maxLength: 40, pattern: /^([a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/ })}
                 />
-                <label style={{
-                  marginTop: "1rem",
-                  top: "-21px",
-                  opacity: "1",
-                  transition: "top 0.1s cubic-bezier(0.165, 0.84, 0.44, 1), opacity 0.1s cubic-bezier(0.165, 0.84, 0.44, 1)",
-                  color: "#929292",
-                  fontWeight: "bold",
-                  textTransform: "uppercase",
-                  fontSize: "0.6875rem",
-                  padding: "2px 0",
-                  cursor: "default"
-                }}>E-mail: </label>
-                {errors.Email && <span style={{
-                  marginLeft: ".5rem",
-                  marginBottom: "3rem",
-                  fontSize: "0.6875rem"
-                }} className="text-danger"> E-mail is required! </span>}
+                <label className='globalLabel'>Birthdate</label>
+                {errors.birthdate && <span className='globalSpan text-danger'> Invalid birthdate</span>}
                 <input
-                  name="Email"
-                  style={{
-                    WebkitWritingMode: "horizontal-tb !important",
-                    boxShadow: "inset 0px 1px 2px 0px rgba(0, 0, 0, 0.21), inset 0px 0px 0px 1px rgba(0, 0, 0, 0.12)",
-                    fontSize: "1.25rem",
-                    marginBottom: "0",
-                    width: "100%",
-                    border: "none",
-                    borderRadius: "0.25rem",
-                    padding: ".375rem .5rem",
-                    lineHeight: "1.5",
-                    backgroundColor: "rgb(232, 240, 254) !important",
-                    color: "internal-light-dark(black, white) !important",
-                    textRendering: "auto",
-                    letterSpacing: "normal",
-                    wordSpacing: "normal",
-                    textTransform: "none",
-                    textIndent: "0px",
-                    textShadow: "none",
-                    display: "inline-block",
-                    textAlign: "start",
-                    cursor: "text",
-                    WebkitFontSmoothing: "antialiased"
-                  }}
-                  ref={register({ required: true })}
+                  name="birthdate" className='globalInput' placeholder='YYYY-MM-DD' ref={register({ required: true, pattern: /^(19|20)\d{2}[-](0?[1-9]|1[0-2])[-](0?[1-9]|[12]\d|3[01])$/ })}
                 />
-                <label style={{
-                  marginTop: "1rem",
-                  top: "-21px",
-                  opacity: "1",
-                  transition: "top 0.1s cubic-bezier(0.165, 0.84, 0.44, 1), opacity 0.1s cubic-bezier(0.165, 0.84, 0.44, 1)",
-                  color: "#929292",
-                  fontWeight: "bold",
-                  textTransform: "uppercase",
-                  fontSize: "0.6875rem",
-                  padding: "2px 0",
-                  cursor: "default"
-                }}>password: </label>
-                {errors.password && <span style={{
-                  marginLeft: ".5rem",
-                  marginBottom: "3rem",
-                  fontSize: "0.6875rem"
-                }}
-                  className="text-danger"> Password is required! </span>}
+                <label className='globalLabel'>Email</label>
+                {errors.email && <span className='globalSpan text-danger'> Invalid email address</span>}
                 <input
-                  name="checkpassword"
-                  type="password"
-                  style={{
-                    WebkitWritingMode: "horizontal-tb !important",
-                    boxShadow: "inset 0px 1px 2px 0px rgba(0, 0, 0, 0.21), inset 0px 0px 0px 1px rgba(0, 0, 0, 0.12)",
-                    fontSize: "1.25rem",
-                    marginBottom: "0",
-                    width: "100%",
-                    border: "none",
-                    borderRadius: "0.25rem",
-                    padding: ".375rem .5rem",
-                    lineHeight: "1.5",
-                    backgroundColor: "rgb(232, 240, 254) !important",
-                    color: "internal-light-dark(black, white) !important",
-                    textRendering: "auto",
-                    letterSpacing: "normal",
-                    wordSpacing: "normal",
-                    textTransform: "none",
-                    textIndent: "0px",
-                    textShadow: "none",
-                    display: "inline-block",
-                    textAlign: "start",
-                    cursor: "text",
-                    WebkitFontSmoothing: "antialiased"
-                  }}
-                  ref={register({ required: true })}
+                  name="email" className='globalInput' ref={register({ required: true, maxLength: 76, pattern: /\b[\w.-]+@[\w.-]+\.\w{2,4}\b/ })}
                 />
-                <label style={{
-                  marginTop: "1rem",
-                  top: "-21px",
-                  opacity: "1",
-                  transition: "top 0.1s cubic-bezier(0.165, 0.84, 0.44, 1), opacity 0.1s cubic-bezier(0.165, 0.84, 0.44, 1)",
-                  color: "#929292",
-                  fontWeight: "bold",
-                  textTransform: "uppercase",
-                  fontSize: "0.6875rem",
-                  padding: "2px 0",
-                  cursor: "default"
-                }}>confirm password: </label>
-                {errors.checkpassword && <span style={{
-                  marginLeft: ".5rem",
-                  marginBottom: "3rem",
-                  fontSize: "0.6875rem"
-                }}
-                  className="text-danger"> Passwords do not match! </span>}
+                <label className='globalLabel'>Password</label>
+                {errors.password && <span className='globalSpan text-danger'>{errors.password.message}</span>}
                 <input
                   name="password"
-                  type="password"
-                  style={{
-                    WebkitWritingMode: "horizontal-tb !important",
-                    boxShadow: "inset 0px 1px 2px 0px rgba(0, 0, 0, 0.21), inset 0px 0px 0px 1px rgba(0, 0, 0, 0.12)",
-                    fontSize: "1.25rem",
-                    marginBottom: "0",
-                    width: "100%",
-                    border: "none",
-                    borderRadius: "0.25rem",
-                    padding: ".375rem .5rem",
-                    lineHeight: "1.5",
-                    backgroundColor: "rgb(232, 240, 254) !important",
-                    color: "internal-light-dark(black, white) !important",
-                    textRendering: "auto",
-                    letterSpacing: "normal",
-                    wordSpacing: "normal",
-                    textTransform: "none",
-                    textIndent: "0px",
-                    textShadow: "none",
-                    display: "inline-block",
-                    textAlign: "start",
-                    cursor: "text",
-                    WebkitFontSmoothing: "antialiased"
-                  }}
-                  ref={register({ required: true })}
+                  type="password" className='globalInput' ref={register({
+                    required: 'You must specify a password.',
+                    pattern: {
+                      value: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,40}$/,
+                      message: 'Password must contain at least one uppercase letter, one lowercase letter, and one number.'
+                    }
+                  })}
+                />
+                <label className='globalLabel'>Repeat your password</label>
+                {errors.checkpassword && <span className='globalSpan text-danger'>{errors.checkpassword.message}</span>}
+                <input
+                  name="checkpassword"
+                  type="password" className='globalInput' ref={register({
+                    validate: value =>
+                      value === password.current || 'The passwords do not match.'
+                  })}
                 />
               </div>
-              <div style={{
-                marginTop: "1rem",
-                marginLeft: "auto",
-                marginRight: "auto",
-                width: "50%"
-              }}>
-                <input className="button" type="submit" value="Register" style={{
-                  width: "100%",
-                  marginTop: "0",
-                  marginBottom: "0",
-                  backgroundColor: "#2c85c5",
-                  color: "#ffffff",
-                  borderColor: "#2c85c5",
-                  borderRadius: "0.25rem",
-                  fontSize: "1.25rem",
-                  fontWeight: "700",
-                  cursor: "pointer",
-                  border: "none",
-                  textDecoration: "none !important",
-                  borderStyle: "solid",
-                  userSelect: "none",
-                  padding: ".5rem .875rem",
-                  lineHeight: "1.5rem",
-                  display: "inline-block",
-                  textAlign: "center",
-                  borderWidth: "2px",
-                }} />
+              <div className='div3'>
+                <input className="inputButton" type="submit" value="Register" />
               </div>
-              <section style={{
-                marginTop: "1rem",
-                margin: "0",
-                padding: "0",
-                border: "0",
-                fontSize: "100%",
-                font: "inherit",
-                verticalAlign: "baseline"
-              }}>
-                <div style={{
-                  marginTop: "3rem",
-                  marginBottom: "1rem",
-                  position: "relative",
-                  borderBottomStyle: "solid",
-                  borderBottomWidth: "1px"
-                }}>
+              <section className='section1'>
+                <div className='div4'>
                   <div style={{
                     paddingBottom: ".5rem"
                   }}>
-                    <h2 style={{
-                      fontSize: "1.125rem",
-                      fontFamily: "-apple-system, Segoe UI Symbol, BlinkMacSystemFont, sans-serif",
-                      fontWeight: "700",
-                      lineHeight: "1.5",
-                      display: "block",
-                      marginBlockStart: "0.83em",
-                      marginBlockEnd: "0.83em",
-                      marginInlineStart: "0px",
-                      marginInlineEnd: "0px"
-                    }}>Have an account?</h2>
+                    <h2 className='h2global'>Have an account?</h2>
                   </div>
                 </div>
               </section>
-              <div style={{
-                marginTop: "1rem",
-                marginLeft: "auto",
-                marginRight: "auto",
-                width: "50%"
-              }}>
-                <Link to="/signin"><button style={{
-                  width: "100%",
-                  marginTop: "0",
-                  borderColor: "#2c85c5",
-                  color: "#2c85c5",
-                  background: "none",
-                  fontWeight: "700",
-                  borderRadius: "0.25rem",
-                  fontSize: "0.875rem !important",
-                  textDecoration: "none !important",
-                  padding: ".3125rem .625rem",
-                  lineHeight: "1.25rem",
-                  appearance: "none",
-                  userSelect: "none",
-                  cursor: "pointer",
-                  display: "inline-block",
-                  textAlign: "center"
-                }}>Sign in</button></Link>
+              <div className='div3'>
+                <Link to="/login"><button className='linkButton'>Log In</button></Link>
               </div>
             </form>
           </div>
         </div>
       </div>
     </section>
-
-  )
+  );
 };

@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import * as actionsOrders from '../../redux/actions/order';
+import { getAllOrdersAction, setFinalizedOrderAction, setConfirmOrderAction, setDeliveredOrderAction, setPreparedOrderAction, setRejectedOrderAction, setSendOrderAction } from '../../redux/actions/order';
 import { useHistory } from 'react-router';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import initialState from '../../redux/reducers/orderReducer';
 import Select from './Select';
 import style from './index.module.scss';
 
@@ -11,43 +10,43 @@ import Button from '../Button';
 
 import { ButtonsWrapper } from './styles';
 
-const TableOrder = ({ state, getAllOrdersAction, setFinalizedOrderAction, setConfirmOrderAction, setDeliveredOrderAction, setPreparedOrderAction, setRejectOrderAction, setSendOrderAction }) => {
+const TableOrder = ({ getAllOrdersAction, setFinalizedOrderAction, setConfirmOrderAction, setDeliveredOrderAction, setPreparedOrderAction, setRejectedOrderAction, setSendOrderAction }) => {
   const history = useHistory();
 
   useEffect(() => {
     getAllOrdersAction()
   }, []);
 
-  useEffect(() => {
-    getAllOrdersAction();
-  }, [initialState.orderReadOnly,
-      initialState.orderUpdate,
-      initialState.orderDetail
-  ]);
+  // useEffect(() => {
+  //   getAllOrdersAction();
+  // }, [initialState.orderReadOnly,
+  //     initialState.orderUpdate,
+  //     initialState.orderDetail
+  // ]);
 
-  let orders = initialState.allOrders;
+  let orders = useSelector(state=> state.order.allOrders)
 
-  const handleChange = async (e, id, address) => {
+  const handleChange = async (e, id) => {
     let resp = window.confirm(`Desea cambiar el estado de la orden a ${e.target.value}`);
 
     if (resp === true) {
       switch (e.target.value) {
         case 'DELIVERED':
-          await setDeliveredOrderAction(id, address)
+          await setDeliveredOrderAction(id)
           break;
-        case 'CONFIRMED':
-          await setConfirmOrderAction(id, address)
+        case 'CREATED':
+          await setConfirmOrderAction(id)
           break;
         case 'SEND':
           await setSendOrderAction(id)
           break;
-        case 'REJECTED':
-          await setRejectOrderAction(id)
+        case 'CANCELLED':
+          await setRejectedOrderAction(id)
           break;
-        case 'PREPARING':
-          await setPreparedOrderAction(id, address)
+        case 'PROCESSING':
+          await setPreparedOrderAction(id)
           break;
-        case 'FINALIZED':
+        case 'COMPLETED':
           await setFinalizedOrderAction(id)
           break;
         default:
@@ -87,10 +86,10 @@ const TableOrder = ({ state, getAllOrdersAction, setFinalizedOrderAction, setCon
           </thead>
           <tbody>
           {orders !== undefined &&
-            orders.map(({ id, userId, status, createdAt, updatedAt, address}) => (
+            orders.map(({ id, user, status, createdAt, updatedAt, address}) => (
               <tr key={id}>
                 <td>{id}</td>
-                <td>{userId}</td>
+                <td>{user.email}</td>
                 <td>{status}</td>
                 <td>{new Date(createdAt).toLocaleString()}</td>
                 <td>{new Date(updatedAt).toLocaleString()}</td>
@@ -98,7 +97,7 @@ const TableOrder = ({ state, getAllOrdersAction, setFinalizedOrderAction, setCon
                 
                 <td style={{ display: "flex" }}>
                 <ButtonsWrapper>
-                  <Button onClick={() => history.push(`/admin/orders/${id}`)}>
+                  <Button onClick={() => history.push(`/orders/${id}`)}>
                   <i className="fas fa-search"></i>                
                 </Button>
                 </ButtonsWrapper>
@@ -110,8 +109,8 @@ const TableOrder = ({ state, getAllOrdersAction, setFinalizedOrderAction, setCon
                 <td>1</td>
                 <td>En proceso</td>
                 <td>16/12/2020</td>
-                <td>17/12/2020</td>
-                <td>1</td>
+                <td>17/12/2020</td> */}
+                {/* <td>1</td>
                 <td>5</td>
                 <td>Finalizado</td>
                 <td>12/12/2020</td>
@@ -130,7 +129,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(actionsOrders, dispatch)
+  return bindActionCreators({ getAllOrdersAction, setFinalizedOrderAction, setConfirmOrderAction, setDeliveredOrderAction, setPreparedOrderAction, setRejectedOrderAction, setSendOrderAction } , dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TableOrder);

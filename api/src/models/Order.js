@@ -5,12 +5,12 @@ module.exports = (sequelize) => {
   sequelize.define(
     'order',
     {
-      totalPrice: {
+      total: {
         type: DataTypes.DECIMAL,
 
       },
       status: {
-        type: DataTypes.ENUM('on_cart', 'created', 'processing', 'completed', 'cancelled'),
+        type: DataTypes.ENUM('on_cart', 'confirmed', 'processing', 'completed', 'cancelled', 'send', 'delivered'),
         allowNull: false
       }
     });

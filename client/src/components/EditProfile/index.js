@@ -5,7 +5,7 @@ import '../EditProfile/style.css';
 export default function EditProfile() {
 
   const [collapse, setCollapse] = useState(false);
-  const [status, setStatus] = useState('Closed');
+  // const [status, setStatus] = useState('Closed');
 
 
   const toggle = () => {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProduct } from "../../redux/actions/product";
-import { setItemToCart, decrementItem, incrementItem } from "../../redux/actions/cart";
+import { setItemToCart } from "../../redux/actions/cart";
 
 
 // Components
