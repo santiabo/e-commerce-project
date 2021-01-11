@@ -29,10 +29,10 @@ module.exports = (sequelize) => {
     stock: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      // validate: {
-      //   min: 0,
-      //   max: 9999
-      // },
+      validate: {
+        min: 0,
+        max: 9999
+      },
     },
     images: {
       type: DataTypes.ARRAY(DataTypes.TEXT)
