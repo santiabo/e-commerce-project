@@ -1,5 +1,5 @@
 const server = require('express').Router();
-const { Product, Category, Review } = require('../db.js');
+const { Product, Category, Review, User } = require('../db.js');
 
 const {
   getAll,
@@ -8,6 +8,8 @@ const {
   editOne,
   deleteOne
 } = require('../controllers/products');
+const { isUser } = require('../middlewares/auth.js');
+// const { is } = require('sequelize/types/lib/operators');
 
 // ------- Product Route -------
 server.route('/').get((req, res) => {
@@ -56,9 +58,6 @@ server.route('/:id').get((req, res) => {
 server.put('/:id', (req, res, next) => {
   const { id } = req.params;
   const { name, description, price, stock, images } = req.body;
-  if (!(req.user && req.user.isAdmin)) {
-    return res.status(401).send('Not Authorized');
-  }
 
   Product.update({
     name,
@@ -82,7 +81,6 @@ server.put('/:id', (req, res, next) => {
     })
     .catch(next);
 });
-
 
 // ------- Delete Product Route -------
 server.delete('/:id', (req, res, next) => {
@@ -220,16 +218,29 @@ server.get("/category/:categoryName", (req, res, next) => {
     .catch(next);
 });
 
+// -----------GET All Reviews Route -----------
+server.get("/:id/review", async (req, res, next) => {
+  const { id } = req.params;
+
+  try {
+
+    const reviews = await Review.findAll({
+      where: {
+        productId: id
+      },
+      include: [User]
+    });
+
+    res.send(reviews);
+  } catch (err) {
+    next(err);
+  }
+});
 
 //-----------Post Product Review Route -----------
-server.post('/:id/review', (req, res, next) => {
+server.post('/:id/review', isUser, (req, res, next) => {
   const { id } = req.params;
-<<<<<<< HEAD
-  const { stars, title, description, userId } = req.body;
-=======
-  const { stars, description } = req.body;
-  const userId = req.user.id;
->>>>>>> master
+  const { stars, title, description } = req.body;
 
   Product.findOne({
     where: {
@@ -239,80 +250,13 @@ server.post('/:id/review', (req, res, next) => {
     if (!product) {
       return res.status(404).send({ error: `Product not found` });
     } else {
-<<<<<<< HEAD
       Review.create({
         stars,
         title,
         description,
         productId: id,
-=======
-      Review.findOne({
-        where: {
-          productId: id,
-          userId
-        }
-      }).then(data => {
-        if (data) {
-          return res.status(406).send({ Error: "You're not allowed to make another review for the same product." });
-        } else {
-          Review.create({
-            stars,
-            description,
-            productId: id,
-            userId
-          })
-            .then(r => {
-              res.send({ ...r.dataValues });
-            })
-            .catch(next);
-        }
-      });
-    }
-  });
-});
-
-//-----------Get Product Review Route -----------
-server.get('/:id/review', (req, res, next) => {
-  //devuelve las reviews del producto
-  const { id } = req.params;
-
-  Review.findAll({ //busca las reviews
-    where: { productId: id } //<-- del producto especifico
-  }).then((review) => {
-    return res.send(review); //devuelve las reviews
-  }).catch(next);
-});
-
-//-----------Delete Product Review Route -----------
-server.delete('/:id/review/:idReview', (req, res) => {
-  //elimina review
-  const { idReview } = req.params;
-  const userId = req.user.id;
-
-  if (req.user.isAdmin) {
-    Review.destroy({
-      where: {
-        id: idReview
-      }
-    })
-      .then((data) => {
-        if (data) return res.send({ reviewDeleted: Number(idReview) });
-        return res.status(404).send({ Error: 'Review not found.' });
+        userId: req.user.id
       })
-      
-  } else {
-    Review.destroy({
-      where: {
-        id: idReview,
->>>>>>> master
-        userId
-      }
-    })
-      .then((data) => {
-        if (data) return res.send({ reviewDeleted: Number(idReview) });
-        return res.status(403).send({ Error: "You can't delete that review." });
-      })
-<<<<<<< HEAD
         .then(r => {
           Review.findByPk(r.id, {
             include: [User]
@@ -324,9 +268,6 @@ server.delete('/:id/review/:idReview', (req, res) => {
         .catch(next);
     }
   });
-=======
-  }
->>>>>>> master
 });
 
 module.exports = server;

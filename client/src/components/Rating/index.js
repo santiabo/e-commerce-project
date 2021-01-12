@@ -7,7 +7,7 @@ import { ReactComponent as StarIconEmpty } from '../../assets/icons/starempty.sv
 // StyledComponets
 import { RatingWrapper } from "./styles";
 
-const Rating = ({ stars }) => {
+const Rating = ({ stars = 5 }) => {
   return (
     <RatingWrapper>
       {

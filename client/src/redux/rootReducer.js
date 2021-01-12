@@ -4,6 +4,7 @@ import categoryReducer from "./reducers/categoryReducer";
 import cartReducer from "./reducers/cartReducer";
 import orders_reducer from "./reducers/orderReducer";
 import userReducer from "./reducers/userReducer";
+import reviewReducer from "./reducers/reviewReducer";
 
 // Scaffolding
 // store = {
@@ -22,7 +23,8 @@ const rootReducer = combineReducers({
   category: categoryReducer,
   cart: cartReducer,
   order: orders_reducer,
-  user: userReducer
+  user: userReducer,
+  reviews: reviewReducer
 });
 
 export default rootReducer;

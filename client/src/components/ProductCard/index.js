@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setItemToCart } from "../../redux/actions/cart";
 
 // Components
@@ -21,10 +21,14 @@ import {
   StyledImg
 } from './styles';
 
-const ProductCard = ({ product, categories, reviews = { average: 4, } }) => {
+const ProductCard = ({ product, categories, reviews }) => {
 
   const count = 1;
   const dispatch = useDispatch();
+  console.log(reviews);
+  const average = reviews.reduce((prev, curr) => prev + curr.stars, 0) / reviews.length;
+  console.log(average);
+
 
   const handleClick = () => {
     dispatch(setItemToCart(product, count));
@@ -45,7 +49,7 @@ const ProductCard = ({ product, categories, reviews = { average: 4, } }) => {
 
         <RowWrapper>
           {categories.map(category => <CategoryTag key={category.id}>{category.name}</CategoryTag>)}
-          <Rating stars={reviews.average} />
+          {average ? <Rating stars={average} /> : null}
         </RowWrapper>
 
         <StyledLink to={"product/" + product.id}>

@@ -4,6 +4,7 @@ export const ReviewWrapper = styled.div`
   display: flex;
   flex-direction: column;
   margin: 2rem 0;
+  padding: 0 2rem;
 `;
 
 export const TopWrapper = styled.div`
@@ -23,7 +24,7 @@ export const Title = styled.h3`
 export const Date = styled.span`
   font-size: 18px;
   font-weight: 500;
-  color: #b2b2b2;
+  color: #434343;
 `;
 
 export const Description = styled.p`

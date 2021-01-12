@@ -28,8 +28,9 @@ import {
 import { UnitsAmountWrapper } from "../UnitsAmount/styles";
 import ReviewsList from "../ReviewsList";
 import ReviewForm from "../ReviewForm";
+import { getReviews } from "../../redux/actions/review";
 
-const Product = ({ match, reviews = { average: 4, total: 200 } }) => {
+const Product = ({ match }) => {
 
   const dispatch = useDispatch();
 
@@ -37,9 +38,11 @@ const Product = ({ match, reviews = { average: 4, total: 200 } }) => {
 
   useEffect(() => {
     dispatch(getProduct(match.params.id));
+    dispatch(getReviews(match.params.id));
   }, []);
 
   let product = useSelector(state => state.product.productDetail);
+  let { average, reviews } = useSelector(state => state.reviews);
 
   const increment = () => {
     setQuantity(quantity + 1);
@@ -78,8 +81,11 @@ const Product = ({ match, reviews = { average: 4, total: 200 } }) => {
           </CategoriesTags>
           <Title>{product.name}</Title>
           <RatingWrapper>
-            <Rating stars={reviews.average} />
-            <span>{reviews.average} ({reviews.total} reviews)</span>
+            {average ? <>
+              <Rating stars={average} />
+              <span>{average} ({reviews.length} reviews)</span>
+            </>
+              : null}
           </RatingWrapper>
           <Description>
             {product.description}
@@ -98,12 +104,8 @@ const Product = ({ match, reviews = { average: 4, total: 200 } }) => {
           </ButtonsWrapper>
         </RightSide>
       </ProductDetailWrapper>
-      {
-        product.reviews ?
-          <ReviewsList reviews={product.reviews} />
-          : null
-      }
-      <ReviewForm />
+      <ReviewsList />
+      <ReviewForm productId={product.id} />
     </ProductWrapper>
   );
 };
