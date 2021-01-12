@@ -2,9 +2,9 @@ import {
   CREATE_USER,
   UPDATE_USER,
   GET_ALL_USERS,
+  GET_USER_CART,
   DELETE_USER,
   POST_USER_CART,
-  GET_USER_CART,
   DELETE_USER_CART,
   UPDATE_USER_CART,
   LOGIN_USER,
@@ -13,11 +13,15 @@ import {
   USER_CHANGE_PASSWORD,
   SUCCESS_REQUEST,
   START_REQUEST,
-  SET_ERROR
+  SET_ERROR,
+  PROMOTE_USER,
+  DEGRADE_USER,
+  BAN_USER
 } from "../actions/user";
 
 const initialState = {
   user: {},
+  users: [],
   userCart: [],
   isUser: false,
   loading: false
@@ -40,12 +44,37 @@ const userReducer = (state = initialState, action) => {
         })
       };
     case GET_ALL_USERS:
-      if (action.user.isAdmin)
-        return {
-          ...state,
-          user: action.user
-        };
-      break;
+      return {
+        ...state,
+        users: action.user
+      };
+    case PROMOTE_USER:
+      return {
+        ...state,
+        users: state.users.map(user => {
+          if (user.id === action.user.id)
+            return action.user;
+          return user;
+        })
+      };
+    case DEGRADE_USER:
+      return {
+        ...state,
+        users: state.users.map(user => {
+          if (user.id === action.user.id)
+            return action.user;
+          return user;
+        })
+      };
+    case BAN_USER:
+      return {
+        ...state,
+        users: state.users.map(user => {
+          if (user.id === action.user.id)
+            return action.user;
+          return user;
+        })
+      };
     case DELETE_USER:
       return {
         ...state,
@@ -58,6 +87,7 @@ const userReducer = (state = initialState, action) => {
         ...state,
         userCart: action.userCart
       };
+
     case GET_USER_CART:
       return {
         ...state,
@@ -67,6 +97,7 @@ const userReducer = (state = initialState, action) => {
           return user;
         })
       };
+
     case DELETE_USER_CART:
       return {
         ...state,

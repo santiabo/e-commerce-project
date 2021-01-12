@@ -1,8 +1,11 @@
 .table {
+  margin-top: 3rem;
   width: stretch;
   width: -moz-available;
   table-layout: fixed;
   align-items: center;
+  margin-bottom: 484px;
+
 
   th,
   td {
@@ -23,4 +26,6 @@
   .desc {
     box-shadow: 0 3px 0  #010233;
   }
+
+
 }
