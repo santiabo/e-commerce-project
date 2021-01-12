@@ -25,6 +25,8 @@ function ProductTable() {
   const [addCategoryModal, setAddCategoryModal] = useState(false);
   const [removeCategoryModal, setRemoveCategoryModal] = useState(false);
 
+  const [error, setError] = useState({});
+
   const [productoSeleccionado, setProductoSeleccionado] = useState({
     id: '',
     name: '',
@@ -34,6 +36,7 @@ function ProductTable() {
     images: [],
     categories: []
   });
+
   //Categorias Hooks
   // const [dataCategories, setDataCategories] = useState(categories);
   const [modalEditarCategoria, setModalEditarCategoria] = useState(false);
@@ -70,7 +73,21 @@ function ProductTable() {
         ...prevState,
         [name]: value
       }));
+    setError(validate({
+      ...productoSeleccionado,
+      [e.target.name]: [e.target.value]
+    }));
   };
+
+  const validate = (input) => {
+    let error = {};
+    if (input.stock[0] === '') {
+      console.log(input)
+      error.stock = 'Stock is required';
+    }
+    return error;
+  };
+
   //Categorias
   const handleChangeCategory = e => {
     const { name, value } = e.target;
@@ -363,8 +380,7 @@ function ProductTable() {
               value={productoSeleccionado && productoSeleccionado.price}
               onChange={handleChange}
               minLength="4"
-              maxLength="8"
-            />
+              maxLength="8" />
             <br />
 
             <label>Stock</label>
@@ -376,6 +392,7 @@ function ProductTable() {
               onChange={handleChange}
               minLength="1"
               maxLength="4" />
+            {error.stock && <span className='text-danger'>{error.stock}</span>}
             <br />
 
             <label>Image URL</label>
@@ -390,7 +407,7 @@ function ProductTable() {
         </ModalBody>
 
         <ModalFooter>
-          <button className="btn btn-primary" onClick={() => editar()}>
+          <button disabled={error.stock} className="btn btn-primary" onClick={() => editar()}>
             Update
           </button>
           <button
