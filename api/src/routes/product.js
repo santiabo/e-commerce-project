@@ -1,5 +1,7 @@
 const server = require('express').Router();
-const { Product, Category, Review, User } = require('../db.js');
+const { Product, Category, Review } = require('../db.js');
+const { isAdmin } = require('../middlewares/auth');
+
 
 const {
   getAll,
@@ -268,6 +270,49 @@ server.post('/:id/review', isUser, (req, res, next) => {
         .catch(next);
     }
   });
+});
+
+//-----------Get Product Review Route -----------
+server.get('/:id/review', (req, res, next) => {
+  //devuelve las reviews del producto
+  const { id } = req.params;
+
+  Review.findAll({ //busca las reviews
+    where: { productId: id } //<-- del producto especifico
+  }).then((review) => {
+    return res.send(review); //devuelve las reviews
+  }).catch(next);
+});
+
+//-----------Delete Product Review Route -----------
+server.delete('/:id/review/:idReview', (req, res) => {
+  //elimina review
+  const { idReview } = req.params;
+  const userId = req.user.id;
+
+  if (req.user.isAdmin) {
+    Review.destroy({
+      where: {
+        id: idReview
+      }
+    })
+      .then((data) => {
+        if (data) return res.send({ reviewDeleted: Number(idReview) });
+        return res.status(404).send({ Error: 'Review not found.' });
+      });
+
+  } else {
+    Review.destroy({
+      where: {
+        id: idReview,
+        userId
+      }
+    })
+      .then((data) => {
+        if (data) return res.send({ reviewDeleted: Number(idReview) });
+        return res.status(403).send({ Error: "You can't delete that review." });
+      });
+  }
 });
 
 module.exports = server;

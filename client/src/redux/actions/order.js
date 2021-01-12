@@ -1,5 +1,16 @@
-import { getAllOrders, removeOrder, setConfirmOrder, setFinalizedOrder, setCompleteOrder, setDeliveredOrder, setPreparedOrder, setRejectedOrder, setSendOrder, getOrderById, getOrderByUserId } from '../../services/orders';
 import axios from 'axios';
+import {
+  getAllOrders,
+  removeOrder,
+  setConfirmOrder,
+  setFinalizedOrder,
+  setCompleteOrder,
+  setDeliveredOrder,
+  setPreparedOrder,
+  setRejectedOrder,
+  setSendOrder,
+  getOrderById
+} from '../../services/orders';
 
 const USER_ORDERS = "USER_ORDERS";
 const ADD_PRODUCT_TO_SHOPPINGCART = 'ADD_PRODUCT_TO_SHOPPINGCART';
@@ -36,7 +47,7 @@ export const setShoppingCart = (shoppingCart) => {
   };
 };
 
-export const getOrders = (id) => {
+export const getOrder = (id) => {
   return async (dispatch) => {
     try {
 
@@ -233,3 +244,4 @@ export const disabledCrud = () => {
     type: DISABLED_CRUD
   };
 };
+

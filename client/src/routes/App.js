@@ -4,7 +4,7 @@ import { getProducts } from "../redux/actions/product";
 import { getCategories } from "../redux/actions/category";
 import { getCartItemsFromLocalStorage } from "../redux/actions/cart";
 import { autoSignInUser } from "../redux/actions/user";
-import { BrowserRouter, Route, Switch, useHistory } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 // Components
 import Layout from '../containers/Layout';
@@ -20,6 +20,7 @@ import Cart from '../components/Cart/Cart';
 import LoginUser from '../components/LoginForm';
 import userTable from '../components/UserTable';
 import OrderContainer from '../containers/OrderContainer';
+import Order from '../components/Order/Order';
 import ForcePasswordChangePage from '../containers/ForcePasswordChangePage';
 
 function App() {
@@ -31,7 +32,7 @@ function App() {
     dispatch(getProducts());
     dispatch(getCategories());
     dispatch(getCartItemsFromLocalStorage());
-  }, []);
+  }, [dispatch]);
 
   const { loading } = useSelector(state => state.user);
 
@@ -58,9 +59,11 @@ function App() {
 
           <Route path='/orders' component={TableOrder} />
 
-          <Route path='/users' component={userTable} />
+          <Route exact path='/users' component={userTable} />
 
-          <Route path='/user/orders' component={OrderContainer} />
+          <Route exact path='/user/orders' component={OrderContainer} />
+
+          <Route exact path='/user/orders/:id' render={({ match }) => <Order match={match} />} />
 
           <Route path='/products' component={Catalogue} />
 

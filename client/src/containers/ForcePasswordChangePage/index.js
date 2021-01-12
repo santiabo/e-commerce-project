@@ -19,7 +19,7 @@ const ForcePasswordChangePage = () => {
   useEffect(() => {
     if (!loading && isUser && !user.changePassword)
       history.push("/");
-  }, [user, loading, isUser]);
+  }, [user, loading, isUser, history]);
 
   const handleSubmit = (e, data) => {
     e.preventDefault();

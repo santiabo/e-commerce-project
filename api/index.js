@@ -65,7 +65,7 @@ conn.sync({ force: true }).then(() => {
       "birthdate": "1999-12-01",
       "password": "1234",
       "isAdmin": true,
-      "changePassword": true
+      "changePassword": false
     });
 
     Category.bulkCreate(data.categories);
