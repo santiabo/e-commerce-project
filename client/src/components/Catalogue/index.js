@@ -57,11 +57,11 @@ const Catalogue = () => {
       {
         filtered.length ?
           <ProductsColumn>
-            {filtered.map((product) => <ProductCard product={product} categories={product.categories} key={product.id} />)}
+            {filtered.map((product) => <ProductCard product={product} categories={product.categories} reviews={product.reviews} key={product.id} />)}
           </ProductsColumn>
           :
           <ProductsColumn>
-            {products.map((product) => <ProductCard product={product} categories={product.categories} key={product.id} />)}
+            {products.map((product) => <ProductCard product={product} categories={product.categories} reviews={product.reviews} key={product.id} />)}
           </ProductsColumn>
       }
 

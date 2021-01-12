@@ -8,10 +8,12 @@ import { addItemToCart, setItemToCart } from "../../redux/actions/cart";
 import ImagesColumn from "../ImagesColumn";
 import Rating from "../Rating";
 import Button from "../Button";
+import ReviewList from "../ReviewsList";
 
 // StyledComponents
 import {
   ProductWrapper,
+  ProductDetailWrapper,
   LeftSide,
   RightSide,
   ImageContainer,
@@ -24,8 +26,11 @@ import {
   CategoriesTags,
 } from "./styles";
 import { UnitsAmountWrapper } from "../UnitsAmount/styles";
+import ReviewsList from "../ReviewsList";
+import ReviewForm from "../ReviewForm";
+import { getReviews } from "../../redux/actions/review";
 
-const Product = ({ match, reviews = { average: 4, total: 200 } }) => {
+const Product = ({ match }) => {
 
   const dispatch = useDispatch();
 
@@ -33,23 +38,22 @@ const Product = ({ match, reviews = { average: 4, total: 200 } }) => {
 
   useEffect(() => {
     dispatch(getProduct(match.params.id));
-  }, [dispatch, match.params.id]);
+    dispatch(getReviews(match.params.id));
+  }, []);
 
-  const product = useSelector(state => state.product.productDetail);
-
-
-  const { isUser } = useSelector(state => state.user);
+  let product = useSelector(state => state.product.productDetail);
+  let { average, reviews } = useSelector(state => state.reviews);
 
   const increment = () => {
     setQuantity(quantity + 1);
   };
-
 
   const decrement = () => {
     setQuantity(quantity - 1);
   };
 
   const handleClick = () => {
+
 
     if (!isUser) {
       dispatch(setItemToCart({ ...product, quantity }, quantity));
@@ -67,44 +71,53 @@ const Product = ({ match, reviews = { average: 4, total: 200 } }) => {
   const inStock = product.stock > 0;
 
   let keys = Object.keys(product);
+  console.log(product);
   return (
     <ProductWrapper>
-      <LeftSide>
-        <ImagesColumn product={product} />
-        <ImageContainer>
-          {
-            keys.length &&
-            <img src={product.images[0]} alt={product.title} />
-          }
-        </ImageContainer>
-      </LeftSide>
-      <RightSide>
-        <CategoriesTags>
-          {keys.length && product.categories.map((category, i) => (
-            <CategoryTag key={i}>{category.name}</CategoryTag>
-          ))}
-        </CategoriesTags>
-        <Title>{product.name}</Title>
-        <RatingWrapper>
-          <Rating stars={Math.round(reviews.average)} />
-          <span>{reviews.average} ({reviews.total} reviews)</span>
-        </RatingWrapper>
-        <Description>
-          {product.description}
-        </Description>
-        <Price>
-          $ {product.price}
-        </Price>
-        <h4>Units: {quantity}</h4>
-        <ButtonsWrapper>
-          <UnitsAmountWrapper>
-            <input type="button" value='-' onClick={() => quantity > 1 && decrement()} />
-            <input type="button" value={quantity} />
-            <input type="button" value='+' onClick={() => increment()} />
-          </UnitsAmountWrapper>
-          <Button disabled={!inStock} onClick={handleClick}>Add to Cart</Button>
-        </ButtonsWrapper>
-      </RightSide>
+      <ProductDetailWrapper>
+
+        <LeftSide>
+          <ImagesColumn product={product} />
+          <ImageContainer>
+            {
+              keys.length &&
+              <img src={product.images[0]} alt={product.title} />
+            }
+          </ImageContainer>
+        </LeftSide>
+        <RightSide>
+          <CategoriesTags>
+            {keys.length && product.categories.map(category => (
+              <CategoryTag>{category.name}</CategoryTag>
+            ))}
+          </CategoriesTags>
+          <Title>{product.name}</Title>
+          <RatingWrapper>
+            {average ? <>
+              <Rating stars={average} />
+              <span>{average} ({reviews.length} reviews)</span>
+            </>
+              : null}
+          </RatingWrapper>
+          <Description>
+            {product.description}
+          </Description>
+          <Price>
+            $ {product.price}
+          </Price>
+          <h4>Units: {quantity}</h4>
+          <ButtonsWrapper>
+            <UnitsAmountWrapper>
+              <input type="button" value='-' onClick={() => quantity > 1 && decrement()} />
+              <input type="button" value={quantity} />
+              <input type="button" value='+' onClick={() => increment()} />
+            </UnitsAmountWrapper>
+            <Button disabled={!inStock} onClick={handleClick}>Add to Cart</Button>
+          </ButtonsWrapper>
+        </RightSide>
+      </ProductDetailWrapper>
+      <ReviewsList />
+      <ReviewForm productId={product.id} />
     </ProductWrapper>
   );
 };

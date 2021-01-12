@@ -7,14 +7,14 @@ import { ReactComponent as StarIconEmpty } from '../../assets/icons/starempty.sv
 // StyledComponets
 import { RatingWrapper } from "./styles";
 
-const Rating = ({ stars }) => {
+const Rating = ({ stars = 5 }) => {
   return (
     <RatingWrapper>
       {
-        [...Array(stars)].map((s, i) => <StarIconFull key={i} />)
+        [...Array(Math.round(stars))].map((s, i) => <StarIconFull key={i} />)
       }
       {
-        [...Array(5 - stars)].map((s, i) => <StarIconEmpty key={i} />)
+        [...Array(5 - Math.round(stars))].map((s, i) => <StarIconEmpty key={i} />)
       }
     </RatingWrapper>
   );

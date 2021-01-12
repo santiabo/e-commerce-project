@@ -243,21 +243,5 @@ export const disabledCrud = () => {
   return {
     type: DISABLED_CRUD
   };
-};;
+};
 
-// module.exports = {
-//   addProductToShoppingCart,
-//   setShoppingCart,
-//   getAllOrdersAction,
-//   removeOrderAction,
-//   setCompletedOrderAction,
-//   setConfirmOrderAction,
-//   setDeliveredOrderAction,
-//   setPrepareOrderAction,
-//   setRejectedOrderAction,
-//   setFinalizedOrderAction,
-//   setSendOrderAction,
-//   handleViewOrder,
-//   getOrderDetail,
-//   disabledCrud
-// }

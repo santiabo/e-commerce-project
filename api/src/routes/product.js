@@ -2,6 +2,7 @@ const server = require('express').Router();
 const { Product, Category, Review } = require('../db.js');
 const { isAdmin } = require('../middlewares/auth');
 
+
 const {
   getAll,
   createOne,
@@ -9,6 +10,8 @@ const {
   editOne,
   deleteOne
 } = require('../controllers/products');
+const { isUser } = require('../middlewares/auth.js');
+// const { is } = require('sequelize/types/lib/operators');
 
 // ------- Product Route -------
 server.route('/').get((req, res) => {
@@ -57,9 +60,6 @@ server.route('/:id').get((req, res) => {
 server.put('/:id', (req, res, next) => {
   const { id } = req.params;
   const { name, description, price, stock, images } = req.body;
-  if (!(req.user && req.user.isAdmin)) {
-    return res.status(401).send('Not Authorized');
-  }
 
   Product.update({
     name,
@@ -83,7 +83,6 @@ server.put('/:id', (req, res, next) => {
     })
     .catch(next);
 });
-
 
 // ------- Delete Product Route -------
 server.delete('/:id', (req, res, next) => {
@@ -221,12 +220,29 @@ server.get("/category/:categoryName", (req, res, next) => {
     .catch(next);
 });
 
+// -----------GET All Reviews Route -----------
+server.get("/:id/review", async (req, res, next) => {
+  const { id } = req.params;
+
+  try {
+
+    const reviews = await Review.findAll({
+      where: {
+        productId: id
+      },
+      include: [User]
+    });
+
+    res.send(reviews);
+  } catch (err) {
+    next(err);
+  }
+});
 
 //-----------Post Product Review Route -----------
-server.post('/:id/review', (req, res, next) => {
+server.post('/:id/review', isUser, (req, res, next) => {
   const { id } = req.params;
-  const { stars, description } = req.body;
-  const userId = req.user.id;
+  const { stars, title, description } = req.body;
 
   Product.findOne({
     where: {
@@ -236,27 +252,22 @@ server.post('/:id/review', (req, res, next) => {
     if (!product) {
       return res.status(404).send({ error: `Product not found` });
     } else {
-      Review.findOne({
-        where: {
-          productId: id,
-          userId
-        }
-      }).then(data => {
-        if (data) {
-          return res.status(406).send({ Error: "You're not allowed to make another review for the same product." });
-        } else {
-          Review.create({
-            stars,
-            description,
-            productId: id,
-            userId
+      Review.create({
+        stars,
+        title,
+        description,
+        productId: id,
+        userId: req.user.id
+      })
+        .then(r => {
+          Review.findByPk(r.id, {
+            include: [User]
           })
-            .then(r => {
-              res.send({ ...r.dataValues });
-            })
-            .catch(next);
-        }
-      });
+            .then((review) => {
+              res.send(review);
+            });
+        })
+        .catch(next);
     }
   });
 });

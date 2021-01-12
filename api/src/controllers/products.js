@@ -1,4 +1,4 @@
-const { Product, Category } = require('../db');
+const { Product, Category, Review } = require('../db');
 const { Sequelize } = require('sequelize');
 
 // Este método se encargará de obtener todos los productos
@@ -27,6 +27,8 @@ const getAll = (search) => {
       include: [{
         model: Category,
         attributes: ['id', 'name', 'description']
+      }, {
+        model: Review
       }],
       order: [
         ['id', 'ASC']
@@ -68,7 +70,7 @@ const getOne = (id) => {
   return new Promise((resolve, reject) => {
     Product.findOne({
       where: { id },
-      include: [Category]
+      include: [Category, Review]
     })
       .then(product => {
         if (!product) {

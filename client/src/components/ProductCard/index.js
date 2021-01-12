@@ -21,10 +21,12 @@ import {
   StyledImg
 } from './styles';
 
-const ProductCard = ({ product, categories, reviews = { average: 4, } }) => {
+const ProductCard = ({ product, categories, reviews }) => {
 
   const count = 1;
   const dispatch = useDispatch();
+
+  const average = reviews.reduce((prev, curr) => prev + curr.stars, 0) / reviews.length;
 
   const { isUser } = useSelector(state => state.user);
 
@@ -57,7 +59,7 @@ const ProductCard = ({ product, categories, reviews = { average: 4, } }) => {
 
         <RowWrapper>
           {categories.map(category => <CategoryTag key={category.id}>{category.name}</CategoryTag>)}
-          <Rating stars={Math.round(reviews.average)} />
+          {average ? <Rating stars={average} /> : null}
         </RowWrapper>
 
         <StyledLink to={"product/" + product.id}>
