@@ -38,6 +38,7 @@ export const addReview = (review, productId) => {
 
       const res = await authAxios.post(`http://localhost:5000/products/${productId}/review`, review);
 
+      console.log(res.data);
       dispatch(createReview(res.data));
     } catch (err) {
       console.log(err);
