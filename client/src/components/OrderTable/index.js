@@ -72,11 +72,15 @@ const TableOrder = ({ getAllOrdersAction, setFinalizedOrderAction, setConfirmOrd
 
   return (
     <div className="App">
-      <h2 id='prodList' class="alert alert-info">Order Table</h2>
-      <br />
-      <Link id='ordTabl' to='/admin' >
-        <button className="btn btn-info">Products List</button>
-      </Link>
+      <h2 id='prodList' class="alert alert-info">Orders List</h2>
+      <div id='ordTabl'>
+        <Link to='/admin' >
+          <button className="btn btn-info">Products</button>
+        </Link>
+        <Link to='/users' >
+          <button className="btn btn-info">Users</button>
+        </Link>
+      </div>
       <section>
         <table className = {style.table}>
           <thead>
