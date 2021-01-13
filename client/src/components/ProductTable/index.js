@@ -4,7 +4,6 @@ import { Modal, ModalBody, ModalHeader, ModalFooter } from 'reactstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeProduct, addProduct, editProduct, addCategoryToProduct, removeCategoryToProduct } from '../../redux/actions/product';
 import { addCategory } from '../../redux/actions/category';
-import { useForm } from 'react-hook-form';
 
 import "./ProductTable.css";
 
@@ -80,11 +79,22 @@ function ProductTable() {
   };
 
   const validate = (input) => {
-    let error = {};
-    if (input.stock[0] === '') {
-      console.log(input)
-      error.stock = 'Stock is required';
+    const error = {};
+
+    // if (input.stock[0] === '') {
+    //   error.stock = 'Stock is required';
+    // }
+
+    if (!Number(input.price)) {
+      error.price = 'Please, input a valid price.';
+    } else if (String(input.price).charAt(String(input.price).length - 3) !== '.') {
+      error.price = 'Price format must have 2 digits after the decimal point.';
     }
+
+    if (!Number(input.stock)) {
+      error.stock = 'Please, input a number. Max stock: 9999.';
+    }
+
     return error;
   };
 
@@ -357,7 +367,6 @@ function ProductTable() {
               name="name"
               value={productoSeleccionado && productoSeleccionado.name}
               onChange={handleChange}
-              minLength="3"
               maxLength="200" />
             <br />
 
@@ -368,7 +377,6 @@ function ProductTable() {
               name="description"
               value={productoSeleccionado && productoSeleccionado.description}
               onChange={handleChange}
-              minLength="0"
               maxLength="2000" />
             <br />
 
@@ -379,8 +387,8 @@ function ProductTable() {
               name="price"
               value={productoSeleccionado && productoSeleccionado.price}
               onChange={handleChange}
-              minLength="4"
               maxLength="8" />
+            {error.price && <span className='text-danger'>{error.price}</span>}
             <br />
 
             <label>Stock</label>
@@ -390,7 +398,6 @@ function ProductTable() {
               name="stock"
               value={productoSeleccionado && productoSeleccionado.stock}
               onChange={handleChange}
-              minLength="1"
               maxLength="4" />
             {error.stock && <span className='text-danger'>{error.stock}</span>}
             <br />
@@ -407,7 +414,7 @@ function ProductTable() {
         </ModalBody>
 
         <ModalFooter>
-          <button disabled={error.stock} className="btn btn-primary" onClick={() => editar()}>
+          <button disabled={error.price || error.stock} className="btn btn-primary" onClick={() => editar()}>
             Update
           </button>
           <button
