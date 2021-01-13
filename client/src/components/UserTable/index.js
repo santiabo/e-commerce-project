@@ -49,10 +49,15 @@ function UserTable() {
   return (
     <div className="App">
 
-      <Link to='/users' className='mainLink'>
-        <h2>User Table</h2>
-      </Link>
-      <br /><br />
+      <h2 id='prodList' class="alert alert-info">Users List</h2>
+      <div id='ordTabl'>
+        <Link to='/orders' >
+          <button className="btn btn-info">Orders</button>
+        </Link>
+        <Link to='/admin' >
+          <button className="btn btn-info">Products</button>
+        </Link>
+      </div>
       <table className="table table-bordered">
         <thead>
           <tr>

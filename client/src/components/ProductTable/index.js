@@ -181,10 +181,14 @@ function ProductTable() {
   return (
     <div className="App">
       <h2 id='prodList' class="alert alert-info">Products List</h2>
-      <br />
-      <Link id='ordTabl' to='/orders' >
-        <button className="btn btn-info">Order Table</button>
-      </Link>
+      <div id='ordTabl'>
+        <Link to='/orders' >
+          <button className="btn btn-info">Orders</button>
+        </Link>
+        <Link to='/users' >
+          <button className="btn btn-info">Users</button>
+        </Link>
+      </div>
       <div className='newProCat'>
         <button className="btn btn-success" onClick={() => newProductModal()}>New Product</button>
         <button className="btn btn-primary" onClick={() => newCategoryModal()}>New Category</button>
