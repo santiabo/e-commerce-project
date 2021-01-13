@@ -4,7 +4,6 @@ import { Modal, ModalBody, ModalHeader, ModalFooter } from 'reactstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeProduct, addProduct, editProduct, addCategoryToProduct, removeCategoryToProduct } from '../../redux/actions/product';
 import { addCategory } from '../../redux/actions/category';
-import { useForm } from 'react-hook-form';
 
 import "./ProductTable.css";
 
@@ -25,6 +24,8 @@ function ProductTable() {
   const [addCategoryModal, setAddCategoryModal] = useState(false);
   const [removeCategoryModal, setRemoveCategoryModal] = useState(false);
 
+  const [error, setError] = useState({});
+
   const [productoSeleccionado, setProductoSeleccionado] = useState({
     id: '',
     name: '',
@@ -34,6 +35,7 @@ function ProductTable() {
     images: [],
     categories: []
   });
+
   //Categorias Hooks
   // const [dataCategories, setDataCategories] = useState(categories);
   const [modalEditarCategoria, setModalEditarCategoria] = useState(false);
@@ -70,7 +72,32 @@ function ProductTable() {
         ...prevState,
         [name]: value
       }));
+    setError(validate({
+      ...productoSeleccionado,
+      [e.target.name]: [e.target.value]
+    }));
   };
+
+  const validate = (input) => {
+    const error = {};
+
+    // if (input.stock[0] === '') {
+    //   error.stock = 'Stock is required';
+    // }
+
+    if (!Number(input.price)) {
+      error.price = 'Please, input a valid price.';
+    } else if (String(input.price).charAt(String(input.price).length - 3) !== '.') {
+      error.price = 'Price format must have 2 digits after the decimal point.';
+    }
+
+    if (!Number(input.stock)) {
+      error.stock = 'Please, input a number. Max stock: 9999.';
+    }
+
+    return error;
+  };
+
   //Categorias
   const handleChangeCategory = e => {
     const { name, value } = e.target;
@@ -181,10 +208,14 @@ function ProductTable() {
   return (
     <div className="App">
       <h2 id='prodList' class="alert alert-info">Products List</h2>
-      <br />
-      <Link id='ordTabl' to='/orders' >
-        <button className="btn btn-info">Order Table</button>
-      </Link>
+      <div id='ordTabl'>
+        <Link to='/orders' >
+          <button className="btn btn-info">Orders</button>
+        </Link>
+        <Link to='/users' >
+          <button className="btn btn-info">Users</button>
+        </Link>
+      </div>
       <div className='newProCat'>
         <button className="btn btn-success" onClick={() => newProductModal()}>New Product</button>
         <button className="btn btn-primary" onClick={() => newCategoryModal()}>New Category</button>
@@ -340,7 +371,6 @@ function ProductTable() {
               name="name"
               value={productoSeleccionado && productoSeleccionado.name}
               onChange={handleChange}
-              minLength="3"
               maxLength="200" />
             <br />
 
@@ -351,7 +381,6 @@ function ProductTable() {
               name="description"
               value={productoSeleccionado && productoSeleccionado.description}
               onChange={handleChange}
-              minLength="0"
               maxLength="2000" />
             <br />
 
@@ -362,9 +391,8 @@ function ProductTable() {
               name="price"
               value={productoSeleccionado && productoSeleccionado.price}
               onChange={handleChange}
-              minLength="4"
-              maxLength="8"
-            />
+              maxLength="8" />
+            {error.price && <span className='text-danger'>{error.price}</span>}
             <br />
 
             <label>Stock</label>
@@ -374,8 +402,8 @@ function ProductTable() {
               name="stock"
               value={productoSeleccionado && productoSeleccionado.stock}
               onChange={handleChange}
-              minLength="1"
               maxLength="4" />
+            {error.stock && <span className='text-danger'>{error.stock}</span>}
             <br />
 
             <label>Image URL</label>
@@ -390,7 +418,7 @@ function ProductTable() {
         </ModalBody>
 
         <ModalFooter>
-          <button className="btn btn-primary" onClick={() => editar()}>
+          <button disabled={error.price || error.stock} className="btn btn-primary" onClick={() => editar()}>
             Update
           </button>
           <button
