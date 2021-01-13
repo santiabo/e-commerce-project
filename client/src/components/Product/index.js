@@ -41,9 +41,9 @@ const Product = ({ match }) => {
     dispatch(getReviews(match.params.id));
   }, []);
 
-  const product = useSelector(state => state.product.productDetail);
-  const { average, reviews } = useSelector(state => state.reviews);
-  const { isUser } = useSelector(state => state.user);
+  let product = useSelector(state => state.product.productDetail);
+  let { average, reviews } = useSelector(state => state.reviews);
+  let { isUser } = useSelector(state => state.user);
 
   const increment = () => {
     setQuantity(quantity + 1);
