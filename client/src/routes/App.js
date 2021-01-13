@@ -9,8 +9,8 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 // Components
 import Layout from '../containers/Layout/Layout';
-import Home, { SlideData } from '../containers/Home';
-import NotFound from '../containers/NotFound';
+import Home, { SlideData } from '../containers/Home/Home';
+import NotFound from '../containers/NotFound/NotFound';
 import Catalogue from '../components/Catalogue';
 import ProductTable from '../components/ProductTable';
 import Product from '../components/Product';
@@ -20,7 +20,7 @@ import EditProfile from '../components/EditProfile';
 import Cart from '../components/Cart/Cart';
 import LoginUser from '../components/LoginForm';
 import userTable from '../components/UserTable';
-import OrderContainer from '../containers/OrderContainer';
+import OrderContainer from '../components/OrderContainer/OrderContainer';
 import Order from '../components/Order/Order';
 import ForcePasswordChangePage from '../containers/ForcePasswordChangePage';
 

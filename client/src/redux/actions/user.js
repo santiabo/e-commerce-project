@@ -190,7 +190,11 @@ export const editUser = (id, updatedUser) => {
   return async (dispatch) => {
     try {
 
-      const res = await authAxios.put(`/users/${id}`, { ...updatedUser });
+      const res = await authAxios.put(`/users/${id}`, { ...updatedUser },{
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+      });
 
       dispatch(updateUser(res.data));
     } catch (err) {
@@ -204,7 +208,11 @@ export const getUsers = () => {
   return async (dispatch) => {
     try {
 
-      const res = await authAxios.get(`/users`);
+      const res = await authAxios.get(`/users`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+      });
 
       dispatch(getAllUsers(res.data));
     } catch (err) {
@@ -261,7 +269,11 @@ export const removeUser = (id) => {
   return async (dispatch) => {
     try {
 
-      const res = await authAxios.delete(`/users/${id}`);
+      const res = await authAxios.delete(`/users/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+      });
 
       dispatch(deleteUser(res.data));
     } catch (err) {
@@ -273,7 +285,11 @@ export const removeUser = (id) => {
 export const passwordReset = (id) => {
   return async (dispatch) => {
     try {
-      const res = await authAxios.put(`/users/forcePasswordReset/${id}`);
+      const res = await authAxios.put(`/users/forcePasswordReset/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+      });
 
       dispatch(forcePasswordReset(res.data));
     } catch (err) {
@@ -305,7 +321,11 @@ export const removeUserCart = (userId) => {
   return async (dispatch) => {
     try {
 
-      const res = await authAxios.delete(`/users/${userId}/cart`);
+      const res = await authAxios.delete(`/users/${userId}/cart`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+      });
 
       dispatch(deleteUserCart(res.data));
     } catch (err) {
@@ -318,7 +338,11 @@ export const editUserCart = (id, userCart) => {
   return async (dispatch) => {
     try {
 
-      const res = await authAxios.put(`/users/${id}/cart`, { ...userCart });
+      const res = await authAxios.put(`/users/${id}/cart`, { ...userCart }, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+      });
 
       dispatch(updateUserCart(res.data));
     } catch (err) {
