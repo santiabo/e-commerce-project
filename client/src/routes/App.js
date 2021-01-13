@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getProducts } from "../redux/actions/product";
 import { getCategories } from "../redux/actions/category";
 import { getCartItemsFromLocalStorage } from "../redux/actions/cart";
+import { getUserOrders } from '../redux/actions/order';
 import { autoSignInUser } from "../redux/actions/user";
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
@@ -26,13 +27,15 @@ import ForcePasswordChangePage from '../containers/ForcePasswordChangePage';
 function App() {
 
   const dispatch = useDispatch();
+  const { user, isUser } = useSelector(state => state.user)
 
   useEffect(() => {
-    dispatch(autoSignInUser());
+    if(isUser)dispatch(autoSignInUser());
     dispatch(getProducts());
     dispatch(getCategories());
     dispatch(getCartItemsFromLocalStorage());
-  }, [dispatch]);
+    isUser && dispatch(getUserOrders(user.id))
+  }, [dispatch, isUser]);
 
   const { loading } = useSelector(state => state.user);
 

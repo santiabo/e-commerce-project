@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { getUserOrders } from '../redux/actions/order';
+import { getOrderByUserId } from '../services/orders';
 // Styled Components
 import { StyledLink } from './orderStyles';
 
@@ -11,19 +12,21 @@ const OrderContainer = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const {user, isUser} = useSelector(state => state.user)
+  const userOrders = useSelector(state => state.order.userOrders);
   
-  console.log("USER ID >>>>>>> ", user.id)
-  useEffect(() => {
-    if (!isUser) {
-      history.push('/');
-    }
-  }, [history, isUser])
-
   useEffect(() => {
     dispatch(getUserOrders(user.id))
   }, [dispatch, user.id])
 
-  const userOrders = useSelector(state => state.order.userOrders);
+  useEffect(() => {
+    if (!isUser) {
+      history.push('/');
+    }else if(!userOrders){
+     return <h1>Loading...</h1>
+    }
+  }, [history, isUser,userOrders])
+
+
 
   const getTotal = (obj) => {
     let suma = 0;
@@ -60,7 +63,7 @@ const OrderContainer = () => {
                   <td>{i.updatedAt.slice(0, 10)}</td>
                   <td>$ {getTotal(i)}</td>
                   <td>{i.status}</td>
-                  <img src={i.orderLines[0].product.images[0]} width="75" height="75"></img>
+                  {console.log('la poronga esta',i.orderLines[0].product.images[0])/* <img src={i.orderLines[0].product.images[0]} width="75" height="75"></img> */}
                   <td><StyledLink to={`/user/orders/${index}`}>View Details</StyledLink></td>
 
                 </tr>

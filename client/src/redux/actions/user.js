@@ -225,7 +225,7 @@ export const addUserCart = (userId) => {
       const cart = JSON.parse(localStorage.getItem("cart")) || [];
       const res = await authAxios.post(`/users/${userId}/cart`, { cart });
       dispatch(postUserCart(res.data));
-      localStorage.removeItem('cart');
+      if(localStorage.getItem('cart')) localStorage.removeItem('cart');
     } catch (err) {
       console.log(err);
     }
@@ -269,7 +269,7 @@ export const logInUser = (email, password) => {
    
       dispatch(loginUser(user));
       localStorage.setItem("token", JSON.stringify(token));
-      if (localStorage.cart) dispatch(addUserCart(user.id));
+      dispatch(addUserCart(user.id));
       dispatch(successRequest());
     } catch (err) {
       dispatch(setError(err));

@@ -1,5 +1,5 @@
 const server = require('express').Router();
-const { Product, Category, Review } = require('../db.js');
+const { Product, Category, Review, User} = require('../db.js');
 const { isAdmin } = require('../middlewares/auth');
 
 
