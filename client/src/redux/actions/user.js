@@ -214,42 +214,6 @@ export const getUsers = () => {
   };
 };
 
-export const promoteUserRole = (id) => {
-  return async (dispatch) => {
-    try {
-      const res = await authAxios.put(`/auth/promote/${id}`);
-
-      dispatch(promoteUser(res.data));
-    } catch (err) {
-      console.log(err);
-    }
-  };
-};
-
-export const degradeUserRole = (id) => {
-  return async (dispatch) => {
-    try {
-      const res = await authAxios.put(`/auth/degrade/${id}`);
-
-      dispatch(degradeUser(res.data));
-    } catch (err) {
-      console.log(err);
-    }
-  };
-};
-
-export const banUserToOblivion = (id) => {
-  return async (dispatch) => {
-    try {
-      const res = await authAxios.put(`/auth/${id}/ban`);
-
-      dispatch(banUser(res.data));
-    } catch (err) {
-      console.log(err);
-    }
-  };
-};
-
 export const removeUser = (id) => {
   return async (dispatch) => {
     try {
