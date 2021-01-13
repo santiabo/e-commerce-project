@@ -8,7 +8,7 @@ import { autoSignInUser } from "../redux/actions/user";
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 // Components
-import Layout from '../containers/Layout';
+import Layout from '../containers/Layout/Layout';
 import Home, { SlideData } from '../containers/Home';
 import NotFound from '../containers/NotFound';
 import Catalogue from '../components/Catalogue';
@@ -27,17 +27,16 @@ import ForcePasswordChangePage from '../containers/ForcePasswordChangePage';
 function App() {
 
   const dispatch = useDispatch();
-  const { user, isUser } = useSelector(state => state.user)
+  const { user, isUser, loading } = useSelector(state => state.user);
 
   useEffect(() => {
-    if(isUser)dispatch(autoSignInUser());
+    let token = localStorage.getItem("token");
+    if (token) dispatch(autoSignInUser());
     dispatch(getProducts());
     dispatch(getCategories());
     dispatch(getCartItemsFromLocalStorage());
-    isUser && dispatch(getUserOrders(user.id))
+    isUser && dispatch(getUserOrders(user.id));
   }, [dispatch, isUser]);
-
-  const { loading } = useSelector(state => state.user);
 
   if (loading) return <h1>Loading ...</h1>;
 
