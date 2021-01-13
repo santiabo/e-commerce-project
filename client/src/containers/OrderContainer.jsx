@@ -64,7 +64,7 @@ const OrderContainer = () => {
                   <td>$ {getTotal(i)}</td>
                   <td>{i.status}</td>
                   {console.log('la poronga esta',i.orderLines[0].product.images[0])/* <img src={i.orderLines[0].product.images[0]} width="75" height="75"></img> */}
-                  <td><StyledLink to={`/user/orders/${index}`}>View Details</StyledLink></td>
+                  <td><StyledLink to={`/user/admin/orders/${index}`}>View Details</StyledLink></td>
 
                 </tr>
               )}

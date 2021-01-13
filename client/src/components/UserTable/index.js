@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import "./UserTable.css";
@@ -10,10 +10,17 @@ import { getUsers, promoteUserRole, degradeUserRole, banUserToOblivion } from '.
 
 
 function UserTable() {
-
-  const { users } = useSelector(state => state.user);
-
+  const history = useHistory();
   const dispatch = useDispatch();
+
+  const { user, users } = useSelector(state => state.user);
+  console.log('USUARIO', user)
+
+  useEffect(() => {
+    if (!user.isAdmin) {
+      history.push('/');
+    }
+  }, [])
 
   useEffect(() => {
     dispatch(getUsers());
@@ -31,30 +38,15 @@ function UserTable() {
     dispatch(banUserToOblivion(id));
   };
 
-  // [{
-  //   id: 1,
-  //   firstName: 'Mauro',
-  //   lastName: 'Vargas',
-  //   email: 'sdfgsdfg@dadfasdfsdf.com',
-  //   isAdmin: 'Admin',
-
-  // }, {
-  //   id: 2,
-  //   firstName: 'Arihi',
-  //   lastName: 'Paki',
-  //   email: 'hkj@dadfasdfsdf.com',
-  //   isAdmin: 'User',
-  // }];
-
   return (
     <div className="App">
 
       <h2 id='prodList' class="alert alert-info">Users List</h2>
       <div id='ordTabl'>
-        <Link to='/orders' >
+        <Link to='/admin/orders' >
           <button className="btn btn-info">Orders</button>
         </Link>
-        <Link to='/admin' >
+        <Link to='/admin/products' >
           <button className="btn btn-info">Products</button>
         </Link>
       </div>
