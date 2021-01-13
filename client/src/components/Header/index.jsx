@@ -8,14 +8,14 @@ import LoggedInUser from '../LoggedInUser';
 
 //Styled Components
 
-import { ImageContainer, NavWrapper, NavWrapper2, LoginRegisterLinks } from "./styles";
+import { ImageContainer, NavWrapper, NavWrapper2, LoginRegisterLinks, StyledLink } from "./styles";
 
 import { ReactComponent as Home } from "../../assets/icons/logo.svg";
 import { ReactComponent as CartLogo } from "../../assets/icons/cart.svg";
 
 const Header = () => {
   const cartAmount = useSelector(state => state.cart.cartAmount);
-  const isUser = useSelector(state => state.user.isUser);
+  const { isUser, user } = useSelector(state => state.user);
 
   return (
     <nav>
@@ -35,6 +35,7 @@ const Header = () => {
             :
             <>
               <ImageContainer>
+                {user.isAdmin&& <StyledLink to='/admin/products'>Admin</StyledLink>}
                 <LoggedInUser />
               </ImageContainer>
             </>
