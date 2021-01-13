@@ -8,6 +8,7 @@ export const FooterWrapper = styled.footer`
   padding-bottom: 1rem;
   text-align: center;
   -webkit-user-select: none;
+  height: 100px;
 `;
 
 export const SocialMediaWrapper = styled.div`

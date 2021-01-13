@@ -30,7 +30,6 @@ const ProductCard = ({ product, categories, reviews }) => {
 
   const { isUser, user } = useSelector(state => state.user);
   const orders = useSelector(state => state.order.userOrders);
-  console.log(orders);
   const [order] = orders.filter(o => {
     if (o.status === "on_cart")
       return true;
@@ -42,6 +41,7 @@ const ProductCard = ({ product, categories, reviews }) => {
       dispatch(setItemToCart(product, count));
 
     } else {
+      console.log(order.id);
       dispatch(postItemToCart({
         quantity: count,
         productId: product.id,

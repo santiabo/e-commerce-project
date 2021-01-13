@@ -1,6 +1,6 @@
 const server = require('express').Router();
 const { isUser } = require('../middlewares/auth');
-const { Order, OrderLine, Product } = require('../db.js');
+const { Order, OrderLine, Product, Category } = require('../db.js');
 
 // POST orderLine
 
@@ -21,24 +21,35 @@ server.post('/', isUser, async (req, res) => {
       });
 
       if (orderline) {
-        orderline.update({ quantity });
+        await OrderLine.update({ quantity: orderline.quantity + quantity }, {
+          where: {
+            id: orderline.id
+          }
+        });
 
       } else {
-        orderline = await OrderLine.create({ productId, quantity, price, orderId });
+        await OrderLine.create({ productId, quantity, price, orderId });
       }
 
-      const response = await OrderLine.findByPk(orderline.id, {
+      const response = await OrderLine.findAll({
+        where: {
+          orderId
+        },
         include: [
           Order,
-          Product,
+          {
+            model: Product,
+            include: [
+              Category
+            ]
+          }
         ]
       });
-      console.log("ORDERLINE", response);
 
       res.send(response);
 
     } else {
-      res.sendStatus(400).send('Bad Request');
+      res.status(400).send("Error: Bad Request");
     }
   } catch (err) {
     console.log(err);

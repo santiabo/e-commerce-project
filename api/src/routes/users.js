@@ -1,5 +1,5 @@
 const server = require('express').Router();
-const { User, Order, OrderLine, Product } = require('../db');
+const { User, Order, OrderLine, Product, Category } = require('../db');
 const { isUser, isAdmin } = require('../middlewares/auth');
 
 
@@ -85,8 +85,13 @@ server.post('/:userId/cart', isUser, async (req, res, next) => {
         orderId: order[0].dataValues.id
       },
       include: [
-        Product,
-        Order
+        Order,
+        {
+          model: Product,
+          include: [
+            Category
+          ]
+        }
       ]
     });
     return res.send(userCart);
@@ -112,8 +117,13 @@ server.get('/:userId/cart', isUser, (req, res, next) => {
         OrderLine.findAll({
           where: { orderId: order.id },
           include: [
-            Product,
-            Order
+            Order,
+            {
+              model: Product,
+              include: [
+                Category
+              ]
+            }
           ]
         })
           .then((orderLines) => {

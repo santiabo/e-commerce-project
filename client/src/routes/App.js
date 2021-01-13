@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProducts } from "../redux/actions/product";
 import { getCategories } from "../redux/actions/category";
-import { getCartItemsFromLocalStorage } from "../redux/actions/cart";
+import { getCartItemsFromLocalStorage, getUserCart } from "../redux/actions/cart";
 import { getUserOrders } from '../redux/actions/order';
 import { autoSignInUser } from "../redux/actions/user";
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
@@ -35,6 +35,7 @@ function App() {
     dispatch(getProducts());
     dispatch(getCategories());
     if (!isUser) dispatch(getCartItemsFromLocalStorage());
+    else dispatch(getUserCart(user.id));
     isUser && dispatch(getUserOrders(user.id));
   }, [dispatch, isUser]);
 

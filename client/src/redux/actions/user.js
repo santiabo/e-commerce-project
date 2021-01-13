@@ -298,7 +298,6 @@ export const logOutUser = () => {
 export const autoSignInUser = (token) => {
   return async (dispatch) => {
     try {
-      console.log(token);
       dispatch(startRequest());
       const res = await authAxios.get(`/auth/me`, {
         headers: {
@@ -307,6 +306,7 @@ export const autoSignInUser = (token) => {
       });
       const user = res.data;
       dispatch(autoLoginUser(user));
+      dispatch(addUserCart(user.id));
       dispatch(successRequest());
     } catch (err) {
       console.log(err);
