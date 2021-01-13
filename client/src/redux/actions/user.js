@@ -14,7 +14,7 @@ export const DEGRADE_USER = "DEGRADE_USER";
 export const BAN_USER = "BAN_USER";
 export const DELETE_USER = "DELETE_USER";
 
-export const GET_USER_CART = "GET_USER_CART"
+export const GET_USER_CART = "GET_USER_CART";
 export const POST_USER_CART = "POST_USER_CART";
 export const DELETE_USER_CART = "DELETE_USER_CART";
 export const UPDATE_USER_CART = "UPDATE_USER_CART";
@@ -157,12 +157,11 @@ const userChangePassword = (user) => {
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 //instancia de axios para realizar peticiones con headers que contengan el token
-const accessToken = JSON.parse(localStorage.getItem("token"));
 export const authAxios = axios.create({
   baseURL: 'http://localhost:5000',
-  headers: {
-    Authorization: `Bearer ${accessToken}`
-  }
+  // headers: {
+  //   Authorization: `Bearer ${localStorage.getItem("token")}`
+  // }
 });
 
 export const createNewUser = (newUser) => {
@@ -223,9 +222,14 @@ export const addUserCart = (userId) => {
   return async (dispatch) => {
     try {
       const cart = JSON.parse(localStorage.getItem("cart")) || [];
-      const res = await authAxios.post(`/users/${userId}/cart`, { cart });
+      const token = localStorage.getItem("token");
+      const res = await authAxios.post(`/users/${userId}/cart`, { cart }, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
       dispatch(postUserCart(res.data));
-      if(localStorage.getItem('cart')) localStorage.removeItem('cart');
+      if (localStorage.getItem('cart')) localStorage.removeItem('cart');
     } catch (err) {
       console.log(err);
     }
@@ -266,9 +270,9 @@ export const logInUser = (email, password) => {
       dispatch(startRequest());
       const res = await axios.post(`http://localhost:5000/auth/login`, { ...email, ...password });
       const { token, user } = res.data;
-   
+
       dispatch(loginUser(user));
-      localStorage.setItem("token", JSON.stringify(token));
+      localStorage.setItem("token", token);
       dispatch(addUserCart(user.id));
       dispatch(successRequest());
     } catch (err) {
@@ -291,11 +295,16 @@ export const logOutUser = () => {
   };
 };
 
-export const autoSignInUser = () => {
+export const autoSignInUser = (token) => {
   return async (dispatch) => {
     try {
+      console.log(token);
       dispatch(startRequest());
-      const res = await authAxios.get(`/auth/me`);
+      const res = await authAxios.get(`/auth/me`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
       const user = res.data;
       dispatch(autoLoginUser(user));
       dispatch(successRequest());
@@ -309,7 +318,11 @@ export const autoSignInUser = () => {
 export const changePassword = (password) => {
   return async (dispatch) => {
     try {
-      const res = await authAxios.post(`/users/passwordReset`, { password });
+      const res = await authAxios.post(`/users/passwordReset`, { password }, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+      });
       dispatch(userChangePassword(res.data));
     } catch (err) {
       console.log(err);
@@ -320,7 +333,11 @@ export const changePassword = (password) => {
 export const promoteUserRole = (id) => {
   return async (dispatch) => {
     try {
-      const res = await authAxios.put(`/auth/promote/${id}`);
+      const res = await authAxios.put(`/auth/promote/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+      });
 
       dispatch(promoteUser(res.data));
     } catch (err) {
@@ -344,7 +361,11 @@ export const degradeUserRole = (id) => {
 export const banUserToOblivion = (id) => {
   return async (dispatch) => {
     try {
-      const res = await authAxios.put(`/auth/${id}/ban`);
+      const res = await authAxios.put(`/auth/${id}/ban`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+      });
 
       dispatch(banUser(res.data));
     } catch (err) {

@@ -8,35 +8,42 @@ server.post('/', isUser, async (req, res) => {
 
   const { productId, quantity, price, orderId } = req.body;
 
-  const order = await Order.findByPk(orderId);
+  try {
 
-  if (order) {
-    const orderline = await OrderLine.findOne({
-      where: {
-        productId,
-        orderId
+    const order = await Order.findByPk(orderId);
+
+    if (order) {
+      let orderline = await OrderLine.findOne({
+        where: {
+          productId,
+          orderId
+        }
+      });
+
+      if (orderline) {
+        orderline.update({ quantity });
+
+      } else {
+        orderline = await OrderLine.create({ productId, quantity, price, orderId });
       }
-    });
 
-    if (orderline) {
-      orderline.update({ quantity });
+      const response = await OrderLine.findByPk(orderline.id, {
+        include: [
+          Order,
+          Product,
+        ]
+      });
+      console.log("ORDERLINE", response);
+
+      res.send(response);
 
     } else {
-      orderline = await OrderLine.create({ productId, quantity, price, orderId });
+      res.sendStatus(400).send('Bad Request');
     }
-
-    const response = await OrderLine.findByPk(orderline.id, {
-      include: [
-        Order,
-        Product
-      ]
-    });
-
-    res.send(response);
-
-  } else {
-    res.sendStatus(400).send('Bad Request');
+  } catch (err) {
+    console.log(err);
   }
+
 });
 
 module.exports = server;

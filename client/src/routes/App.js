@@ -31,10 +31,10 @@ function App() {
 
   useEffect(() => {
     let token = localStorage.getItem("token");
-    if (token) dispatch(autoSignInUser());
+    if (token) dispatch(autoSignInUser(token));
     dispatch(getProducts());
     dispatch(getCategories());
-    dispatch(getCartItemsFromLocalStorage());
+    if (!isUser) dispatch(getCartItemsFromLocalStorage());
     isUser && dispatch(getUserOrders(user.id));
   }, [dispatch, isUser]);
 

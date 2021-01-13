@@ -86,7 +86,11 @@ export const postItemToCart = (orderline) => {
   return async (dispatch) => {
     try {
 
-      const res = await authAxios.post(`/orderlines`, orderline);
+      const res = await authAxios.post(`/orderlines`, orderline, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+      });
 
       dispatch(addItemToCart(res.data));
     } catch (err) {
