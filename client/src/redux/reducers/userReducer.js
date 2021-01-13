@@ -2,8 +2,11 @@ import {
   CREATE_USER,
   UPDATE_USER,
   GET_ALL_USERS,
-  GET_USER_CART,
+  PROMOTE_USER,
+  DEGRADE_USER,
+  BAN_USER,
   DELETE_USER,
+  PASSWORD_RESET,
   POST_USER_CART,
   DELETE_USER_CART,
   UPDATE_USER_CART,
@@ -11,12 +14,9 @@ import {
   LOGOUT_USER,
   AUTO_LOGIN,
   USER_CHANGE_PASSWORD,
-  SUCCESS_REQUEST,
   START_REQUEST,
-  SET_ERROR,
-  PROMOTE_USER,
-  DEGRADE_USER,
-  BAN_USER
+  SUCCESS_REQUEST,
+  SET_ERROR
 } from "../actions/user";
 
 const initialState = {
@@ -82,20 +82,19 @@ const userReducer = (state = initialState, action) => {
           action.userDeleted.id !== user.id
         )
       };
+    case PASSWORD_RESET:
+      return {
+        ...state,
+        users: state.users.map(user => {
+          if (user.id === action.user.id)
+            return action.user;
+          return user;
+        })
+      };
     case POST_USER_CART:
       return {
         ...state,
         userCart: action.userCart
-      };
-
-    case GET_USER_CART:
-      return {
-        ...state,
-        user: state.user.map(user => {
-          if (user.id === action.id && user.cart)
-            return user.cart;
-          return user;
-        })
       };
 
     case DELETE_USER_CART:
@@ -141,15 +140,15 @@ const userReducer = (state = initialState, action) => {
         ...state,
         user: action.user
       };
-    case SUCCESS_REQUEST:
-      return {
-        ...state,
-        loading: false
-      };
     case START_REQUEST:
       return {
         ...state,
         loading: true
+      };
+    case SUCCESS_REQUEST:
+      return {
+        ...state,
+        loading: false
       };
     case SET_ERROR:
       return {

@@ -1,7 +1,6 @@
 import axios from 'axios';
 
-import { Alert } from 'reactstrap';
-import { clearCart, getUserCart } from './cart';
+import { clearCart } from './cart';
 
 
 // Types
@@ -13,6 +12,7 @@ export const PROMOTE_USER = "PROMOTE_USER";
 export const DEGRADE_USER = "DEGRADE_USER";
 export const BAN_USER = "BAN_USER";
 export const DELETE_USER = "DELETE_USER";
+export const PASSWORD_RESET = "PASSWORD_RESET";
 
 export const GET_USER_CART = "GET_USER_CART";
 export const POST_USER_CART = "POST_USER_CART";
@@ -21,7 +21,6 @@ export const UPDATE_USER_CART = "UPDATE_USER_CART";
 
 export const LOGIN_USER = "LOGIN_USER";
 export const LOGOUT_USER = "LOGOUT_USER";
-
 export const AUTO_LOGIN = "AUTO_LOGIN";
 
 export const USER_CHANGE_PASSWORD = "USER_CHANGE_PASSWORD";
@@ -30,26 +29,6 @@ export const START_REQUEST = "START_REQUEST";
 export const SUCCESS_REQUEST = "SUCCESS_REQUEST";
 export const SET_ERROR = "SET_ERROR";
 
-//export const PASSWORD_RESET = "PASSWORD_RESET"; 
-
-const setError = (error) => {
-  return {
-    type: SET_ERROR,
-    error
-  };
-};
-
-const startRequest = () => {
-  return {
-    type: START_REQUEST
-  };
-};
-
-const successRequest = () => {
-  return {
-    type: SUCCESS_REQUEST,
-  };
-};
 
 const createUser = (user) => {
   return {
@@ -64,6 +43,7 @@ const updateUser = (user) => {
     user
   };
 };
+
 
 const getAllUsers = (user) => {
   return {
@@ -100,6 +80,13 @@ const deleteUser = ({ userDeleted }) => {
   };
 };
 
+const forcePasswordReset = (user) => {
+  return {
+    type: PASSWORD_RESET,
+    user
+  };
+};
+
 
 const postUserCart = (userCart) => {
   return {
@@ -107,9 +94,6 @@ const postUserCart = (userCart) => {
     userCart
   };
 };
-
-
-
 
 const deleteUserCart = (userId) => {
   return {
@@ -125,6 +109,7 @@ const updateUserCart = (id, userCart) => {
     userCart
   };
 };
+
 
 const loginUser = (user) => {
   return {
@@ -147,12 +132,35 @@ const autoLoginUser = (user) => {
   };
 };
 
+
 const userChangePassword = (user) => {
   return {
     type: USER_CHANGE_PASSWORD,
     user
   };
 };
+
+
+const startRequest = () => {
+  return {
+    type: START_REQUEST
+  };
+};
+
+const successRequest = () => {
+  return {
+    type: SUCCESS_REQUEST,
+  };
+};
+
+
+const setError = (error) => {
+  return {
+    type: SET_ERROR,
+    error
+  };
+};
+
 
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -163,6 +171,7 @@ export const authAxios = axios.create({
   //   Authorization: `Bearer ${localStorage.getItem("token")}`
   // }
 });
+
 
 export const createNewUser = (newUser) => {
   return async (dispatch) => {
@@ -191,6 +200,7 @@ export const editUser = (id, updatedUser) => {
   };
 };
 
+
 export const getUsers = () => {
   return async (dispatch) => {
     try {
@@ -204,6 +214,41 @@ export const getUsers = () => {
   };
 };
 
+export const promoteUserRole = (id) => {
+  return async (dispatch) => {
+    try {
+      const res = await authAxios.put(`/auth/promote/${id}`);
+
+      dispatch(promoteUser(res.data));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const degradeUserRole = (id) => {
+  return async (dispatch) => {
+    try {
+      const res = await authAxios.put(`/auth/degrade/${id}`);
+
+      dispatch(degradeUser(res.data));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const banUserToOblivion = (id) => {
+  return async (dispatch) => {
+    try {
+      const res = await authAxios.put(`/auth/${id}/ban`);
+
+      dispatch(banUser(res.data));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
 
 export const removeUser = (id) => {
   return async (dispatch) => {
@@ -217,6 +262,19 @@ export const removeUser = (id) => {
     }
   };
 };
+
+export const passwordReset = (id) => {
+  return async (dispatch) => {
+    try {
+      const res = await authAxios.put(`/users/forcePasswordReset/${id}`);
+
+      dispatch(forcePasswordReset(res.data));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
 
 export const addUserCart = (userId) => {
   return async (dispatch) => {
@@ -235,8 +293,6 @@ export const addUserCart = (userId) => {
     }
   };
 };
-
-
 
 export const removeUserCart = (userId) => {
   return async (dispatch) => {
@@ -263,6 +319,7 @@ export const editUserCart = (id, userCart) => {
     }
   };
 };
+
 
 export const logInUser = (email, password) => {
   return async (dispatch) => {
@@ -315,6 +372,7 @@ export const autoSignInUser = (token) => {
   };
 };
 
+
 export const changePassword = (password) => {
   return async (dispatch) => {
     try {
@@ -329,6 +387,7 @@ export const changePassword = (password) => {
     }
   };
 };
+
 
 export const promoteUserRole = (id) => {
   return async (dispatch) => {
@@ -373,4 +432,5 @@ export const banUserToOblivion = (id) => {
     }
   };
 };
+
 

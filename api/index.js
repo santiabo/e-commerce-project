@@ -62,10 +62,21 @@ conn.sync({ force: true }).then(() => {
       "avatar": "https://static.wikia.nocookie.net/simpsons/images/9/9d/Maggie_Simpson.png",
       "firstName": "Maggie",
       "lastName": "Simpson",
-      "birthdate": "1999-12-01",
+      "birthdate": "1988-01-14",
       "password": "1234",
       "isAdmin": true,
       "changePassword": true
+    });
+
+    User.create({
+      "email": "apu@nahasa.com",
+      "avatar": "https://static.wikia.nocookie.net/simpsons/images/7/7d/Apu_Nahasapeemapetilon.png",
+      "firstName": "Apu",
+      "lastName": "Nahasapeemapetilon",
+      "birthdate": "1940-01-01",
+      "password": "1234",
+      "isAdmin": false,
+      "changePassword": false
     });
 
     Category.bulkCreate(data.categories);
