@@ -30,7 +30,7 @@ function App() {
   const { user, isUser } = useSelector(state => state.user)
 
   useEffect(() => {
-    if(isUser)dispatch(autoSignInUser());
+    if (isUser) dispatch(autoSignInUser());
     dispatch(getProducts());
     dispatch(getCategories());
     dispatch(getCartItemsFromLocalStorage());
@@ -50,7 +50,11 @@ function App() {
             <Home slides={SlideData} />
           </Route>
 
-          <Route exact path="/user/account" component={EditProfile} />
+          <Route path='/products' component={Catalogue} />
+
+          <Route path='/cart' component={Cart} />
+
+          <Route path='/product/:id' render={({ match }) => <Product match={match} />} />
 
           <Route exact path='/changePassword' component={ForcePasswordChangePage} />
 
@@ -58,21 +62,18 @@ function App() {
 
           <Route path="/register" component={UserRegister} />
 
-          <Route path='/admin' component={ProductTable} />
+          <Route path='/admin/products' component={ProductTable} />
 
-          <Route path='/orders' component={TableOrder} />
+          <Route path='/admin/orders' component={TableOrder} />
 
-          <Route exact path='/users' component={userTable} />
+          <Route exact path='/admin/users' component={userTable} />
+
+          <Route exact path="/user/account" component={EditProfile} />
 
           <Route exact path='/user/orders' component={OrderContainer} />
 
           <Route exact path='/user/orders/:id' render={({ match }) => <Order match={match} />} />
 
-          <Route path='/products' component={Catalogue} />
-
-          <Route path='/cart' component={Cart} />
-
-          <Route path='/product/:id' render={({ match }) => <Product match={match} />} />
 
           <Route component={NotFound} />
         </Switch>

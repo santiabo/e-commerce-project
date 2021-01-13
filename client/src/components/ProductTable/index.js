@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import { Modal, ModalBody, ModalHeader, ModalFooter } from 'reactstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeProduct, addProduct, editProduct, addCategoryToProduct, removeCategoryToProduct } from '../../redux/actions/product';
@@ -8,6 +8,14 @@ import { addCategory } from '../../redux/actions/category';
 import "./ProductTable.css";
 
 function ProductTable() {
+  const history = useHistory(); 
+  const { user } = useSelector(state => state.user);
+
+  useEffect(() => {
+    if (!user.isAdmin) {
+      history.push('/');
+    }
+  }, [])
 
   const dispatch = useDispatch();
 
@@ -209,10 +217,10 @@ function ProductTable() {
     <div className="App">
       <h2 id='prodList' class="alert alert-info">Products List</h2>
       <div id='ordTabl'>
-        <Link to='/orders' >
+        <Link to='/admin/orders' >
           <button className="btn btn-info">Orders</button>
         </Link>
-        <Link to='/users' >
+        <Link to='/admin/users' >
           <button className="btn btn-info">Users</button>
         </Link>
       </div>
