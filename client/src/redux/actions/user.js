@@ -14,7 +14,6 @@ export const BAN_USER = "BAN_USER";
 export const DELETE_USER = "DELETE_USER";
 export const PASSWORD_RESET = "PASSWORD_RESET";
 
-export const GET_USER_CART = "GET_USER_CART";
 export const POST_USER_CART = "POST_USER_CART";
 export const DELETE_USER_CART = "DELETE_USER_CART";
 export const UPDATE_USER_CART = "UPDATE_USER_CART";
@@ -214,6 +213,50 @@ export const getUsers = () => {
   };
 };
 
+export const promoteUserRole = (id) => {
+  return async (dispatch) => {
+    try {
+      const res = await authAxios.put(`/auth/promote/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+      });
+
+      dispatch(promoteUser(res.data));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const degradeUserRole = (id) => {
+  return async (dispatch) => {
+    try {
+      const res = await authAxios.put(`/auth/degrade/${id}`);
+
+      dispatch(degradeUser(res.data));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const banUserToOblivion = (id) => {
+  return async (dispatch) => {
+    try {
+      const res = await authAxios.put(`/auth/${id}/ban`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+      });
+
+      dispatch(banUser(res.data));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
 export const removeUser = (id) => {
   return async (dispatch) => {
     try {
@@ -351,50 +394,3 @@ export const changePassword = (password) => {
     }
   };
 };
-
-
-export const promoteUserRole = (id) => {
-  return async (dispatch) => {
-    try {
-      const res = await authAxios.put(`/auth/promote/${id}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`
-        }
-      });
-
-      dispatch(promoteUser(res.data));
-    } catch (err) {
-      console.log(err);
-    }
-  };
-};
-
-export const degradeUserRole = (id) => {
-  return async (dispatch) => {
-    try {
-      const res = await authAxios.put(`/auth/degrade/${id}`);
-
-      dispatch(degradeUser(res.data));
-    } catch (err) {
-      console.log(err);
-    }
-  };
-};
-
-export const banUserToOblivion = (id) => {
-  return async (dispatch) => {
-    try {
-      const res = await authAxios.put(`/auth/${id}/ban`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`
-        }
-      });
-
-      dispatch(banUser(res.data));
-    } catch (err) {
-      console.log(err);
-    }
-  };
-};
-
-
