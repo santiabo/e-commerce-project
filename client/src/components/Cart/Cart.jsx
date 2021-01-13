@@ -51,12 +51,12 @@ const CartItem = () => {
 
   const removeFromCart = (idToRemove) => {
     dispatch(removeItemFromCart(idToRemove));
-    isUser && dispatch(addUserCart(user.id))
+    isUser && dispatch(addUserCart(user.id));
   };
 
   const clearAllItems = () => {
     dispatch(clearCart());
-    isUser && dispatch(addUserCart(user.id))
+    isUser && dispatch(addUserCart(user.id));
   };
 
   const getTotal = () => {
@@ -74,18 +74,18 @@ const CartItem = () => {
         <ProductWrapper>
           <LeftSide>
             <ImageContainer>
-              <img src={item.images[0]} alt={item.name} />
+              <img src={item.product.images[0]} alt={item.product.name} />
             </ImageContainer>
           </LeftSide>
           <RightSide>
             <CategoriesTags>
-              {item.categories.map(category => (
+              {item.product.categories.map(category => (
                 <CategoryTag>{category.name}</CategoryTag>
               ))}
             </CategoriesTags>
-            <Title>{item.name}</Title>
+            <Title>{item.product.name}</Title>
             <Description>
-              {item.description}
+              {item.product.description}
             </Description>
             {item.quantity && <h4>Units: {item.quantity}</h4>}
             <Price>

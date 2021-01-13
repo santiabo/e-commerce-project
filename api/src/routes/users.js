@@ -1,5 +1,5 @@
 const server = require('express').Router();
-const { User, Order, OrderLine, Product } = require('../db');
+const { User, Order, OrderLine, Product, Category } = require('../db');
 const { isUser, isAdmin } = require('../middlewares/auth');
 
 
@@ -60,7 +60,7 @@ server.post('/:userId/cart', isUser, async (req, res, next) => {
       }
     });
     const { id } = order[0].dataValues;
-    
+
     cart.map(async p => {
       const orderLine = await OrderLine.findOne({
         where: {
@@ -68,25 +68,30 @@ server.post('/:userId/cart', isUser, async (req, res, next) => {
           orderId: id
         }
 
-      })
+      });
       if (orderLine) await orderLine.update({
         quantity: orderLine.quantity + p.quantity
-      })
+      });
       else await OrderLine.create({
         quantity: p.quantity,
         price: p.price,
         productId: p.id,
         orderId: order[0].dataValues.id
-      })
-    })
+      });
+    });
 
     const userCart = await OrderLine.findAll({
       where: {
         orderId: order[0].dataValues.id
       },
       include: [
-        Product,
-        Order
+        Order,
+        {
+          model: Product,
+          include: [
+            Category
+          ]
+        }
       ]
     });
     return res.send(userCart);
@@ -112,12 +117,17 @@ server.get('/:userId/cart', isUser, (req, res, next) => {
         OrderLine.findAll({
           where: { orderId: order.id },
           include: [
-            Product,
-            Order
+            Order,
+            {
+              model: Product,
+              include: [
+                Category
+              ]
+            }
           ]
         })
           .then((orderLines) => {
-            console.log(orderLines)
+            console.log(orderLines);
             return res.send(orderLines);
           });
     })
@@ -195,8 +205,9 @@ server.get('/:id/orders',  /* isUser, */(req, res, next) => {
       }],
     }]
 
-  }).then((order) => {
-    return res.send(order); //devuelve las ordenes
+  }).then((orders) => {
+    console.log(orders);
+    return res.send(orders); //devuelve las ordenes
   }).catch(next);
 });
 

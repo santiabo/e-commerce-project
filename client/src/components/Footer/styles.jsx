@@ -2,17 +2,13 @@ import styled from 'styled-components';
 
 export const FooterWrapper = styled.footer`
   display: block;
-  list-style-type: disc;
   /* background: red; */
   background: #191b2b;
   overflow: hidden;
   padding-bottom: 1rem;
   text-align: center;
-  bottom: 0;
-  left: 0;
-  right: 0;
   -webkit-user-select: none;
-  align-self: flex-end;
+  height: 100px;
 `;
 
 export const SocialMediaWrapper = styled.div`

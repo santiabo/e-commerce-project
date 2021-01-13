@@ -82,7 +82,11 @@ export const getUserOrders = (id) => {
   return async (dispatch) => {
     try {
 
-      const res = await authAxios.get(`http://localhost:5000/users/${id}/orders`);
+      const res = await authAxios.get(`/users/${id}/orders`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+      });
       dispatch({
         type: USER_ORDERS,
         payload: res.data

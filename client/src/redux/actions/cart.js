@@ -28,10 +28,10 @@ export const setItemToCart = (product, quantity) => {
   };
 };
 
-export const addItemToCart = (orderline) => {
+export const addItemToCart = (orderlines) => {
   return {
     type: ADD_ITEM_TO_CART,
-    orderline
+    orderlines
   };
 };
 
@@ -73,7 +73,11 @@ export const getUserCart = (userId) => {
   return async (dispatch) => {
     try {
 
-      const res = await authAxios.get(`/users/${userId}/cart`);
+      const res = await authAxios.get(`/users/${userId}/cart`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+      });
 
       dispatch(setUserCart(res.data));
     } catch (err) {
@@ -86,7 +90,11 @@ export const postItemToCart = (orderline) => {
   return async (dispatch) => {
     try {
 
-      const res = await authAxios.post(`/orderlines`, orderline);
+      const res = await authAxios.post(`/orderlines`, orderline, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+      });
 
       dispatch(addItemToCart(res.data));
     } catch (err) {
