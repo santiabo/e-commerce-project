@@ -86,7 +86,7 @@ export const postItemToCart = (orderline) => {
   return async (dispatch) => {
     try {
 
-      const res = await authAxios.post(`/orderline`, orderline);
+      const res = await authAxios.post(`/orderlines`, orderline);
 
       dispatch(addItemToCart(res.data));
     } catch (err) {

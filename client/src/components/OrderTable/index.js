@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getAllOrdersAction, setFinalizedOrderAction, setConfirmOrderAction, setDeliveredOrderAction, setPreparedOrderAction, setRejectedOrderAction, setSendOrderAction } from '../../redux/actions/order';
+import { getAllOrdersAction, setFinalizedOrderAction, setConfirmOrderAction, setDeliveredOrderAction, setPreparedOrderAction, setRejectedOrderAction, setSendOrderAction, getUserOrders } from '../../redux/actions/order';
 import { useHistory } from 'react-router';
 import { connect, useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -14,8 +14,9 @@ import { Link } from 'react-router-dom';
 const TableOrder = ({ getAllOrdersAction, setFinalizedOrderAction, setConfirmOrderAction, setDeliveredOrderAction, setPreparedOrderAction, setRejectedOrderAction, setSendOrderAction }) => {
   const history = useHistory();
 
+
   useEffect(() => {
-    getAllOrdersAction()
+    getAllOrdersAction() 
   }, [getAllOrdersAction]);
 
   // useEffect(() => {

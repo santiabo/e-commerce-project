@@ -22,6 +22,7 @@ import {
 import './cart.css';
 import { UnitsAmountWrapper } from "../UnitsAmount/styles";
 import Cart from '../../assets/icons/shopping_cart.svg';
+import { addUserCart } from "../../redux/actions/user";
 
 
 
@@ -30,6 +31,8 @@ const CartItem = () => {
 
   const dispatch = useDispatch();
   const { cart, cartAmount } = useSelector(state => state.cart);
+  const { isUser, user } = useSelector(state => state.user);
+
 
   if (!cartAmount) {
     return (
@@ -48,10 +51,12 @@ const CartItem = () => {
 
   const removeFromCart = (idToRemove) => {
     dispatch(removeItemFromCart(idToRemove));
+    isUser && dispatch(addUserCart(user.id))
   };
 
   const clearAllItems = () => {
     dispatch(clearCart());
+    isUser && dispatch(addUserCart(user.id))
   };
 
   const getTotal = () => {
@@ -88,11 +93,11 @@ const CartItem = () => {
             </Price>
             <ButtonsWrapper>
               <UnitsAmountWrapper>
-                <input type="button" value='-' onClick={() => item.quantity > 1 && dispatch(decrementItem(item.id))} />
+                <input type="button" value='-' onClick={() => item.quantity > 1 && dispatch(decrementItem(item.id)) && isUser && dispatch(addUserCart(user.id))} />
                 <input type="button" value={item.quantity} />
-                <input type="button" value='+' onClick={() => dispatch(incrementItem(item.id))} />
+                <input type="button" value='+' onClick={() => dispatch(incrementItem(item.id)) && isUser && dispatch(addUserCart(user.id))} />
               </UnitsAmountWrapper>
-              <Button onClick={() => removeFromCart(item.id)}>
+              <Button onClick={() => removeFromCart(item.id) && isUser && dispatch(addUserCart(user.id))}>
                 Remove
                 </Button>
             </ButtonsWrapper>
