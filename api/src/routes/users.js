@@ -220,8 +220,8 @@ server.post('/passwordReset', isUser, async (req, res, next) => {
   }
 });
 
-//-------------- Force User Change Password
-server.put('/:id/force-change-password', isAdmin, async (req, res, next) => {
+//-------------- Force Password Reset
+server.put('/forcePasswordReset/:id', isAdmin, async (req, res, next) => {
   const { id } = req.params;
   try {
     const user = await User.findByPk(id);

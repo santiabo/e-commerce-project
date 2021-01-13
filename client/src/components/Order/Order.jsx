@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import './order.css'
 
 const Order = ({ match }) => {
@@ -11,7 +11,7 @@ const Order = ({ match }) => {
     if (!isUser) {
       history.push('/');
     }
-  }, [])
+  }, [history, isUser])
 
   const index = match.params.id
   const userOrder = useSelector(state => state.order.userOrders);

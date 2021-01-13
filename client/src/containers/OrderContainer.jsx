@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { getUserOrders } from '../redux/actions/order';
-import { getOrderByUserId } from '../services/orders';
+
 // Styled Components
 import { StyledLink } from './orderStyles';
 
