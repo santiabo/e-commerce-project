@@ -872,11 +872,5 @@ conn.sync({ force: true }).then(() => {
       }).then(createdProduct => {
         createdProduct.setCategories([1])
       });
-
-
-
-
-
-
   });
 });
