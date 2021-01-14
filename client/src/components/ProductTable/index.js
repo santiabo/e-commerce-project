@@ -4,11 +4,12 @@ import { Modal, ModalBody, ModalHeader, ModalFooter } from 'reactstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeProduct, addProduct, editProduct, addCategoryToProduct, removeCategoryToProduct } from '../../redux/actions/product';
 import { addCategory } from '../../redux/actions/category';
+import DropZone from '../DropZone/DropZone';
 
 import "./ProductTable.css";
 
 function ProductTable() {
-  const history = useHistory(); 
+  const history = useHistory();
   const { user } = useSelector(state => state.user);
 
   useEffect(() => {
@@ -414,12 +415,11 @@ function ProductTable() {
             {error.stock && <span className='text-danger'>{error.stock}</span>}
             <br />
 
-            <label>Image URL</label>
-            <input
+            <label>Image</label>
+            <DropZone
               className="form-control"
-              type="text"
-              name="img"
-              onChange={handleChange} />
+              name="image"
+            >Select File</DropZone>
             <br />
 
           </div>
