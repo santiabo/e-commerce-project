@@ -1,6 +1,6 @@
 import React from 'react';
-import notFound from '../assets/icons/404_page_not_found_.svg';
-import '../containers/NotFound.css';
+import notFound from '../../assets/icons/404_page_not_found_.svg';
+import './NotFound.css';
 
 const NotFound = () => (
   <>

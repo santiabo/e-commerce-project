@@ -2,7 +2,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { getUserOrders } from '../redux/actions/order';
+import { getUserOrders } from '../../redux/actions/order';
+
 
 // Styled Components
 import { StyledLink } from './orderStyles';
@@ -63,9 +64,8 @@ const OrderContainer = () => {
                   <td>{i.updatedAt.slice(0, 10)}</td>
                   <td>$ {getTotal(i)}</td>
                   <td>{i.status}</td>
-                  {console.log('la poronga esta',i.orderLines[0].product.images[0])/* <img src={i.orderLines[0].product.images[0]} width="75" height="75"></img> */}
-                  <td><StyledLink to={`/user/admin/orders/${index}`}>View Details</StyledLink></td>
-
+                  <img src={i.orderLines[0].product.images[0]} width="75" height="75"></img> 
+                  <td><StyledLink to={`/user/orders/${index}`}>View Details</StyledLink></td>
                 </tr>
               )}
           </tbody>

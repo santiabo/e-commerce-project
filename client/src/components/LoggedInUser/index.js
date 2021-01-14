@@ -37,7 +37,7 @@ const LoggedInUser = () => {
         </DropdownItem>
 
         <DropdownItem>
-          <Link to='/user/admin/orders' className='LinkItem'>Orders</Link>
+          <Link to='/user/orders' className='LinkItem'>Orders</Link>
         </DropdownItem>
 
         <DropdownItem>

@@ -65,7 +65,7 @@ conn.sync({ force: true }).then(() => {
       "birthdate": "1988-01-14",
       "password": "1234",
       "isAdmin": true,
-      "changePassword": true
+      "changePassword": false
     });
 
     User.create({

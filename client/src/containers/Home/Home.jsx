@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 // Styles
-import '../containers/Home.css';
+import '../Home/Home.css';
 import { useHistory } from "react-router";
 import { useSelector } from "react-redux";
 
