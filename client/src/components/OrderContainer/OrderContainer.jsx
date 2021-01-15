@@ -64,7 +64,7 @@ const OrderContainer = () => {
                   <td>{i.updatedAt.slice(0, 10)}</td>
                   <td>$ {getTotal(i)}</td>
                   <td>{i.status}</td>
-                  <img src={i.orderLines[0].product.images[0]} width="75" height="75"></img> 
+                  {/* <img src={i.orderLines[0].product.images[0]} width="75" height="75"></img>  */}
                   <td><StyledLink to={`/user/orders/${index}`}>View Details</StyledLink></td>
                 </tr>
               )}

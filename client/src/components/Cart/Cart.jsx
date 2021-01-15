@@ -74,18 +74,18 @@ const CartItem = () => {
         <ProductWrapper>
           <LeftSide>
             <ImageContainer>
-              <img src={item.product.images[0]} alt={item.product.name} />
+              <img src={item.images[0]} alt={item.name} />
             </ImageContainer>
           </LeftSide>
           <RightSide>
             <CategoriesTags>
-              {item.product.categories.map(category => (
+              {item.categories.map(category => (
                 <CategoryTag>{category.name}</CategoryTag>
               ))}
             </CategoriesTags>
-            <Title>{item.product.name}</Title>
+            <Title>{item.name}</Title>
             <Description>
-              {item.product.description}
+              {item.description}
             </Description>
             {item.quantity && <h4>Units: {item.quantity}</h4>}
             <Price>
