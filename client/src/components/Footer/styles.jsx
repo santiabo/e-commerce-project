@@ -1,18 +1,12 @@
 import styled from 'styled-components';
 
 export const FooterWrapper = styled.footer`
-  display: block;
-  list-style-type: disc;
-  /* background: red; */
+  position: relative;
   background: #191b2b;
+  text-align: center;;
+  width: 100%;
   overflow: hidden;
-  padding-bottom: 1rem;
-  text-align: center;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  -webkit-user-select: none;
-  align-self: flex-end;
+  padding: 3rem 0;
 `;
 
 export const SocialMediaWrapper = styled.div`
@@ -20,6 +14,7 @@ export const SocialMediaWrapper = styled.div`
   justify-content: center;
   
   svg {
+  position: relative;
   transition: 0.45s cubic-bezier(0.165, 0.84, 0.44, 1);
   width: 24px;
   height: 24px;
@@ -29,10 +24,12 @@ export const SocialMediaWrapper = styled.div`
   opacity: 0.7;
 
   &:hover {
-    transform: translateY(-4px);
+    position: relative;
+    transform: translateY(-1px);
     opacity: 1;
     width: 26px;
     height: 26px;
+    margin: 1.5rem;
     }
   }
 `;

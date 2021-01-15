@@ -64,7 +64,6 @@
   border-radius: 0.25rem;
   padding: .375rem .5rem;
   line-height: 1.5;
-  /* background-color: rgb(232, 240, 254) !important; */
   color: internal-light-dark(black, white) !important;
   text-rendering: auto;
   letter-spacing: normal;
