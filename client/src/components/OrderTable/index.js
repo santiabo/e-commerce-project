@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getAllOrdersAction, setFinalizedOrderAction, setConfirmOrderAction, setDeliveredOrderAction, setPreparedOrderAction, setRejectedOrderAction, setSendOrderAction } from '../../redux/actions/order';
+import { getAllOrdersAction, setFinalizedOrderAction, setConfirmOrderAction, setDeliveredOrderAction, setPreparedOrderAction, setRejectedOrderAction, setSendOrderAction, sendReviewEmail } from '../../redux/actions/order';
 import { useHistory } from 'react-router';
 import { connect, useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -20,11 +20,11 @@ const TableOrder = ({ getAllOrdersAction, setFinalizedOrderAction, setConfirmOrd
     if (!user.isAdmin) {
       history.push('/');
     }
-  }, [])
+  }, []);
 
 
   useEffect(() => {
-    getAllOrdersAction()
+    getAllOrdersAction();
   }, [getAllOrdersAction]);
 
   // useEffect(() => {
@@ -34,36 +34,39 @@ const TableOrder = ({ getAllOrdersAction, setFinalizedOrderAction, setConfirmOrd
   //     initialState.orderDetail
   // ]);
 
-  let orders = useSelector(state => state.order.allOrders)
+  let orders = useSelector(state => state.order.allOrders);
 
   const handleChange = async (e, id) => {
     let resp = window.confirm(`Desea cambiar el estado de la orden a ${e.target.value}`);
+    const selectedOrder = orders.filter(o => o.id === id);
+    const email = selectedOrder[0].user.email;
 
     if (resp === true) {
       switch (e.target.value) {
         case 'DELIVERED':
-          await setDeliveredOrderAction(id)
+          await setDeliveredOrderAction(id);
           break;
         case 'CREATED':
-          await setConfirmOrderAction(id)
+          await setConfirmOrderAction(id);
           break;
         case 'SEND':
-          await setSendOrderAction(id)
+          await setSendOrderAction(id);
           break;
         case 'CANCELLED':
-          await setRejectedOrderAction(id)
+          await setRejectedOrderAction(id);
           break;
         case 'PROCESSING':
-          await setPreparedOrderAction(id)
+          await setPreparedOrderAction(id);
           break;
         case 'COMPLETED':
-          await setFinalizedOrderAction(id)
+          await sendReviewEmail(id, email);
+          await setFinalizedOrderAction(id);
           break;
         default:
           break;
       }
     }
-  }
+  };
 
   const [filter, setFilter] = useState('id');
   const [order, setOrder] = useState(true);
@@ -77,7 +80,7 @@ const TableOrder = ({ getAllOrdersAction, setFinalizedOrderAction, setConfirmOrd
     } else {
       orders = order ? orders.sort((a, b) => a[filter] > b[filter] ? 1 : -1) : orders.sort((a, b) => a[filter] < b[filter] ? 1 : -1);
     }
-  }
+  };
 
   return (
     <div className="App">
@@ -104,7 +107,7 @@ const TableOrder = ({ getAllOrdersAction, setFinalizedOrderAction, setConfirmOrd
           </thead>
           <tbody>
             {orders !== undefined &&
-              orders.map(({ id, user, status, createdAt, updatedAt, address }) => (
+              orders.map(({ id, user, status, createdAt, updatedAt }) => (
                 <tr key={id}>
                   <td>{id}</td>
                   <td>{user.email}</td>
@@ -119,7 +122,7 @@ const TableOrder = ({ getAllOrdersAction, setFinalizedOrderAction, setConfirmOrd
                         <i className="fas fa-search"></i>
                       </Button>
                     </ButtonsWrapper>
-                    <Select status={status} id={id} handleChange={handleChange} address={address} />
+                    <Select status={status} id={id} handleChange={handleChange} />
                   </td>
                 </tr>
               ))}
@@ -137,17 +140,17 @@ const TableOrder = ({ getAllOrdersAction, setFinalizedOrderAction, setConfirmOrd
         </table>
       </section>
     </div>
-  )
+  );
 };
 
 function mapStateToProps(state) {
   return {
     state: state.orders_reducer
-  }
+  };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ getAllOrdersAction, setFinalizedOrderAction, setConfirmOrderAction, setDeliveredOrderAction, setPreparedOrderAction, setRejectedOrderAction, setSendOrderAction }, dispatch)
+  return bindActionCreators({ getAllOrdersAction, setFinalizedOrderAction, setConfirmOrderAction, setDeliveredOrderAction, setPreparedOrderAction, setRejectedOrderAction, setSendOrderAction }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TableOrder);
