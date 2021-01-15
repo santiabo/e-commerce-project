@@ -1,7 +1,10 @@
 const server = require('express').Router();
 const nodemailer = require('nodemailer');
 
-server.post('/', async (req, res, next) => {
+server.post('/:id', async (req, res, next) => {
+
+  const { id } = req.params;
+  // const { user } = req.body;
 
   try {
     const transporter = nodemailer.createTransport({
@@ -13,10 +16,11 @@ server.post('/', async (req, res, next) => {
     });
 
     let info = await transporter.sendMail({
-      from: 'dailytinkerer@gmail.com',
-      to: 'santiabo@gmail.com',
-      subject: 'Holiwis',
-      text: 'Chauliwis'
+      from: '"PCBuildHub" <dailytinkerer@gmail.com>',
+      // to: user,
+      to: 'dailytinkerer@gmail.com',
+      subject: `Order: ${id}`,
+      html: '<a href=`http://localhost:3000/product/1`>Review your product!</a>'
     });
 
     res.send('Done');

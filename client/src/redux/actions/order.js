@@ -250,3 +250,13 @@ export const disabledCrud = () => {
   };
 };
 
+export const sendReviewEmail = (id, user) => {
+  return axios
+    .post(`http://localhost:5000/email/${id}`, { user })
+    .then(res => {
+      return res.data;
+    })
+    .catch(() => {
+      return undefined;
+    });
+}

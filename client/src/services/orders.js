@@ -172,7 +172,7 @@ export async function setEmptyOrder(idOrder) {
 // PONE UNA ORDEN COMO FINALIZED
 export async function setFinalizedOrder(idOrder) {
   return axios
-    .put(`http://localhost:5000/orders/${idOrder}/finalized`)
+    .put(`http://localhost:5000/orders/${idOrder}/completed`)
     .then(res => {
       return res.data;
     })
