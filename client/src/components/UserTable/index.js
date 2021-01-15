@@ -1,23 +1,27 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import "./UserTable.css";
-import { getUsers, promoteUserRole, degradeUserRole, banUserToOblivion } from '../../redux/actions/user';
-//import { User } from '../../../../api/src/models/User.js'; <---no se puede
-
-//no me aparecen los cambios!!!!
+import { getUsers, promoteUserRole, degradeUserRole, banUserToOblivion, passwordReset } from '../../redux/actions/user';
 
 
 function UserTable() {
-
-  const { users } = useSelector(state => state.user);
-
+  const history = useHistory();
   const dispatch = useDispatch();
+
+  const { user, users } = useSelector(state => state.user);
+  console.log('USUARIO', user)
+
+  useEffect(() => {
+    if (!user.isAdmin) {
+      history.push('/');
+    }
+  }, [])
 
   useEffect(() => {
     dispatch(getUsers());
-  }, []);
+  }, [dispatch]);
 
   const handleClickPromote = (id) => {
     dispatch(promoteUserRole(id));
@@ -31,28 +35,23 @@ function UserTable() {
     dispatch(banUserToOblivion(id));
   };
 
-  // [{
-  //   id: 1,
-  //   firstName: 'Mauro',
-  //   lastName: 'Vargas',
-  //   email: 'sdfgsdfg@dadfasdfsdf.com',
-  //   isAdmin: 'Admin',
+  const handlePasswordReset = (id) => {
+    dispatch(passwordReset(id));
+  };
 
-  // }, {
-  //   id: 2,
-  //   firstName: 'Arihi',
-  //   lastName: 'Paki',
-  //   email: 'hkj@dadfasdfsdf.com',
-  //   isAdmin: 'User',
-  // }];
 
   return (
     <div className="App">
 
-      <Link to='/users' className='mainLink'>
-        <h2>User Table</h2>
-      </Link>
-      <br /><br />
+      <h2 id='prodList' class="alert alert-info">Users List</h2>
+      <div id='ordTabl'>
+        <Link to='/admin/orders' >
+          <button className="btn btn-info">Orders</button>
+        </Link>
+        <Link to='/admin/products' >
+          <button className="btn btn-info">Products</button>
+        </Link>
+      </div>
       <table className="table table-bordered">
         <thead>
           <tr>
@@ -71,13 +70,13 @@ function UserTable() {
               <td>{u.firstName}</td>
               <td>{u.lastName}</td>
               <td>{u.email}</td>
-              <td>{u.isAdmin && 'Admin' || 'User'}</td>
+              <td>{u.isAdmin ? 'Admin' : 'User'}</td>
               <td id='settings'>
                 <button type='button' className='btn' onClick={() => handleClickPromote(u.id)}>Make Admin</button>
                 <br></br>
                 <button type='button' className='btn' onClick={() => handleClickDegrade(u.id)}>Demote Admin</button>
                 <br></br>
-                <button type='button' className='btn'>Force Password Change</button>
+                <button type='button' className='btn' onClick={() => handlePasswordReset(u.id)}>Force Password Reset</button>
                 <br></br>
                 <button type='button' className='btn' onClick={() => handleClickBan(u.id)}>Ban</button>
                 <br></br>

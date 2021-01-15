@@ -14,6 +14,15 @@ import { Link } from 'react-router-dom';
 const TableOrder = ({ getAllOrdersAction, setFinalizedOrderAction, setConfirmOrderAction, setDeliveredOrderAction, setPreparedOrderAction, setRejectedOrderAction, setSendOrderAction }) => {
   const history = useHistory();
 
+  const { user } = useSelector(state => state.user);
+
+  useEffect(() => {
+    if (!user.isAdmin) {
+      history.push('/');
+    }
+  }, [])
+
+
   useEffect(() => {
     getAllOrdersAction()
   }, [getAllOrdersAction]);
@@ -25,7 +34,7 @@ const TableOrder = ({ getAllOrdersAction, setFinalizedOrderAction, setConfirmOrd
   //     initialState.orderDetail
   // ]);
 
-  let orders = useSelector(state=> state.order.allOrders)
+  let orders = useSelector(state => state.order.allOrders)
 
   const handleChange = async (e, id) => {
     let resp = window.confirm(`Desea cambiar el estado de la orden a ${e.target.value}`);
@@ -72,50 +81,54 @@ const TableOrder = ({ getAllOrdersAction, setFinalizedOrderAction, setConfirmOrd
 
   return (
     <div className="App">
-      <h2 id='prodList' class="alert alert-info">Order Table</h2>
-      <br />
-      <Link id='ordTabl' to='/admin' >
-        <button className="btn btn-info">Products List</button>
-      </Link>
+      <h2 id='prodList' class="alert alert-info">Orders List</h2>
+      <div id='ordTabl'>
+        <Link to='/admin/products' >
+          <button className="btn btn-info">Products</button>
+        </Link>
+        <Link to='/admin/users' >
+          <button className="btn btn-info">Users</button>
+        </Link>
+      </div>
       <section>
-        <table className = {style.table}>
+        <table className={style.table}>
           <thead>
             <tr>
-              <th style={{ width: '3rem' }}><ButtonsWrapper><Button className={ filter === 'id' ? order ? style.asc : style.des  : null } name = 'id' onClick = {handleFilter}>ID</Button></ButtonsWrapper></th>
-              <th><ButtonsWrapper><Button className = { filter === 'user' ? order ? style.asc : style.des  : null } name = 'user' onClick = {handleFilter}>User</Button></ButtonsWrapper></th>
-              <th><ButtonsWrapper><Button className = { filter === 'status' ? order ? style.asc : style.des  : null } name = 'status' onClick = {handleFilter}>Status</Button></ButtonsWrapper></th>
-              <th><ButtonsWrapper><Button className = { filter === 'creation' ? order ? 'asc' : 'desc' : null } name = 'creation' onClick = {handleFilter}>Creation Date</Button></ButtonsWrapper></th>
-              <th><ButtonsWrapper><Button className = { filter === 'update' ? order ? style.asc : style.des  : null } name = 'update' onClick = {handleFilter}>Modification Date</Button></ButtonsWrapper></th>
-              <th style = {{width: '176px'}}></th>
+              <th style={{ width: '3rem' }}><ButtonsWrapper><Button className={filter === 'id' ? order ? style.asc : style.des : null} name='id' onClick={handleFilter}>ID</Button></ButtonsWrapper></th>
+              <th><ButtonsWrapper><Button className={filter === 'user' ? order ? style.asc : style.des : null} name='user' onClick={handleFilter}>User</Button></ButtonsWrapper></th>
+              <th><ButtonsWrapper><Button className={filter === 'status' ? order ? style.asc : style.des : null} name='status' onClick={handleFilter}>Status</Button></ButtonsWrapper></th>
+              <th><ButtonsWrapper><Button className={filter === 'creation' ? order ? 'asc' : 'desc' : null} name='creation' onClick={handleFilter}>Creation Date</Button></ButtonsWrapper></th>
+              <th><ButtonsWrapper><Button className={filter === 'update' ? order ? style.asc : style.des : null} name='update' onClick={handleFilter}>Modification Date</Button></ButtonsWrapper></th>
+              <th style={{ width: '176px' }}></th>
             </tr>
           </thead>
           <tbody>
-          {orders !== undefined &&
-            orders.map(({ id, user, status, createdAt, updatedAt, address}) => (
-              <tr key={id}>
-                <td>{id}</td>
-                <td>{user.email}</td>
-                <td>{status}</td>
-                <td>{new Date(createdAt).toLocaleString()}</td>
-                <td>{new Date(updatedAt).toLocaleString()}</td>
+            {orders !== undefined &&
+              orders.map(({ id, user, status, createdAt, updatedAt, address }) => (
+                <tr key={id}>
+                  <td>{id}</td>
+                  <td>{user.email}</td>
+                  <td>{status}</td>
+                  <td>{new Date(createdAt).toLocaleString()}</td>
+                  <td>{new Date(updatedAt).toLocaleString()}</td>
 
-                
-                <td style={{ display: "flex" }}>
-                <ButtonsWrapper>
-                  <Button onClick={() => history.push(`/orders/${id}`)}>
-                  <i className="fas fa-search"></i>                
-                </Button>
-                </ButtonsWrapper>
-                <Select status = {status} id = {id} handleChange = {handleChange} address = {address}/>
-              </td>            
-              </tr> 
-            ))}
-                {/* <td>1</td>
+
+                  <td style={{ display: "flex" }}>
+                    <ButtonsWrapper>
+                      <Button onClick={() => history.push(`/admin/orders/${id}`)}>
+                        <i className="fas fa-search"></i>
+                      </Button>
+                    </ButtonsWrapper>
+                    <Select status={status} id={id} handleChange={handleChange} address={address} />
+                  </td>
+                </tr>
+              ))}
+            {/* <td>1</td>
                 <td>1</td>
                 <td>En proceso</td>
                 <td>16/12/2020</td>
                 <td>17/12/2020</td> */}
-                {/* <td>1</td>
+            {/* <td>1</td>
                 <td>5</td>
                 <td>Finalizado</td>
                 <td>12/12/2020</td>
@@ -134,7 +147,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ getAllOrdersAction, setFinalizedOrderAction, setConfirmOrderAction, setDeliveredOrderAction, setPreparedOrderAction, setRejectedOrderAction, setSendOrderAction } , dispatch)
+  return bindActionCreators({ getAllOrdersAction, setFinalizedOrderAction, setConfirmOrderAction, setDeliveredOrderAction, setPreparedOrderAction, setRejectedOrderAction, setSendOrderAction }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TableOrder);

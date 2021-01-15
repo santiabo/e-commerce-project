@@ -104,8 +104,8 @@ const cartReducer = (state = initialState, action) => {
     case ADD_ITEM_TO_CART:
       return {
         ...state,
-        cart: action.cart.concat(action.orderline),
-        cartAmount: action.cart.length + 1
+        cart: action.orderlines,
+        cartAmount: action.orderlines.length
       };
 
     default:

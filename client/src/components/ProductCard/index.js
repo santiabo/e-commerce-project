@@ -1,6 +1,8 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setItemToCart, addItemToCart } from "../../redux/actions/cart";
+import { setItemToCart, postItemToCart } from "../../redux/actions/cart";
+import { addUserCart } from "../../redux/actions/user";
+
 
 // Components
 import Button from '../Button';
@@ -28,19 +30,27 @@ const ProductCard = ({ product, categories, reviews }) => {
 
   const average = reviews.reduce((prev, curr) => prev + curr.stars, 0) / reviews.length;
 
-  const { isUser } = useSelector(state => state.user);
+  const { isUser, user } = useSelector(state => state.user);
+  const orders = useSelector(state => state.order.userOrders);
+  const [order] = orders.filter(o => {
+    if (o.status === "on_cart")
+      return true;
+    return false;
+  });
 
   const handleClick = () => {
     if (!isUser) {
       dispatch(setItemToCart(product, count));
 
     } else {
-      dispatch(addItemToCart({
+      console.log(order.id);
+      dispatch(postItemToCart({
         quantity: count,
         productId: product.id,
         price: product.price,
-        // orderId
+        orderId: order.id
       }));
+      // dispatch((user.id))
     }
   };
 

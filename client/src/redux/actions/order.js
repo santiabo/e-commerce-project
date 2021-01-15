@@ -11,6 +11,7 @@ import {
   setSendOrder,
   getOrderById
 } from '../../services/orders';
+import { authAxios } from './user';
 
 const USER_ORDERS = "USER_ORDERS";
 const ADD_PRODUCT_TO_SHOPPINGCART = 'ADD_PRODUCT_TO_SHOPPINGCART';
@@ -81,7 +82,11 @@ export const getUserOrders = (id) => {
   return async (dispatch) => {
     try {
 
-      const res = await axios.get(`http://localhost:5000/users/${id}/orders`);
+      const res = await authAxios.get(`/users/${id}/orders`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+      });
       dispatch({
         type: USER_ORDERS,
         payload: res.data

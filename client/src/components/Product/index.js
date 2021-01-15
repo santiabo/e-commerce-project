@@ -8,7 +8,6 @@ import { addItemToCart, setItemToCart } from "../../redux/actions/cart";
 import ImagesColumn from "../ImagesColumn";
 import Rating from "../Rating";
 import Button from "../Button";
-import ReviewList from "../ReviewsList";
 
 // StyledComponents
 import {
@@ -39,10 +38,11 @@ const Product = ({ match }) => {
   useEffect(() => {
     dispatch(getProduct(match.params.id));
     dispatch(getReviews(match.params.id));
-  }, []);
+  }, [dispatch, match.params.id]);
 
   let product = useSelector(state => state.product.productDetail);
   let { average, reviews } = useSelector(state => state.reviews);
+  let { isUser } = useSelector(state => state.user);
 
   let {isUser} =useSelector(state => state.user)
 

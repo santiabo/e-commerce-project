@@ -1,8 +1,8 @@
 import React from 'react';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import Header from '../../components/Header';
+import Footer from '../../components/Footer';
 
-// Styles
+// Styled component
 import './Layout.css'
 
 const Layout = ({ children }) => (
@@ -11,7 +11,7 @@ const Layout = ({ children }) => (
     <div className="div-children">
       {children}
     </div>
-    <Footer className="footer"/>
+    <Footer className="footer" />
   </>
 );
 

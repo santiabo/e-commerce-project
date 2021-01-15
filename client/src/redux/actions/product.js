@@ -1,4 +1,5 @@
 import axios from "axios";
+import { authAxios } from "./user";
 
 // Types
 export const GET_DETAIL_PRODUCT = "GET_DETAIL_PRODUCT";
@@ -74,16 +75,6 @@ const fetchResourcesFailed = (err) => {
   };
 };
 
-
-const accessToken = JSON.parse(localStorage.getItem("token"));
-export const authAxios = axios.create({
-  baseURL: 'http://localhost:5000',
-  headers: {
-    Authorization: `Bearer ${accessToken}`
-  }
-});
-
-
 export const getProduct = (id) => {
   return async (dispatch) => {
     try {
@@ -127,7 +118,11 @@ export const editProduct = (id, updatedProduct) => {
   return async (dispatch) => {
     try {
 
-      const res = await authAxios.put(`http://localhost:5000/products/${id}`, { ...updatedProduct });
+      const res = await authAxios.put(`http://localhost:5000/products/${id}`, { ...updatedProduct }, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+      });
 
       dispatch(updateProduct(res.data));
     } catch (err) {
