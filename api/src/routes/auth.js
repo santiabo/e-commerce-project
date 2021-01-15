@@ -110,6 +110,7 @@ server.get("/login/google/callback", (req, res, next) => {
       const token = jwt.sign({ uid: user.id }, secretGoogle);
       res.redirect(`http://localhost:5000/sign-in?token=${token}`);
       console.log(token);
+      console.log(user);
     }
   })(req, res, next);
 });
@@ -123,6 +124,7 @@ server.get('/login/facebook/callback', function (req, res, next) {
     } else {
       const token = jwt.sign({ uid: user.id }, secretFacebook);
       res.redirect(`http://localhost:5000/sign-in?token=${token}`);
+      console.log(user);
     }
   })(req, res, next);
 });
