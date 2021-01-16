@@ -242,29 +242,18 @@
   font-size: 0.6875rem;
 }
 
-/* .buttonRedes {
-  display: flex;
-  margin: 4px 0; 
-}*/
-
-button {
+.social-button {
   border-radius: 5px;
   border: 1.5px solid #2c85c5;
-  padding: 0;
+  margin: auto;  
+  padding: auto;
   padding-left: 12px;
   display: flex;
-  /* justify-content: center; */
+  justify-content: center;
   align-items: center;
   background: #fff;
-  box-shadow: 0 0 6px #818181;
   cursor: pointer;
-  margin: auto;  
 }
-
-/* button:hover {
-  box-shadow: 0 1px 10px #c5c5c5;
-  color: #000;
-} */
 
 .separar {
   padding-top: 5px;
@@ -288,7 +277,27 @@ button {
   line-height: 1.5rem;
   text-align: center;
   border-width: 2px;
-  transition: background-color .15s ease 0s, border-color .15s ease 0s;
+  transition: background-color .1s ease 0s, border-color .1s ease 0s;
+}
+
+.google:hover {
+  width: 172px;
+  margin-top: 0;
+  margin-bottom: 0;
+  background-color:#1e5b86;
+  color: #ffffff;
+  border-color:#1e5b86;
+  border-radius: 0.25rem;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  border-style: solid;
+  user-select: none;
+  padding: 12px;
+  line-height: 1.5rem;
+  text-align: center;
+  border-width: 2px;
 }
 
 .iconGoogle {
@@ -315,22 +324,16 @@ button {
   line-height: 1.5rem;
   text-align: center;
   border-width: 2px;
-  transition: background-color .15s ease 0s, border-color .15s ease 0s; 
+  transition: background-color .1s ease 0s, border-color .1s ease 0s; 
 }
 
-.iconFacebook {
-  margin-right: 7px;
-  width: 30px;
-  height: 30px; 
-}
-
-.instagram {
+.facebook:hover {
   width: 100%;
   margin-top: 0;
   margin-bottom: 0;
-  background-image: linear-gradient(to bottom left, #9d07dc, #a70dc2, #b71696, #c51d72, #d1254d, #de3232, #eb4c22, #fa6910, #ff7a04);
+  background-color: #344258;
   color: #fff;
-  border-color: #213554;
+  border-color:  #344258;
   border-radius: 0.25rem;
   font-size: 15px;
   font-weight: 700;
@@ -341,12 +344,13 @@ button {
   padding: 12px;
   line-height: 1.5rem;
   text-align: center;
-  border-width: 2px;
-  transition: background-color .15s ease 0s, border-color .15s ease 0s;  
+  border-width: 2px; 
 }
 
-.iconInstagram {
+.iconFacebook {
   margin-right: 7px;
-  width: 27px;
-  height: 27px; 
+  width: 30px;
+  height: 30px;
+  color:#3b5998 
 }
+
