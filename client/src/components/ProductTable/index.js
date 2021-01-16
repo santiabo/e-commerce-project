@@ -8,7 +8,7 @@ import DropZone from '../DropZone/DropZone';
 
 import "./ProductTable.css";
 
-function ProductTable() {
+function ProductTable(props) {
   const history = useHistory();
   const { user } = useSelector(state => state.user);
 
@@ -71,11 +71,15 @@ function ProductTable() {
   //Productos
   const handleChange = e => {
     const { name, value } = e.target;
-    if (name === "img")
+    console.log('entre')
+    if (name === "img"){
+      value = JSON.parse(localStorage.getItem('url'))
       setProductoSeleccionado({
         ...productoSeleccionado,
         images: [value]
       });
+      localStorage.removeItem('url')
+    }
     else
       setProductoSeleccionado((prevState) => ({
         ...prevState,
@@ -416,10 +420,11 @@ function ProductTable() {
             <br />
 
             <label>Image</label>
-            <DropZone
-              className="form-control"
-              name="image"
-            >Select File</DropZone>
+            <form></form>
+            <DropZone    
+            name='img'
+            onChange={handleChange}
+            />
             <br />
 
           </div>
