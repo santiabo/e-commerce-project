@@ -1,16 +1,5 @@
 import axios from 'axios';
-import {
-  getAllOrders,
-  removeOrder,
-  setConfirmOrder,
-  setFinalizedOrder,
-  setCompleteOrder,
-  setDeliveredOrder,
-  setPreparedOrder,
-  setRejectedOrder,
-  setSendOrder,
-  getOrderById
-} from '../../services/orders';
+import { getAllOrders, removeOrder, getOrderById} from '../../services/orders';
 import { authAxios } from './user';
 
 const USER_ORDERS = "USER_ORDERS";
@@ -19,15 +8,23 @@ const SET_SHOPPINGCART = 'SET_SHOPPINGCART';
 const GET_ALL_ORDERS = 'GET_ALL_ORDERS';
 const RESET_STATE = 'RESET_STATE';
 const REMOVE_ORDER = 'REMOVE_ORDER';
-const CREATED_ORDER = 'CREATED_ORDER';
-const DELIVERED_ORDER = 'DELIVERED_ORDER';
-const PROCESSING_ORDER = 'PROCESSING_ORDER';
-const CANCELLED_ORDER = 'CANCELLED_ORDER';
-const COMPLETED_ORDER = 'COMPLETED_ORDER';
-const SEND_ORDER = 'SEND_ORDER';
 const HANDLE_VIEW_ORDER = 'HANDLE_VIEW_ORDER';
 const GET_ORDER_DETAIL = 'GET_ORDER_DETAIL';
 const DISABLED_CRUD = 'DISABLED_CRUD';
+const SET_ORDER_STATUS = 'SET_ORDER_STATUS';
+
+export const setOrderStatus = (id, name, price, amount) => {
+  return {
+    type: SET_ORDER_STATUS,
+    payload: {
+      id,
+      name,
+      price,
+      amount,
+    },
+  };
+};
+
 
 export const addProductToShoppingCart = (id, name, price, amount) => {
   return {
@@ -112,111 +109,6 @@ export const removeOrderAction = (id) => {
   };
 };
 
-export const setCompletedOrderAction = (id) => {
-  return (dispatch) => {
-    dispatch({
-      type: RESET_STATE
-    });
-    return setCompleteOrder(id)
-      .then((data) => {
-        dispatch({
-          type: REMOVE_ORDER,
-          payload: data
-        });
-      });
-  };
-};
-
-export const setConfirmOrderAction = (id, address) => {
-  return (dispatch) => {
-    dispatch({
-      type: RESET_STATE
-    });
-    return setConfirmOrder(id, address)
-      .then((data) => {
-        dispatch({
-          type: CREATED_ORDER,
-          payload: data
-        });
-      });
-  };
-};
-
-export const setDeliveredOrderAction = (id) => {
-  return (dispatch) => {
-    dispatch({
-      type: RESET_STATE
-    });
-    return setDeliveredOrder(id)
-      .then(data => {
-        dispatch({
-          type: DELIVERED_ORDER,
-          payload: data
-        });
-      });
-  };
-};
-
-export const setPreparedOrderAction = (id) => {
-  return (dispatch) => {
-    dispatch({
-      type: RESET_STATE
-    });
-    return setPreparedOrder(id)
-      .then(data => {
-        dispatch({
-          type: PROCESSING_ORDER,
-          payload: data
-        });
-      });
-  };
-};
-
-export const setRejectedOrderAction = (id) => {
-  return dispatch => {
-    dispatch({
-      type: RESET_STATE
-    });
-    return setRejectedOrder(id)
-      .then(data => {
-        dispatch({
-          type: CANCELLED_ORDER,
-          payload: data
-        });
-      });
-  };
-};
-
-export const setFinalizedOrderAction = (id) => {
-  return dispatch => {
-    dispatch({
-      type: RESET_STATE
-    });
-    return setFinalizedOrder(id)
-      .then(data => {
-        dispatch({
-          type: COMPLETED_ORDER,
-          payload: data
-        });
-      });
-  };
-};
-
-export const setSendOrderAction = (id) => {
-  return dispatch => {
-    dispatch({
-      type: RESET_STATE
-    });
-    return setSendOrder(id)
-      .then(data => {
-        dispatch({
-          type: SEND_ORDER,
-          payload: data
-        });
-      });
-  };
-};
-
 export const handleViewOrder = (id) => {
   return dispatch => {
     dispatch(getOrderDetail(id))
@@ -251,6 +143,7 @@ export const disabledCrud = () => {
 };
 
 export const sendReviewEmail = (id, user) => {
+
   return axios
     .post(`http://localhost:5000/email/${id}`, { user })
     .then(res => {
@@ -260,3 +153,17 @@ export const sendReviewEmail = (id, user) => {
       return undefined;
     });
 }
+
+   export const putOrderStatus = async (id, status) => {
+
+      return axios.put(`http://localhost:5000/orders/${id}/${status}`)
+      
+      .catch(() => {
+        return undefined;
+      });   //dispatch getAllOrders ! ! !;
+  };  
+
+
+ 
+
+

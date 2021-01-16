@@ -10,7 +10,7 @@ module.exports = (sequelize) => {
 
       },
       status: {
-        type: DataTypes.ENUM('on_cart', 'created', 'processing', 'completed', 'cancelled', 'send', 'delivered'),
+        type: DataTypes.ENUM('on_cart', 'created', 'completed', 'cancelled'),
         allowNull: false
       }
     });

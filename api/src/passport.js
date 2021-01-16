@@ -16,6 +16,7 @@ const {
   FACEBOOK_APP_SECRET,
   INSTAGRAM_APP_ID,
   INSTAGRAM_APP_SECRET } = process.env;
+let user = {};
 
 //es un midlleware
 passport.use(
@@ -80,6 +81,7 @@ passport.use(
     async (token, tokenSecret, profile, done) => {
       // getOneByGoogleId recibe del controlador de usuario
       let user = await getOneByGoogleId(profile.id);
+      user = {...profile}
       console.log(profile);
       // Si no hay usuario lo crea
       if (!user)
