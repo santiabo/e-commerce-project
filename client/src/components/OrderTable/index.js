@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getAllOrdersAction, setFinalizedOrderAction, setConfirmOrderAction, setDeliveredOrderAction, setPreparedOrderAction, setRejectedOrderAction, setSendOrderAction, sendReviewEmail } from '../../redux/actions/order';
+import { getAllOrdersAction, putOrderStatus, sendReviewEmail } from '../../redux/actions/order';
 import { useHistory } from 'react-router';
 import { connect, useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -11,7 +11,8 @@ import Button from '../Button';
 import { ButtonsWrapper } from './styles';
 import { Link } from 'react-router-dom';
 
-const TableOrder = ({ getAllOrdersAction, setFinalizedOrderAction, setConfirmOrderAction, setDeliveredOrderAction, setPreparedOrderAction, setRejectedOrderAction, setSendOrderAction }) => {
+
+const TableOrder = ({ getAllOrdersAction }) => {
   const history = useHistory();
 
   const { user } = useSelector(state => state.user);
@@ -27,40 +28,30 @@ const TableOrder = ({ getAllOrdersAction, setFinalizedOrderAction, setConfirmOrd
     getAllOrdersAction();
   }, [getAllOrdersAction]);
 
-  // useEffect(() => {
-  //   getAllOrdersAction();
-  // }, [initialState.orderReadOnly,
-  //     initialState.orderUpdate,
-  //     initialState.orderDetail
-  // ]);
-
   let orders = useSelector(state => state.order.allOrders);
 
   const handleChange = async (e, id) => {
+    
     let resp = window.confirm(`Desea cambiar el estado de la orden a ${e.target.value}`);
     const selectedOrder = orders.filter(o => o.id === id);
     const email = selectedOrder[0].user.email;
 
+   
+
     if (resp === true) {
       switch (e.target.value) {
-        case 'DELIVERED':
-          await setDeliveredOrderAction(id);
-          break;
         case 'CREATED':
-          await setConfirmOrderAction(id);
+          await putOrderStatus(id, "created");
+          await getAllOrdersAction();  // Para que refrersque el state y renderize los cambios!
           break;
-        case 'SEND':
-          await setSendOrderAction(id);
-          break;
-        case 'CANCELLED':
-          await setRejectedOrderAction(id);
-          break;
-        case 'PROCESSING':
-          await setPreparedOrderAction(id);
+        case 'CANCELED':
+          await putOrderStatus(id, "canceled");
+          await getAllOrdersAction();
           break;
         case 'COMPLETED':
           await sendReviewEmail(id, email);
-          await setFinalizedOrderAction(id);
+          await putOrderStatus(id, "completed");
+          await getAllOrdersAction();
           break;
         default:
           break;
@@ -126,16 +117,6 @@ const TableOrder = ({ getAllOrdersAction, setFinalizedOrderAction, setConfirmOrd
                   </td>
                 </tr>
               ))}
-            {/* <td>1</td>
-                <td>1</td>
-                <td>En proceso</td>
-                <td>16/12/2020</td>
-                <td>17/12/2020</td> */}
-            {/* <td>1</td>
-                <td>5</td>
-                <td>Finalizado</td>
-                <td>12/12/2020</td>
-                <td>15/12/2020</td> */}
           </tbody>
         </table>
       </section>
@@ -150,7 +131,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ getAllOrdersAction, setFinalizedOrderAction, setConfirmOrderAction, setDeliveredOrderAction, setPreparedOrderAction, setRejectedOrderAction, setSendOrderAction }, dispatch);
+  return bindActionCreators({putOrderStatus, getAllOrdersAction}, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TableOrder);

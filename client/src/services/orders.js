@@ -145,17 +145,6 @@ export async function setDeliveredOrder(idOrder) {
     });
 }
 
-// PONE UNA ORDEN COMO COMPLETED
-export async function setCompletedOrder(idOrder) {
-  return axios
-    .put(`http://localhost:5000/orders/${idOrder}/completed`)
-    .then(res => {
-      return res.data;
-    })
-    .catch(() => {
-      return undefined;
-    });
-}
 
 // AGREGA UN PRODUCTO A UNA ORDEN
 export async function setOrderToUser(idOrder, idUser) {
