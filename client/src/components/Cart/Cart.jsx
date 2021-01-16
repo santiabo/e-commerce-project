@@ -110,12 +110,12 @@ const CartItem = () => {
                     ({cartAmount} Items)
                     </span>
                 </h1>
-                <div className="display-flex">
-                  <button type="button" className="btn no-border"> <FaRegCheckCircle className="fa fa-checkcircle" /> Buy Now
+              </div>
+              <div className="display-flex icons-side">
+                <button type="button" className="btn no-border"> <FaRegCheckCircle className="fa fa-checkcircle" /> Buy Now
                   </button>
-                  <button type="button" className="btn no-border" onClick={() => clearAllItems()}> <FaTrashAlt className="fa fa-trash" /> Remove All
+                <button type="button" className="btn no-border" onClick={() => clearAllItems()}> <FaTrashAlt className="fa fa-trash" /> Remove All
                   </button>
-                </div>
               </div>
             </div>
             <div className="row-inner">
@@ -138,7 +138,7 @@ const CartItem = () => {
                               </p>
                             ))}
                             <ul className="item-description">
-                              <p>{item.description}</p>
+                              <p>{item.description.substring(0, 200)} {item.description.length > 200 ? "..." : ""}</p>
                             </ul>
                           </div>
                           <div className="item-qty">
@@ -162,7 +162,7 @@ const CartItem = () => {
                           </div>
                         </div>
                         <div className="item-sub-container no-border-top flex-wrap">
-                          <div className="display-flex">
+                          <div className="wrapper-flex">
                             <button type="button" className="btn btn-mini btn-tertiary" onClick={() => removeFromCart(item.id) && isUser && dispatch(addUserCart(user.id))}>
                               <FaTrashAlt className="fa fa-trash" /> Remove
                           </button>
