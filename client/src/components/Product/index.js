@@ -44,8 +44,6 @@ const Product = ({ match }) => {
   let { average, reviews } = useSelector(state => state.reviews);
   let { isUser } = useSelector(state => state.user);
 
-  let {isUser} =useSelector(state => state.user)
-
   const increment = () => {
     setQuantity(quantity + 1);
   };

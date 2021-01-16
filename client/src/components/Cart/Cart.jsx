@@ -47,7 +47,11 @@ const CartItem = () => {
         <div className="section-div">
           <form>
             <div className="cart-top">
-              <h1 className="cart-title">Shopping Cart</h1>
+              <h1 className="cart-title">Shopping Cart
+              <span className="row-title-note">
+                  ({cartAmount} Items)
+                    </span>
+              </h1>
             </div>
             <div className="empty-Cart">
               <div className="empty-body"></div>
@@ -63,26 +67,6 @@ const CartItem = () => {
                     Or
                     <Link id="lnk-under" to="/login"> Log in</Link> and pick up from where you have left off last time.
                   </p>
-                </div>
-              </div>
-              <div className="div-side">
-                <div className="summary-side">
-                  <h3 className="summary-title">Summary</h3>
-                  <div className="summary-wrapper">
-                    <div className="sum-content">
-                      <ul>
-                        <li className="content-global">
-                          <label>Est. Total: </label>
-                          <span>$ <strong>{getTotal()}</strong></span>
-                        </li>
-                      </ul>
-                      <div className="checkout-action">
-                        <button className="btn btn-primary btn-wide" disabled>
-                          To Checkout
-                        </button>
-                      </div>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
@@ -115,50 +99,60 @@ const CartItem = () => {
 
 
   return (
-    <section className='card-cart'>
-      <div className="section-cart">
-        <div className="section-summary">
+    <section className="page-section">
+      <div className="page-section-inner">
+        <div className="row has-flex-summary">
           <form>
-            <div className="cart-top">
-              <div className="top-left">
-                <h1 className="cart-title">
-                  Shopping Cart <span className="item-amnt"> ({cartAmount} Item)</span>
+            <div id="cart-top" className="row-top display-flex justify-content-space-between width-100">
+              <div className="row-top-left flex-wrap width-100">
+                <h1 className="row-title">
+                  Shopping Cart <span className="row-title-note">
+                    ({cartAmount} Items)
+                    </span>
                 </h1>
-                <div className="action-cart">
-                  <button className="btn no-border"> <FaRegCheckCircle className="check-remove" /> Buy Now</button>
-                  <button className="btn no-border" onClick={() => clearAllItems()}> <FaTrashAlt className="check-remove" /> Remove All</button>
+                <div className="display-flex">
+                  <button type="button" className="btn no-border"> <FaRegCheckCircle className="fa fa-checkcircle" /> Buy Now
+                  </button>
+                  <button type="button" className="btn no-border" onClick={() => clearAllItems()}> <FaTrashAlt className="fa fa-trash" /> Remove All
+                  </button>
                 </div>
               </div>
             </div>
-            <div className="full-cart">
+            <div className="row-inner">
               <div className="row-body">
-                <div className="items-wrapper">
+                <div className="item-cells-wrap tile-cells items-list-view absolute-img-cells">
                   {
                     cart.map((item) =>
-
-                      <div className="item">
+                      <div className="item-cell">
                         <div className="item-container">
-                          <Link className="item-img">
+                          <Link className="item-img" target="_blank">
                             <img src={item.images[0]} alt={item.name} />
                           </Link>
                           <div className="item-info">
-                            <Link id="lit" className="item-title">{item.name}</Link>
-                            <p>{item.categories.map(category => (
-                              <strong>{category.name}</strong>
-                            ))}</p>
-                            <p className="item-dptn" >{item.description}</p>
+                            <Link id="a" className="item-title" to={"product/" + item.id}>
+                              {item.name}
+                            </Link>
+                            {item.categories.map(category => (
+                              <p>
+                                <strong>{category.name}</strong>
+                              </p>
+                            ))}
+                            <ul className="item-description">
+                              <p>{item.description}</p>
+                            </ul>
                           </div>
-                          {item.quantity && <div className="item-qty">
-                            <input type="text" maxLength="3" value={item.quantity} className="form-text" />
-                            <button>
-                              <FaCaretUp />
-                            </button>
-                            <button>
-                              <FaCaretDown />
-                            </button>
-                          </div>}
-
-                          <div className="item-price">
+                          <div className="item-qty">
+                            <div className="qty-box">
+                              <input value={item.quantity} className="qty-box-input" />
+                              <button type="button" className="qty-box-up" onClick={() => dispatch(incrementItem(item.id)) && isUser && dispatch(addUserCart(user.id))}>
+                                <FaCaretUp />
+                              </button>
+                              <button type="button" className="qty-box-down" onClick={() => item.quantity > 1 && dispatch(decrementItem(item.id)) && isUser && dispatch(addUserCart(user.id))}>
+                                <FaCaretDown />
+                              </button>
+                            </div>
+                          </div>
+                          <div className="item-action">
                             <ul className="price">
                               <li className="price-current">
                                 $
@@ -167,18 +161,41 @@ const CartItem = () => {
                             </ul>
                           </div>
                         </div>
-                        <div className="item-action">
-                          <div className="action-cart">
-                            <button type="button" className="btn btn-mini btn-tertiary"> <FaRegCheckCircle className="check-remove" /> Buy Now
+                        <div className="item-sub-container no-border-top flex-wrap">
+                          <div className="display-flex">
+                            <button type="button" className="btn btn-mini btn-tertiary" onClick={() => removeFromCart(item.id) && isUser && dispatch(addUserCart(user.id))}>
+                              <FaTrashAlt className="fa fa-trash" /> Remove
                           </button>
-                          </div>
-                          <div className="action-cart">
-                            <button type="button" className="btn btn-mini btn-tertiary" onClick={() => removeFromCart(item.id)}> <FaTrashAlt className="check-remove" /> Remove </button>
                           </div>
                         </div>
                       </div>
                     )
                   }
+                </div>
+              </div>
+              <div></div>
+              <div className="row-side">
+                <div className="summary-side">
+                  <h3 className="summary-title fixed-hide">Summary</h3>
+                  <div className="summary-wrap">
+                    <div className="summary-content">
+                      <ul>
+                        <li className="summary-content-global">
+                          <label>
+                            Total Price:
+                          </label>
+                          <span>
+                            $<strong>{getTotal()}</strong>
+                          </span>
+                        </li>
+                      </ul>
+                      <div className="summary-actions">
+                        <button type="button" className="btn btn-primary btn-wide">
+                          To Checkout
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
