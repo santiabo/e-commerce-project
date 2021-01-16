@@ -16,7 +16,6 @@ const {
   FACEBOOK_APP_SECRET,
   INSTAGRAM_APP_ID,
   INSTAGRAM_APP_SECRET } = process.env;
-const chalk = require("chalk");
 let user = {};
 
 //es un midlleware
@@ -81,7 +80,6 @@ passport.use(
     },
     async (token, tokenSecret, profile, done) => {
       // getOneByGoogleId recibe del controlador de usuario
-      console.log(chalk.green(JSON.stringify(profile)));
       let user = await getOneByGoogleId(profile.id);
       user = {...profile}
       console.log(profile);
@@ -132,7 +130,6 @@ passport.use(
       profileFields: ["id", "emails", "displayName"],
     },
     async function (accessToken, refreshToken, profile, done) {
-      console.log(chalk.green(JSON.stringify(profile)));
       let user = await getOneByFacebookId(profile.id);
       if (!user)
         user = await createOne(
