@@ -31,26 +31,26 @@ const TableOrder = ({ getAllOrdersAction }) => {
   let orders = useSelector(state => state.order.allOrders);
 
   const handleChange = async (e, id) => {
-    
+
     let resp = window.confirm(`Desea cambiar el estado de la orden a ${e.target.value}`);
     const selectedOrder = orders.filter(o => o.id === id);
-    const email = selectedOrder[0].user.email;
-
-   
+    const { email } = selectedOrder[0].user;
 
     if (resp === true) {
       switch (e.target.value) {
         case 'CREATED':
-          await putOrderStatus(id, "created");
+          await putOrderStatus(id, 'created');
+          await sendReviewEmail(id, email, 'created');
           await getAllOrdersAction();  // Para que refrersque el state y renderize los cambios!
           break;
-        case 'CANCELLED':
-          await putOrderStatus(id, "cancelled");
+        case 'COMPLETED':
+          await putOrderStatus(id, 'completed');
+          await sendReviewEmail(id, email, 'completed');
           await getAllOrdersAction();
           break;
-        case 'COMPLETED':
-          await sendReviewEmail(id, email);
-          await putOrderStatus(id, "completed");
+        case 'CANCELLED':
+          await putOrderStatus(id, 'cancelled');
+          await sendReviewEmail(id, email, 'cancelled');
           await getAllOrdersAction();
           break;
         default:
@@ -109,8 +109,8 @@ const TableOrder = ({ getAllOrdersAction }) => {
 
                   <td style={{ display: "flex" }}>
                     <ButtonsWrapper>
-                      <Button onClick={() => history.push(`/admin/orders/${id}`)}>
-                        <i className="fas fa-search"></i>
+                    <Button onClick={() => history.push(`/admin/orders/${id}`)}>
+                          <i className="fas fa-search"></i>
                       </Button>
                     </ButtonsWrapper>
                     <Select status={status} id={id} handleChange={handleChange} />
@@ -131,7 +131,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({putOrderStatus, getAllOrdersAction}, dispatch);
+  return bindActionCreators({ putOrderStatus, getAllOrdersAction }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TableOrder);

@@ -3,8 +3,9 @@ const nodemailer = require('nodemailer');
 
 server.post('/:id', async (req, res, next) => {
 
-  const { id } = req.params;
-  // const { user } = req.body;
+  // const { id } = req.params; // Order id
+  const { user } = req.body; // User email
+  let { status } = req.body; // String pasada en OrderTable
 
   try {
     const transporter = nodemailer.createTransport({
@@ -15,14 +16,45 @@ server.post('/:id', async (req, res, next) => {
       }
     });
 
-    let info = await transporter.sendMail({
-      from: '"PCBuildHub" <dailytinkerer@gmail.com>',
-      // to: user,
-      to: 'dailytinkerer@gmail.com',
-      subject: `Order: ${id}`,
-      html: '<a href=`http://localhost:3000/product/1`>Review your product!</a>'
-    });
 
+    if (status === 'created') {
+      status = {
+        from: '"PCBuildHub" <dailytinkerer@gmail.com>',
+        to: user,
+        subject: 'Thank you for your purchase!',
+        text: 'Your product will be arriving shortly.'
+      };
+    }
+
+    if (status === 'cancelled') {
+      status = {
+        from: '"PCBuildHub" <dailytinkerer@gmail.com>',
+        to: user,
+        subject: 'Your order has been cancelled',
+        text: "Your order has been cancelled. If you don't know why, feel free to reply to this email."
+      };
+    }
+
+    if (status === 'completed') {
+      status = {
+        from: '"PCBuildHub" <dailytinkerer@gmail.com>',
+        to: user,
+        subject: `We hope you enjoy your product!`,
+        html: '<a href="http://localhost:3000/product/1">Review your product here!</a>'
+      };
+    }
+
+    // if (status === 'reset') {
+    //   status = {
+    //     from: '"PCBuildHub" <dailytinkerer@gmail.com>',
+    //     to: 'dailytinkerer@gmail.com',
+    //     subject: 'Password Reset',
+    //     html: '<a href="http://localhost:3000/changePassword">Please, follow this link to reset your password.</a>'
+    //   };
+    // }
+
+
+    await transporter.sendMail(status);
     res.send('Done');
   } catch (error) {
     next(error);
