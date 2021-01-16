@@ -142,10 +142,10 @@ export const disabledCrud = () => {
   };
 };
 
-export const sendReviewEmail = (id, user) => {
+export const sendReviewEmail = (id, user, status) => {
 
   return axios
-    .post(`http://localhost:5000/email/${id}`, { user })
+    .post(`http://localhost:5000/email/${id}`, { user, status })
     .then(res => {
       return res.data;
     })
@@ -161,9 +161,4 @@ export const sendReviewEmail = (id, user) => {
       .catch(() => {
         return undefined;
       });   //dispatch getAllOrders ! ! !;
-  };  
-
-
- 
-
-
+  };

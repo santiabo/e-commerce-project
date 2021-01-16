@@ -3,8 +3,8 @@ import React from 'react';
 const values = [
   'ON_CART',
   'CREATED',
-  'CANCELLED',
-  'COMPLETED'
+  'COMPLETED',
+  'CANCELLED'
 ];
 
 const Select = (props) => {
