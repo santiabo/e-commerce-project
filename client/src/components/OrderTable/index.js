@@ -44,8 +44,8 @@ const TableOrder = ({ getAllOrdersAction }) => {
           await putOrderStatus(id, "created");
           await getAllOrdersAction();  // Para que refrersque el state y renderize los cambios!
           break;
-        case 'CANCELED':
-          await putOrderStatus(id, "canceled");
+        case 'CANCELLED':
+          await putOrderStatus(id, "cancelled");
           await getAllOrdersAction();
           break;
         case 'COMPLETED':
