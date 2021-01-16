@@ -1,9 +1,9 @@
 import React from 'react';
 
 const values = [
-  'ON CART',
+  'ON_CART',
   'CREATED',
-  'CANCELED',
+  'CANCELLED',
   'COMPLETED'
 ];
 
