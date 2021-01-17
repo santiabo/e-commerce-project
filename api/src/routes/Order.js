@@ -38,8 +38,17 @@ server.put('/:id/:status', (req, res, next) => {
   },
     { where: { id } }
   )
-    .then(order => {
-      return res.send(order);
+    .then(() => {
+      Order.findAll({
+        include: [{
+          model: User, attributes: ['email']
+        }]
+      })
+        .then(order => {
+          return res.send(order);
+        }).catch(err => {
+          res.send(err)
+        })
     })
     .catch(next);
 });
@@ -61,7 +70,7 @@ server.get('/:id', (req, res) => {
     }]
   })
     .then((order) => {
-      return res.send(order); 
+      return res.send(order);
     }).catch((err) => {
       return res.send(err);
     });

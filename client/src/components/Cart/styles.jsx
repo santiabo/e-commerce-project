@@ -5,8 +5,8 @@ export const ProductWrapper = styled.div`
   justify-content:center;
   border: solid grey 1px;
   margin: 20px;
-  padding: 0 20px 30px;
-  width:85%
+  padding: 3rem;
+  width: 100%;
 `;
 
 export const LeftSide = styled.div`
@@ -24,13 +24,10 @@ export const RightSide = styled.div`
 export const ImageContainer = styled.div`
   display:flex;  
   justify-content: center;
-
+  
 
   img {
-    display: flex;
-    justify-content: center;
-    width: 65%;
-    object-fit: cover;
+    width: 100%;
     overflow: hidden;
   }
 `;
@@ -42,8 +39,6 @@ export const CategoriesTags = styled.div`
 export const Title = styled.h1`
   margin: 1rem 0;
   font-size: 20px;
-  /* font-size: 16px;
-  color: #323232; */
 
 `;
 export const Description = styled.p``;

@@ -3,15 +3,15 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 
 // Styled component
-import { MainContent } from './styles';
+import './Layout.css'
 
 const Layout = ({ children }) => (
   <>
     <Header />
-    <MainContent /* style={{ margin: "0 5vw" }} */>
+    <div className="div-children">
       {children}
-    </MainContent>
-    <Footer />
+    </div>
+    <Footer className="footer" />
   </>
 );
 

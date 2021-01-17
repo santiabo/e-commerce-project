@@ -9,8 +9,8 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 // Components
 import Layout from '../containers/Layout/Layout';
-import Home, { SlideData } from '../containers/Home';
-import NotFound from '../containers/NotFound';
+import Home, { SlideData } from '../containers/Home/Home';
+import NotFound from '../containers/NotFound/NotFound';
 import Catalogue from '../components/Catalogue';
 import ProductTable from '../components/ProductTable';
 import Product from '../components/Product';
@@ -20,10 +20,11 @@ import EditProfile from '../components/EditProfile';
 import Cart from '../components/Cart/Cart';
 import LoginUser from '../components/LoginForm';
 import userTable from '../components/UserTable';
-import OrderContainer from '../containers/OrderContainer';
+import OrderContainer from '../components/OrderContainer/OrderContainer';
 import Order from '../components/Order/Order';
 import ForcePasswordChangePage from '../containers/ForcePasswordChangePage';
 import CheckoutShipping from '../containers/CheckoutShipping';
+import MercadoPago from '../components/MercadoPagoButton/MercadoPago';
 
 function App() {
 
@@ -35,9 +36,8 @@ function App() {
     if (token) dispatch(autoSignInUser(token));
     dispatch(getProducts());
     dispatch(getCategories());
-    if (!isUser) dispatch(getCartItemsFromLocalStorage());
-    else dispatch(getUserCart(user.id));
-    isUser && dispatch(getUserOrders(user.id));
+    dispatch(getCartItemsFromLocalStorage());
+    isUser && dispatch(getUserOrders(user.id)) && dispatch(getUserCart(user.id));
   }, [dispatch, isUser]);
 
   if (loading) return <h1>Loading ...</h1>;
@@ -55,6 +55,11 @@ function App() {
             <Route exact path='/'>
               <Home slides={SlideData} />
             </Route>
+            <Route path='/products' component={Catalogue} />
+
+            <Route path='/cart' component={Cart} />
+
+            <Route path='/product/:id' render={({ match }) => <Product match={match} />} />
 
             <Route exact path="/user/account" component={EditProfile} />
 
@@ -62,21 +67,21 @@ function App() {
 
             <Route exact path="/register" component={UserRegister} />
 
-            <Route exact path='/admin' component={ProductTable} />
+            <Route path='/admin/products' component={ProductTable} />
 
-            <Route exact path='/orders' component={TableOrder} />
+            <Route path='/admin/orders' component={TableOrder} />
 
-            <Route exact path='/users' component={userTable} />
+            <Route exact path='/admin/orders/:id' render={({ match }) => <Order match={match} />} />
+
+            <Route exact path='/admin/users' component={userTable} />
+
+            <Route exact path="/user/account" component={EditProfile} />
 
             <Route exact path='/user/orders' component={OrderContainer} />
 
             <Route exact path='/user/orders/:id' render={({ match }) => <Order match={match} />} />
 
-            <Route exact path='/products' component={Catalogue} />
-
-            <Route exact path='/cart' component={Cart} />
-
-            <Route path='/product/:id' render={({ match }) => <Product match={match} />} />
+            <Route exact path='/mercadopago' component={MercadoPago} />
 
             <Route component={NotFound} />
           </Switch>

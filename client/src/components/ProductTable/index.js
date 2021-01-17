@@ -1,13 +1,22 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import { Modal, ModalBody, ModalHeader, ModalFooter } from 'reactstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeProduct, addProduct, editProduct, addCategoryToProduct, removeCategoryToProduct } from '../../redux/actions/product';
 import { addCategory } from '../../redux/actions/category';
+import DropZone from '../DropZone/DropZone';
 
 import "./ProductTable.css";
 
-function ProductTable() {
+function ProductTable(props) {
+  const history = useHistory();
+  const { user } = useSelector(state => state.user);
+
+  useEffect(() => {
+    if (!user.isAdmin) {
+      history.push('/');
+    }
+  }, [])
 
   const dispatch = useDispatch();
 
@@ -62,11 +71,15 @@ function ProductTable() {
   //Productos
   const handleChange = e => {
     const { name, value } = e.target;
-    if (name === "img")
+    console.log('entre')
+    if (name === "img"){
+      value = JSON.parse(localStorage.getItem('url'))
       setProductoSeleccionado({
         ...productoSeleccionado,
         images: [value]
       });
+      localStorage.removeItem('url')
+    }
     else
       setProductoSeleccionado((prevState) => ({
         ...prevState,
@@ -209,10 +222,10 @@ function ProductTable() {
     <div className="App">
       <h2 id='prodList' class="alert alert-info">Products List</h2>
       <div id='ordTabl'>
-        <Link to='/orders' >
+        <Link to='/admin/orders' >
           <button className="btn btn-info">Orders</button>
         </Link>
-        <Link to='/users' >
+        <Link to='/admin/users' >
           <button className="btn btn-info">Users</button>
         </Link>
       </div>
@@ -406,12 +419,12 @@ function ProductTable() {
             {error.stock && <span className='text-danger'>{error.stock}</span>}
             <br />
 
-            <label>Image URL</label>
-            <input
-              className="form-control"
-              type="text"
-              name="img"
-              onChange={handleChange} />
+            <label>Image</label>
+            <form></form>
+            <DropZone    
+            name='img'
+            onChange={handleChange}
+            />
             <br />
 
           </div>

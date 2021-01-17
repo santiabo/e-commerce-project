@@ -85,18 +85,6 @@ export async function getOrderByUserId(idUser) {
     });
 }
 
-// PONE UNA ORDEN COMO VACIA
-export async function removeEmptyOrder(id) {
-  return axios
-    .delete(`http://localhost:5000/order/${id}/empty`)
-    .then(res => {
-      return res.data;
-    })
-    .catch(() => {
-      return undefined;
-    });
-}
-
 // ELIMINA UNA ORDEN 
 export async function removeOrder(id) {
   return axios
@@ -121,10 +109,10 @@ export async function removeProduct(idOrder, idProduct) {
     });
 }
 
-// PONE UNA ORDEN COMO FINALIZADA
-export async function setCompleteOrder(idOrder) {
+// PONE UNA ORDEN COMO COMPLETED
+export async function setCompletedOrder(idOrder) {
   return axios
-    .put(`http://localhost:5000/orders/${idOrder}/finalized`)
+    .put(`http://localhost:5000/orders/${idOrder}/completed`)
     .then(res => {
       return res.data;
     })
@@ -157,29 +145,6 @@ export async function setDeliveredOrder(idOrder) {
     });
 }
 
-// PONE UNA ORDEN COMO VACIA
-export async function setEmptyOrder(idOrder) {
-  return axios
-    .put(`http://localhost:5000/orders/${idOrder}/empty`)
-    .then(res => {
-      return res.data;
-    })
-    .catch(() => {
-      return undefined;
-    });
-}
-
-// PONE UNA ORDEN COMO FINALIZED
-export async function setFinalizedOrder(idOrder) {
-  return axios
-    .put(`http://localhost:5000/orders/${idOrder}/finalized`)
-    .then(res => {
-      return res.data;
-    })
-    .catch(() => {
-      return undefined;
-    });
-}
 
 // AGREGA UN PRODUCTO A UNA ORDEN
 export async function setOrderToUser(idOrder, idUser) {
@@ -193,10 +158,10 @@ export async function setOrderToUser(idOrder, idUser) {
     });
 }
 
-//PONE UNA ORDEN COMO PREPARING
-export async function setPreparedOrder(idOrder) {
+//PONE UNA ORDEN COMO PROCESSING
+export async function setProcessingOrder(idOrder) {
   return axios
-    .put(`http://localhost:5000/orders/${idOrder}/preparing`)
+    .put(`http://localhost:5000/orders/${idOrder}/processing`)
     .then(res => {
       return res.data;
     })
@@ -205,10 +170,10 @@ export async function setPreparedOrder(idOrder) {
     });
 }
 
-//PONE COMO REJECTED UNA ORDEN
-export async function setRejectedOrder(idOrder) {
+//PONE COMO CANCELLED UNA ORDEN
+export async function setCancelledOrder(idOrder) {
   return axios
-    .put(`http://localhost:5000/orders/${idOrder}/rejected`)
+    .put(`http://localhost:5000/orders/${idOrder}/cancelled`)
     .then(res => {
       return res.data;
     })
@@ -217,7 +182,7 @@ export async function setRejectedOrder(idOrder) {
     });
 }
 
-// PONE COMO SET UNA ORDEN
+// PONE COMO SEND UNA ORDEN
 export async function setSendOrder(idOrder) {
   return axios
     .put(`http://localhost:5000/orders/${idOrder}/send`)
