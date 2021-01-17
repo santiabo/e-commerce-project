@@ -23,6 +23,7 @@ import userTable from '../components/UserTable';
 import OrderContainer from '../components/OrderContainer/OrderContainer';
 import Order from '../components/Order/Order';
 import ForcePasswordChangePage from '../containers/ForcePasswordChangePage';
+import MercadoPago from '../components/MercadoPagoButton/MercadoPago';
 
 function App() {
 
@@ -75,6 +76,7 @@ function App() {
 
           <Route exact path='/user/orders/:id' render={({ match }) => <Order match={match} />} />
 
+          <Route exact path='/mercadopago' component={MercadoPago} />
 
           <Route component={NotFound} />
         </Switch>
