@@ -26,16 +26,16 @@ const Footer = () => {
           <div className="social-foo">
             <ul className="footer-ul">
               <li>
-                <Link to="/" id="media-links"><FaFacebookF className="icons" /></Link>
+                <a href="https://www.facebook.com/" target="_blank" id="media-links"><FaFacebookF className="icons" /></a>
               </li>
               <li>
-                <Link to="/" id="media-links"><FaTwitter className="icons" /></Link>
+                <a href="https://twitter.com/home" target="_blank" id="media-links"><FaTwitter className="icons" /></a>
               </li>
               <li>
-                <Link to="/" id="media-links"><FaYoutube className="icons" /></Link>
+                <a href="https://www.youtube.com/" target="_blank" id="media-links"><FaYoutube className="icons" /></a>
               </li>
               <li>
-                <Link to="/" id="media-link s"><FaInstagram className="icons" /></Link>
+                <a href="https://www.instagram.com/" target="_blank" id="media-link s"><FaInstagram className="icons" /></a>
               </li>
             </ul>
           </div>
