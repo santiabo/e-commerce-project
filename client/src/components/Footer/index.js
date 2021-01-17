@@ -20,7 +20,6 @@ const Footer = () => {
         <ul>
           <li><Link id="link">Terms & Conditions</Link></li>
           <li><Link id="link">Privacy Policy</Link></li>
-          <li><Link id="link">About</Link></li>
           <li><Link id="link">Contact</Link></li>
         </ul>
         <div className="footer-page">
