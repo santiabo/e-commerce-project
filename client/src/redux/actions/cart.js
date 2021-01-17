@@ -90,7 +90,75 @@ export const postItemToCart = (orderline) => {
   return async (dispatch) => {
     try {
 
-      const res = await authAxios.post(`/orderlines`, orderline, {
+      const res = await authAxios.put(`/orderlines/`, orderline, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+      });
+
+      dispatch(addItemToCart(res.data));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const incrementCartItem = (id) => {
+  return async (dispatch) => {
+    try {
+      console.log(">>>>>> ID", id)
+      const res = await authAxios.put(`/orderlines/increment/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+      });
+
+      dispatch(addItemToCart(res.data));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const decrementCartItem = (id) => {
+  return async (dispatch) => {
+    try {
+
+      const res = await authAxios.put(`/orderlines/decrement/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+      });
+
+      dispatch(addItemToCart(res.data));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const removeCartItem = (id) => {
+  return async (dispatch) => {
+    try {
+
+      const res = await authAxios.delete(`/orderlines/remove/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+      });
+
+      dispatch(addItemToCart(res.data));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const emptyCart = (id) => {
+  return async (dispatch) => {
+    try {
+
+      const res = await authAxios.delete(`/orderlines/empty/${id}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`
         }

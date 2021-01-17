@@ -34,9 +34,8 @@ function App() {
     if (token) dispatch(autoSignInUser(token));
     dispatch(getProducts());
     dispatch(getCategories());
-    if (!isUser) dispatch(getCartItemsFromLocalStorage());
-    else dispatch(getUserCart(user.id));
-    isUser && dispatch(getUserOrders(user.id));
+    dispatch(getCartItemsFromLocalStorage());
+    isUser && dispatch(getUserOrders(user.id)) && dispatch(getUserCart(user.id));
   }, [dispatch, isUser]);
 
   if (loading) return <h1>Loading ...</h1>;

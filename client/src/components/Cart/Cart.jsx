@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FaTrashAlt, FaRegCheckCircle, FaCaretDown, FaCaretUp } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
-import { removeItemFromCart, clearCart, incrementItem, decrementItem } from "../../redux/actions/cart";
+import { removeItemFromCart, clearCart, incrementItem, decrementItem, incrementCartItem, decrementCartItem, removeCartItem, emptyCart } from "../../redux/actions/cart";
 
 // Components
 import Button from "../Button";
@@ -33,8 +33,16 @@ import { addUserCart } from "../../redux/actions/user";
 const CartItem = () => {
 
   const dispatch = useDispatch();
+  const {userOrders} = useSelector(state=> state.order)
   const { cart, cartAmount } = useSelector(state => state.cart);
   const { isUser, user } = useSelector(state => state.user);
+  let orderId;
+  for(var i =0; i<userOrders.length; i++){
+    if(userOrders[i].status === "on_cart") {
+      orderId = userOrders[i].id;
+    }
+  }
+  
 
 
   const getTotal = () => {
@@ -113,7 +121,7 @@ const CartItem = () => {
                 <div className="display-flex">
                   <button type="button" className="btn no-border"> <FaRegCheckCircle className="fa fa-checkcircle" /> Buy Now
                   </button>
-                  <button type="button" className="btn no-border" onClick={() => clearAllItems()}> <FaTrashAlt className="fa fa-trash" /> Remove All
+                  <button type="button" className="btn no-border" onClick={() => isUser && dispatch(emptyCart(orderId))  && clearAllItems()}> <FaTrashAlt className="fa fa-trash" /> Remove All
                   </button>
                 </div>
               </div>
@@ -144,10 +152,10 @@ const CartItem = () => {
                           <div className="item-qty">
                             <div className="qty-box">
                               <input value={item.quantity} className="qty-box-input" />
-                              <button type="button" className="qty-box-up" onClick={() => dispatch(incrementItem(item.id)) && isUser && dispatch(addUserCart(user.id))}>
+                              <button type="button" className="qty-box-up" onClick={() => dispatch(incrementItem(item.id)) && isUser && dispatch(incrementCartItem(item.product.id))}>
                                 <FaCaretUp />
                               </button>
-                              <button type="button" className="qty-box-down" onClick={() => item.quantity > 1 && dispatch(decrementItem(item.id)) && isUser && dispatch(addUserCart(user.id))}>
+                              <button type="button" className="qty-box-down" onClick={() => item.quantity > 1 && dispatch(decrementItem(item.id)) && isUser && dispatch(decrementCartItem(item.product.id))}>
                                 <FaCaretDown />
                               </button>
                             </div>
@@ -163,7 +171,7 @@ const CartItem = () => {
                         </div>
                         <div className="item-sub-container no-border-top flex-wrap">
                           <div className="display-flex">
-                            <button type="button" className="btn btn-mini btn-tertiary" onClick={() => removeFromCart(item.id) && isUser && dispatch(addUserCart(user.id))}>
+                            <button type="button" className="btn btn-mini btn-tertiary" onClick={() =>  dispatch(removeCartItem(item.id)) && removeFromCart(item.id) }>
                               <FaTrashAlt className="fa fa-trash" /> Remove
                           </button>
                           </div>
