@@ -125,7 +125,7 @@ const CartItem = () => {
                     cart.map((item) =>
                       <div className="item-cell">
                         <div className="item-container">
-                          <Link className="item-img" target="_blank">
+                          <Link className="item-img">
                             <img src={item.images[0]} alt={item.name} />
                           </Link>
                           <div className="item-info">

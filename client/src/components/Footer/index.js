@@ -27,16 +27,16 @@ const Footer = () => {
           <div className="social-foo">
             <ul className="footer-ul">
               <li>
-                <Link to="/" id="media-links"><FaFacebookF className="icons" /></Link>
+                <Link to="/" id="media-links"><FaFacebookF id="icn-FB" className="icons" /></Link>
               </li>
               <li>
-                <Link to="/" id="media-links"><FaTwitter className="icons" /></Link>
+                <Link to="/" id="media-links"><FaTwitter id="icn-TW" className="icons" /></Link>
               </li>
               <li>
-                <Link to="/" id="media-links"><FaYoutube className="icons" /></Link>
+                <Link to="/" id="media-links"><FaYoutube id="icn-YT" className="icons" /></Link>
               </li>
               <li>
-                <Link to="/" id="media-link s"><FaInstagram className="icons" /></Link>
+                <Link to="/" id="media-link s"><FaInstagram id="icn-IG" className="icons" /></Link>
               </li>
             </ul>
           </div>

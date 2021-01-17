@@ -337,9 +337,6 @@ strong {
   color: #707070;
   font-size: 15px;
 }
-strong {
-  font-weight: 700;
-}
 
 .item-qty {
   position: relative;
@@ -366,6 +363,10 @@ strong {
   width: 24px;
   min-width: 50px;
   font-size: 12px;
+}
+
+.qty-box-input:focus {
+  outline: none;
 }
 
 .qty-box-up {
