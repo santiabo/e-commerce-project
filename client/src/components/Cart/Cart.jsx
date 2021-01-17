@@ -41,6 +41,7 @@ const CartItem = () => {
     if(userOrders[i].status === "on_cart") {
       orderId = userOrders[i].id;
     }
+
   }
   
 
@@ -108,6 +109,110 @@ const CartItem = () => {
 
   return (
     <section className="page-section">
+    { isUser ? 
+      <div className="page-section-inner">
+        <div className="row has-flex-summary">
+          <form>
+            <div id="cart-top" className="row-top display-flex justify-content-space-between width-100">
+              <div className="row-top-left flex-wrap width-100">
+                <h1 className="row-title">
+                  Shopping Cart <span className="row-title-note">
+                    ({cartAmount} Items)
+                    </span>
+                </h1>
+                <div className="display-flex">
+                  <button type="button" className="btn no-border"> <FaRegCheckCircle className="fa fa-checkcircle" /> Buy Now
+                  </button>
+                  <button type="button" className="btn no-border" onClick={() => isUser && dispatch(emptyCart(orderId))  && clearAllItems()}> <FaTrashAlt className="fa fa-trash" /> Remove All
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div className="row-inner">
+              <div className="row-body">
+                <div className="item-cells-wrap tile-cells items-list-view absolute-img-cells">
+                  {
+                    cart.map((item) =>
+                      <div className="item-cell">
+                        <div className="item-container">
+                          <Link className="item-img" target="_blank">
+                            <img src={item.product.images[0]} alt={item.product.name} />
+                          </Link>
+                          <div className="item-info">
+                            <Link id="a" className="item-title" to={"product/" + item.product.id}>
+                              {item.product.name}
+                            </Link>
+                            {item.product.categories.map(category => (
+                              <p>
+                                <strong>{category.name}</strong>
+                              </p>
+                            ))}
+                            <ul className="item-description">
+                              <p>{item.description}</p>
+                            </ul>
+                          </div>
+                          <div className="item-qty">
+                            <div className="qty-box">
+                              <input value={item.quantity} className="qty-box-input" />
+                              <button type="button" className="qty-box-up" onClick={() => dispatch(incrementItem(item.product.id)) && isUser && dispatch(incrementCartItem(item.product.id))}>
+                                <FaCaretUp />
+                              </button>
+                              <button type="button" className="qty-box-down" onClick={() => item.quantity > 1 && dispatch(decrementItem(item.product.id)) && isUser && dispatch(decrementCartItem(item.product.id))}>
+                                <FaCaretDown />
+                              </button>
+                            </div>
+                          </div>
+                          <div className="item-action">
+                            <ul className="price">
+                              <li className="price-current">
+                                $
+                                <strong>{Number(item.price * item.quantity).toFixed(2)}</strong>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                        <div className="item-sub-container no-border-top flex-wrap">
+                          <div className="display-flex">
+                            <button type="button" className="btn btn-mini btn-tertiary" onClick={() =>  dispatch(removeCartItem(item.id, orderId)) && removeFromCart(item.id) }>
+                              <FaTrashAlt className="fa fa-trash" /> Remove
+                          </button>
+                          </div>
+                        </div>
+                      </div>
+                    )
+                  }
+                </div>
+              </div>
+              <div></div>
+              <div className="row-side">
+                <div className="summary-side">
+                  <h3 className="summary-title fixed-hide">Summary</h3>
+                  <div className="summary-wrap">
+                    <div className="summary-content">
+                      <ul>
+                        <li className="summary-content-global">
+                          <label>
+                            Total Price:
+                          </label>
+                          <span>
+                            $<strong>{getTotal()}</strong>
+                          </span>
+                        </li>
+                      </ul>
+                      <div className="summary-actions">
+                        <button type="button" className="btn btn-primary btn-wide">
+                          To Checkout
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      :
       <div className="page-section-inner">
         <div className="row has-flex-summary">
           <form>
@@ -152,10 +257,10 @@ const CartItem = () => {
                           <div className="item-qty">
                             <div className="qty-box">
                               <input value={item.quantity} className="qty-box-input" />
-                              <button type="button" className="qty-box-up" onClick={() => dispatch(incrementItem(item.id)) && isUser && dispatch(incrementCartItem(item.product.id))}>
+                              <button type="button" className="qty-box-up" onClick={() => dispatch(incrementItem(item.id)) && isUser && dispatch(incrementCartItem(item.id))}>
                                 <FaCaretUp />
                               </button>
-                              <button type="button" className="qty-box-down" onClick={() => item.quantity > 1 && dispatch(decrementItem(item.id)) && isUser && dispatch(decrementCartItem(item.product.id))}>
+                              <button type="button" className="qty-box-down" onClick={() => item.quantity > 1 && dispatch(decrementItem(item.id)) && isUser && dispatch(decrementCartItem(item.id))}>
                                 <FaCaretDown />
                               </button>
                             </div>
@@ -210,59 +315,7 @@ const CartItem = () => {
           </form>
         </div>
       </div>
-      {/* <header>
-        <h2 className='header'>Shipping Cart</h2>
-      </header>
-      {cart.map((item) =>
-        <ProductWrapper>
-          <LeftSide>
-            <ImageContainer>
-              <img src={item.images[0]} alt={item.name} />
-            </ImageContainer>
-          </LeftSide>
-          <RightSide>
-            <CategoriesTags>
-              {item.categories.map(category => (
-                <CategoryTag>{category.name}</CategoryTag>
-              ))}
-            </CategoriesTags>
-            <Title>{item.name}</Title>
-            <Description>
-              {item.description}
-            </Description>
-            {item.quantity && <h4>Units: {item.quantity}</h4>}
-            <Price>
-              $ {Number(item.price * item.quantity).toFixed(2)}
-            </Price>
-            <ButtonsWrapper>
-              <UnitsAmountWrapper>
-                <input type="button" value='-' onClick={() => item.quantity > 1 && dispatch(decrementItem(item.id)) && isUser && dispatch(addUserCart(user.id))} />
-                <input type="button" value={item.quantity} />
-                <input type="button" value='+' onClick={() => dispatch(incrementItem(item.id)) && isUser && dispatch(addUserCart(user.id))} />
-              </UnitsAmountWrapper>
-              <Button onClick={() => removeFromCart(item.id) && isUser && dispatch(addUserCart(user.id))}>
-                Remove
-                </Button>
-            </ButtonsWrapper>
-          </RightSide>
-        </ProductWrapper>
-      )}
-      <footer>
-        <hr />
-        <div className='cart-total'>
-          <h4 className='price'>
-            Total <span>${getTotal()}</span>
-          </h4>
-        </div>
-        <ButtonsWrapper>
-          <Button className='nav-button' onClick={() => clearAllItems()}>
-            CLEAR CART
-        </Button>
-          <Button className='nav-button' as="a" href='/register'>
-            BUY NOW!
-        </Button>
-        </ButtonsWrapper>
-      </footer> */}
+    }
     </section>
   );
 };

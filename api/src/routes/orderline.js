@@ -193,6 +193,7 @@ server.delete('/remove/:id', async (req, res, next) => {
       }
 
     })
+    const orderId = orderLine.orderId
 
     await OrderLine.destroy({
       where: {
@@ -202,7 +203,7 @@ server.delete('/remove/:id', async (req, res, next) => {
     })
     const userCart = await OrderLine.findAll({
       where: {
-        orderId: orderLine.orderId//order[0].dataValues.id
+        orderId: orderId//order[0].dataValues.id
       },
       include: [
         Order,
