@@ -20,7 +20,6 @@ const Footer = () => {
         <ul>
           <li><Link id="link">Terms & Conditions</Link></li>
           <li><Link id="link">Privacy Policy</Link></li>
-          <li><Link id="link">About</Link></li>
           <li><Link id="link">Contact</Link></li>
         </ul>
         <div className="footer-page">
@@ -41,7 +40,7 @@ const Footer = () => {
             </ul>
           </div>
           <div className="disclaimer-foo">
-            <p className="copy">&copy; {new Date().getFullYear()} BuildHUB. All rights reserved.</p>
+            <p className="copy">&copy; {new Date().getFullYear()} PC Creative. All rights reserved.</p>
           </div>
         </div>
 

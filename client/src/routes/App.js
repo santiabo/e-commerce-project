@@ -65,6 +65,8 @@ function App() {
 
           <Route path='/admin/orders' component={TableOrder} />
 
+          <Route exact path='/admin/orders/:id' render={({ match }) => <Order match={match} />} />
+
           <Route exact path='/admin/users' component={userTable} />
 
           <Route exact path="/user/account" component={EditProfile} />

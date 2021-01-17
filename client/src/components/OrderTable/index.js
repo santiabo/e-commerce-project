@@ -17,11 +17,11 @@ const TableOrder = ({ getAllOrdersAction }) => {
 
   const { user } = useSelector(state => state.user);
 
-  useEffect(() => {
-    if (!user.isAdmin) {
-      history.push('/');
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!user.isAdmin) {
+  //     history.push('/');
+  //   }
+  // }, []);
 
 
   useEffect(() => {
@@ -109,9 +109,11 @@ const TableOrder = ({ getAllOrdersAction }) => {
 
                   <td style={{ display: "flex" }}>
                     <ButtonsWrapper>
-                    <Button onClick={() => history.push(`/admin/orders/${id}`)}>
-                          <i className="fas fa-search"></i>
+                    <Link to={`/admin/orders/${id}`}>
+                      <Button>
+                          <i className="fas fa-search">Order Detail</i>
                       </Button>
+                    </Link>
                     </ButtonsWrapper>
                     <Select status={status} id={id} handleChange={handleChange} />
                   </td>
