@@ -115,7 +115,7 @@ const CartItem = () => {
           <Button className='nav-button' onClick={() => clearAllItems()}>
             CLEAR CART
         </Button>
-          <Button className='nav-button' as="a" href='/register'>
+          <Button className='nav-button' as="a" href='/checkout/shipping'>
             BUY NOW!
         </Button>
         </ButtonsWrapper>

@@ -23,6 +23,7 @@ import userTable from '../components/UserTable';
 import OrderContainer from '../containers/OrderContainer';
 import Order from '../components/Order/Order';
 import ForcePasswordChangePage from '../containers/ForcePasswordChangePage';
+import CheckoutShipping from '../containers/CheckoutShipping';
 
 function App() {
 
@@ -44,39 +45,43 @@ function App() {
   return (
 
     <BrowserRouter>
-      <Layout>
-        <Switch>
-          <Route exact path='/'>
-            <Home slides={SlideData} />
-          </Route>
+      <Switch>
+        {/* Para rutas sin el Header ni el Footer */}
+        <Route exact path='/changePassword' component={ForcePasswordChangePage} />
+        <Route exact path="/checkout/shipping" component={CheckoutShipping} />
+        <Layout>
+          <Switch>
 
-          <Route exact path="/user/account" component={EditProfile} />
+            <Route exact path='/'>
+              <Home slides={SlideData} />
+            </Route>
 
-          <Route exact path='/changePassword' component={ForcePasswordChangePage} />
+            <Route exact path="/user/account" component={EditProfile} />
 
-          <Route exact path='/login' component={LoginUser} />
+            <Route exact path='/login' component={LoginUser} />
 
-          <Route path="/register" component={UserRegister} />
+            <Route exact path="/register" component={UserRegister} />
 
-          <Route path='/admin' component={ProductTable} />
+            <Route exact path='/admin' component={ProductTable} />
 
-          <Route path='/orders' component={TableOrder} />
+            <Route exact path='/orders' component={TableOrder} />
 
-          <Route exact path='/users' component={userTable} />
+            <Route exact path='/users' component={userTable} />
 
-          <Route exact path='/user/orders' component={OrderContainer} />
+            <Route exact path='/user/orders' component={OrderContainer} />
 
-          <Route exact path='/user/orders/:id' render={({ match }) => <Order match={match} />} />
+            <Route exact path='/user/orders/:id' render={({ match }) => <Order match={match} />} />
 
-          <Route path='/products' component={Catalogue} />
+            <Route exact path='/products' component={Catalogue} />
 
-          <Route path='/cart' component={Cart} />
+            <Route exact path='/cart' component={Cart} />
 
-          <Route path='/product/:id' render={({ match }) => <Product match={match} />} />
+            <Route path='/product/:id' render={({ match }) => <Product match={match} />} />
 
-          <Route component={NotFound} />
-        </Switch>
-      </Layout>
+            <Route component={NotFound} />
+          </Switch>
+        </Layout>
+      </Switch>
     </BrowserRouter>
   );
 }
