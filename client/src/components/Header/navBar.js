@@ -20,8 +20,6 @@ const NavBar = () => {
     <nav>
       <NavWrapper3>
     
-        <StyledLink to='/'>PC Builder</StyledLink>
-
         <StyledLink to='/products'>Products</StyledLink>
 
         <StyledLink to='/'>About Us</StyledLink>        

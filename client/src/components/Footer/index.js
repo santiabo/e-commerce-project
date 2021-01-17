@@ -41,7 +41,7 @@ const Footer = () => {
             </ul>
           </div>
           <div className="disclaimer-foo">
-            <p className="copy">&copy; {new Date().getFullYear()} BuildHUB. All rights reserved.</p>
+            <p className="copy">&copy; {new Date().getFullYear()} PC Creative. All rights reserved.</p>
           </div>
         </div>
 
