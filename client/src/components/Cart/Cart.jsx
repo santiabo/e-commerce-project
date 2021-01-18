@@ -338,14 +338,6 @@ const CartItem = () => {
               </div>
             </form>
           </div>
-          <ButtonsWrapper>
-            <Button className='nav-button' onClick={() => clearAllItems()}>
-              CLEAR CART
-        </Button>
-            <Button className='nav-button' as="a" href='/checkout/shipping'>
-              BUY NOW!
-        </Button>
-          </ButtonsWrapper>
         </div>
       }
     </section>
