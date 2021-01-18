@@ -121,7 +121,7 @@ const CartItem = () => {
   };
 
   const toCheckout = () => {
-    // history.push("/checkout");
+    history.push("/login");
   };
 
 
@@ -141,8 +141,6 @@ const CartItem = () => {
                     </span>
                   </h1>
                   <div className="display-flex">
-                    <button type="button" className="btn no-border"> <FaRegCheckCircle className="fa fa-checkcircle" /> Buy Now
-                  </button>
                     <button type="button" className="btn no-border" onClick={() => isUser && dispatch(emptyCart(orderId)) && clearAllItems()}> <FaTrashAlt className="fa fa-trash" /> Remove All
                   </button>
                   </div>
@@ -246,8 +244,6 @@ const CartItem = () => {
                     </span>
                   </h1>
                   <div className="display-flex">
-                    <button type="button" className="btn no-border"> <FaRegCheckCircle className="fa fa-checkcircle" /> Buy Now
-                  </button>
                     <button type="button" className="btn no-border" onClick={() => isUser && dispatch(emptyCart(orderId)) && clearAllItems()}> <FaTrashAlt className="fa fa-trash" /> Remove All
                   </button>
                   </div>
@@ -325,9 +321,9 @@ const CartItem = () => {
                           </li>
                         </ul>
                         <div className="summary-actions">
-                          {/* <button type="button" className="btn btn-primary btn-wide">
+                          <button type="button" className="btn btn-primary btn-wide" onClick={toCheckout}>
                             To Checkout
-                        </button> */}
+                        </button>
                           {data &&
                             <PaymentForm data={data} />}
                         </div>

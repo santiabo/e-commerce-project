@@ -2,7 +2,8 @@
   border: none;
 }
 
-.dropdown button:hover, .dropdown button:focus {
+.dropdown button:hover,
+.dropdown button:focus {
   outline: none !important;
   box-shadow: none !important;
   background: none !important;
@@ -31,9 +32,11 @@
 
 .Avatar {
   font-size: 2rem;
-  width: 2rem !important;
+  width: 1.5rem !important;
+  overflow: hidden;
 }
 
-.LinkItem, .LinkItem:hover {
+.LinkItem,
+.LinkItem:hover {
   color: black;
 }
