@@ -45,12 +45,12 @@ const ProductCard = ({ product, categories, reviews }) => {
       dispatch(setItemToCart(product, count));
 
     } else {
-      console.log(order.id);
       dispatch(postItemToCart({
         quantity: count,
         productId: product.id,
-        price: product.price,
-        orderId: order.id
+        userId:user.id,
+        price: product.price, 
+       /*  orderId: order.id */
       }));
       // dispatch((user.id))
     }

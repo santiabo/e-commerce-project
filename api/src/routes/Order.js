@@ -11,15 +11,15 @@ server.get('/', (req, res, next) => {
     .then(order => {
       return res.send(order);
     }).catch(err => {
-      res.send(err)
-    })
-})
+      res.send(err);
+    });
+});
 
 //-------------Status Order
 server.get('/status/:status', (req, res, next) => {
   //Esta ruta puede recibir el query string "status" y deberá devolver sólo las ordenes con ese status.
   //vamos a adivinar
-  const status = req.params.status //query string status
+  const status = req.params.status; //query string status
   Order.findAll({ //busca todas las ordenes
     where: {
       status //que tengan este argumento especifico (un estado)
@@ -47,8 +47,8 @@ server.put('/:id/:status', (req, res, next) => {
         .then(order => {
           return res.send(order);
         }).catch(err => {
-          res.send(err)
-        })
+          res.send(err);
+        });
     })
     .catch(next);
 });
@@ -65,13 +65,19 @@ server.get('/:id', (req, res) => {
       attributes: ['quantity', 'price'],
       include: [{
         model: Product,
-        attributes: ['name', 'images']
+        attributes: ['id', 'name', 'images']
       }]
     }]
   })
     .then((order) => {
-      return res.send(order);
+      console.log(order);
+      if (order)
+        return res.send(order);
+      else
+        return res.status(404).send({ msg: "Order not found." });
     }).catch((err) => {
+      console.log(err);
+
       return res.send(err);
     });
 });

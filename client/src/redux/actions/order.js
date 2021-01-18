@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getAllOrders, removeOrder, getOrderById} from '../../services/orders';
+import { getAllOrders, removeOrder, getOrderById } from '../../services/orders';
 import { authAxios } from './user';
 
 const USER_ORDERS = "USER_ORDERS";
@@ -51,7 +51,12 @@ export const getOrder = (id) => {
 
       const res = await axios.get(`http://localhost:5000/orders/${id}`);
 
-      dispatch(getAllOrders(res.data));
+      console.log(res.data);
+
+      dispatch({
+        type: GET_ORDER_DETAIL,
+        order: res.data
+      });
     } catch (err) {
       return err;
     }
@@ -122,15 +127,11 @@ export const handleViewOrder = (id) => {
 
 export const getOrderDetail = (id) => {
   return dispatch => {
-    dispatch({
-      type: GET_ORDER_DETAIL,
-      payload: null
-    });
     return getOrderById(id)
       .then(data => {
         dispatch({
           type: GET_ORDER_DETAIL,
-          payload: data
+          order: data
         });
       });
   };
@@ -142,28 +143,23 @@ export const disabledCrud = () => {
   };
 };
 
-export const sendReviewEmail = (id, user) => {
+export const sendReviewEmail = (id, user, status) => {
 
   return axios
-    .post(`http://localhost:5000/email/${id}`, { user })
+    .post(`http://localhost:5000/email/${id}`, { user, status })
     .then(res => {
       return res.data;
     })
     .catch(() => {
       return undefined;
     });
-}
+};
 
-   export const putOrderStatus = async (id, status) => {
+export const putOrderStatus = async (id, status) => {
 
-      return axios.put(`http://localhost:5000/orders/${id}/${status}`)
-      
-      .catch(() => {
-        return undefined;
-      });   //dispatch getAllOrders ! ! !;
-  };  
+  return axios.put(`http://localhost:5000/orders/${id}/${status}`)
 
-
- 
-
-
+    .catch(() => {
+      return undefined;
+    });   //dispatch getAllOrders ! ! !;
+};

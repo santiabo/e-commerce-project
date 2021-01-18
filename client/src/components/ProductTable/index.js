@@ -104,8 +104,8 @@ function ProductTable(props) {
       error.price = 'Price format must have 2 digits after the decimal point.';
     }
 
-    if (!Number(input.stock)) {
-      error.stock = 'Please, input a number. Max stock: 9999.';
+    if (Number(input.stock) < 0) {
+      error.stock = 'Please, input a valid amount.';
     }
 
     return error;
@@ -411,11 +411,14 @@ function ProductTable(props) {
             <label>Stock</label>
             <input
               className="form-control"
-              type="text"
+              type="number"
               name="stock"
               value={productoSeleccionado && productoSeleccionado.stock}
               onChange={handleChange}
-              maxLength="4" />
+              step="1"
+              min="0"
+              max="9999"
+              required />
             {error.stock && <span className='text-danger'>{error.stock}</span>}
             <br />
 
@@ -466,23 +469,14 @@ function ProductTable(props) {
         </ModalHeader>
         <ModalBody>
           <div className="form-group">
-            {/* <label>ID</label>
-            <input
-              className="form-control"
-              readOnly
-              type="text"
-              name="id"
-              value={data.length ? (data[data.length - 1].id + 1) : null}
-            />
-            <br /> */}
-
-            <label>Name</label>
+            <label>Product</label>
             <input
               className="form-control"
               type="text"
               name="name"
-              value={productoSeleccionado ? productoSeleccionado.name : ''}
-              onChange={handleChange} />
+              value={productoSeleccionado && productoSeleccionado.name}
+              onChange={handleChange}
+              maxLength="200" />
             <br />
 
             <label>Description</label>
@@ -490,8 +484,9 @@ function ProductTable(props) {
               className="form-control"
               type="text"
               name="description"
-              value={productoSeleccionado ? productoSeleccionado.description : ''}
-              onChange={handleChange} />
+              value={productoSeleccionado && productoSeleccionado.description}
+              onChange={handleChange}
+              maxLength="2000" />
             <br />
 
             <label>Price</label>
@@ -499,40 +494,35 @@ function ProductTable(props) {
               className="form-control"
               type="text"
               name="price"
-              value={productoSeleccionado ? productoSeleccionado.price : ''}
-              onChange={handleChange} />
+              value={productoSeleccionado && productoSeleccionado.price}
+              onChange={handleChange}
+              maxLength="8" />
+            {error.price && <span className='text-danger'>{error.price}</span>}
             <br />
 
             <label>Stock</label>
             <input
               className="form-control"
-              type="text"
+              type="number"
               name="stock"
-              value={productoSeleccionado ? productoSeleccionado.stock : ''}
-              onChange={handleChange} />
+              value={productoSeleccionado && productoSeleccionado.stock}
+              onChange={handleChange}
+              step="1"
+              min="0"
+              max="9999"
+              required />
+            {error.stock && <span className='text-danger'>{error.stock}</span>}
             <br />
 
-            <label>Image URL</label>
-            <input
-              className="form-control"
-              type="text"
-              name="img"
-              value={productoSeleccionado ? productoSeleccionado.img : ''}
-              onChange={handleChange} />
-            <br />
-          </div>
-
-          {/* <label>Categoria</label>
-          <select
-            className="custom-select"
-            name="category"
+            <label>Image</label>
+            <form></form>
+            <DropZone    
+            name='img'
             onChange={handleChange}
-          >
-            {dataCategories.map((e) =>
-              <option value={e.name} name="category">{e.name}</option>
-            )}
-          </select> */}
-          <br />
+            />
+            <br />
+
+          </div>
         </ModalBody>
 
         <ModalFooter>

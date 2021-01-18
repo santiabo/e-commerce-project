@@ -364,6 +364,7 @@ export const logInUser = (email, password) => {
       dispatch(addUserCart(user.id));
       dispatch(successRequest());
     } catch (err) {
+      alert(err.response.data) 
       dispatch(setError(err));
     }
   };
@@ -394,7 +395,7 @@ export const autoSignInUser = (token) => {
       });
       const user = res.data;
       dispatch(autoLoginUser(user));
-      dispatch(addUserCart(user.id));
+     // dispatch(addUserCart(user.id));
       dispatch(successRequest());
     } catch (err) {
       console.log(err);
