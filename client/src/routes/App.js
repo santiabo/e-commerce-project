@@ -25,6 +25,7 @@ import Order from '../components/Order/Order';
 import ForcePasswordChangePage from '../containers/ForcePasswordChangePage';
 import CheckoutShipping from '../containers/CheckoutShipping';
 import MercadoPago from '../components/MercadoPagoButton/MercadoPago';
+import ReviewPage from '../containers/ReviewPage';
 
 function App() {
 
@@ -37,7 +38,11 @@ function App() {
     dispatch(getProducts());
     dispatch(getCategories());
     dispatch(getCartItemsFromLocalStorage());
-    isUser && dispatch(getUserOrders(user.id)) && dispatch(getUserCart(user.id));
+    console.log(user, isUser);
+    if (isUser) {
+      dispatch(getUserOrders(user.id));
+      dispatch(getUserCart(user.id));
+    }
   }, [dispatch, isUser]);
 
   if (loading) return <h1>Loading ...</h1>;
@@ -48,7 +53,8 @@ function App() {
       <Switch>
         {/* Para rutas sin el Header ni el Footer */}
         <Route exact path='/changePassword' component={ForcePasswordChangePage} />
-        <Route exact path="/checkout" component={CheckoutShipping} />
+        {/* <Route exact path="/checkout" component={CheckoutShipping} /> */}
+        <Route exact path="/reviews/:orderId" component={ReviewPage} />
         <Layout>
           <Switch>
 
