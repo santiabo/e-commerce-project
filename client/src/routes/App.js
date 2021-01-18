@@ -48,7 +48,7 @@ function App() {
       <Switch>
         {/* Para rutas sin el Header ni el Footer */}
         <Route exact path='/changePassword' component={ForcePasswordChangePage} />
-        <Route exact path="/checkout/shipping" component={CheckoutShipping} />
+        <Route exact path="/checkout" component={CheckoutShipping} />
         <Layout>
           <Switch>
 

@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StepsHeader, StepButton, StepNumber, FormWrapper, CheckoutFormWrapper, Main } from './styles';
 import ShippingForm from '../ShippingForm';
 import PaymentForm from '../PaymentForm';
 import ConfirmData from '../ConfirmData';
+import axios from 'axios';
+import { useSelector } from 'react-redux';
 
-const CheckoutForm = () => {
+const CheckoutForm = ({ orderId }) => {
 
   const [steps, setStep] = useState([
     {
@@ -39,6 +41,20 @@ const CheckoutForm = () => {
     dni: ""
   });
 
+  const [data, setData] = useState("");
+
+  useEffect(() => {
+    axios
+      .post("http://localhost:5000/mercadopago", { orderId })
+      .then((res) => {
+        setData(res.data);
+        console.info('Contenido de data:', data);
+      })
+      .catch(err => console.error(err));
+  }, [orderId]);
+
+
+
   const handleSteps = (id) => {
     setStep(steps.map(s => {
       if (s.id === id) {
@@ -72,8 +88,9 @@ const CheckoutForm = () => {
             <ShippingForm checkoutData={checkoutData} handleChange={handleChange} />
           }
           {
-            steps[1].active &&
-            <PaymentForm checkoutData={checkoutData} handleChange={handleChange} />
+            steps[1].active && data &&
+            // <MercadoPago />
+            <PaymentForm data={data} />
           }
           {
             steps[2].active &&

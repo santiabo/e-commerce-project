@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useHistory } from "react-router-dom";
 import { FaTrashAlt, FaRegCheckCircle, FaCaretDown, FaCaretUp } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import { removeItemFromCart, clearCart, incrementItem, decrementItem, incrementCartItem, decrementCartItem, removeCartItem, emptyCart } from "../../redux/actions/cart";
@@ -25,6 +25,8 @@ import './cart.css';
 import { UnitsAmountWrapper } from "../UnitsAmount/styles";
 import Cart from '../../assets/icons/shopping_cart.svg';
 import { addUserCart } from "../../redux/actions/user";
+import PaymentForm from "../PaymentForm";
+import Axios from "axios";
 
 
 
@@ -33,6 +35,7 @@ import { addUserCart } from "../../redux/actions/user";
 const CartItem = () => {
 
   const dispatch = useDispatch();
+  const history = useHistory();
   const { userOrders } = useSelector(state => state.order);
   const { cart, cartAmount } = useSelector(state => state.cart);
   const { isUser, user } = useSelector(state => state.user);
@@ -43,6 +46,19 @@ const CartItem = () => {
     }
 
   }
+
+  const [data, setData] = useState("");
+
+  useEffect(() => {
+    Axios
+      .post("http://localhost:5000/mercadopago", { orderId })
+      .then((res) => {
+        setData(res.data);
+        console.info('Contenido de data:', data);
+      })
+      .catch(err => console.error(err));
+  }, [orderId]);
+
 
 
 
@@ -102,6 +118,10 @@ const CartItem = () => {
   const clearAllItems = () => {
     dispatch(clearCart());
     isUser && dispatch(addUserCart(user.id));
+  };
+
+  const toCheckout = () => {
+    // history.push("/checkout");
   };
 
 
@@ -200,9 +220,11 @@ const CartItem = () => {
                           </li>
                         </ul>
                         <div className="summary-actions">
-                          <button type="button" className="btn btn-primary btn-wide">
+                          {/* <button type="button" className="btn btn-primary btn-wide" onClick={toCheckout}>
                             To Checkout
-                        </button>
+                        </button> */}
+                          {data &&
+                            <PaymentForm data={data} />}
                         </div>
                       </div>
                     </div>
@@ -303,9 +325,11 @@ const CartItem = () => {
                           </li>
                         </ul>
                         <div className="summary-actions">
-                          <button type="button" className="btn btn-primary btn-wide">
+                          {/* <button type="button" className="btn btn-primary btn-wide">
                             To Checkout
-                        </button>
+                        </button> */}
+                          {data &&
+                            <PaymentForm data={data} />}
                         </div>
                       </div>
                     </div>
