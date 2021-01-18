@@ -43,7 +43,7 @@ const Product = ({ match }) => {
   let product = useSelector(state => state.product.productDetail);
   let { average, reviews } = useSelector(state => state.reviews);
   let { isUser } = useSelector(state => state.user);
-  let {user} = useSelector(state => state.user);
+  let { user } = useSelector(state => state.user);
 
   const increment = () => {
     setQuantity(quantity + 1);
@@ -52,21 +52,21 @@ const Product = ({ match }) => {
   const decrement = () => {
     setQuantity(quantity - 1);
   };
-    const handleClick = () => {
-      if (!isUser) {
-        dispatch(setItemToCart(product, quantity));
-  
-      } else {
-        dispatch(postItemToCart({
-          quantity: quantity,
-          productId: product.id,
-          userId:user.id,
-          price: product.price, 
-         /*  orderId: order.id */
-        }));
-        // dispatch((user.id))
-      }
-    };
+  const handleClick = () => {
+    if (!isUser) {
+      dispatch(setItemToCart(product, quantity));
+
+    } else {
+      dispatch(postItemToCart({
+        quantity: quantity,
+        productId: product.id,
+        userId: user.id,
+        price: product.price,
+        /*  orderId: order.id */
+      }));
+      // dispatch((user.id))
+    }
+  };
 
   const inStock = product.stock > 0;
 

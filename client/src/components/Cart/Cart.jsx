@@ -72,8 +72,8 @@ const CartItem = () => {
         <div className="section-div">
           <form>
             <div className="cart-top">
-              <h1 className="cart-title">Shopping Cart
-              <span className="row-title-note">
+              <h1 className="cart-title">
+                Shopping Cart <span className="row-title-note">
                   ({cartAmount} Items)
                     </span>
               </h1>
@@ -140,12 +140,12 @@ const CartItem = () => {
                       ({cartAmount} Items)
                     </span>
                   </h1>
-                  <div className="display-flex">
-                    <button type="button" className="btn no-border"> <FaRegCheckCircle className="fa fa-checkcircle" /> Buy Now
+                </div>
+                <div className="display-flex icons-side">
+                  <button type="button" className="btn no-border"> <FaRegCheckCircle className="fa fa-checkcircle" /> Buy Now
                   </button>
-                    <button type="button" className="btn no-border" onClick={() => isUser && dispatch(emptyCart(orderId)) && clearAllItems()}> <FaTrashAlt className="fa fa-trash" /> Remove All
+                  <button type="button" className="btn no-border" onClick={() => clearAllItems()}> <FaTrashAlt className="fa fa-trash" /> Remove All
                   </button>
-                  </div>
                 </div>
               </div>
               <div className="row-inner">
@@ -245,12 +245,10 @@ const CartItem = () => {
                       ({cartAmount} Items)
                     </span>
                   </h1>
-                  <div className="display-flex">
-                    <button type="button" className="btn no-border"> <FaRegCheckCircle className="fa fa-checkcircle" /> Buy Now
+                </div>
+                <div className="display-flex icons-side">
+                  <button type="button" className="btn no-border" onClick={() => clearAllItems()}> <FaTrashAlt className="fa fa-trash" /> Remove All
                   </button>
-                    <button type="button" className="btn no-border" onClick={() => isUser && dispatch(emptyCart(orderId)) && clearAllItems()}> <FaTrashAlt className="fa fa-trash" /> Remove All
-                  </button>
-                  </div>
                 </div>
               </div>
               <div className="row-inner">
