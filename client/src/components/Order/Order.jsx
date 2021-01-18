@@ -1,24 +1,34 @@
 import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import './order.css'
+import { getUserOrders } from '../../redux/actions/order';
+import './order.css';
 
 const Order = ({ match }) => {
   const history = useHistory();
-  const isUser = useSelector(state => state.user.isUser)
+  const dispatch = useDispatch();
+  const { isUser, user } = useSelector(state => state.user);
 
   useEffect(() => {
     if (!isUser) {
       history.push('/');
     }
-  }, [history, isUser])
+  }, [history, isUser]);
 
-  const index = match.params.id
+  // useEffect(() => {
+  //   dispatch(getUserOrders(user.id));
+  // }, [isUser]);
+
+  const index = match.params.id;
   const userOrder = useSelector(state => state.order.userOrders);
 
+  console.log('index:', index)
+  console.log('userOrder:', userOrder)
+
+
   const getTotal = () => {
-    return Number (userOrder[index].orderLines.reduce((sum, { price, quantity }) => sum + Number(price) * quantity, 0).toFixed(2));
-  }
+    return Number(userOrder[index].orderLines.reduce((sum, { price, quantity }) => sum + Number(price) * quantity, 0).toFixed(2));
+  };
 
   return (
     <>
