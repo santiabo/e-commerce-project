@@ -10,7 +10,7 @@ export const ReviewPageWrapper = styled.div`
 `;
 
 export const ReviewItemWrapper = styled.div`
-
+  margin: 3rem 0;
 `;
 
 

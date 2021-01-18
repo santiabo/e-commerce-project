@@ -44,7 +44,7 @@ const ReviewPage = () => {
                       <Img src={item.product.images[0]} />
                     </ProductInfoWrapper>
 
-                    <ReviewForm productId={item.product.id} last={(i === (order.orderLines.length - 1))} />;
+                    <ReviewForm productId={item.product.id} last={(i === (order.orderLines.length - 1))} />
                   </ReviewItemWrapper>
                 );
               })
