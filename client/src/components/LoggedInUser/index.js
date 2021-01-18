@@ -24,7 +24,11 @@ const LoggedInUser = () => {
   return (
     <Dropdown className='Dropdown' isOpen={dropdownOpen} toggle={toggle}>
       <DropdownToggle caret className='DropdownToggle'>
-        <MdAccountCircle className='Avatar' />
+        {user.avatar ?
+          <img className='Avatar' src={user.avatar} />
+          :
+          <MdAccountCircle className='Avatar' />}
+
       </DropdownToggle>
 
       <DropdownMenu right>
