@@ -18,7 +18,7 @@ export const ProductCardWrapper = styled.div`
   flex-direction: column;
   width: 100%;
   height: 100% !important;
-  padding: 20px;
+  padding: 5px 40px 30px 15px;
   /* background-color: #fafafa; */
   background-color: #fff;
   /* border: 0.5px solid #e2e2e2; */
@@ -49,7 +49,7 @@ export const ImageContainer = styled.div`
 `;
 
 export const StyledImg = styled.img`
-  width: 85%;
+  width: 95%;
   height: 320px;
   padding: 5px 15px 5px;
   overflow: hidden;
@@ -113,7 +113,7 @@ export const NoStockTag = styled.div`
   z-index: 100;
 `;
 
-export const ButtonPrice = styled.button`
+export const ButtonStyled = styled.button`
   border-radius: 3px;
   box-sizing: border-box;
   outline: none;
@@ -126,32 +126,6 @@ export const ButtonPrice = styled.button`
   text-align: center;
   transition: 0.45s cubic-bezier(0.165, 0.84, 0.44, 1);
   margin-top: 0.5rem;
-  margin-right: 30px;
-
-  &:hover {
-    background: #cecdcd;
-    border-color: #cecdcd;
-  }
-
-  &:focus {
-    outline: none;
-  }
-`;
-
-export const ButtonDetail = styled.button`
-  border-radius: 3px;
-  box-sizing: border-box;
-  outline: none;
-  border: 1px solid #d9d9d9;
-  text-transform: uppercase;
-  padding: 6px .85em;
-  font-size: 12px;
-  background: #e6e6e6;
-  font-weight: 700;
-  text-align: center;
-  transition: 0.45s cubic-bezier(0.165, 0.84, 0.44, 1);
-  margin-top: 0.5rem;
-  display: flex;
 
   &:hover {
     background: #cecdcd;

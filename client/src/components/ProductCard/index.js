@@ -2,6 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setItemToCart, postItemToCart } from "../../redux/actions/cart";
 import { addUserCart } from "../../redux/actions/user";
+import { FaCaretRight, FaCartPlus } from "react-icons/fa";
 
 
 // Components
@@ -21,8 +22,7 @@ import {
   StyledLink,
   NoStockTag,
   StyledImg,
-  ButtonPrice,
-  ButtonDetail
+  ButtonStyled
 } from './styles';
 
 const ProductCard = ({ product, categories, reviews }) => {
@@ -60,12 +60,10 @@ const ProductCard = ({ product, categories, reviews }) => {
   return (
     <ProductCardWrapper>
 
-      <StyledLink>
-        <ImageContainer>
-          {!inStock && <NoStockTag>No Stock</NoStockTag>}
-          <StyledImg src={product.images[0]} alt={product.name} inStock={inStock} />
-        </ImageContainer>
-      </StyledLink >
+      <ImageContainer>
+        {!inStock && <NoStockTag>No Stock</NoStockTag>}
+        <StyledImg src={product.images[0]} alt={product.name} inStock={inStock} />
+      </ImageContainer>
 
       <InfoBox>
 
@@ -81,9 +79,9 @@ const ProductCard = ({ product, categories, reviews }) => {
         <Price>$ {product.price}</Price>
 
         <ButtonsWrapper>
-          <ButtonPrice disabled={!inStock} onClick={handleClick}>Add to Cart</ButtonPrice>
+          <ButtonStyled disabled={!inStock} onClick={handleClick}>Add to Cart <FaCaretRight style={{ marginBottom: "4px" }} /></ButtonStyled>
           <StyledLink to={"product/" + product.id}>
-            <ButtonDetail disabled={!inStock} onClick={handleClick}>View Details</ButtonDetail>
+            <ButtonStyled disabled={!inStock} onClick={handleClick}>View Details <FaCaretRight style={{ marginBottom: "4px" }} /></ButtonStyled>
           </StyledLink>
         </ButtonsWrapper>
 
