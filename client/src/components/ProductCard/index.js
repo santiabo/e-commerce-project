@@ -20,7 +20,9 @@ import {
   InfoBox,
   StyledLink,
   NoStockTag,
-  StyledImg
+  StyledImg,
+  ButtonPrice,
+  ButtonDetail
 } from './styles';
 
 const ProductCard = ({ product, categories, reviews }) => {
@@ -58,7 +60,7 @@ const ProductCard = ({ product, categories, reviews }) => {
   return (
     <ProductCardWrapper>
 
-      <StyledLink to={"product/" + product.id}>
+      <StyledLink>
         <ImageContainer>
           {!inStock && <NoStockTag>No Stock</NoStockTag>}
           <StyledImg src={product.images[0]} alt={product.name} inStock={inStock} />
@@ -79,7 +81,10 @@ const ProductCard = ({ product, categories, reviews }) => {
         <Price>$ {product.price}</Price>
 
         <ButtonsWrapper>
-          <Button disabled={!inStock} onClick={handleClick}>Add to Cart</Button>
+          <ButtonPrice disabled={!inStock} onClick={handleClick}>Add to Cart</ButtonPrice>
+          <StyledLink to={"product/" + product.id}>
+            <ButtonDetail disabled={!inStock} onClick={handleClick}>View Details</ButtonDetail>
+          </StyledLink>
         </ButtonsWrapper>
 
       </InfoBox>
