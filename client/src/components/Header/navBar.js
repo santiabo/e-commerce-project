@@ -15,14 +15,21 @@ const NavBar = () => {
     dispatch(getProducts(search));
     // history.push("/products");
   };
+  function handleClick(e) {
+    e.preventDefault();
+    alert('PC Creative - HENRY Labs 2021: ECommerce project created by Alejo Gschwind, Gisela Capozzi, Augusto Felicenzi, Ivan Carabajal, Santiago Aguirre, Gonzalo Aguilar & Ana Barua.');
+  }
 
+  
   return (
     <nav>
       <NavWrapper3>
     
+        <StyledLink to='/'>PC Builder</StyledLink>
+
         <StyledLink to='/products'>Products</StyledLink>
 
-        <StyledLink to='/'>About Us</StyledLink>        
+        <StyledLink to='/' onClick={handleClick}>About Us</StyledLink>        
 
         <SearchBar handleSubmit={handleSubmit} />
       </NavWrapper3>
