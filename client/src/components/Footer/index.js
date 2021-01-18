@@ -25,30 +25,17 @@ const Footer = () => {
         <div className="footer-page">
           <div className="social-foo">
             <ul className="footer-ul">
-             {/*  <li>
-                <Link to="/" id="media-links"><FaFacebookF id="icn-FB" className="icons" /></Link>
+              <li>
+                <a href="https://www.facebook.com/PC-Creative-101512221940205/" target="_blank" rel="noreferrer" id="media-links"><FaFacebookF className="icons" /></a>
               </li>
               <li>
-                <Link to="/" id="media-links"><FaTwitter id="icn-TW" className="icons" /></Link>
+                <a href="https://twitter.com/PCCreative1" target="_blank" rel="noreferrer" id="media-links"><FaTwitter className="icons" /></a>
               </li>
               <li>
-                <Link to="/" id="media-links"><FaYoutube id="icn-YT" className="icons" /></Link>
+                <a href="https://www.youtube.com/" target="_blank" rel="noreferrer" id="media-links"><FaYoutube className="icons" /></a>
               </li>
               <li>
-                <Link to="/" id="media-link s"><FaInstagram id="icn-IG" className="icons" /></Link>
-                <a href="https://www.facebook.com/" target="_blank" id="media-links"><FaFacebookF className="icons" /></a>
-              </li> */}
-              <li>
-                <Link to="https://www.facebook.com/" id="media-links"><FaFacebookF id="icn-FB" className="icons" /></Link>
-              </li>
-              <li>
-                <Link to="https://twitter.com/home" id="media-links"><FaTwitter id="icn-TW" className="icons" /></Link>
-              </li>
-              <li>
-                <Link to="https://www.youtube.com/" id="media-links"><FaYoutube id="icn-YT" className="icons" /></Link>
-              </li>
-              <li>
-                <Link to="https://www.instagram.com/" id="media-links"><FaInstagram id="icn-IG" className="icons" /></Link>
+                <a href="https://www.instagram.com/pc.creative.hlabs/" target="_blank" rel="noreferrer" id="media-link s"><FaInstagram className="icons" /></a>
               </li>
             </ul>
           </div>
