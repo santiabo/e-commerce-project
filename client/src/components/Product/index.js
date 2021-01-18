@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProduct } from "../../redux/actions/product";
-import { addItemToCart, setItemToCart } from "../../redux/actions/cart";
+import { addItemToCart, postItemToCart, setItemToCart } from "../../redux/actions/cart";
 
 
 // Components
@@ -43,6 +43,7 @@ const Product = ({ match }) => {
   let product = useSelector(state => state.product.productDetail);
   let { average, reviews } = useSelector(state => state.reviews);
   let { isUser } = useSelector(state => state.user);
+  let {user} = useSelector(state => state.user);
 
   const increment = () => {
     setQuantity(quantity + 1);
@@ -51,22 +52,21 @@ const Product = ({ match }) => {
   const decrement = () => {
     setQuantity(quantity - 1);
   };
-
-  const handleClick = () => {
-
-
-    if (!isUser) {
-      dispatch(setItemToCart({ ...product, quantity }, quantity));
-
-    } else {
-      dispatch(addItemToCart({
-        quantity,
-        productId: product.id,
-        price: product.price,
-        // orderId
-      }));
-    }
-  };
+    const handleClick = () => {
+      if (!isUser) {
+        dispatch(setItemToCart(product, quantity));
+  
+      } else {
+        dispatch(postItemToCart({
+          quantity: quantity,
+          productId: product.id,
+          userId:user.id,
+          price: product.price, 
+         /*  orderId: order.id */
+        }));
+        // dispatch((user.id))
+      }
+    };
 
   const inStock = product.stock > 0;
 

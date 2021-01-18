@@ -104,7 +104,7 @@ passport.use(
         lastName,
         createdAt,
         updateAt } = user;
-      consele.log(user);
+ 
       return done(null, {
         id,
         email: userEmail,

@@ -49,7 +49,7 @@ server.get("/logout", function (req, res) {
 });
 
 //------Promote turns user with ID: id to Admin.
-server.put('/promote/:id', isAdmin, async function (req, res, next) {
+server.put('/promote/:id', /* isAdmin, */ async function (req, res, next) {
   const { id } = req.params;
   try {
     const result = await User.findByPk(id);
@@ -65,7 +65,7 @@ server.put('/promote/:id', isAdmin, async function (req, res, next) {
 
 //------DEGRADE ADMIN TO REGULAR USER
 
-server.put('/degrade/:id', isAdmin, async function (req, res, next) {
+server.put('/degrade/:id',/*  isAdmin, */ async function (req, res, next) {
   const { id } = req.params;
   try {
     const result = await User.findByPk(id);
@@ -80,7 +80,7 @@ server.put('/degrade/:id', isAdmin, async function (req, res, next) {
 });
 
 //-------------- Ban User
-server.put('/:id/ban', isAdmin, async (req, res, next) => {
+server.put('/:id/ban',/*  isAdmin, */ async (req, res, next) => {
   const { id } = req.params;
   try {
     const ban = await User.findByPk(id);
