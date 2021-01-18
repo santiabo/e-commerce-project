@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useDispatch } from "react-redux";
 import { createNewUser } from "../../redux/actions/user";
 
@@ -11,13 +11,14 @@ export default function UserRegister() {
 
   const { register, handleSubmit, errors, watch } = useForm();
   const password = useRef({});
+  const history = useHistory();
   password.current = watch('password', '');
 
   const dispatch = useDispatch();
 
   const onSubmit = (user) => {
     dispatch(createNewUser(user));
-    alert("User created");
+    history.push("/login");
   };
 
   return (

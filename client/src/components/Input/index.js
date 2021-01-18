@@ -1,10 +1,11 @@
 import React from 'react';
+import { InputWrapper } from '../SearchBar/styles';
 
 const Input = ({ label, value, handleChange, ...otherProps }) => {
   return (
     <label>
       {label}
-      <input value={value} onChange={handleChange} {...otherProps} />
+      <InputWrapper value={value} onChange={handleChange} {...otherProps} />
     </label>
   );
 };

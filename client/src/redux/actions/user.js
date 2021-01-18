@@ -364,6 +364,7 @@ export const logInUser = (email, password) => {
       dispatch(addUserCart(user.id));
       dispatch(successRequest());
     } catch (err) {
+      alert(err.response.data) 
       dispatch(setError(err));
     }
   };
