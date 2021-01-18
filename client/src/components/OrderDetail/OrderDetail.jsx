@@ -46,7 +46,7 @@ const OrderDetail = ({ match }) => {
               <h4>Deliver date 15-01-2021</h4>
             </div>
           </header>
-          {orderDetail.orderLines.map(el =>
+          {orderDetail.orderLines && orderDetail.orderLines.map(el =>
             <main className='order-main'>
               <div className='order-img'>
                 <img className='order-img' src={el.product.images[0]} alt='product1' />
