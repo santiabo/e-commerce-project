@@ -17,6 +17,7 @@ export default function UserRegister() {
 
   const onSubmit = (user) => {
     dispatch(createNewUser(user));
+    alert("User created");
   };
 
   return (
