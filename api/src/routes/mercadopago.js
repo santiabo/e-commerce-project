@@ -13,18 +13,18 @@ mercadopago.configure({
 
 
 //Ruta que genera la URL de MercadoPago
-server.get("/", (req, res, next) => {
+server.post("/", (req, res, next) => {
 
-  //const id_orden= 1
-  const { id_orden, carrito } = req.body
 
-  //Cargamos el carrido de la bd
-  /* const carrito = [
-    { title: "Producto 1", quantity: 5, price: 10.52 },
-    { title: "Producto 2", quantity: 15, price: 100.52 },
-    { title: "Producto 3", quantity: 6, price: 200 }
-  ] */
+ const id_orden = req.body[0].orderId
+ const carrito = req.body.map((item) => ( { 
+   title: item.product.name,
+   quantity: parseInt(item.quantity),
+   price: parseInt(item.product.price)
+ }));
 
+
+ 
   const items_ml = carrito.map(i => ({
     title: i.title,
     unit_price: i.price,

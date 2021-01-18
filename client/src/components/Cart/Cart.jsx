@@ -25,6 +25,7 @@ import './cart.css';
 import { UnitsAmountWrapper } from "../UnitsAmount/styles";
 import Cart from '../../assets/icons/shopping_cart.svg';
 import { addUserCart } from "../../redux/actions/user";
+import MercadoPago from "../MercadoPagoButton/MercadoPago";
 
 
 
@@ -200,9 +201,7 @@ const CartItem = () => {
                         </li>
                       </ul>
                       <div className="summary-actions">
-                        <button type="button" className="btn btn-primary btn-wide">
-                          To Checkout
-                        </button>
+                        <MercadoPago></MercadoPago>
                       </div>
                     </div>
                   </div>
