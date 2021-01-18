@@ -117,7 +117,6 @@ const Product = ({ match }) => {
         </RightSide>
       </ProductDetailWrapper>
       <ReviewsList />
-      <ReviewForm productId={product.id} />
     </ProductWrapper>
   );
 };

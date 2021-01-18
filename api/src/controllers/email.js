@@ -3,7 +3,7 @@ const nodemailer = require('nodemailer');
 
 server.post('/:id', async (req, res, next) => {
 
-  // const { id } = req.params; // Order id
+  const { id } = req.params; // Order id
   const { user } = req.body; // User email
   let { status } = req.body; // String pasada en OrderTable
 
@@ -40,7 +40,7 @@ server.post('/:id', async (req, res, next) => {
         from: '"PCBuildHub" <dailytinkerer@gmail.com>',
         to: user,
         subject: `We hope you enjoy your product!`,
-        html: '<a href="http://localhost:3000/product/1">Review your product here!</a>'
+        html: `<a href="http://localhost:3000/reviews/${id}">Review your product here!</a>`
       };
     }
 
