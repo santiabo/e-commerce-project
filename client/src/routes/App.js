@@ -25,7 +25,9 @@ import Order from '../components/Order/Order';
 import ForcePasswordChangePage from '../containers/ForcePasswordChangePage';
 import CheckoutShipping from '../containers/CheckoutShipping';
 import MercadoPago from '../components/MercadoPagoButton/MercadoPago';
+import OrderDetail from '../components/OrderDetail/OrderDetail';
 import ReviewPage from '../containers/ReviewPage';
+
 
 function App() {
 
@@ -75,9 +77,9 @@ function App() {
 
             <Route path='/admin/products' component={ProductTable} />
 
-            <Route path='/admin/orders' component={TableOrder} />
+            <Route exact path='/admin/orders' component={TableOrder} />
 
-            <Route exact path='/admin/orders/:id' render={({ match }) => <Order match={match} />} />
+            <Route exact path='/admin/orders/:id' render={({ match }) => <OrderDetail match={match} />} />
 
             <Route exact path='/admin/users' component={userTable} />
 

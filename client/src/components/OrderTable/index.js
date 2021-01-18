@@ -17,11 +17,11 @@ const TableOrder = ({ getAllOrdersAction }) => {
 
   const { user } = useSelector(state => state.user);
 
-  // useEffect(() => {
-  //   if (!user.isAdmin) {
-  //     history.push('/');
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (!user.isAdmin) {
+      history.push('/');
+    }
+  }, []);
 
 
   useEffect(() => {
@@ -98,7 +98,7 @@ const TableOrder = ({ getAllOrdersAction }) => {
           </thead>
           <tbody>
             {orders !== undefined &&
-              orders.map(({ id, user, status, createdAt, updatedAt }) => (
+              orders.map(({ id, user, status, createdAt, updatedAt }, index) => (
                 <tr key={id}>
                   <td>{id}</td>
                   <td>{user.email}</td>
