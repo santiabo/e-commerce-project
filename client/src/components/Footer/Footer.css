@@ -42,6 +42,7 @@
   color: #ffffff;
   line-height: 1.36;
   color: #df1484;
+  text-decoration: none;
 }
 
 /* SOCIAL FOOTER */
@@ -62,12 +63,10 @@
 li {
   display: inline-block;
   list-style: none;
-  padding-bottom: 0.5rem;
 }
 
 #media-links {
-  padding: 0.5rem 1rem;
-  display: block;
+  padding: 0 0.5rem;
   text-decoration: none;
 }
 
@@ -104,3 +103,14 @@ p {
   margin-inline-end: 0px;
 } 
  
+#icn-FB {
+  margin-right: 1rem;
+}
+
+#icn-TW {
+  margin-right: 1rem;
+}
+
+#icn-YT {
+  margin-right: 1rem;
+}

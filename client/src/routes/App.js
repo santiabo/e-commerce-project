@@ -23,8 +23,11 @@ import userTable from '../components/UserTable';
 import OrderContainer from '../components/OrderContainer/OrderContainer';
 import Order from '../components/Order/Order';
 import ForcePasswordChangePage from '../containers/ForcePasswordChangePage';
+import CheckoutShipping from '../containers/CheckoutShipping';
 import MercadoPago from '../components/MercadoPagoButton/MercadoPago';
 import OrderDetail from '../components/OrderDetail/OrderDetail';
+import ReviewPage from '../containers/ReviewPage';
+
 
 function App() {
 
@@ -37,7 +40,11 @@ function App() {
     dispatch(getProducts());
     dispatch(getCategories());
     dispatch(getCartItemsFromLocalStorage());
-    isUser && dispatch(getUserOrders(user.id)) && dispatch(getUserCart(user.id));
+    console.log(user, isUser);
+    if (isUser) {
+      dispatch(getUserOrders(user.id));
+      dispatch(getUserCart(user.id));
+    }
   }, [dispatch, isUser]);
 
   if (loading) return <h1>Loading ...</h1>;
@@ -45,43 +52,49 @@ function App() {
   return (
 
     <BrowserRouter>
-      <Layout>
-        <Switch>
-          <Route exact path='/'>
-            <Home slides={SlideData} />
-          </Route>
+      <Switch>
+        {/* Para rutas sin el Header ni el Footer */}
+        <Route exact path='/changePassword' component={ForcePasswordChangePage} />
+        {/* <Route exact path="/checkout" component={CheckoutShipping} /> */}
+        <Route exact path="/reviews/:orderId" component={ReviewPage} />
+        <Layout>
+          <Switch>
 
-          <Route path='/products' component={Catalogue} />
+            <Route exact path='/'>
+              <Home slides={SlideData} />
+            </Route>
+            <Route path='/products' component={Catalogue} />
 
-          <Route path='/cart' component={Cart} />
+            <Route path='/cart' component={Cart} />
 
-          <Route path='/product/:id' render={({ match }) => <Product match={match} />} />
+            <Route path='/product/:id' render={({ match }) => <Product match={match} />} />
 
-          <Route exact path='/changePassword' component={ForcePasswordChangePage} />
+            <Route exact path="/user/account" component={EditProfile} />
 
-          <Route exact path='/login' component={LoginUser} />
+            <Route exact path='/login' component={LoginUser} />
 
-          <Route path="/register" component={UserRegister} />
+            <Route exact path="/register" component={UserRegister} />
 
-          <Route path='/admin/products' component={ProductTable} />
+            <Route path='/admin/products' component={ProductTable} />
 
-          <Route exact path='/admin/orders' component={TableOrder} />
+            <Route exact path='/admin/orders' component={TableOrder} />
 
-          <Route exact path='/admin/orders/:id' render={({ match }) => <OrderDetail match={match} />} />
+            <Route exact path='/admin/orders/:id' render={({ match }) => <OrderDetail match={match} />} />
 
-          <Route exact path='/admin/users' component={userTable} />
+            <Route exact path='/admin/users' component={userTable} />
 
-          <Route exact path="/user/account" component={EditProfile} />
+            <Route exact path="/user/account" component={EditProfile} />
 
-          <Route exact path='/user/orders' component={OrderContainer} />
+            <Route exact path='/user/orders' component={OrderContainer} />
 
-          <Route exact path='/user/orders/:id' render={({ match }) => <Order match={match} />} />
+            <Route exact path='/user/orders/:id' render={({ match }) => <Order match={match} />} />
 
-          <Route exact path='/mercadopago' component={MercadoPago} />
+            <Route exact path='/mercadopago' component={MercadoPago} />
 
-          <Route component={NotFound} />
-        </Switch>
-      </Layout>
+            <Route component={NotFound} />
+          </Switch>
+        </Layout>
+      </Switch>
     </BrowserRouter>
   );
 }

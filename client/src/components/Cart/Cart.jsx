@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useHistory } from "react-router-dom";
 import { FaTrashAlt, FaRegCheckCircle, FaCaretDown, FaCaretUp } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import { removeItemFromCart, clearCart, incrementItem, decrementItem, incrementCartItem, decrementCartItem, removeCartItem, emptyCart } from "../../redux/actions/cart";
@@ -25,6 +25,8 @@ import './cart.css';
 import { UnitsAmountWrapper } from "../UnitsAmount/styles";
 import Cart from '../../assets/icons/shopping_cart.svg';
 import { addUserCart } from "../../redux/actions/user";
+import PaymentForm from "../PaymentForm";
+import Axios from "axios";
 
 
 
@@ -33,17 +35,31 @@ import { addUserCart } from "../../redux/actions/user";
 const CartItem = () => {
 
   const dispatch = useDispatch();
-  const {userOrders} = useSelector(state=> state.order)
+  const history = useHistory();
+  const { userOrders } = useSelector(state => state.order);
   const { cart, cartAmount } = useSelector(state => state.cart);
   const { isUser, user } = useSelector(state => state.user);
   let orderId;
-  for(var i =0; i<userOrders.length; i++){
-    if(userOrders[i].status === "on_cart") {
+  for (var i = 0; i < userOrders.length; i++) {
+    if (userOrders[i].status === "on_cart") {
       orderId = userOrders[i].id;
     }
 
   }
-  
+
+  const [data, setData] = useState("");
+
+  useEffect(() => {
+    Axios
+      .post("http://localhost:5000/mercadopago", { orderId })
+      .then((res) => {
+        setData(res.data);
+        console.info('Contenido de data:', data);
+      })
+      .catch(err => console.error(err));
+  }, [orderId]);
+
+
 
 
   const getTotal = () => {
@@ -104,218 +120,226 @@ const CartItem = () => {
     isUser && dispatch(addUserCart(user.id));
   };
 
+  const toCheckout = () => {
+    // history.push("/checkout");
+  };
+
 
 
 
   return (
     <section className="page-section">
-    { isUser ? 
-      <div className="page-section-inner">
-        <div className="row has-flex-summary">
-          <form>
-            <div id="cart-top" className="row-top display-flex justify-content-space-between width-100">
-              <div className="row-top-left flex-wrap width-100">
-                <h1 className="row-title">
-                  Shopping Cart <span className="row-title-note">
-                    ({cartAmount} Items)
+      {isUser ?
+        <div className="page-section-inner">
+          <div className="row has-flex-summary">
+            <form>
+              <div id="cart-top" className="row-top display-flex justify-content-space-between width-100">
+                <div className="row-top-left flex-wrap width-100">
+                  <h1 className="row-title">
+                    Shopping Cart <span className="row-title-note">
+                      ({cartAmount} Items)
                     </span>
-                </h1>
-                <div className="display-flex">
-                  <button type="button" className="btn no-border"> <FaRegCheckCircle className="fa fa-checkcircle" /> Buy Now
+                  </h1>
+                  <div className="display-flex">
+                    <button type="button" className="btn no-border"> <FaRegCheckCircle className="fa fa-checkcircle" /> Buy Now
                   </button>
-                  <button type="button" className="btn no-border" onClick={() => isUser && dispatch(emptyCart(orderId))  && clearAllItems()}> <FaTrashAlt className="fa fa-trash" /> Remove All
+                    <button type="button" className="btn no-border" onClick={() => isUser && dispatch(emptyCart(orderId)) && clearAllItems()}> <FaTrashAlt className="fa fa-trash" /> Remove All
                   </button>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="row-inner">
-              <div className="row-body">
-                <div className="item-cells-wrap tile-cells items-list-view absolute-img-cells">
-                  {
-                    cart.map((item) =>
-                      <div className="item-cell">
-                        <div className="item-container">
-                          <Link className="item-img" target="_blank">
-                            <img src={item.product.images[0]} alt={item.product.name} />
-                          </Link>
-                          <div className="item-info">
-                            <Link id="a" className="item-title" to={"product/" + item.product.id}>
-                              {item.product.name}
+              <div className="row-inner">
+                <div className="row-body">
+                  <div className="item-cells-wrap tile-cells items-list-view absolute-img-cells">
+                    {
+                      cart.map((item) =>
+                        <div className="item-cell">
+                          <div className="item-container">
+                            <Link className="item-img" target="_blank">
+                              <img src={item.product.images[0]} alt={item.product.name} />
                             </Link>
-                            {item.product.categories.map(category => (
-                              <p>
-                                <strong>{category.name}</strong>
-                              </p>
-                            ))}
-                            <ul className="item-description">
-                              <p>{item.description}</p>
-                            </ul>
-                          </div>
-                          <div className="item-qty">
-                            <div className="qty-box">
-                              <input value={item.quantity} className="qty-box-input" />
-                              <button type="button" className="qty-box-up" onClick={() => dispatch(incrementItem(item.product.id)) && isUser && dispatch(incrementCartItem(item.product.id))}>
-                                <FaCaretUp />
-                              </button>
-                              <button type="button" className="qty-box-down" onClick={() => item.quantity > 1 && dispatch(decrementItem(item.product.id)) && isUser && dispatch(decrementCartItem(item.product.id))}>
-                                <FaCaretDown />
-                              </button>
+                            <div className="item-info">
+                              <Link id="a" className="item-title" to={"product/" + item.product.id}>
+                                {item.product.name}
+                              </Link>
+                              {item.product.categories.map(category => (
+                                <p>
+                                  <strong>{category.name}</strong>
+                                </p>
+                              ))}
+                              <ul className="item-description">
+                                <p>{item.description}</p>
+                              </ul>
+                            </div>
+                            <div className="item-qty">
+                              <div className="qty-box">
+                                <input value={item.quantity} className="qty-box-input" />
+                                <button type="button" className="qty-box-up" onClick={() => dispatch(incrementItem(item.product.id)) && isUser && dispatch(incrementCartItem(item.product.id))}>
+                                  <FaCaretUp />
+                                </button>
+                                <button type="button" className="qty-box-down" onClick={() => item.quantity > 1 && dispatch(decrementItem(item.product.id)) && isUser && dispatch(decrementCartItem(item.product.id))}>
+                                  <FaCaretDown />
+                                </button>
+                              </div>
+                            </div>
+                            <div className="item-action">
+                              <ul className="price">
+                                <li className="price-current">
+                                  $
+                                <strong>{Number(item.price * item.quantity).toFixed(2)}</strong>
+                                </li>
+                              </ul>
                             </div>
                           </div>
-                          <div className="item-action">
-                            <ul className="price">
-                              <li className="price-current">
-                                $
-                                <strong>{Number(item.price * item.quantity).toFixed(2)}</strong>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                        <div className="item-sub-container no-border-top flex-wrap">
-                          <div className="display-flex">
-                            <button type="button" className="btn btn-mini btn-tertiary" onClick={() =>  dispatch(removeCartItem(item.id, orderId)) && removeFromCart(item.id) }>
-                              <FaTrashAlt className="fa fa-trash" /> Remove
+                          <div className="item-sub-container no-border-top flex-wrap">
+                            <div className="display-flex">
+                              <button type="button" className="btn btn-mini btn-tertiary" onClick={() => dispatch(removeCartItem(item.id, orderId)) && removeFromCart(item.id)}>
+                                <FaTrashAlt className="fa fa-trash" /> Remove
                           </button>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    )
-                  }
+                      )
+                    }
+                  </div>
                 </div>
-              </div>
-              <div></div>
-              <div className="row-side">
-                <div className="summary-side">
-                  <h3 className="summary-title fixed-hide">Summary</h3>
-                  <div className="summary-wrap">
-                    <div className="summary-content">
-                      <ul>
-                        <li className="summary-content-global">
-                          <label>
-                            Total Price:
+                <div></div>
+                <div className="row-side">
+                  <div className="summary-side">
+                    <h3 className="summary-title fixed-hide">Summary</h3>
+                    <div className="summary-wrap">
+                      <div className="summary-content">
+                        <ul>
+                          <li className="summary-content-global">
+                            <label>
+                              Total Price:
                           </label>
-                          <span>
-                            $<strong>{getTotal()}</strong>
-                          </span>
-                        </li>
-                      </ul>
-                      <div className="summary-actions">
-                        <button type="button" className="btn btn-primary btn-wide">
-                          To Checkout
-                        </button>
+                            <span>
+                              $<strong>{getTotal()}</strong>
+                            </span>
+                          </li>
+                        </ul>
+                        <div className="summary-actions">
+                          {/* <button type="button" className="btn btn-primary btn-wide" onClick={toCheckout}>
+                            To Checkout
+                        </button> */}
+                          {data &&
+                            <PaymentForm data={data} />}
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
-      </div>
-      :
-      <div className="page-section-inner">
-        <div className="row has-flex-summary">
-          <form>
-            <div id="cart-top" className="row-top display-flex justify-content-space-between width-100">
-              <div className="row-top-left flex-wrap width-100">
-                <h1 className="row-title">
-                  Shopping Cart <span className="row-title-note">
-                    ({cartAmount} Items)
+        :
+        <div className="page-section-inner">
+          <div className="row has-flex-summary">
+            <form>
+              <div id="cart-top" className="row-top display-flex justify-content-space-between width-100">
+                <div className="row-top-left flex-wrap width-100">
+                  <h1 className="row-title">
+                    Shopping Cart <span className="row-title-note">
+                      ({cartAmount} Items)
                     </span>
-                </h1>
-                <div className="display-flex">
-                  <button type="button" className="btn no-border"> <FaRegCheckCircle className="fa fa-checkcircle" /> Buy Now
+                  </h1>
+                  <div className="display-flex">
+                    <button type="button" className="btn no-border"> <FaRegCheckCircle className="fa fa-checkcircle" /> Buy Now
                   </button>
-                  <button type="button" className="btn no-border" onClick={() => isUser && dispatch(emptyCart(orderId))  && clearAllItems()}> <FaTrashAlt className="fa fa-trash" /> Remove All
+                    <button type="button" className="btn no-border" onClick={() => isUser && dispatch(emptyCart(orderId)) && clearAllItems()}> <FaTrashAlt className="fa fa-trash" /> Remove All
                   </button>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="row-inner">
-              <div className="row-body">
-                <div className="item-cells-wrap tile-cells items-list-view absolute-img-cells">
-                  {
-                    cart.map((item) =>
-                      <div className="item-cell">
-                        <div className="item-container">
-                          <Link className="item-img" target="_blank">
-                            <img src={item.images[0]} alt={item.name} />
-                          </Link>
-                          <div className="item-info">
-                            <Link id="a" className="item-title" to={"product/" + item.id}>
-                              {item.name}
+              <div className="row-inner">
+                <div className="row-body">
+                  <div className="item-cells-wrap tile-cells items-list-view absolute-img-cells">
+                    {
+                      cart.map((item) =>
+                        <div className="item-cell">
+                          <div className="item-container">
+                            <Link className="item-img" target="_blank">
+                              <img src={item.images[0]} alt={item.name} />
                             </Link>
-                            {item.categories.map(category => (
-                              <p>
-                                <strong>{category.name}</strong>
-                              </p>
-                            ))}
-                            <ul className="item-description">
-                              <p>{item.description}</p>
-                            </ul>
-                          </div>
-                          <div className="item-qty">
-                            <div className="qty-box">
-                              <input value={item.quantity} className="qty-box-input" />
-                              <button type="button" className="qty-box-up" onClick={() => dispatch(incrementItem(item.id)) && isUser && dispatch(incrementCartItem(item.id))}>
-                                <FaCaretUp />
-                              </button>
-                              <button type="button" className="qty-box-down" onClick={() => item.quantity > 1 && dispatch(decrementItem(item.id)) && isUser && dispatch(decrementCartItem(item.id))}>
-                                <FaCaretDown />
-                              </button>
+                            <div className="item-info">
+                              <Link id="a" className="item-title" to={"product/" + item.id}>
+                                {item.name}
+                              </Link>
+                              {item.categories.map(category => (
+                                <p>
+                                  <strong>{category.name}</strong>
+                                </p>
+                              ))}
+                              <ul className="item-description">
+                                <p>{item.description}</p>
+                              </ul>
+                            </div>
+                            <div className="item-qty">
+                              <div className="qty-box">
+                                <input value={item.quantity} className="qty-box-input" />
+                                <button type="button" className="qty-box-up" onClick={() => dispatch(incrementItem(item.id)) && isUser && dispatch(incrementCartItem(item.id))}>
+                                  <FaCaretUp />
+                                </button>
+                                <button type="button" className="qty-box-down" onClick={() => item.quantity > 1 && dispatch(decrementItem(item.id)) && isUser && dispatch(decrementCartItem(item.id))}>
+                                  <FaCaretDown />
+                                </button>
+                              </div>
+                            </div>
+                            <div className="item-action">
+                              <ul className="price">
+                                <li className="price-current">
+                                  $
+                                <strong>{Number(item.price * item.quantity).toFixed(2)}</strong>
+                                </li>
+                              </ul>
                             </div>
                           </div>
-                          <div className="item-action">
-                            <ul className="price">
-                              <li className="price-current">
-                                $
-                                <strong>{Number(item.price * item.quantity).toFixed(2)}</strong>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                        <div className="item-sub-container no-border-top flex-wrap">
-                          <div className="display-flex">
-                            <button type="button" className="btn btn-mini btn-tertiary" onClick={() =>  dispatch(removeCartItem(item.id)) && removeFromCart(item.id) }>
-                              <FaTrashAlt className="fa fa-trash" /> Remove
+                          <div className="item-sub-container no-border-top flex-wrap">
+                            <div className="display-flex">
+                              <button type="button" className="btn btn-mini btn-tertiary" onClick={() => dispatch(removeCartItem(item.id)) && removeFromCart(item.id)}>
+                                <FaTrashAlt className="fa fa-trash" /> Remove
                           </button>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    )
-                  }
+                      )
+                    }
+                  </div>
                 </div>
-              </div>
-              <div></div>
-              <div className="row-side">
-                <div className="summary-side">
-                  <h3 className="summary-title fixed-hide">Summary</h3>
-                  <div className="summary-wrap">
-                    <div className="summary-content">
-                      <ul>
-                        <li className="summary-content-global">
-                          <label>
-                            Total Price:
+                <div></div>
+                <div className="row-side">
+                  <div className="summary-side">
+                    <h3 className="summary-title fixed-hide">Summary</h3>
+                    <div className="summary-wrap">
+                      <div className="summary-content">
+                        <ul>
+                          <li className="summary-content-global">
+                            <label>
+                              Total Price:
                           </label>
-                          <span>
-                            $<strong>{getTotal()}</strong>
-                          </span>
-                        </li>
-                      </ul>
-                      <div className="summary-actions">
-                        <button type="button" className="btn btn-primary btn-wide">
-                          To Checkout
-                        </button>
+                            <span>
+                              $<strong>{getTotal()}</strong>
+                            </span>
+                          </li>
+                        </ul>
+                        <div className="summary-actions">
+                          {/* <button type="button" className="btn btn-primary btn-wide">
+                            To Checkout
+                        </button> */}
+                          {data &&
+                            <PaymentForm data={data} />}
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
-      </div>
-    }
+      }
     </section>
   );
 };

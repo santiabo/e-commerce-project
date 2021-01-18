@@ -1,5 +1,5 @@
 const server = require('express').Router();
-const { Product, Category, Review, User} = require('../db.js');
+const { Product, Category, Review, User } = require('../db.js');
 const { isAdmin } = require('../middlewares/auth');
 
 
@@ -242,6 +242,7 @@ server.get("/:id/review", async (req, res, next) => {
 //-----------Post Product Review Route -----------
 server.post('/:id/review', isUser, (req, res, next) => {
   const { id } = req.params;
+  const userId = req.user.id;
   const { stars, title, description } = req.body;
 
   Product.findOne({
@@ -252,6 +253,7 @@ server.post('/:id/review', isUser, (req, res, next) => {
     if (!product) {
       return res.status(404).send({ error: `Product not found` });
     } else {
+
       Review.create({
         stars,
         title,

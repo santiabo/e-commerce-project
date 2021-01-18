@@ -11,7 +11,7 @@ import {
   CategoriesTitle,
   CategoriesColumn,
   CategoryButton,
-  ProductsColumn
+  ProductsColumn,
 } from './styles';
 
 const Catalogue = () => {

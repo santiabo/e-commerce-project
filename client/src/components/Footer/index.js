@@ -25,22 +25,35 @@ const Footer = () => {
         <div className="footer-page">
           <div className="social-foo">
             <ul className="footer-ul">
+             {/*  <li>
+                <Link to="/" id="media-links"><FaFacebookF id="icn-FB" className="icons" /></Link>
+              </li>
               <li>
+                <Link to="/" id="media-links"><FaTwitter id="icn-TW" className="icons" /></Link>
+              </li>
+              <li>
+                <Link to="/" id="media-links"><FaYoutube id="icn-YT" className="icons" /></Link>
+              </li>
+              <li>
+                <Link to="/" id="media-link s"><FaInstagram id="icn-IG" className="icons" /></Link>
                 <a href="https://www.facebook.com/" target="_blank" id="media-links"><FaFacebookF className="icons" /></a>
+              </li> */}
+              <li>
+                <Link to="https://www.facebook.com/" id="media-links"><FaFacebookF id="icn-FB" className="icons" /></Link>
               </li>
               <li>
-                <a href="https://twitter.com/home" target="_blank" id="media-links"><FaTwitter className="icons" /></a>
+                <Link to="https://twitter.com/home" id="media-links"><FaTwitter id="icn-TW" className="icons" /></Link>
               </li>
               <li>
-                <a href="https://www.youtube.com/" target="_blank" id="media-links"><FaYoutube className="icons" /></a>
+                <Link to="https://www.youtube.com/" id="media-links"><FaYoutube id="icn-YT" className="icons" /></Link>
               </li>
               <li>
-                <a href="https://www.instagram.com/" target="_blank" id="media-link s"><FaInstagram className="icons" /></a>
+                <Link to="https://www.instagram.com/" id="media-links"><FaInstagram id="icn-IG" className="icons" /></Link>
               </li>
             </ul>
           </div>
           <div className="disclaimer-foo">
-            <p className="copy">&copy; {new Date().getFullYear()} PC Creative. All rights reserved.</p>
+            <p className="copy">&copy; {new Date().getFullYear()} BuildHUB. All rights reserved.</p>
           </div>
         </div>
 
