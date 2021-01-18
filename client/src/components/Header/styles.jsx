@@ -57,7 +57,10 @@ export const StyledLink = styled(Link)`
   text-decoration: none;
   padding: 0 0.5rem;
   transition: 0.15s;
-  &:hover{color: #ff3367;};
+  &:hover{
+    color: #df1484;
+    text-decoration: none;
+  }
 `;
 
 export const LoginRegisterLinks = styled(Link)`
@@ -66,5 +69,8 @@ export const LoginRegisterLinks = styled(Link)`
   padding: 0 0.5rem;
   font-size: 16px;
   transition: 0.15s;
-  &:hover{color: #ff3367;};
+  &:hover{
+    color: #df1484;
+    text-decoration: none;
+  }
 `;
