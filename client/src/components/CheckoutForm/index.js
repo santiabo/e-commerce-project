@@ -45,7 +45,7 @@ const CheckoutForm = ({ orderId }) => {
 
   useEffect(() => {
     axios
-      .post("http://localhost:5000/mercadopago", { orderId })
+      .post("/mercadopago", { orderId })
       .then((res) => {
         setData(res.data);
         console.info('Contenido de data:', data);

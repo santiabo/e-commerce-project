@@ -23,7 +23,7 @@ export const getReviews = (productId) => {
   return async (dispatch) => {
     try {
 
-      const res = await axios.get(`http://localhost:5000/products/${productId}/review`);
+      const res = await axios.get(`/products/${productId}/review`);
 
       dispatch(getAllReviews(res.data));
     } catch (err) {
@@ -37,7 +37,7 @@ export const addReview = (review, productId) => {
     try {
 
       const token = localStorage.getItem("token");
-      const res = await authAxios.post(`http://localhost:5000/products/${productId}/review`, review, {
+      const res = await authAxios.post(`/products/${productId}/review`, review, {
         headers: {
           Authorization: `Bearer ${token}`
         }

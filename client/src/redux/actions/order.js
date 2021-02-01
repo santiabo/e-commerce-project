@@ -49,7 +49,7 @@ export const getOrder = (id) => {
   return async (dispatch) => {
     try {
 
-      const res = await axios.get(`http://localhost:5000/orders/${id}`);
+      const res = await axios.get(`/orders/${id}`);
 
       console.log(res.data);
 
@@ -67,7 +67,7 @@ export const getAllOrdersAction = () => {
   return async (dispatch) => {
     try {
 
-      const res = await axios.get(`http://localhost:5000/orders/`);
+      const res = await axios.get(`/orders/`);
       console.log('res', res.data);
       const data = res.data;
       dispatch({
@@ -146,7 +146,7 @@ export const disabledCrud = () => {
 export const sendReviewEmail = (id, user, status) => {
 
   return axios
-    .post(`http://localhost:5000/email/${id}`, { user, status })
+    .post(`/email/${id}`, { user, status })
     .then(res => {
       return res.data;
     })
@@ -157,7 +157,7 @@ export const sendReviewEmail = (id, user, status) => {
 
 export const putOrderStatus = async (id, status) => {
 
-  return axios.put(`http://localhost:5000/orders/${id}/${status}`)
+  return axios.put(`/orders/${id}/${status}`)
 
     .catch(() => {
       return undefined;

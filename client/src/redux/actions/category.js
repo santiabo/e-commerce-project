@@ -38,7 +38,7 @@ export const getCategories = () => {
   return async (dispatch) => {
     try {
 
-      const res = await axios.get("http://localhost:5000/products/category/");
+      const res = await axios.get("/products/category/");
 
       dispatch(getAllCategories(res.data));
     } catch (err) {
@@ -51,7 +51,7 @@ export const addCategory = (category) => {
   return async (dispatch) => {
     try {
 
-      const res = await axios.post(`http://localhost:5000/products/category`, { ...category });
+      const res = await axios.post(`/products/category`, { ...category });
 
       dispatch(createCategory(res.data));
     } catch (err) {
@@ -64,7 +64,7 @@ export const editCategory = (id, updatedCategory) => {
   return async (dispatch) => {
     try {
 
-      const res = await axios.put(`http://localhost:5000/products/category/${id}`, { ...updatedCategory });
+      const res = await axios.put(`/products/category/${id}`, { ...updatedCategory });
 
       dispatch(updateCategory(res.data));
     } catch (err) {
@@ -77,7 +77,7 @@ export const removeCategory = (id) => {
   return async (dispatch) => {
     try {
 
-      const res = await axios.delete(`http://localhost:5000/products/category/${id}`);
+      const res = await axios.delete(`/products/category/${id}`);
 
       dispatch(deleteCategory(res.data.deletedId));
     } catch (err) {

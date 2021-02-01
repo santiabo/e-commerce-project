@@ -12,7 +12,7 @@ const MercadoPago = () => {
 
   useEffect(() => {
     axios
-      .post("http://localhost:5000/mercadopago",cart)
+      .post("/mercadopago",cart)
       .then((res) => {
         setData(res.data)
         console.info('Contenido de la response:', res)
