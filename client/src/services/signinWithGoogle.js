@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export default async function signinWithGoogle() {
   return axios
-    .post('http://localhost:5000/auth/login/google')
+    .post('/auth/login/google')
     .then((response) => {
       console.log(response);
       return response.data;

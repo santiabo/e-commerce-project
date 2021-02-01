@@ -9,7 +9,7 @@ export async function addProductToOrder(
   idUser
 ) {
   return axios
-    .post(`http://localhost:5000/orders/${orderId}/product/${idProduct}`, {
+    .post(`/orders/${orderId}/product/${idProduct}`, {
       amount,
       idUser,
     })
@@ -24,7 +24,7 @@ export async function addProductToOrder(
 // CREA UNA ORDEN
 export async function createOrder() {
   return axios
-    .post(`http://localhost:5000/orders`)
+    .post(`/orders`)
     .then(res => {
       return res.data;
     })
@@ -36,7 +36,7 @@ export async function createOrder() {
 // CREA UNA ORDEN Y LE AGREGA TODOS LOS PRODUCTOS
 export async function createOrderProduct(products, idUser) {
   return axios
-    .post(`http://localhost:5000/orders/products`, { products, idUser })
+    .post(`/orders/products`, { products, idUser })
     .then(res => {
       return res.data;
     })
@@ -48,7 +48,7 @@ export async function createOrderProduct(products, idUser) {
 // OBTIENE TODAS LAS ORDENES
 export async function getAllOrders() {
   return axios
-    .get(`http://localhost:5000/orders`)
+    .get(`/orders`)
     .then(res => {
       return res.data;
     })
@@ -60,7 +60,7 @@ export async function getAllOrders() {
 // OBTIENE UNA ORDEN SEGUN SU ID
 export async function getOrderById(id) {
   return axios
-    .get(`http://localhost:5000/orders/${id}`)
+    .get(`/orders/${id}`)
     .then(res => {
       return res.data;
     })
@@ -88,7 +88,7 @@ export async function getOrderByUserId(idUser) {
 // ELIMINA UNA ORDEN 
 export async function removeOrder(id) {
   return axios
-    .delete(`http://localhost:5000/orders/${id}`)
+    .delete(`/orders/${id}`)
     .then(res => {
       return res.data;
     })
@@ -112,7 +112,7 @@ export async function removeProduct(idOrder, idProduct) {
 // PONE UNA ORDEN COMO COMPLETED
 export async function setCompletedOrder(idOrder) {
   return axios
-    .put(`http://localhost:5000/orders/${idOrder}/completed`)
+    .put(`/orders/${idOrder}/completed`)
     .then(res => {
       return res.data;
     })
@@ -124,7 +124,7 @@ export async function setCompletedOrder(idOrder) {
 // PONE UNA ORDEN COMO CONFIRMED
 export async function setConfirmOrder(idOrder) {
   return axios
-    .put(`http://localhost:5000/orders/${idOrder}/confirmed`,)
+    .put(`/orders/${idOrder}/confirmed`,)
     .then(res => {
       return res.data;
     })
@@ -136,7 +136,7 @@ export async function setConfirmOrder(idOrder) {
 // PONE UNA ORDEN COMO DELIVERED
 export async function setDeliveredOrder(idOrder) {
   return axios
-    .put(`http://localhost:5000/orders/${idOrder}/delivered`)
+    .put(`/orders/${idOrder}/delivered`)
     .then(res => {
       return res.data;
     })
@@ -149,7 +149,7 @@ export async function setDeliveredOrder(idOrder) {
 // AGREGA UN PRODUCTO A UNA ORDEN
 export async function setOrderToUser(idOrder, idUser) {
   return axios
-    .post(`http://localhost:5000/orders/${idOrder}/user/${idUser}`)
+    .post(`/orders/${idOrder}/user/${idUser}`)
     .then(res => {
       return res.data;
     })
@@ -161,7 +161,7 @@ export async function setOrderToUser(idOrder, idUser) {
 //PONE UNA ORDEN COMO PROCESSING
 export async function setProcessingOrder(idOrder) {
   return axios
-    .put(`http://localhost:5000/orders/${idOrder}/processing`)
+    .put(`/orders/${idOrder}/processing`)
     .then(res => {
       return res.data;
     })
@@ -173,7 +173,7 @@ export async function setProcessingOrder(idOrder) {
 //PONE COMO CANCELLED UNA ORDEN
 export async function setCancelledOrder(idOrder) {
   return axios
-    .put(`http://localhost:5000/orders/${idOrder}/cancelled`)
+    .put(`/orders/${idOrder}/cancelled`)
     .then(res => {
       return res.data;
     })
@@ -185,7 +185,7 @@ export async function setCancelledOrder(idOrder) {
 // PONE COMO SEND UNA ORDEN
 export async function setSendOrder(idOrder) {
   return axios
-    .put(`http://localhost:5000/orders/${idOrder}/send`)
+    .put(`/orders/${idOrder}/send`)
     .then(res => {
       return res.data;
     })
@@ -197,7 +197,7 @@ export async function setSendOrder(idOrder) {
 // ACTUALIZA EL STATUS
 export async function setUpdateOrder(id, status) {
   return axios
-    .put(`http://localhost:5000/orders/${id}`, { status })
+    .put(`/orders/${id}`, { status })
     .then(res => {
       return res.data;
     })

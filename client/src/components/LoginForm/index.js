@@ -74,13 +74,13 @@ export default function LoginUser() {
                   </div>
                   <div className="separar">
                     {/*window.location = Retorna un objeto Location con información acerca de la ubicación actual del documento*/}
-                    <button className="social-button" onClick={() => (window.location = 'http://localhost:5000/auth/login/google')}>
+                    <button className="social-button" onClick={() => (window.location = '/auth/login/google')}>
                       <FcGoogle className="iconGoogle" />
                       <div className="google">Login with Google</div>
                     </button>
                   </div>
                   <div className="separar">
-                    <button className="social-button" onClick={() => (window.location = 'http://localhost:5000/auth/login/facebook')}>
+                    <button className="social-button" onClick={() => (window.location = '/auth/login/facebook')}>
                       <FaFacebookSquare className="iconFacebook" />
                       <div className="facebook">Login with Facebook</div>
                     </button>

@@ -4,7 +4,7 @@ import axios from 'axios';
 
 export async function makeAdmin(id) {
   return axios
-    .post(`http://localhost:5000/auth/promote/${id}`)
+    .post(`/auth/promote/${id}`)
     .then(res => {
       return res.data;
     })
@@ -27,7 +27,7 @@ export async function makeAdmin(id) {
 
 export async function makeRegular(id){
   return axios
-  .post(`http://localhost:5000/auth/degrade/${id}`)
+  .post(`/auth/degrade/${id}`)
   .then(res => {
     return res.data;
   })
@@ -55,7 +55,7 @@ export async function makeRegular(id){
 
 export async function forcePwChange(id) {
   return axios
-    .post(`http://localhost:5000/users/${id}/passwordReset`)
+    .post(`/users/${id}/passwordReset`)
     .then(res => {
       return res.data;
     })
@@ -81,7 +81,7 @@ export async function forcePwChange(id) {
 
 export async function banUser(id) {
   return axios
-    .put(`http://localhost:5000/users/${id}/ban`)
+    .put(`/users/${id}/ban`)
     .then(res => {
       return res.data;
     })
@@ -106,7 +106,7 @@ export async function banUser(id) {
 
 export async function deleteUser(id) {
   return axios
-    .delete(`http://localhost:5000/users/${id}`)
+    .delete(`/users/${id}`)
     .then(res => {
       return res.data;
     })

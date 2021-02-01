@@ -176,7 +176,7 @@ export const createNewUser = (newUser) => {
   return async (dispatch) => {
     try {
 
-      const res = await axios.post(`http://localhost:5000/users`, { ...newUser });
+      const res = await axios.post(`/users`, { ...newUser });
 
       dispatch(createUser(res.data));
       alert(`User ${res.data.firstName} created successfully`);
@@ -356,7 +356,7 @@ export const logInUser = (email, password) => {
   return async (dispatch) => {
     try {
       dispatch(startRequest());
-      const res = await axios.post(`http://localhost:5000/auth/login`, { ...email, ...password });
+      const res = await axios.post(`/auth/login`, { ...email, ...password });
       const { token, user } = res.data;
 
       dispatch(loginUser(user));
@@ -373,7 +373,7 @@ export const logInUser = (email, password) => {
 export const logOutUser = () => {
   return async (dispatch) => {
     try {
-      await axios.get(`http://localhost:5000/auth/logout`);
+      await axios.get(`/auth/logout`);
       dispatch(logoutUser());
       dispatch(clearCart());
       localStorage.clear();

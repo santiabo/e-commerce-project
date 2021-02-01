@@ -79,7 +79,7 @@ export const getProduct = (id) => {
   return async (dispatch) => {
     try {
 
-      const res = await axios.get(`http://localhost:5000/products/${id}`);
+      const res = await axios.get(`/products/${id}`);
 
       dispatch(getDetailProduct(res.data));
     } catch (err) {
@@ -92,7 +92,7 @@ export const getProducts = (search) => {
   return async (dispatch) => {
     try {
 
-      const res = await axios.get(`http://localhost:5000/products/${search ? "?search=" + search : ""}`);
+      const res = await axios.get(`/products/${search ? "?search=" + search : ""}`);
 
       dispatch(getAllProducts(res.data));
     } catch (err) {
@@ -105,7 +105,7 @@ export const addProduct = (newProduct) => {
   return async (dispatch) => {
     try {
 
-      const res = await authAxios.post(`http://localhost:5000/products`, { ...newProduct }, {
+      const res = await authAxios.post(`/products`, { ...newProduct }, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`
         }
@@ -122,7 +122,7 @@ export const editProduct = (id, updatedProduct) => {
   return async (dispatch) => {
     try {
 
-      const res = await authAxios.put(`http://localhost:5000/products/${id}`, { ...updatedProduct }, {
+      const res = await authAxios.put(`/products/${id}`, { ...updatedProduct }, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`
         }
@@ -139,7 +139,7 @@ export const removeProduct = (id) => {
   return async (dispatch) => {
     try {
 
-      const res = await authAxios.delete(`http://localhost:5000/products/${id}`, {
+      const res = await authAxios.delete(`/products/${id}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`
         }
@@ -156,7 +156,7 @@ export const addCategoryToProduct = (productId, categoryId) => {
   return async (dispatch) => {
     try {
 
-      const res = await authAxios.post(`http://localhost:5000/products/${productId}/category/${categoryId}`, {
+      const res = await authAxios.post(`/products/${productId}/category/${categoryId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`
         }
@@ -173,7 +173,7 @@ export const removeCategoryToProduct = (productId, categoryId) => {
   return async (dispatch) => {
     try {
 
-      const res = await authAxios.delete(`http://localhost:5000/products/${productId}/category/${categoryId}`, {
+      const res = await authAxios.delete(`/products/${productId}/category/${categoryId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`
         }
@@ -190,7 +190,7 @@ export const filterProductsByCategory = (categoryName) => {
   return async (dispatch) => {
     try {
 
-      const res = await axios.get(`http://localhost:5000/products/category/${categoryName}`);
+      const res = await axios.get(`/products/category/${categoryName}`);
 
       dispatch(getProductsFilteredByCategory(res.data));
     } catch (err) {
