@@ -1,21 +1,21 @@
 const passport = require("passport");
 //la LocalStrategy es la que se utiliza cuando no utilizamos servicios como Google para loguerse
 const LocalStrategy = require("passport-local").Strategy;
-const GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
+/* const GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
 const FacebookStrategy = require("passport-facebook").Strategy;
-const InstagramStrategy = require("passport-instagram").Strategy;
+const InstagramStrategy = require("passport-instagram").Strategy; */
 const BearerStrategy = require("passport-http-bearer").Strategy;
 const { User } = require("./db.js");
 const jwt = require("jsonwebtoken");
 const { getOneByGoogleId, getOneByFacebookId, createOne } = require('./controllers/users');
 const {
   DB_SECRET,
-  GOOGLE_CLIENT_ID,
+/*   GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET,
   FACEBOOK_APP_ID,
   FACEBOOK_APP_SECRET,
   INSTAGRAM_APP_ID,
-  INSTAGRAM_APP_SECRET } = process.env;
+  INSTAGRAM_APP_SECRET */ } = process.env;
 let user = {};
 
 //es un midlleware
@@ -66,7 +66,7 @@ passport.use(
 );
 
 // Middleware
-passport.use(
+/* passport.use(
   // Al crear la estrategia son requeridos el ID del cliente y el secreto obtenido al crear la aplicacion
   // La estrategia tambien requiere un cb, el cual recibe el token de acceso y el token de
   //actualización opcional 
@@ -208,7 +208,7 @@ passport.use(
       });
     }
   )
-);
+); */
 
 //estrategia para verificar si el token es valido
 passport.use(
