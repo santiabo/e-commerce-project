@@ -4,9 +4,9 @@ const passport = require("passport");
 const jwt = require("jsonwebtoken");
 const { isUser, isAdmin } = require('../middlewares/auth');
 const { DB_SECRET } = process.env;
-const secretGoogle = process.env.GOOGLE_CLIENT_SECRET;
+/* const secretGoogle = process.env.GOOGLE_CLIENT_SECRET;
 const secretFacebook = process.env.FACEBOOK_CLIENT_SECRET;
-const secretInstagram = process.env.INSTAGRAM_CLIENT_SECRET;
+const secretInstagram = process.env.INSTAGRAM_CLIENT_SECRET; */
 
 server.get("/me", isUser, async (req, res, next) => {
   try {
@@ -92,7 +92,7 @@ server.put('/:id/ban',/*  isAdmin, */ async (req, res, next) => {
   }
 });
 
-server.get('/login/google',
+/* server.get('/login/google',
   (passport.authenticate("google", {
     scope: ["profile", "email"],
   })
@@ -139,5 +139,5 @@ server.get('/login/instagram/callback', function (req, res, next) {
     }
   })(req, res, next);
 });
-
+ */
 module.exports = server;
