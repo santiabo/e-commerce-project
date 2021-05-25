@@ -21,7 +21,7 @@ server.use((req, res, next) => {
 	res.header('Access-Control-Allow-Credentials', 'true');
 	res.header('Access-Control-Allow-Headers', 
   'Origin, Referer, X-Requested-With, Content-Type, Accept, Accept-Encoding, Accept-Language, Connection');
-	res.header('Access-Control-Allow-Methods', 'OPTIONS,POST,GET,PUT,DELETE');
+	res.header('Access-Control-Allow-Methods', 'OPTIONS, POST, GET, PUT, DELETE');
 	next();
 });
 
