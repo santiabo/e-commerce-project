@@ -2,7 +2,7 @@ const server = require('./src/app.js');
 const { conn } = require('./src/db.js');
 const { Product, Category, User } = require('./src/db');
 const data = require('./data');
-
+//HOLA !
 // Syncing all the models at once.
 const PORT = 5000;
 conn.sync({ force: true }).then(() => {
