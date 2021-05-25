@@ -17,7 +17,7 @@ server.use(bodyParser.json({ limit: '50mb' }));
 server.use(cookieParser());
 server.use(morgan('dev'));
 server.use((req, res, next) => {
-	res.header('Access-Control-Allow-Origin', '*'); 
+	res.header('Access-Control-Allow-Origin', 'https://pc-build.herokuapp.com/auth/login'); 
 	res.header('Access-Control-Allow-Credentials', 'true');
 	res.header('Access-Control-Allow-Headers', 
   'Origin, Referer, X-Requested-With, Content-Type, Accept, Accept-Encoding, Accept-Language, Connection');
