@@ -4,7 +4,7 @@ import ShippingForm from '../ShippingForm';
 import PaymentForm from '../PaymentForm';
 import ConfirmData from '../ConfirmData';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
+import { useSelector } from 'react-redux'; 
 
 const CheckoutForm = ({ orderId }) => {
 
@@ -43,7 +43,7 @@ const CheckoutForm = ({ orderId }) => {
 
   const [data, setData] = useState("");
 
-  useEffect(() => {
+/*   useEffect(() => {
     axios
       .post("/mercadopago", { orderId })
       .then((res) => {
@@ -51,7 +51,7 @@ const CheckoutForm = ({ orderId }) => {
         console.info('Contenido de data:', data);
       })
       .catch(err => console.error(err));
-  }, [orderId]);
+  }, [orderId]); */
 
 
 
