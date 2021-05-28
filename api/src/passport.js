@@ -66,7 +66,7 @@ passport.use(
 );
 
 // Middleware
- passport.use(
+/*  passport.use(
   // Al crear la estrategia son requeridos el ID del cliente y el secreto obtenido al crear la aplicacion
   // La estrategia tambien requiere un cb, el cual recibe el token de acceso y el token de
   //actualización opcional 
@@ -209,7 +209,7 @@ passport.use(
     }
   )
 ); 
-
+ */
 //estrategia para verificar si el token es valido
 passport.use(
   new BearerStrategy((token, done) => {
