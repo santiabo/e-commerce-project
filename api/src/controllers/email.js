@@ -40,7 +40,7 @@ server.post('/:id', async (req, res, next) => {
         from: '"PCBuildHub" <dailytinkerer@gmail.com>',
         to: user,
         subject: `We hope you enjoy your product!`,
-        html: `<a href="https://e-commerce-jkfo6askh-santiabo.vercel.app/reviews/${id}">Review your product here!</a>`
+        html: `<a href="https://e-commerce-santiabo.vercel.app/reviews/${id}">Review your product here!</a>`
       };
     }
 
@@ -49,7 +49,7 @@ server.post('/:id', async (req, res, next) => {
     //     from: '"PCBuildHub" <dailytinkerer@gmail.com>',
     //     to: 'dailytinkerer@gmail.com',
     //     subject: 'Password Reset',
-    //     html: '<a href="https://e-commerce-jkfo6askh-santiabo.vercel.app/changePassword">Please, follow this link to reset your password.</a>'
+    //     html: '<a href="https://e-commerce-santiabo.vercel.app/changePassword">Please, follow this link to reset your password.</a>'
     //   };
     // }
 
