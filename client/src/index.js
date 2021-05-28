@@ -12,7 +12,7 @@ import { Provider } from "react-redux";
 import store from "./redux/store";
 dotenv.config();
 
-axios.defaults.baseURL = process.env.REACT_APP_API || "http://localhost:5000";
+axios.defaults.baseURL = "https://pc-build.herokuapp.com/";
 
 ReactDOM.render(
   <Provider store={store}>

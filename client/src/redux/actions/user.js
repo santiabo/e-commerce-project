@@ -165,10 +165,10 @@ const setError = (error) => {
 
 //instancia de axios para realizar peticiones con headers que contengan el token
 export const authAxios = axios.create({
-  baseURL: 'http://localhost:5000',
-  // headers: {
-  //   Authorization: `Bearer ${localStorage.getItem("token")}`
-  // }
+  baseURL: 'https://pc-build.herokuapp.com/',
+   headers: {
+     Authorization: `Bearer ${localStorage.getItem("token")}`
+   }
 });
 
 
@@ -364,7 +364,8 @@ export const logInUser = (email, password) => {
       dispatch(addUserCart(user.id));
       dispatch(successRequest());
     } catch (err) {
-      alert(err.response.data) 
+      console.log(err)
+     
       dispatch(setError(err));
     }
   };

@@ -47,14 +47,14 @@ export default function LoginUser() {
                     <h2 id="sub">Log In</h2>
                   </div>
                 </section>
-                <label for="email" className="label-email">E-mail </label>
+                <label  className="label-email">E-mail </label>
                 {errors.email && <span id="spn" className="text-danger">Invalid email adress.</span>}
                 <input type="text" className="text-input" name="email" ref={register({
                   required: true,
                   maxLength: 76,
                   pattern: /\b[\w.-]+@[\w.-]+\.\w{2,4}\b/
                 })} />
-                <label for="password" className="label-password password">Password </label>
+                <label  className="label-password password">Password </label>
                 {errors.password && <span id="spn" className="text-danger">Invalid password.</span>}
                 <input type="password" className="text-input psw" name="password" ref={register({
                   required: 'You must specify a password.',
