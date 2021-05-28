@@ -103,12 +103,12 @@ server.get("/login/google/callback", (req, res, next) => {
     if (err) return next(err);
     if (!user) {
       // Si no hay usuario redirecciona a la esa url
-      res.redirect('http://localhost:5000/sign-in?error=401');
+      res.redirect('https://pc-build.herokuapp.com/sign-in?error=401');
     } else {
       // en cambio si todo esta correcto la respuesta va a ser un body(JWT)
       // vamos a firmar un token con el id del usurio y el secreto y redirecciona
       const token = jwt.sign({ uid: user.id }, secretGoogle);
-      res.redirect(`http://localhost:5000/sign-in?token=${token}`);
+      res.redirect(`https://pc-build.herokuapp.com/sign-in?token=${token}`);
       console.log(token);
     }
   })(req, res, next);
@@ -119,10 +119,10 @@ server.get('/login/facebook/callback', function (req, res, next) {
   passport.authorize('facebook', function (err, user) {
     if (err) return next(err);
     if (!user) {
-      res.redirect('http://localhost:5000/sign-in?error=401');
+      res.redirect('https://pc-build.herokuapp.com/sign-in?error=401');
     } else {
       const token = jwt.sign({ uid: user.id }, secretFacebook);
-      res.redirect(`http://localhost:5000/sign-in?token=${token}`);
+      res.redirect(`https://pc-build.herokuapp.com/sign-in?token=${token}`);
     }
   })(req, res, next);
 });
@@ -132,10 +132,10 @@ server.get('/login/instagram/callback', function (req, res, next) {
   passport.authorize('instagram', function (err, user) {
     if (err) return next(err);
     if (!user) {
-      res.redirect('http://localhost:5000/sign-in?error=401');
+      res.redirect('https://pc-build.herokuapp.com/sign-in?error=401');
     } else {
       const token = jwt.sign({ uid: user.id }, secretInstagram);
-      res.redirect(`http://localhost:5000/sign-in?token=${token}`);
+      res.redirect(`https://pc-build.herokuapp.com/sign-in?token=${token}`);
     }
   })(req, res, next);
 });

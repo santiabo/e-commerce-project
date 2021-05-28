@@ -75,7 +75,7 @@ passport.use(
     {
       clientID: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
-      callbackURL: 'http://localhost:3000/',
+      callbackURL: 'https://e-commerce-jkfo6askh-santiabo.vercel.app/',
       session: false,
     },
     async (token, tokenSecret, profile, done) => {
@@ -126,7 +126,7 @@ passport.use(
     {
       clientID: FACEBOOK_APP_ID,
       clientSecret: FACEBOOK_APP_SECRET,
-      callbackURL: "http://localhost:3000/",
+      callbackURL: "https://e-commerce-jkfo6askh-santiabo.vercel.app/",
       profileFields: ["id", "emails", "displayName"],
     },
     async function (accessToken, refreshToken, profile, done) {

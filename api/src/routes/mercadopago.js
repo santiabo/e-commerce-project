@@ -43,9 +43,9 @@ server.post("/", async (req, res, next) => {
       installments: 3  //Cantidad máximo de cuotas
     },
     back_urls: {
-      success: 'http://localhost:5000/mercadopago/pagos',
-      failure: 'http://localhost:5000/mercadopago/pagos',
-      pending: 'http://localhost:5000/mercadopago/pagos',
+      success: 'https://pc-build.herokuapp.com/mercadopago/pagos',
+      failure: 'https://pc-build.herokuapp.com/mercadopago/pagos',
+      pending: 'https://pc-build.herokuapp.com/mercadopago/pagos',
     },
   };
 
@@ -88,12 +88,12 @@ server.get("/pagos", (req, res) => {
         })
         .catch((err) => {
           console.error('error al salvar', err);
-          return res.redirect(`http://localhost:3000/?error=${err}&where=al+salvar`);
+          return res.redirect(`https://e-commerce-jkfo6askh-santiabo.vercel.app/?error=${err}&where=al+salvar`);
         });
     })
     .catch(err => {
       console.error('error al buscar', err);
-      return res.redirect(`http://localhost:3000/?error=${err}&where=al+buscar`);
+      return res.redirect(`https://e-commerce-jkfo6askh-santiabo.vercel.app/?error=${err}&where=al+buscar`);
     });
 
   //proceso los datos del pago 
