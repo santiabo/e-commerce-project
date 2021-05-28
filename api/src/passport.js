@@ -66,7 +66,7 @@ passport.use(
 );
 
 // Middleware
-/* passport.use(
+ passport.use(
   // Al crear la estrategia son requeridos el ID del cliente y el secreto obtenido al crear la aplicacion
   // La estrategia tambien requiere un cb, el cual recibe el token de acceso y el token de
   //actualización opcional 
@@ -75,7 +75,7 @@ passport.use(
     {
       clientID: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
-      callbackURL: 'https://e-commerce-jkfo6askh-santiabo.vercel.app/',
+      callbackURL: 'https://e-commerce-santiabo.vercel.app/',
       session: false,
     },
     async (token, tokenSecret, profile, done) => {
@@ -126,7 +126,7 @@ passport.use(
     {
       clientID: FACEBOOK_APP_ID,
       clientSecret: FACEBOOK_APP_SECRET,
-      callbackURL: "https://e-commerce-jkfo6askh-santiabo.vercel.app/",
+      callbackURL: "https://e-commerce-santiabo.vercel.app/",
       profileFields: ["id", "emails", "displayName"],
     },
     async function (accessToken, refreshToken, profile, done) {
@@ -170,7 +170,7 @@ passport.use(
     {
       clientID: INSTAGRAM_APP_ID,
       clientSecret: INSTAGRAM_APP_SECRET,
-      callbackURL: "https://localhost:3000/",
+      callbackURL: "https://e-commerce-santiabo.vercel.app/",
       // profileFields: ["id", "emails", "displayName"],
       session: false
     },
@@ -208,7 +208,7 @@ passport.use(
       });
     }
   )
-); */
+); 
 
 //estrategia para verificar si el token es valido
 passport.use(

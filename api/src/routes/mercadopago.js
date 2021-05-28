@@ -84,16 +84,16 @@ server.get("/pagos", (req, res) => {
         .then((_) => {
           console.info('redirect success');
 
-          return res.redirect("http://localhost:3000");
+          return res.redirect("https://e-commerce-santiabo.vercel.app/");
         })
         .catch((err) => {
           console.error('error al salvar', err);
-          return res.redirect(`https://e-commerce-jkfo6askh-santiabo.vercel.app/?error=${err}&where=al+salvar`);
+          return res.redirect(`https://e-commerce-santiabo.vercel.app/?error=${err}&where=al+salvar`);
         });
     })
     .catch(err => {
       console.error('error al buscar', err);
-      return res.redirect(`https://e-commerce-jkfo6askh-santiabo.vercel.app/?error=${err}&where=al+buscar`);
+      return res.redirect(`https://e-commerce-santiabo.vercel.app/?error=${err}&where=al+buscar`);
     });
 
   //proceso los datos del pago 

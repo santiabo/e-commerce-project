@@ -100,7 +100,7 @@ export async function removeOrder(id) {
 // ELIMINA UN PRODUCTO DE UNA ORDEN
 export async function removeProduct(idOrder, idProduct) {
   return axios
-    .delete(`http://localhost/5000/orders/${idOrder}/product/${idProduct}`)
+    .delete(`https://pc-build.herokuapp.com/orders/${idOrder}/product/${idProduct}`)
     .then(res => {
       return res.data;
     })
